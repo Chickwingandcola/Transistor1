@@ -1,0 +1,1691 @@
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m0
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"debug.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.rodata
+  20              		.align	2
+  21              	.LC1:
+  22 0000 4379426C 		.ascii	"CyBle_GetStackLibraryVersion API Error: \000"
+  22      655F4765 
+  22      74537461 
+  22      636B4C69 
+  22      62726172 
+  23 0029 000000   		.align	2
+  24              	.LC3:
+  25 002c 424C4520 		.ascii	"BLE Stack Version: %d.%d.%d.%d\015\012\000"
+  25      53746163 
+  25      6B205665 
+  25      7273696F 
+  25      6E3A2025 
+  26              		.section	.text.PrintStackVersion,"ax",%progbits
+  27              		.align	2
+  28              		.global	PrintStackVersion
+  29              		.code	16
+  30              		.thumb_func
+  31              		.type	PrintStackVersion, %function
+  32              	PrintStackVersion:
+  33              	.LFB36:
+  34              		.file 1 "debug.c"
+   1:debug.c       **** /*******************************************************************************
+   2:debug.c       **** * File Name: debug.c
+   3:debug.c       **** *
+   4:debug.c       **** * Version 1.0
+   5:debug.c       **** *
+   6:debug.c       **** * Description:
+   7:debug.c       **** *  Common BLE application code for printout debug messages.
+   8:debug.c       **** *
+   9:debug.c       **** * Hardware Dependency:
+  10:debug.c       **** *  CY8CKIT-042 BLE
+  11:debug.c       **** *
+  12:debug.c       **** ********************************************************************************
+  13:debug.c       **** * Copyright 2016, Cypress Semiconductor Corporation.  All rights reserved.
+  14:debug.c       **** * You may use this file only in accordance with the license, terms, conditions,
+  15:debug.c       **** * disclaimers, and limitations in the end user license agreement accompanying
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 2
+
+
+  16:debug.c       **** * the software package with which this file was provided.
+  17:debug.c       **** *******************************************************************************/
+  18:debug.c       **** 
+  19:debug.c       **** #include "main.h"
+  20:debug.c       **** 
+  21:debug.c       **** 
+  22:debug.c       **** 
+  23:debug.c       **** 
+  24:debug.c       **** 
+  25:debug.c       **** 
+  26:debug.c       **** /*******************************************************************************
+  27:debug.c       **** * Function Name: PrintStackVersion
+  28:debug.c       **** ********************************************************************************
+  29:debug.c       **** *
+  30:debug.c       **** * Summary:
+  31:debug.c       **** *   Prints the BLE Stack version if the PRINT_STACK_VERSION is defined.
+  32:debug.c       **** *
+  33:debug.c       **** * Parameters:
+  34:debug.c       **** *   None.
+  35:debug.c       **** *
+  36:debug.c       **** * Return:
+  37:debug.c       **** *   None.
+  38:debug.c       **** *
+  39:debug.c       **** *******************************************************************************/
+  40:debug.c       **** void PrintStackVersion(void)
+  41:debug.c       **** {
+  35              		.loc 1 41 0
+  36              		.cfi_startproc
+  37              		@ args = 0, pretend = 0, frame = 8
+  38              		@ frame_needed = 1, uses_anonymous_args = 0
+  39 0000 90B5     		push	{r4, r7, lr}
+  40              		.cfi_def_cfa_offset 12
+  41              		.cfi_offset 4, -12
+  42              		.cfi_offset 7, -8
+  43              		.cfi_offset 14, -4
+  44 0002 85B0     		sub	sp, sp, #20
+  45              		.cfi_def_cfa_offset 32
+  46 0004 02AF     		add	r7, sp, #8
+  47              		.cfi_def_cfa 7, 24
+  42:debug.c       ****     CYBLE_STACK_LIB_VERSION_T stackVersion;
+  43:debug.c       ****     
+  44:debug.c       ****     apiResult = CyBle_GetStackLibraryVersion(&stackVersion);
+  48              		.loc 1 44 0
+  49 0006 3B00     		movs	r3, r7
+  50 0008 1800     		movs	r0, r3
+  51 000a FFF7FEFF 		bl	CyBle_GetStackLibraryVersion
+  52 000e 0300     		movs	r3, r0
+  53 0010 1A00     		movs	r2, r3
+  54 0012 104B     		ldr	r3, .L5
+  55 0014 1A80     		strh	r2, [r3]
+  45:debug.c       ****     if(apiResult != CYBLE_ERROR_OK)
+  56              		.loc 1 45 0
+  57 0016 0F4B     		ldr	r3, .L5
+  58 0018 1B88     		ldrh	r3, [r3]
+  59 001a 002B     		cmp	r3, #0
+  60 001c 06D0     		beq	.L2
+  46:debug.c       ****     {
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 3
+
+
+  47:debug.c       ****         DBG_PRINTF("CyBle_GetStackLibraryVersion API Error: ");
+  61              		.loc 1 47 0
+  62 001e 0E4B     		ldr	r3, .L5+4
+  63 0020 1800     		movs	r0, r3
+  64 0022 FFF7FEFF 		bl	printf
+  48:debug.c       ****         PrintApiResult();
+  65              		.loc 1 48 0
+  66 0026 FFF7FEFF 		bl	PrintApiResult
+  49:debug.c       ****     }
+  50:debug.c       ****     else
+  51:debug.c       ****     {
+  52:debug.c       ****         DBG_PRINTF("BLE Stack Version: %d.%d.%d.%d\r\n", stackVersion.majorVersion, 
+  53:debug.c       ****                                                          stackVersion.minorVersion,
+  54:debug.c       ****                                                          stackVersion.patch,
+  55:debug.c       ****                                                          stackVersion.buildNumber);
+  56:debug.c       ****     }
+  57:debug.c       **** }
+  67              		.loc 1 57 0
+  68 002a 0FE0     		b	.L4
+  69              	.L2:
+  52:debug.c       ****                                                          stackVersion.minorVersion,
+  70              		.loc 1 52 0
+  71 002c 3B00     		movs	r3, r7
+  72 002e 1B88     		ldrh	r3, [r3]
+  73 0030 1900     		movs	r1, r3
+  74 0032 3B00     		movs	r3, r7
+  75 0034 5B88     		ldrh	r3, [r3, #2]
+  76 0036 1A00     		movs	r2, r3
+  77 0038 3B00     		movs	r3, r7
+  78 003a 9B88     		ldrh	r3, [r3, #4]
+  79 003c 1C00     		movs	r4, r3
+  80 003e 3B00     		movs	r3, r7
+  81 0040 DB88     		ldrh	r3, [r3, #6]
+  82 0042 0648     		ldr	r0, .L5+8
+  83 0044 0093     		str	r3, [sp]
+  84 0046 2300     		movs	r3, r4
+  85 0048 FFF7FEFF 		bl	printf
+  86              	.L4:
+  87              		.loc 1 57 0
+  88 004c C046     		nop
+  89 004e BD46     		mov	sp, r7
+  90 0050 03B0     		add	sp, sp, #12
+  91              		@ sp needed
+  92 0052 90BD     		pop	{r4, r7, pc}
+  93              	.L6:
+  94              		.align	2
+  95              	.L5:
+  96 0054 00000000 		.word	apiResult
+  97 0058 00000000 		.word	.LC1
+  98 005c 2C000000 		.word	.LC3
+  99              		.cfi_endproc
+ 100              	.LFE36:
+ 101              		.size	PrintStackVersion, .-PrintStackVersion
+ 102              		.section	.rodata
+ 103 004d 000000   		.align	2
+ 104              	.LC5:
+ 105 0050 73746174 		.ascii	"state: \000"
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 4
+
+
+ 105      653A2000 
+ 106              		.align	2
+ 107              	.LC9:
+ 108 0058 73746F70 		.ascii	"stopped\015\000"
+ 108      7065640D 
+ 108      00
+ 109 0061 000000   		.align	2
+ 110              	.LC11:
+ 111 0064 696E6974 		.ascii	"initializing\015\000"
+ 111      69616C69 
+ 111      7A696E67 
+ 111      0D00
+ 112 0072 0000     		.align	2
+ 113              	.LC13:
+ 114 0074 636F6E6E 		.ascii	"connected\015\000"
+ 114      65637465 
+ 114      640D00
+ 115 007f 00       		.align	2
+ 116              	.LC15:
+ 117 0080 64697363 		.ascii	"disconnected\015\000"
+ 117      6F6E6E65 
+ 117      63746564 
+ 117      0D00
+ 118 008e 0000     		.align	2
+ 119              	.LC17:
+ 120 0090 61647665 		.ascii	"advertising\015\000"
+ 120      72746973 
+ 120      696E670D 
+ 120      00
+ 121 009d 000000   		.align	2
+ 122              	.LC19:
+ 123 00a0 756E6B6E 		.ascii	"unknown\015\000"
+ 123      6F776E0D 
+ 123      00
+ 124              		.section	.text.PrintState,"ax",%progbits
+ 125              		.align	2
+ 126              		.global	PrintState
+ 127              		.code	16
+ 128              		.thumb_func
+ 129              		.type	PrintState, %function
+ 130              	PrintState:
+ 131              	.LFB37:
+  58:debug.c       **** 
+  59:debug.c       **** /*******************************************************************************
+  60:debug.c       **** * Function Name: PrintState
+  61:debug.c       **** ********************************************************************************
+  62:debug.c       **** *
+  63:debug.c       **** * Summary:
+  64:debug.c       **** *   Decodes and prints the cyBle_state global variable value.
+  65:debug.c       **** *
+  66:debug.c       **** * Parameters:
+  67:debug.c       **** *   None.
+  68:debug.c       **** *
+  69:debug.c       **** * Return:
+  70:debug.c       **** *   None.
+  71:debug.c       **** *
+  72:debug.c       **** *******************************************************************************/
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 5
+
+
+  73:debug.c       **** void PrintState(void)
+  74:debug.c       **** {
+ 132              		.loc 1 74 0
+ 133              		.cfi_startproc
+ 134              		@ args = 0, pretend = 0, frame = 0
+ 135              		@ frame_needed = 1, uses_anonymous_args = 0
+ 136 0000 80B5     		push	{r7, lr}
+ 137              		.cfi_def_cfa_offset 8
+ 138              		.cfi_offset 7, -8
+ 139              		.cfi_offset 14, -4
+ 140 0002 00AF     		add	r7, sp, #0
+ 141              		.cfi_def_cfa_register 7
+  75:debug.c       ****     DBG_PRINTF("state: ");
+ 142              		.loc 1 75 0
+ 143 0004 164B     		ldr	r3, .L16
+ 144 0006 1800     		movs	r0, r3
+ 145 0008 FFF7FEFF 		bl	printf
+  76:debug.c       ****     switch(CyBle_GetState())
+ 146              		.loc 1 76 0
+ 147 000c 154B     		ldr	r3, .L16+4
+ 148 000e 1B78     		ldrb	r3, [r3]
+ 149 0010 042B     		cmp	r3, #4
+ 150 0012 1DD8     		bhi	.L8
+ 151 0014 9A00     		lsls	r2, r3, #2
+ 152 0016 144B     		ldr	r3, .L16+8
+ 153 0018 D318     		adds	r3, r2, r3
+ 154 001a 1B68     		ldr	r3, [r3]
+ 155 001c 9F46     		mov	pc, r3
+ 156              		.section	.rodata
+ 157 00a9 000000   		.align	2
+ 158              	.L10:
+ 159 00ac 1E000000 		.word	.L9
+ 160 00b0 28000000 		.word	.L11
+ 161 00b4 32000000 		.word	.L12
+ 162 00b8 46000000 		.word	.L13
+ 163 00bc 3C000000 		.word	.L14
+ 164              		.section	.text.PrintState
+ 165              	.L9:
+  77:debug.c       ****     {
+  78:debug.c       ****         case CYBLE_STATE_STOPPED:
+  79:debug.c       ****             DBG_PRINTF("stopped\r\n");
+ 166              		.loc 1 79 0
+ 167 001e 134B     		ldr	r3, .L16+12
+ 168 0020 1800     		movs	r0, r3
+ 169 0022 FFF7FEFF 		bl	puts
+  80:debug.c       ****             break;
+ 170              		.loc 1 80 0
+ 171 0026 18E0     		b	.L15
+ 172              	.L11:
+  81:debug.c       ****             
+  82:debug.c       ****         case CYBLE_STATE_INITIALIZING:
+  83:debug.c       ****             DBG_PRINTF("initializing\r\n");
+ 173              		.loc 1 83 0
+ 174 0028 114B     		ldr	r3, .L16+16
+ 175 002a 1800     		movs	r0, r3
+ 176 002c FFF7FEFF 		bl	puts
+  84:debug.c       ****             break;
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 6
+
+
+ 177              		.loc 1 84 0
+ 178 0030 13E0     		b	.L15
+ 179              	.L12:
+  85:debug.c       ****             
+  86:debug.c       ****         case CYBLE_STATE_CONNECTED:
+  87:debug.c       ****             DBG_PRINTF("connected\r\n");
+ 180              		.loc 1 87 0
+ 181 0032 104B     		ldr	r3, .L16+20
+ 182 0034 1800     		movs	r0, r3
+ 183 0036 FFF7FEFF 		bl	puts
+  88:debug.c       ****             break;
+ 184              		.loc 1 88 0
+ 185 003a 0EE0     		b	.L15
+ 186              	.L14:
+  89:debug.c       ****             
+  90:debug.c       ****         case CYBLE_STATE_DISCONNECTED:
+  91:debug.c       ****             DBG_PRINTF("disconnected\r\n");
+ 187              		.loc 1 91 0
+ 188 003c 0E4B     		ldr	r3, .L16+24
+ 189 003e 1800     		movs	r0, r3
+ 190 0040 FFF7FEFF 		bl	puts
+  92:debug.c       ****             break;
+ 191              		.loc 1 92 0
+ 192 0044 09E0     		b	.L15
+ 193              	.L13:
+  93:debug.c       ****             
+  94:debug.c       ****         case CYBLE_STATE_ADVERTISING:
+  95:debug.c       ****             DBG_PRINTF("advertising\r\n");
+ 194              		.loc 1 95 0
+ 195 0046 0D4B     		ldr	r3, .L16+28
+ 196 0048 1800     		movs	r0, r3
+ 197 004a FFF7FEFF 		bl	puts
+  96:debug.c       ****             break;
+ 198              		.loc 1 96 0
+ 199 004e 04E0     		b	.L15
+ 200              	.L8:
+  97:debug.c       **** 
+  98:debug.c       ****         default:
+  99:debug.c       ****             DBG_PRINTF("unknown\r\n");
+ 201              		.loc 1 99 0
+ 202 0050 0B4B     		ldr	r3, .L16+32
+ 203 0052 1800     		movs	r0, r3
+ 204 0054 FFF7FEFF 		bl	puts
+ 100:debug.c       ****             break;
+ 205              		.loc 1 100 0
+ 206 0058 C046     		nop
+ 207              	.L15:
+ 101:debug.c       ****     }
+ 102:debug.c       **** }
+ 208              		.loc 1 102 0
+ 209 005a C046     		nop
+ 210 005c BD46     		mov	sp, r7
+ 211              		@ sp needed
+ 212 005e 80BD     		pop	{r7, pc}
+ 213              	.L17:
+ 214              		.align	2
+ 215              	.L16:
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 7
+
+
+ 216 0060 50000000 		.word	.LC5
+ 217 0064 00000000 		.word	cyBle_state
+ 218 0068 AC000000 		.word	.L10
+ 219 006c 58000000 		.word	.LC9
+ 220 0070 64000000 		.word	.LC11
+ 221 0074 74000000 		.word	.LC13
+ 222 0078 80000000 		.word	.LC15
+ 223 007c 90000000 		.word	.LC17
+ 224 0080 A0000000 		.word	.LC19
+ 225              		.cfi_endproc
+ 226              	.LFE37:
+ 227              		.size	PrintState, .-PrintState
+ 228              		.section	.rodata
+ 229              		.align	2
+ 230              	.LC22:
+ 231 00c0 30782532 		.ascii	"0x%2.2x \000"
+ 231      2E327820 
+ 231      00
+ 232 00c9 000000   		.align	2
+ 233              	.LC24:
+ 234 00cc 6F6B0D00 		.ascii	"ok\015\000"
+ 235              		.align	2
+ 236              	.LC26:
+ 237 00d0 696E7661 		.ascii	"invalid parameter\015\000"
+ 237      6C696420 
+ 237      70617261 
+ 237      6D657465 
+ 237      720D00
+ 238 00e3 00       		.align	2
+ 239              	.LC28:
+ 240 00e4 696E7661 		.ascii	"invalid operation\015\000"
+ 240      6C696420 
+ 240      6F706572 
+ 240      6174696F 
+ 240      6E0D00
+ 241 00f7 00       		.align	2
+ 242              	.LC30:
+ 243 00f8 6E6F2064 		.ascii	"no device entity\015\000"
+ 243      65766963 
+ 243      6520656E 
+ 243      74697479 
+ 243      0D00
+ 244 010a 0000     		.align	2
+ 245              	.LC32:
+ 246 010c 6E6F7469 		.ascii	"notification is disabled\015\000"
+ 246      66696361 
+ 246      74696F6E 
+ 246      20697320 
+ 246      64697361 
+ 247 0126 0000     		.align	2
+ 248              	.LC34:
+ 249 0128 696E6469 		.ascii	"indication is disabled\015\000"
+ 249      63617469 
+ 249      6F6E2069 
+ 249      73206469 
+ 249      7361626C 
+ 250              		.align	2
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 8
+
+
+ 251              	.LC36:
+ 252 0140 63686172 		.ascii	"characteristic is not discovered\015\000"
+ 252      61637465 
+ 252      72697374 
+ 252      69632069 
+ 252      73206E6F 
+ 253 0162 0000     		.align	2
+ 254              	.LC38:
+ 255 0164 696E7661 		.ascii	"invalid state: \000"
+ 255      6C696420 
+ 255      73746174 
+ 255      653A2000 
+ 256              		.align	2
+ 257              	.LC40:
+ 258 0174 696E7661 		.ascii	"invalid attribute handle\015\000"
+ 258      6C696420 
+ 258      61747472 
+ 258      69627574 
+ 258      65206861 
+ 259 018e 0000     		.align	2
+ 260              	.LC42:
+ 261 0190 666C6173 		.ascii	"flash write not permitted\015\000"
+ 261      68207772 
+ 261      69746520 
+ 261      6E6F7420 
+ 261      7065726D 
+ 262 01ab 00       		.align	2
+ 263              	.LC44:
+ 264 01ac 6F746865 		.ascii	"other api result\015\000"
+ 264      72206170 
+ 264      69207265 
+ 264      73756C74 
+ 264      0D00
+ 265              		.section	.text.PrintApiResult,"ax",%progbits
+ 266              		.align	2
+ 267              		.global	PrintApiResult
+ 268              		.code	16
+ 269              		.thumb_func
+ 270              		.type	PrintApiResult, %function
+ 271              	PrintApiResult:
+ 272              	.LFB38:
+ 103:debug.c       **** 
+ 104:debug.c       **** 
+ 105:debug.c       **** /*******************************************************************************
+ 106:debug.c       **** * Function Name: PrintApiResult
+ 107:debug.c       **** ********************************************************************************
+ 108:debug.c       **** *
+ 109:debug.c       **** * Summary:
+ 110:debug.c       **** *   Decodes and prints the apiResult global variable value.
+ 111:debug.c       **** *
+ 112:debug.c       **** * Parameters:
+ 113:debug.c       **** *   None.
+ 114:debug.c       **** *
+ 115:debug.c       **** * Return:
+ 116:debug.c       **** *   None.
+ 117:debug.c       **** *
+ 118:debug.c       **** *******************************************************************************/
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 9
+
+
+ 119:debug.c       **** void PrintApiResult(void)
+ 120:debug.c       **** {
+ 273              		.loc 1 120 0
+ 274              		.cfi_startproc
+ 275              		@ args = 0, pretend = 0, frame = 0
+ 276              		@ frame_needed = 1, uses_anonymous_args = 0
+ 277 0000 80B5     		push	{r7, lr}
+ 278              		.cfi_def_cfa_offset 8
+ 279              		.cfi_offset 7, -8
+ 280              		.cfi_offset 14, -4
+ 281 0002 00AF     		add	r7, sp, #0
+ 282              		.cfi_def_cfa_register 7
+ 121:debug.c       ****     DBG_PRINTF("0x%2.2x ", apiResult);
+ 283              		.loc 1 121 0
+ 284 0004 354B     		ldr	r3, .L34
+ 285 0006 1B88     		ldrh	r3, [r3]
+ 286 0008 1A00     		movs	r2, r3
+ 287 000a 354B     		ldr	r3, .L34+4
+ 288 000c 1100     		movs	r1, r2
+ 289 000e 1800     		movs	r0, r3
+ 290 0010 FFF7FEFF 		bl	printf
+ 122:debug.c       ****     
+ 123:debug.c       ****     switch(apiResult)
+ 291              		.loc 1 123 0
+ 292 0014 314B     		ldr	r3, .L34
+ 293 0016 1B88     		ldrh	r3, [r3]
+ 294 0018 132B     		cmp	r3, #19
+ 295 001a 4DD0     		beq	.L20
+ 296 001c 0ADC     		bgt	.L21
+ 297 001e 012B     		cmp	r3, #1
+ 298 0020 25D0     		beq	.L22
+ 299 0022 02DC     		bgt	.L23
+ 300 0024 002B     		cmp	r3, #0
+ 301 0026 1DD0     		beq	.L24
+ 302 0028 50E0     		b	.L19
+ 303              	.L23:
+ 304 002a 022B     		cmp	r3, #2
+ 305 002c 24D0     		beq	.L25
+ 306 002e 072B     		cmp	r3, #7
+ 307 0030 27D0     		beq	.L26
+ 308 0032 4BE0     		b	.L19
+ 309              	.L21:
+ 310 0034 0222     		movs	r2, #2
+ 311 0036 FF32     		adds	r2, r2, #255
+ 312 0038 9342     		cmp	r3, r2
+ 313 003a 2CD0     		beq	.L27
+ 314 003c 0222     		movs	r2, #2
+ 315 003e FF32     		adds	r2, r2, #255
+ 316 0040 9342     		cmp	r3, r2
+ 317 0042 06DC     		bgt	.L28
+ 318 0044 282B     		cmp	r3, #40
+ 319 0046 3CD0     		beq	.L29
+ 320 0048 8022     		movs	r2, #128
+ 321 004a 5200     		lsls	r2, r2, #1
+ 322 004c 9342     		cmp	r3, r2
+ 323 004e 1DD0     		beq	.L30
+ 324 0050 3CE0     		b	.L19
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 10
+
+
+ 325              	.L28:
+ 326 0052 8122     		movs	r2, #129
+ 327 0054 5200     		lsls	r2, r2, #1
+ 328 0056 9342     		cmp	r3, r2
+ 329 0058 22D0     		beq	.L31
+ 330 005a 0422     		movs	r2, #4
+ 331 005c FF32     		adds	r2, r2, #255
+ 332 005e 9342     		cmp	r3, r2
+ 333 0060 23D0     		beq	.L32
+ 334 0062 33E0     		b	.L19
+ 335              	.L24:
+ 124:debug.c       ****     {
+ 125:debug.c       ****         case CYBLE_ERROR_OK:
+ 126:debug.c       ****             DBG_PRINTF("ok\r\n");
+ 336              		.loc 1 126 0
+ 337 0064 1F4B     		ldr	r3, .L34+8
+ 338 0066 1800     		movs	r0, r3
+ 339 0068 FFF7FEFF 		bl	puts
+ 127:debug.c       ****             break;
+ 340              		.loc 1 127 0
+ 341 006c 33E0     		b	.L33
+ 342              	.L22:
+ 128:debug.c       ****             
+ 129:debug.c       ****         case CYBLE_ERROR_INVALID_PARAMETER:
+ 130:debug.c       ****             DBG_PRINTF("invalid parameter\r\n");
+ 343              		.loc 1 130 0
+ 344 006e 1E4B     		ldr	r3, .L34+12
+ 345 0070 1800     		movs	r0, r3
+ 346 0072 FFF7FEFF 		bl	puts
+ 131:debug.c       ****             break;
+ 347              		.loc 1 131 0
+ 348 0076 2EE0     		b	.L33
+ 349              	.L25:
+ 132:debug.c       ****             
+ 133:debug.c       ****         case CYBLE_ERROR_INVALID_OPERATION:
+ 134:debug.c       ****             DBG_PRINTF("invalid operation\r\n");
+ 350              		.loc 1 134 0
+ 351 0078 1C4B     		ldr	r3, .L34+16
+ 352 007a 1800     		movs	r0, r3
+ 353 007c FFF7FEFF 		bl	puts
+ 135:debug.c       ****             break;
+ 354              		.loc 1 135 0
+ 355 0080 29E0     		b	.L33
+ 356              	.L26:
+ 136:debug.c       ****             
+ 137:debug.c       ****         case CYBLE_ERROR_NO_DEVICE_ENTITY:
+ 138:debug.c       ****             DBG_PRINTF("no device entity\r\n");
+ 357              		.loc 1 138 0
+ 358 0082 1B4B     		ldr	r3, .L34+20
+ 359 0084 1800     		movs	r0, r3
+ 360 0086 FFF7FEFF 		bl	puts
+ 139:debug.c       ****             break;
+ 361              		.loc 1 139 0
+ 362 008a 24E0     		b	.L33
+ 363              	.L30:
+ 140:debug.c       ****             
+ 141:debug.c       ****         case CYBLE_ERROR_NTF_DISABLED:
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 11
+
+
+ 142:debug.c       ****             DBG_PRINTF("notification is disabled\r\n");
+ 364              		.loc 1 142 0
+ 365 008c 194B     		ldr	r3, .L34+24
+ 366 008e 1800     		movs	r0, r3
+ 367 0090 FFF7FEFF 		bl	puts
+ 143:debug.c       ****             break;
+ 368              		.loc 1 143 0
+ 369 0094 1FE0     		b	.L33
+ 370              	.L27:
+ 144:debug.c       ****             
+ 145:debug.c       ****         case CYBLE_ERROR_IND_DISABLED:
+ 146:debug.c       ****             DBG_PRINTF("indication is disabled\r\n");
+ 371              		.loc 1 146 0
+ 372 0096 184B     		ldr	r3, .L34+28
+ 373 0098 1800     		movs	r0, r3
+ 374 009a FFF7FEFF 		bl	puts
+ 147:debug.c       ****             break;
+ 375              		.loc 1 147 0
+ 376 009e 1AE0     		b	.L33
+ 377              	.L31:
+ 148:debug.c       ****             
+ 149:debug.c       ****         case CYBLE_ERROR_CHAR_IS_NOT_DISCOVERED:
+ 150:debug.c       ****             DBG_PRINTF("characteristic is not discovered\r\n");
+ 378              		.loc 1 150 0
+ 379 00a0 164B     		ldr	r3, .L34+32
+ 380 00a2 1800     		movs	r0, r3
+ 381 00a4 FFF7FEFF 		bl	puts
+ 151:debug.c       ****             break;
+ 382              		.loc 1 151 0
+ 383 00a8 15E0     		b	.L33
+ 384              	.L32:
+ 152:debug.c       ****             
+ 153:debug.c       ****         case CYBLE_ERROR_INVALID_STATE:
+ 154:debug.c       ****             DBG_PRINTF("invalid state: ");
+ 385              		.loc 1 154 0
+ 386 00aa 154B     		ldr	r3, .L34+36
+ 387 00ac 1800     		movs	r0, r3
+ 388 00ae FFF7FEFF 		bl	printf
+ 155:debug.c       ****             PrintState();
+ 389              		.loc 1 155 0
+ 390 00b2 FFF7FEFF 		bl	PrintState
+ 156:debug.c       ****             break;
+ 391              		.loc 1 156 0
+ 392 00b6 0EE0     		b	.L33
+ 393              	.L20:
+ 157:debug.c       ****             
+ 158:debug.c       ****         case CYBLE_ERROR_GATT_DB_INVALID_ATTR_HANDLE:
+ 159:debug.c       ****             DBG_PRINTF("invalid attribute handle\r\n");
+ 394              		.loc 1 159 0
+ 395 00b8 124B     		ldr	r3, .L34+40
+ 396 00ba 1800     		movs	r0, r3
+ 397 00bc FFF7FEFF 		bl	puts
+ 160:debug.c       ****             break;
+ 398              		.loc 1 160 0
+ 399 00c0 09E0     		b	.L33
+ 400              	.L29:
+ 161:debug.c       ****             
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 12
+
+
+ 162:debug.c       ****         case CYBLE_ERROR_FLASH_WRITE_NOT_PERMITED:
+ 163:debug.c       ****             DBG_PRINTF("flash write not permitted\r\n");
+ 401              		.loc 1 163 0
+ 402 00c2 114B     		ldr	r3, .L34+44
+ 403 00c4 1800     		movs	r0, r3
+ 404 00c6 FFF7FEFF 		bl	puts
+ 164:debug.c       ****             break;
+ 405              		.loc 1 164 0
+ 406 00ca 04E0     		b	.L33
+ 407              	.L19:
+ 165:debug.c       ****             
+ 166:debug.c       ****         default:
+ 167:debug.c       ****             DBG_PRINTF("other api result\r\n");
+ 408              		.loc 1 167 0
+ 409 00cc 0F4B     		ldr	r3, .L34+48
+ 410 00ce 1800     		movs	r0, r3
+ 411 00d0 FFF7FEFF 		bl	puts
+ 168:debug.c       ****             break;
+ 412              		.loc 1 168 0
+ 413 00d4 C046     		nop
+ 414              	.L33:
+ 169:debug.c       ****     }
+ 170:debug.c       **** }
+ 415              		.loc 1 170 0
+ 416 00d6 C046     		nop
+ 417 00d8 BD46     		mov	sp, r7
+ 418              		@ sp needed
+ 419 00da 80BD     		pop	{r7, pc}
+ 420              	.L35:
+ 421              		.align	2
+ 422              	.L34:
+ 423 00dc 00000000 		.word	apiResult
+ 424 00e0 C0000000 		.word	.LC22
+ 425 00e4 CC000000 		.word	.LC24
+ 426 00e8 D0000000 		.word	.LC26
+ 427 00ec E4000000 		.word	.LC28
+ 428 00f0 F8000000 		.word	.LC30
+ 429 00f4 0C010000 		.word	.LC32
+ 430 00f8 28010000 		.word	.LC34
+ 431 00fc 40010000 		.word	.LC36
+ 432 0100 64010000 		.word	.LC38
+ 433 0104 74010000 		.word	.LC40
+ 434 0108 90010000 		.word	.LC42
+ 435 010c AC010000 		.word	.LC44
+ 436              		.cfi_endproc
+ 437              	.LFE38:
+ 438              		.size	PrintApiResult, .-PrintApiResult
+ 439              		.text
+ 440              	.Letext0:
+ 441              		.file 2 "Generated_Source\\PSoC4/cytypes.h"
+ 442              		.file 3 "Generated_Source\\PSoC4/CYBLE_Stack.h"
+ 443              		.file 4 "Generated_Source\\PSoC4/CYBLE_eventHandler.h"
+ 444              		.file 5 "main.h"
+ 445              		.section	.debug_info,"",%progbits
+ 446              	.Ldebug_info0:
+ 447 0000 5B020000 		.4byte	0x25b
+ 448 0004 0400     		.2byte	0x4
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 13
+
+
+ 449 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 450 000a 04       		.byte	0x4
+ 451 000b 01       		.uleb128 0x1
+ 452 000c 6A020000 		.4byte	.LASF64
+ 453 0010 0C       		.byte	0xc
+ 454 0011 7F030000 		.4byte	.LASF65
+ 455 0015 39030000 		.4byte	.LASF66
+ 456 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 457 001d 00000000 		.4byte	0
+ 458 0021 00000000 		.4byte	.Ldebug_line0
+ 459 0025 02       		.uleb128 0x2
+ 460 0026 01       		.byte	0x1
+ 461 0027 06       		.byte	0x6
+ 462 0028 87030000 		.4byte	.LASF0
+ 463 002c 02       		.uleb128 0x2
+ 464 002d 01       		.byte	0x1
+ 465 002e 08       		.byte	0x8
+ 466 002f 2B030000 		.4byte	.LASF1
+ 467 0033 02       		.uleb128 0x2
+ 468 0034 02       		.byte	0x2
+ 469 0035 05       		.byte	0x5
+ 470 0036 9F000000 		.4byte	.LASF2
+ 471 003a 02       		.uleb128 0x2
+ 472 003b 02       		.byte	0x2
+ 473 003c 07       		.byte	0x7
+ 474 003d 52040000 		.4byte	.LASF3
+ 475 0041 02       		.uleb128 0x2
+ 476 0042 04       		.byte	0x4
+ 477 0043 05       		.byte	0x5
+ 478 0044 43020000 		.4byte	.LASF4
+ 479 0048 02       		.uleb128 0x2
+ 480 0049 04       		.byte	0x4
+ 481 004a 07       		.byte	0x7
+ 482 004b 70050000 		.4byte	.LASF5
+ 483 004f 02       		.uleb128 0x2
+ 484 0050 08       		.byte	0x8
+ 485 0051 05       		.byte	0x5
+ 486 0052 15020000 		.4byte	.LASF6
+ 487 0056 02       		.uleb128 0x2
+ 488 0057 08       		.byte	0x8
+ 489 0058 07       		.byte	0x7
+ 490 0059 93030000 		.4byte	.LASF7
+ 491 005d 03       		.uleb128 0x3
+ 492 005e 04       		.byte	0x4
+ 493 005f 05       		.byte	0x5
+ 494 0060 696E7400 		.ascii	"int\000"
+ 495 0064 02       		.uleb128 0x2
+ 496 0065 04       		.byte	0x4
+ 497 0066 07       		.byte	0x7
+ 498 0067 D6030000 		.4byte	.LASF8
+ 499 006b 04       		.uleb128 0x4
+ 500 006c 81010000 		.4byte	.LASF47
+ 501 0070 02       		.byte	0x2
+ 502 0071 D301     		.2byte	0x1d3
+ 503 0073 3A000000 		.4byte	0x3a
+ 504 0077 02       		.uleb128 0x2
+ 505 0078 04       		.byte	0x4
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 14
+
+
+ 506 0079 04       		.byte	0x4
+ 507 007a 0F020000 		.4byte	.LASF9
+ 508 007e 02       		.uleb128 0x2
+ 509 007f 08       		.byte	0x8
+ 510 0080 04       		.byte	0x4
+ 511 0081 82050000 		.4byte	.LASF10
+ 512 0085 02       		.uleb128 0x2
+ 513 0086 01       		.byte	0x1
+ 514 0087 08       		.byte	0x8
+ 515 0088 80040000 		.4byte	.LASF11
+ 516 008c 02       		.uleb128 0x2
+ 517 008d 08       		.byte	0x8
+ 518 008e 04       		.byte	0x4
+ 519 008f F8020000 		.4byte	.LASF12
+ 520 0093 02       		.uleb128 0x2
+ 521 0094 04       		.byte	0x4
+ 522 0095 07       		.byte	0x7
+ 523 0096 A9000000 		.4byte	.LASF13
+ 524 009a 05       		.uleb128 0x5
+ 525 009b 02       		.byte	0x2
+ 526 009c 3A000000 		.4byte	0x3a
+ 527 00a0 03       		.byte	0x3
+ 528 00a1 0204     		.2byte	0x402
+ 529 00a3 73010000 		.4byte	0x173
+ 530 00a7 06       		.uleb128 0x6
+ 531 00a8 B2000000 		.4byte	.LASF14
+ 532 00ac 00       		.byte	0
+ 533 00ad 06       		.uleb128 0x6
+ 534 00ae 33010000 		.4byte	.LASF15
+ 535 00b2 01       		.byte	0x1
+ 536 00b3 06       		.uleb128 0x6
+ 537 00b4 88010000 		.4byte	.LASF16
+ 538 00b8 02       		.byte	0x2
+ 539 00b9 06       		.uleb128 0x6
+ 540 00ba DF040000 		.4byte	.LASF17
+ 541 00be 03       		.byte	0x3
+ 542 00bf 06       		.uleb128 0x6
+ 543 00c0 EC010000 		.4byte	.LASF18
+ 544 00c4 04       		.byte	0x4
+ 545 00c5 06       		.uleb128 0x6
+ 546 00c6 51010000 		.4byte	.LASF19
+ 547 00ca 05       		.byte	0x5
+ 548 00cb 06       		.uleb128 0x6
+ 549 00cc B9010000 		.4byte	.LASF20
+ 550 00d0 06       		.byte	0x6
+ 551 00d1 06       		.uleb128 0x6
+ 552 00d2 04030000 		.4byte	.LASF21
+ 553 00d6 07       		.byte	0x7
+ 554 00d7 06       		.uleb128 0x6
+ 555 00d8 4C020000 		.4byte	.LASF22
+ 556 00dc 08       		.byte	0x8
+ 557 00dd 06       		.uleb128 0x6
+ 558 00de C1030000 		.4byte	.LASF23
+ 559 00e2 09       		.byte	0x9
+ 560 00e3 06       		.uleb128 0x6
+ 561 00e4 4E000000 		.4byte	.LASF24
+ 562 00e8 0A       		.byte	0xa
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 15
+
+
+ 563 00e9 06       		.uleb128 0x6
+ 564 00ea 23020000 		.4byte	.LASF25
+ 565 00ee 0B       		.byte	0xb
+ 566 00ef 06       		.uleb128 0x6
+ 567 00f0 AA030000 		.4byte	.LASF26
+ 568 00f4 0C       		.byte	0xc
+ 569 00f5 06       		.uleb128 0x6
+ 570 00f6 E3030000 		.4byte	.LASF27
+ 571 00fa 0D       		.byte	0xd
+ 572 00fb 06       		.uleb128 0x6
+ 573 00fc 25000000 		.4byte	.LASF28
+ 574 0100 0E       		.byte	0xe
+ 575 0101 06       		.uleb128 0x6
+ 576 0102 00000000 		.4byte	.LASF29
+ 577 0106 0F       		.byte	0xf
+ 578 0107 06       		.uleb128 0x6
+ 579 0108 52060000 		.4byte	.LASF30
+ 580 010c 10       		.byte	0x10
+ 581 010d 06       		.uleb128 0x6
+ 582 010e 7B000000 		.4byte	.LASF31
+ 583 0112 11       		.byte	0x11
+ 584 0113 06       		.uleb128 0x6
+ 585 0114 B1050000 		.4byte	.LASF32
+ 586 0118 12       		.byte	0x12
+ 587 0119 06       		.uleb128 0x6
+ 588 011a 89050000 		.4byte	.LASF33
+ 589 011e 13       		.byte	0x13
+ 590 011f 06       		.uleb128 0x6
+ 591 0120 F9050000 		.4byte	.LASF34
+ 592 0124 27       		.byte	0x27
+ 593 0125 06       		.uleb128 0x6
+ 594 0126 C1000000 		.4byte	.LASF35
+ 595 012a 28       		.byte	0x28
+ 596 012b 06       		.uleb128 0x6
+ 597 012c 03010000 		.4byte	.LASF36
+ 598 0130 29       		.byte	0x29
+ 599 0131 06       		.uleb128 0x6
+ 600 0132 E6000000 		.4byte	.LASF37
+ 601 0136 2A       		.byte	0x2a
+ 602 0137 06       		.uleb128 0x6
+ 603 0138 1A050000 		.4byte	.LASF38
+ 604 013c 2B       		.byte	0x2b
+ 605 013d 06       		.uleb128 0x6
+ 606 013e 67030000 		.4byte	.LASF39
+ 607 0142 2C       		.byte	0x2c
+ 608 0143 06       		.uleb128 0x6
+ 609 0144 A9040000 		.4byte	.LASF40
+ 610 0148 FE       		.byte	0xfe
+ 611 0149 06       		.uleb128 0x6
+ 612 014a 28060000 		.4byte	.LASF41
+ 613 014e FF       		.byte	0xff
+ 614 014f 07       		.uleb128 0x7
+ 615 0150 E0050000 		.4byte	.LASF42
+ 616 0154 0001     		.2byte	0x100
+ 617 0156 07       		.uleb128 0x7
+ 618 0157 80060000 		.4byte	.LASF43
+ 619 015b 0101     		.2byte	0x101
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 16
+
+
+ 620 015d 07       		.uleb128 0x7
+ 621 015e 2F040000 		.4byte	.LASF44
+ 622 0162 0201     		.2byte	0x102
+ 623 0164 07       		.uleb128 0x7
+ 624 0165 38060000 		.4byte	.LASF45
+ 625 0169 0301     		.2byte	0x103
+ 626 016b 07       		.uleb128 0x7
+ 627 016c 85040000 		.4byte	.LASF46
+ 628 0170 0401     		.2byte	0x104
+ 629 0172 00       		.byte	0
+ 630 0173 04       		.uleb128 0x4
+ 631 0174 A6010000 		.4byte	.LASF48
+ 632 0178 03       		.byte	0x3
+ 633 0179 7104     		.2byte	0x471
+ 634 017b 9A000000 		.4byte	0x9a
+ 635 017f 08       		.uleb128 0x8
+ 636 0180 08       		.byte	0x8
+ 637 0181 03       		.byte	0x3
+ 638 0182 2A05     		.2byte	0x52a
+ 639 0184 BD010000 		.4byte	0x1bd
+ 640 0188 09       		.uleb128 0x9
+ 641 0189 68000000 		.4byte	.LASF49
+ 642 018d 03       		.byte	0x3
+ 643 018e 2D05     		.2byte	0x52d
+ 644 0190 6B000000 		.4byte	0x6b
+ 645 0194 00       		.byte	0
+ 646 0195 09       		.uleb128 0x9
+ 647 0196 1B060000 		.4byte	.LASF50
+ 648 019a 03       		.byte	0x3
+ 649 019b 2F05     		.2byte	0x52f
+ 650 019d 6B000000 		.4byte	0x6b
+ 651 01a1 02       		.byte	0x2
+ 652 01a2 09       		.uleb128 0x9
+ 653 01a3 75000000 		.4byte	.LASF51
+ 654 01a7 03       		.byte	0x3
+ 655 01a8 3105     		.2byte	0x531
+ 656 01aa 6B000000 		.4byte	0x6b
+ 657 01ae 04       		.byte	0x4
+ 658 01af 09       		.uleb128 0x9
+ 659 01b0 74040000 		.4byte	.LASF52
+ 660 01b4 03       		.byte	0x3
+ 661 01b5 3305     		.2byte	0x533
+ 662 01b7 6B000000 		.4byte	0x6b
+ 663 01bb 06       		.byte	0x6
+ 664 01bc 00       		.byte	0
+ 665 01bd 04       		.uleb128 0x4
+ 666 01be C5040000 		.4byte	.LASF53
+ 667 01c2 03       		.byte	0x3
+ 668 01c3 3505     		.2byte	0x535
+ 669 01c5 7F010000 		.4byte	0x17f
+ 670 01c9 05       		.uleb128 0x5
+ 671 01ca 01       		.byte	0x1
+ 672 01cb 2C000000 		.4byte	0x2c
+ 673 01cf 04       		.byte	0x4
+ 674 01d0 5008     		.2byte	0x850
+ 675 01d2 F5010000 		.4byte	0x1f5
+ 676 01d6 06       		.uleb128 0x6
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 17
+
+
+ 677 01d7 1F010000 		.4byte	.LASF54
+ 678 01db 00       		.byte	0
+ 679 01dc 06       		.uleb128 0x6
+ 680 01dd D3010000 		.4byte	.LASF55
+ 681 01e1 01       		.byte	0x1
+ 682 01e2 06       		.uleb128 0x6
+ 683 01e3 04050000 		.4byte	.LASF56
+ 684 01e7 02       		.byte	0x2
+ 685 01e8 06       		.uleb128 0x6
+ 686 01e9 4D050000 		.4byte	.LASF57
+ 687 01ed 03       		.byte	0x3
+ 688 01ee 06       		.uleb128 0x6
+ 689 01ef 08040000 		.4byte	.LASF58
+ 690 01f3 04       		.byte	0x4
+ 691 01f4 00       		.byte	0
+ 692 01f5 04       		.uleb128 0x4
+ 693 01f6 21040000 		.4byte	.LASF59
+ 694 01fa 04       		.byte	0x4
+ 695 01fb 5E08     		.2byte	0x85e
+ 696 01fd C9010000 		.4byte	0x1c9
+ 697 0201 0A       		.uleb128 0xa
+ 698 0202 6F010000 		.4byte	.LASF67
+ 699 0206 01       		.byte	0x1
+ 700 0207 28       		.byte	0x28
+ 701 0208 00000000 		.4byte	.LFB36
+ 702 020c 60000000 		.4byte	.LFE36-.LFB36
+ 703 0210 01       		.uleb128 0x1
+ 704 0211 9C       		.byte	0x9c
+ 705 0212 25020000 		.4byte	0x225
+ 706 0216 0B       		.uleb128 0xb
+ 707 0217 9C040000 		.4byte	.LASF68
+ 708 021b 01       		.byte	0x1
+ 709 021c 2A       		.byte	0x2a
+ 710 021d BD010000 		.4byte	0x1bd
+ 711 0221 02       		.uleb128 0x2
+ 712 0222 91       		.byte	0x91
+ 713 0223 68       		.sleb128 -24
+ 714 0224 00       		.byte	0
+ 715 0225 0C       		.uleb128 0xc
+ 716 0226 65050000 		.4byte	.LASF60
+ 717 022a 01       		.byte	0x1
+ 718 022b 49       		.byte	0x49
+ 719 022c 00000000 		.4byte	.LFB37
+ 720 0230 84000000 		.4byte	.LFE37-.LFB37
+ 721 0234 01       		.uleb128 0x1
+ 722 0235 9C       		.byte	0x9c
+ 723 0236 0C       		.uleb128 0xc
+ 724 0237 65040000 		.4byte	.LASF61
+ 725 023b 01       		.byte	0x1
+ 726 023c 77       		.byte	0x77
+ 727 023d 00000000 		.4byte	.LFB38
+ 728 0241 10010000 		.4byte	.LFE38-.LFB38
+ 729 0245 01       		.uleb128 0x1
+ 730 0246 9C       		.byte	0x9c
+ 731 0247 0D       		.uleb128 0xd
+ 732 0248 D4050000 		.4byte	.LASF62
+ 733 024c 04       		.byte	0x4
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 18
+
+
+ 734 024d A90A     		.2byte	0xaa9
+ 735 024f F5010000 		.4byte	0x1f5
+ 736 0253 0E       		.uleb128 0xe
+ 737 0254 21030000 		.4byte	.LASF63
+ 738 0258 05       		.byte	0x5
+ 739 0259 7B       		.byte	0x7b
+ 740 025a 73010000 		.4byte	0x173
+ 741 025e 00       		.byte	0
+ 742              		.section	.debug_abbrev,"",%progbits
+ 743              	.Ldebug_abbrev0:
+ 744 0000 01       		.uleb128 0x1
+ 745 0001 11       		.uleb128 0x11
+ 746 0002 01       		.byte	0x1
+ 747 0003 25       		.uleb128 0x25
+ 748 0004 0E       		.uleb128 0xe
+ 749 0005 13       		.uleb128 0x13
+ 750 0006 0B       		.uleb128 0xb
+ 751 0007 03       		.uleb128 0x3
+ 752 0008 0E       		.uleb128 0xe
+ 753 0009 1B       		.uleb128 0x1b
+ 754 000a 0E       		.uleb128 0xe
+ 755 000b 55       		.uleb128 0x55
+ 756 000c 17       		.uleb128 0x17
+ 757 000d 11       		.uleb128 0x11
+ 758 000e 01       		.uleb128 0x1
+ 759 000f 10       		.uleb128 0x10
+ 760 0010 17       		.uleb128 0x17
+ 761 0011 00       		.byte	0
+ 762 0012 00       		.byte	0
+ 763 0013 02       		.uleb128 0x2
+ 764 0014 24       		.uleb128 0x24
+ 765 0015 00       		.byte	0
+ 766 0016 0B       		.uleb128 0xb
+ 767 0017 0B       		.uleb128 0xb
+ 768 0018 3E       		.uleb128 0x3e
+ 769 0019 0B       		.uleb128 0xb
+ 770 001a 03       		.uleb128 0x3
+ 771 001b 0E       		.uleb128 0xe
+ 772 001c 00       		.byte	0
+ 773 001d 00       		.byte	0
+ 774 001e 03       		.uleb128 0x3
+ 775 001f 24       		.uleb128 0x24
+ 776 0020 00       		.byte	0
+ 777 0021 0B       		.uleb128 0xb
+ 778 0022 0B       		.uleb128 0xb
+ 779 0023 3E       		.uleb128 0x3e
+ 780 0024 0B       		.uleb128 0xb
+ 781 0025 03       		.uleb128 0x3
+ 782 0026 08       		.uleb128 0x8
+ 783 0027 00       		.byte	0
+ 784 0028 00       		.byte	0
+ 785 0029 04       		.uleb128 0x4
+ 786 002a 16       		.uleb128 0x16
+ 787 002b 00       		.byte	0
+ 788 002c 03       		.uleb128 0x3
+ 789 002d 0E       		.uleb128 0xe
+ 790 002e 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 19
+
+
+ 791 002f 0B       		.uleb128 0xb
+ 792 0030 3B       		.uleb128 0x3b
+ 793 0031 05       		.uleb128 0x5
+ 794 0032 49       		.uleb128 0x49
+ 795 0033 13       		.uleb128 0x13
+ 796 0034 00       		.byte	0
+ 797 0035 00       		.byte	0
+ 798 0036 05       		.uleb128 0x5
+ 799 0037 04       		.uleb128 0x4
+ 800 0038 01       		.byte	0x1
+ 801 0039 0B       		.uleb128 0xb
+ 802 003a 0B       		.uleb128 0xb
+ 803 003b 49       		.uleb128 0x49
+ 804 003c 13       		.uleb128 0x13
+ 805 003d 3A       		.uleb128 0x3a
+ 806 003e 0B       		.uleb128 0xb
+ 807 003f 3B       		.uleb128 0x3b
+ 808 0040 05       		.uleb128 0x5
+ 809 0041 01       		.uleb128 0x1
+ 810 0042 13       		.uleb128 0x13
+ 811 0043 00       		.byte	0
+ 812 0044 00       		.byte	0
+ 813 0045 06       		.uleb128 0x6
+ 814 0046 28       		.uleb128 0x28
+ 815 0047 00       		.byte	0
+ 816 0048 03       		.uleb128 0x3
+ 817 0049 0E       		.uleb128 0xe
+ 818 004a 1C       		.uleb128 0x1c
+ 819 004b 0B       		.uleb128 0xb
+ 820 004c 00       		.byte	0
+ 821 004d 00       		.byte	0
+ 822 004e 07       		.uleb128 0x7
+ 823 004f 28       		.uleb128 0x28
+ 824 0050 00       		.byte	0
+ 825 0051 03       		.uleb128 0x3
+ 826 0052 0E       		.uleb128 0xe
+ 827 0053 1C       		.uleb128 0x1c
+ 828 0054 05       		.uleb128 0x5
+ 829 0055 00       		.byte	0
+ 830 0056 00       		.byte	0
+ 831 0057 08       		.uleb128 0x8
+ 832 0058 13       		.uleb128 0x13
+ 833 0059 01       		.byte	0x1
+ 834 005a 0B       		.uleb128 0xb
+ 835 005b 0B       		.uleb128 0xb
+ 836 005c 3A       		.uleb128 0x3a
+ 837 005d 0B       		.uleb128 0xb
+ 838 005e 3B       		.uleb128 0x3b
+ 839 005f 05       		.uleb128 0x5
+ 840 0060 01       		.uleb128 0x1
+ 841 0061 13       		.uleb128 0x13
+ 842 0062 00       		.byte	0
+ 843 0063 00       		.byte	0
+ 844 0064 09       		.uleb128 0x9
+ 845 0065 0D       		.uleb128 0xd
+ 846 0066 00       		.byte	0
+ 847 0067 03       		.uleb128 0x3
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 20
+
+
+ 848 0068 0E       		.uleb128 0xe
+ 849 0069 3A       		.uleb128 0x3a
+ 850 006a 0B       		.uleb128 0xb
+ 851 006b 3B       		.uleb128 0x3b
+ 852 006c 05       		.uleb128 0x5
+ 853 006d 49       		.uleb128 0x49
+ 854 006e 13       		.uleb128 0x13
+ 855 006f 38       		.uleb128 0x38
+ 856 0070 0B       		.uleb128 0xb
+ 857 0071 00       		.byte	0
+ 858 0072 00       		.byte	0
+ 859 0073 0A       		.uleb128 0xa
+ 860 0074 2E       		.uleb128 0x2e
+ 861 0075 01       		.byte	0x1
+ 862 0076 3F       		.uleb128 0x3f
+ 863 0077 19       		.uleb128 0x19
+ 864 0078 03       		.uleb128 0x3
+ 865 0079 0E       		.uleb128 0xe
+ 866 007a 3A       		.uleb128 0x3a
+ 867 007b 0B       		.uleb128 0xb
+ 868 007c 3B       		.uleb128 0x3b
+ 869 007d 0B       		.uleb128 0xb
+ 870 007e 27       		.uleb128 0x27
+ 871 007f 19       		.uleb128 0x19
+ 872 0080 11       		.uleb128 0x11
+ 873 0081 01       		.uleb128 0x1
+ 874 0082 12       		.uleb128 0x12
+ 875 0083 06       		.uleb128 0x6
+ 876 0084 40       		.uleb128 0x40
+ 877 0085 18       		.uleb128 0x18
+ 878 0086 9642     		.uleb128 0x2116
+ 879 0088 19       		.uleb128 0x19
+ 880 0089 01       		.uleb128 0x1
+ 881 008a 13       		.uleb128 0x13
+ 882 008b 00       		.byte	0
+ 883 008c 00       		.byte	0
+ 884 008d 0B       		.uleb128 0xb
+ 885 008e 34       		.uleb128 0x34
+ 886 008f 00       		.byte	0
+ 887 0090 03       		.uleb128 0x3
+ 888 0091 0E       		.uleb128 0xe
+ 889 0092 3A       		.uleb128 0x3a
+ 890 0093 0B       		.uleb128 0xb
+ 891 0094 3B       		.uleb128 0x3b
+ 892 0095 0B       		.uleb128 0xb
+ 893 0096 49       		.uleb128 0x49
+ 894 0097 13       		.uleb128 0x13
+ 895 0098 02       		.uleb128 0x2
+ 896 0099 18       		.uleb128 0x18
+ 897 009a 00       		.byte	0
+ 898 009b 00       		.byte	0
+ 899 009c 0C       		.uleb128 0xc
+ 900 009d 2E       		.uleb128 0x2e
+ 901 009e 00       		.byte	0
+ 902 009f 3F       		.uleb128 0x3f
+ 903 00a0 19       		.uleb128 0x19
+ 904 00a1 03       		.uleb128 0x3
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 21
+
+
+ 905 00a2 0E       		.uleb128 0xe
+ 906 00a3 3A       		.uleb128 0x3a
+ 907 00a4 0B       		.uleb128 0xb
+ 908 00a5 3B       		.uleb128 0x3b
+ 909 00a6 0B       		.uleb128 0xb
+ 910 00a7 27       		.uleb128 0x27
+ 911 00a8 19       		.uleb128 0x19
+ 912 00a9 11       		.uleb128 0x11
+ 913 00aa 01       		.uleb128 0x1
+ 914 00ab 12       		.uleb128 0x12
+ 915 00ac 06       		.uleb128 0x6
+ 916 00ad 40       		.uleb128 0x40
+ 917 00ae 18       		.uleb128 0x18
+ 918 00af 9642     		.uleb128 0x2116
+ 919 00b1 19       		.uleb128 0x19
+ 920 00b2 00       		.byte	0
+ 921 00b3 00       		.byte	0
+ 922 00b4 0D       		.uleb128 0xd
+ 923 00b5 34       		.uleb128 0x34
+ 924 00b6 00       		.byte	0
+ 925 00b7 03       		.uleb128 0x3
+ 926 00b8 0E       		.uleb128 0xe
+ 927 00b9 3A       		.uleb128 0x3a
+ 928 00ba 0B       		.uleb128 0xb
+ 929 00bb 3B       		.uleb128 0x3b
+ 930 00bc 05       		.uleb128 0x5
+ 931 00bd 49       		.uleb128 0x49
+ 932 00be 13       		.uleb128 0x13
+ 933 00bf 3F       		.uleb128 0x3f
+ 934 00c0 19       		.uleb128 0x19
+ 935 00c1 3C       		.uleb128 0x3c
+ 936 00c2 19       		.uleb128 0x19
+ 937 00c3 00       		.byte	0
+ 938 00c4 00       		.byte	0
+ 939 00c5 0E       		.uleb128 0xe
+ 940 00c6 34       		.uleb128 0x34
+ 941 00c7 00       		.byte	0
+ 942 00c8 03       		.uleb128 0x3
+ 943 00c9 0E       		.uleb128 0xe
+ 944 00ca 3A       		.uleb128 0x3a
+ 945 00cb 0B       		.uleb128 0xb
+ 946 00cc 3B       		.uleb128 0x3b
+ 947 00cd 0B       		.uleb128 0xb
+ 948 00ce 49       		.uleb128 0x49
+ 949 00cf 13       		.uleb128 0x13
+ 950 00d0 3F       		.uleb128 0x3f
+ 951 00d1 19       		.uleb128 0x19
+ 952 00d2 3C       		.uleb128 0x3c
+ 953 00d3 19       		.uleb128 0x19
+ 954 00d4 00       		.byte	0
+ 955 00d5 00       		.byte	0
+ 956 00d6 00       		.byte	0
+ 957              		.section	.debug_aranges,"",%progbits
+ 958 0000 2C000000 		.4byte	0x2c
+ 959 0004 0200     		.2byte	0x2
+ 960 0006 00000000 		.4byte	.Ldebug_info0
+ 961 000a 04       		.byte	0x4
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 22
+
+
+ 962 000b 00       		.byte	0
+ 963 000c 0000     		.2byte	0
+ 964 000e 0000     		.2byte	0
+ 965 0010 00000000 		.4byte	.LFB36
+ 966 0014 60000000 		.4byte	.LFE36-.LFB36
+ 967 0018 00000000 		.4byte	.LFB37
+ 968 001c 84000000 		.4byte	.LFE37-.LFB37
+ 969 0020 00000000 		.4byte	.LFB38
+ 970 0024 10010000 		.4byte	.LFE38-.LFB38
+ 971 0028 00000000 		.4byte	0
+ 972 002c 00000000 		.4byte	0
+ 973              		.section	.debug_ranges,"",%progbits
+ 974              	.Ldebug_ranges0:
+ 975 0000 00000000 		.4byte	.LFB36
+ 976 0004 60000000 		.4byte	.LFE36
+ 977 0008 00000000 		.4byte	.LFB37
+ 978 000c 84000000 		.4byte	.LFE37
+ 979 0010 00000000 		.4byte	.LFB38
+ 980 0014 10010000 		.4byte	.LFE38
+ 981 0018 00000000 		.4byte	0
+ 982 001c 00000000 		.4byte	0
+ 983              		.section	.debug_line,"",%progbits
+ 984              	.Ldebug_line0:
+ 985 0000 DE000000 		.section	.debug_str,"MS",%progbits,1
+ 985      02007500 
+ 985      00000201 
+ 985      FB0E0D00 
+ 985      01010101 
+ 986              	.LASF29:
+ 987 0000 4359424C 		.ascii	"CYBLE_ERROR_L2CAP_PSM_NOT_REGISTERED\000"
+ 987      455F4552 
+ 987      524F525F 
+ 987      4C324341 
+ 987      505F5053 
+ 988              	.LASF28:
+ 989 0025 4359424C 		.ascii	"CYBLE_ERROR_L2CAP_PSM_ALREADY_REGISTERED\000"
+ 989      455F4552 
+ 989      524F525F 
+ 989      4C324341 
+ 989      505F5053 
+ 990              	.LASF24:
+ 991 004e 4359424C 		.ascii	"CYBLE_ERROR_TX_POWER_READ\000"
+ 991      455F4552 
+ 991      524F525F 
+ 991      54585F50 
+ 991      4F574552 
+ 992              	.LASF49:
+ 993 0068 6D616A6F 		.ascii	"majorVersion\000"
+ 993      72566572 
+ 993      73696F6E 
+ 993      00
+ 994              	.LASF51:
+ 995 0075 70617463 		.ascii	"patch\000"
+ 995      6800
+ 996              	.LASF31:
+ 997 007b 4359424C 		.ascii	"CYBLE_ERROR_L2CAP_CHANNEL_NOT_FOUND\000"
+ 997      455F4552 
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 23
+
+
+ 997      524F525F 
+ 997      4C324341 
+ 997      505F4348 
+ 998              	.LASF2:
+ 999 009f 73686F72 		.ascii	"short int\000"
+ 999      7420696E 
+ 999      7400
+ 1000              	.LASF13:
+ 1001 00a9 73697A65 		.ascii	"sizetype\000"
+ 1001      74797065 
+ 1001      00
+ 1002              	.LASF14:
+ 1003 00b2 4359424C 		.ascii	"CYBLE_ERROR_OK\000"
+ 1003      455F4552 
+ 1003      524F525F 
+ 1003      4F4B00
+ 1004              	.LASF35:
+ 1005 00c1 4359424C 		.ascii	"CYBLE_ERROR_FLASH_WRITE_NOT_PERMITED\000"
+ 1005      455F4552 
+ 1005      524F525F 
+ 1005      464C4153 
+ 1005      485F5752 
+ 1006              	.LASF37:
+ 1007 00e6 4359424C 		.ascii	"CYBLE_ERROR_HARDWARE_FAILURE\000"
+ 1007      455F4552 
+ 1007      524F525F 
+ 1007      48415244 
+ 1007      57415245 
+ 1008              	.LASF36:
+ 1009 0103 4359424C 		.ascii	"CYBLE_ERROR_MIC_AUTH_FAILED\000"
+ 1009      455F4552 
+ 1009      524F525F 
+ 1009      4D49435F 
+ 1009      41555448 
+ 1010              	.LASF54:
+ 1011 011f 4359424C 		.ascii	"CYBLE_STATE_STOPPED\000"
+ 1011      455F5354 
+ 1011      4154455F 
+ 1011      53544F50 
+ 1011      50454400 
+ 1012              	.LASF15:
+ 1013 0133 4359424C 		.ascii	"CYBLE_ERROR_INVALID_PARAMETER\000"
+ 1013      455F4552 
+ 1013      524F525F 
+ 1013      494E5641 
+ 1013      4C49445F 
+ 1014              	.LASF19:
+ 1015 0151 4359424C 		.ascii	"CYBLE_ERROR_OOB_NOT_AVAILABLE\000"
+ 1015      455F4552 
+ 1015      524F525F 
+ 1015      4F4F425F 
+ 1015      4E4F545F 
+ 1016              	.LASF67:
+ 1017 016f 5072696E 		.ascii	"PrintStackVersion\000"
+ 1017      74537461 
+ 1017      636B5665 
+ 1017      7273696F 
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 24
+
+
+ 1017      6E00
+ 1018              	.LASF47:
+ 1019 0181 75696E74 		.ascii	"uint16\000"
+ 1019      313600
+ 1020              	.LASF16:
+ 1021 0188 4359424C 		.ascii	"CYBLE_ERROR_INVALID_OPERATION\000"
+ 1021      455F4552 
+ 1021      524F525F 
+ 1021      494E5641 
+ 1021      4C49445F 
+ 1022              	.LASF48:
+ 1023 01a6 4359424C 		.ascii	"CYBLE_API_RESULT_T\000"
+ 1023      455F4150 
+ 1023      495F5245 
+ 1023      53554C54 
+ 1023      5F5400
+ 1024              	.LASF20:
+ 1025 01b9 4359424C 		.ascii	"CYBLE_ERROR_NO_CONNECTION\000"
+ 1025      455F4552 
+ 1025      524F525F 
+ 1025      4E4F5F43 
+ 1025      4F4E4E45 
+ 1026              	.LASF55:
+ 1027 01d3 4359424C 		.ascii	"CYBLE_STATE_INITIALIZING\000"
+ 1027      455F5354 
+ 1027      4154455F 
+ 1027      494E4954 
+ 1027      49414C49 
+ 1028              	.LASF18:
+ 1029 01ec 4359424C 		.ascii	"CYBLE_ERROR_INSUFFICIENT_RESOURCES\000"
+ 1029      455F4552 
+ 1029      524F525F 
+ 1029      494E5355 
+ 1029      46464943 
+ 1030              	.LASF9:
+ 1031 020f 666C6F61 		.ascii	"float\000"
+ 1031      7400
+ 1032              	.LASF6:
+ 1033 0215 6C6F6E67 		.ascii	"long long int\000"
+ 1033      206C6F6E 
+ 1033      6720696E 
+ 1033      7400
+ 1034              	.LASF25:
+ 1035 0223 4359424C 		.ascii	"CYBLE_ERROR_BT_ON_NOT_COMPLETED\000"
+ 1035      455F4552 
+ 1035      524F525F 
+ 1035      42545F4F 
+ 1035      4E5F4E4F 
+ 1036              	.LASF4:
+ 1037 0243 6C6F6E67 		.ascii	"long int\000"
+ 1037      20696E74 
+ 1037      00
+ 1038              	.LASF22:
+ 1039 024c 4359424C 		.ascii	"CYBLE_ERROR_REPEATED_ATTEMPTS\000"
+ 1039      455F4552 
+ 1039      524F525F 
+ 1039      52455045 
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 25
+
+
+ 1039      41544544 
+ 1040              	.LASF64:
+ 1041 026a 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1041      43313120 
+ 1041      352E342E 
+ 1041      31203230 
+ 1041      31363036 
+ 1042 029d 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m0 -mthumb -g -O"
+ 1042      20726576 
+ 1042      6973696F 
+ 1042      6E203233 
+ 1042      37373135 
+ 1043 02d0 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 1043      66756E63 
+ 1043      74696F6E 
+ 1043      2D736563 
+ 1043      74696F6E 
+ 1044              	.LASF12:
+ 1045 02f8 6C6F6E67 		.ascii	"long double\000"
+ 1045      20646F75 
+ 1045      626C6500 
+ 1046              	.LASF21:
+ 1047 0304 4359424C 		.ascii	"CYBLE_ERROR_NO_DEVICE_ENTITY\000"
+ 1047      455F4552 
+ 1047      524F525F 
+ 1047      4E4F5F44 
+ 1047      45564943 
+ 1048              	.LASF63:
+ 1049 0321 61706952 		.ascii	"apiResult\000"
+ 1049      6573756C 
+ 1049      7400
+ 1050              	.LASF1:
+ 1051 032b 756E7369 		.ascii	"unsigned char\000"
+ 1051      676E6564 
+ 1051      20636861 
+ 1051      7200
+ 1052              	.LASF66:
+ 1053 0339 453A5C64 		.ascii	"E:\\desktop\\bu\\eda\\Transistor\\Transistor.cydsn\000"
+ 1053      65736B74 
+ 1053      6F705C62 
+ 1053      755C6564 
+ 1053      615C5472 
+ 1054              	.LASF39:
+ 1055 0367 4359424C 		.ascii	"CYBLE_ERROR_FLASH_WRITE\000"
+ 1055      455F4552 
+ 1055      524F525F 
+ 1055      464C4153 
+ 1055      485F5752 
+ 1056              	.LASF65:
+ 1057 037f 64656275 		.ascii	"debug.c\000"
+ 1057      672E6300 
+ 1058              	.LASF0:
+ 1059 0387 7369676E 		.ascii	"signed char\000"
+ 1059      65642063 
+ 1059      68617200 
+ 1060              	.LASF7:
+ 1061 0393 6C6F6E67 		.ascii	"long long unsigned int\000"
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 26
+
+
+ 1061      206C6F6E 
+ 1061      6720756E 
+ 1061      7369676E 
+ 1061      65642069 
+ 1062              	.LASF26:
+ 1063 03aa 4359424C 		.ascii	"CYBLE_ERROR_SEC_FAILED\000"
+ 1063      455F4552 
+ 1063      524F525F 
+ 1063      5345435F 
+ 1063      4641494C 
+ 1064              	.LASF23:
+ 1065 03c1 4359424C 		.ascii	"CYBLE_ERROR_GAP_ROLE\000"
+ 1065      455F4552 
+ 1065      524F525F 
+ 1065      4741505F 
+ 1065      524F4C45 
+ 1066              	.LASF8:
+ 1067 03d6 756E7369 		.ascii	"unsigned int\000"
+ 1067      676E6564 
+ 1067      20696E74 
+ 1067      00
+ 1068              	.LASF27:
+ 1069 03e3 4359424C 		.ascii	"CYBLE_ERROR_L2CAP_PSM_WRONG_ENCODING\000"
+ 1069      455F4552 
+ 1069      524F525F 
+ 1069      4C324341 
+ 1069      505F5053 
+ 1070              	.LASF58:
+ 1071 0408 4359424C 		.ascii	"CYBLE_STATE_DISCONNECTED\000"
+ 1071      455F5354 
+ 1071      4154455F 
+ 1071      44495343 
+ 1071      4F4E4E45 
+ 1072              	.LASF59:
+ 1073 0421 4359424C 		.ascii	"CYBLE_STATE_T\000"
+ 1073      455F5354 
+ 1073      4154455F 
+ 1073      5400
+ 1074              	.LASF44:
+ 1075 042f 4359424C 		.ascii	"CYBLE_ERROR_CHAR_IS_NOT_DISCOVERED\000"
+ 1075      455F4552 
+ 1075      524F525F 
+ 1075      43484152 
+ 1075      5F49535F 
+ 1076              	.LASF3:
+ 1077 0452 73686F72 		.ascii	"short unsigned int\000"
+ 1077      7420756E 
+ 1077      7369676E 
+ 1077      65642069 
+ 1077      6E7400
+ 1078              	.LASF61:
+ 1079 0465 5072696E 		.ascii	"PrintApiResult\000"
+ 1079      74417069 
+ 1079      52657375 
+ 1079      6C7400
+ 1080              	.LASF52:
+ 1081 0474 6275696C 		.ascii	"buildNumber\000"
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 27
+
+
+ 1081      644E756D 
+ 1081      62657200 
+ 1082              	.LASF11:
+ 1083 0480 63686172 		.ascii	"char\000"
+ 1083      00
+ 1084              	.LASF46:
+ 1085 0485 4359424C 		.ascii	"CYBLE_ERROR_STACK_BUSY\000"
+ 1085      455F4552 
+ 1085      524F525F 
+ 1085      53544143 
+ 1085      4B5F4255 
+ 1086              	.LASF68:
+ 1087 049c 73746163 		.ascii	"stackVersion\000"
+ 1087      6B566572 
+ 1087      73696F6E 
+ 1087      00
+ 1088              	.LASF40:
+ 1089 04a9 4359424C 		.ascii	"CYBLE_ERROR_CONTROLLER_BUSY\000"
+ 1089      455F4552 
+ 1089      524F525F 
+ 1089      434F4E54 
+ 1089      524F4C4C 
+ 1090              	.LASF53:
+ 1091 04c5 4359424C 		.ascii	"CYBLE_STACK_LIB_VERSION_T\000"
+ 1091      455F5354 
+ 1091      41434B5F 
+ 1091      4C49425F 
+ 1091      56455253 
+ 1092              	.LASF17:
+ 1093 04df 4359424C 		.ascii	"CYBLE_ERROR_MEMORY_ALLOCATION_FAILED\000"
+ 1093      455F4552 
+ 1093      524F525F 
+ 1093      4D454D4F 
+ 1093      52595F41 
+ 1094              	.LASF56:
+ 1095 0504 4359424C 		.ascii	"CYBLE_STATE_CONNECTED\000"
+ 1095      455F5354 
+ 1095      4154455F 
+ 1095      434F4E4E 
+ 1095      45435445 
+ 1096              	.LASF38:
+ 1097 051a 4359424C 		.ascii	"CYBLE_ERROR_UNSUPPORTED_FEATURE_OR_PARAMETER_VALUE\000"
+ 1097      455F4552 
+ 1097      524F525F 
+ 1097      554E5355 
+ 1097      50504F52 
+ 1098              	.LASF57:
+ 1099 054d 4359424C 		.ascii	"CYBLE_STATE_ADVERTISING\000"
+ 1099      455F5354 
+ 1099      4154455F 
+ 1099      41445645 
+ 1099      52544953 
+ 1100              	.LASF60:
+ 1101 0565 5072696E 		.ascii	"PrintState\000"
+ 1101      74537461 
+ 1101      746500
+ 1102              	.LASF5:
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 28
+
+
+ 1103 0570 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1103      20756E73 
+ 1103      69676E65 
+ 1103      6420696E 
+ 1103      7400
+ 1104              	.LASF10:
+ 1105 0582 646F7562 		.ascii	"double\000"
+ 1105      6C6500
+ 1106              	.LASF33:
+ 1107 0589 4359424C 		.ascii	"CYBLE_ERROR_GATT_DB_INVALID_ATTR_HANDLE\000"
+ 1107      455F4552 
+ 1107      524F525F 
+ 1107      47415454 
+ 1107      5F44425F 
+ 1108              	.LASF32:
+ 1109 05b1 4359424C 		.ascii	"CYBLE_ERROR_L2CAP_PSM_NOT_IN_RANGE\000"
+ 1109      455F4552 
+ 1109      524F525F 
+ 1109      4C324341 
+ 1109      505F5053 
+ 1110              	.LASF62:
+ 1111 05d4 6379426C 		.ascii	"cyBle_state\000"
+ 1111      655F7374 
+ 1111      61746500 
+ 1112              	.LASF42:
+ 1113 05e0 4359424C 		.ascii	"CYBLE_ERROR_NTF_DISABLED\000"
+ 1113      455F4552 
+ 1113      524F525F 
+ 1113      4E54465F 
+ 1113      44495341 
+ 1114              	.LASF34:
+ 1115 05f9 4359424C 		.ascii	"CYBLE_ERROR_DEVICE_ALREADY_EXISTS\000"
+ 1115      455F4552 
+ 1115      524F525F 
+ 1115      44455649 
+ 1115      43455F41 
+ 1116              	.LASF50:
+ 1117 061b 6D696E6F 		.ascii	"minorVersion\000"
+ 1117      72566572 
+ 1117      73696F6E 
+ 1117      00
+ 1118              	.LASF41:
+ 1119 0628 4359424C 		.ascii	"CYBLE_ERROR_MAX\000"
+ 1119      455F4552 
+ 1119      524F525F 
+ 1119      4D415800 
+ 1120              	.LASF45:
+ 1121 0638 4359424C 		.ascii	"CYBLE_ERROR_INVALID_STATE\000"
+ 1121      455F4552 
+ 1121      524F525F 
+ 1121      494E5641 
+ 1121      4C49445F 
+ 1122              	.LASF30:
+ 1123 0652 4359424C 		.ascii	"CYBLE_ERROR_L2CAP_CONNECTION_ENTITY_NOT_FOUND\000"
+ 1123      455F4552 
+ 1123      524F525F 
+ 1123      4C324341 
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccArIxTw.s 			page 29
+
+
+ 1123      505F434F 
+ 1124              	.LASF43:
+ 1125 0680 4359424C 		.ascii	"CYBLE_ERROR_IND_DISABLED\000"
+ 1125      455F4552 
+ 1125      524F525F 
+ 1125      494E445F 
+ 1125      44495341 
+ 1126              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

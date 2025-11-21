@@ -1,0 +1,6 @@
+--------------- Clean Started: 11/20/2025 22:13:28 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+Deleting file ".\Transistor.cycdx"
+Deleting file ".\Transistor.svd"
+Deleting file ".\Transistor.rpt"
+Deleting file ".\Transistor_timing.html"
+--------------- Clean Succeeded: 11/20/2025 22:13:28 ---------------
