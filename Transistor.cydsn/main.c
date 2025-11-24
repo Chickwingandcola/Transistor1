@@ -35,6 +35,11 @@ typedef struct {
     float lactate;         // 乳酸 (mM)
     float uric_acid;       // 尿酸 (μM)
     uint32 timestamp;      // 时间戳
+    
+    // 新增：原始电流值（从源表/AD5940读取）
+    float current_glucose_nA;   // 葡萄糖传感器电流 (nA)
+    float current_lactate_nA;   // 乳酸传感器电流 (nA)
+    float current_uric_nA;      // 尿酸传感器电流 (nA)    
 } SensorData_t;
 
 // 传感器数据全局变量（定义在main.h中的SensorData_t结构）
@@ -263,37 +268,192 @@ float MeasureTemperature(void)
     return temperature;
 }
 
+
 /*******************************************************************************
-* Function Name: MeasureAllSensors
+* Function Name: ReadCurrentFromAD5940
 ********************************************************************************
 * Summary:
-*   测量所有传感器（4路：温度 + 3个安培法）
+*   从 AD5940 读取实际电流值（安培法测量）
+*   
+* Parameters:
+*   sensorType: 传感器类型（GLUCOSE, LACTATE, URIC_ACID）
+*
+* Return:
+*   float: 电流值（单位：nA）
 *******************************************************************************/
-void MeasureAllSensors(void)
+float ReadCurrentFromAD5940(AmperometricSensor_t sensorType)
 {
-    float current_nA;
+    float current_nA = 0;
+    uint32_t dataCount = 0;
+    AD5940Err error;
     
-    DBG_PRINTF("\r\n========== 开始传感器测量 ==========\r\n");
+    DBG_PRINTF("读取传感器 %d 电流...\r\n", sensorType);
+    
+    // 方法 1: 使用你已有的 AppAMP 框架
+    
+    // 1. 配置 AD5940 为安培法测量模式
+    AppAMPGetCfg(&pAmpCfg);
+    
+    // 根据传感器类型设置工作电极（如果有多路复用）
+    // 注意：你的硬件可能使用 AMP1_EN, AMP2_EN, AMP3_EN 来选择通道
+    switch(sensorType)
+    {
+        case SENSOR_GLUCOSE:
+            AMP1_EN_Write(1);  // 启用通道1
+            AMP2_EN_Write(0);
+            AMP3_EN_Write(0);
+            DBG_PRINTF("  选择葡萄糖传感器通道\r\n");
+            break;
+            
+        case SENSOR_LACTATE:
+            AMP1_EN_Write(0);
+            AMP2_EN_Write(1);  // 启用通道2
+            AMP3_EN_Write(0);
+            DBG_PRINTF("  选择乳酸传感器通道\r\n");
+            break;
+            
+        case SENSOR_URIC_ACID:
+            AMP1_EN_Write(0);
+            AMP2_EN_Write(0);
+            AMP3_EN_Write(1);  // 启用通道3
+            DBG_PRINTF("  选择尿酸传感器通道\r\n");
+            break;
+    }
+    
+    CyDelay(50);  // 等待通道切换稳定
+    
+    // 2. 启动测量
+    error = AppAMPCtrl(AMPCTRL_START, NULL);
+    if(error != AD5940ERR_OK)
+    {
+        DBG_PRINTF("  启动测量失败: %d\r\n", error);
+        return 0;
+    }
+    
+    // 3. 等待测量稳定（安培法需要 500ms）
+    CyDelay(500);
+    
+    // 4. 读取 FIFO 数据
+    error = AppAMPISR(&ampResult, &dataCount);
+    
+    if(error == AD5940ERR_OK && dataCount > 0)
+    {
+        // 5. 从结果中提取电流值
+        current_nA = ampResult.Current * 1e9;  // 转换为 nA
+        
+        DBG_PRINTF("  测量成功: %.2f nA\r\n", current_nA);
+        DBG_PRINTF("  数据点数: %d\r\n", dataCount);
+    }
+    else
+    {
+        DBG_PRINTF("  测量失败或无数据: error=%d, count=%d\r\n", error, dataCount);
+        current_nA = 0;
+    }
+    
+    // 6. 停止测量
+    AppAMPCtrl(AMPCTRL_STOPNOW, NULL);
+    
+    return current_nA;
+}
+
+/*******************************************************************************
+* Function Name: ReadCurrentFromSourceMeter_Simulated
+********************************************************************************
+* Summary:
+*   模拟从源表读取电流值（用于测试）
+*   实际使用时替换为真实的源表读取代码
+*
+* Return:
+*   float: 电流值（单位：nA）
+*******************************************************************************/
+float ReadCurrentFromSourceMeter_Simulated(AmperometricSensor_t sensorType)
+{
+    float current_nA = 0;
+    
+    // 模拟不同传感器的典型电流响应
+    switch(sensorType)
+    {
+        case SENSOR_GLUCOSE:
+            // 5 mM 葡萄糖 → 约 80 nA（根据论文校准系数 16.34 nA/mM）
+            current_nA = 85.0 + (rand() % 10 - 5);  // 80-90 nA
+            break;
+            
+        case SENSOR_LACTATE:
+            // 2 mM 乳酸 → 约 100 nA（根据论文校准系数 41.44 nA/mM）
+            current_nA = 100.0 + (rand() % 10 - 5);  // 95-105 nA
+            break;
+            
+        case SENSOR_URIC_ACID:
+            // 300 μM 尿酸 → 约 57000 nA（根据论文校准系数 189.60 nA/μM）
+            current_nA = 57000.0 + (rand() % 100 - 50);
+            break;
+            
+        default:
+            current_nA = 0;
+            break;
+    }
+    
+    DBG_PRINTF("  模拟电流值: %.2f nA\r\n", current_nA);
+    
+    return current_nA;
+}
+
+/*******************************************************************************
+* Function Name: MeasureAllSensorsWithCurrent
+********************************************************************************
+* Summary:
+*   测量所有传感器 - 包含实际电流值
+*******************************************************************************/
+void MeasureAllSensorsWithCurrent(void)
+{
+    DBG_PRINTF("\r\n========== 开始传感器测量（含电流值）==========\r\n");
     
     // 1. 温度测量
     sensorData.temperature = MeasureTemperature();
     
     // 2. 葡萄糖测量
-    current_nA = MeasureAmperometricSensor(SENSOR_GLUCOSE);
-    sensorData.glucose = ConvertCurrentToConcentration(current_nA, SENSOR_GLUCOSE);
-    DBG_PRINTF("  葡萄糖: %.2f mM\r\n", sensorData.glucose);
+    DBG_PRINTF("\n--- 葡萄糖传感器 ---\r\n");
+    
+    // 方法 A: 使用 AD5940 读取（推荐）
+    sensorData.current_glucose_nA = ReadCurrentFromAD5940(SENSOR_GLUCOSE);
+    
+    // 方法 B: 使用模拟值测试（测试用）
+    // sensorData.current_glucose_nA = ReadCurrentFromSourceMeter_Simulated(SENSOR_GLUCOSE);
+    
+    // 转换为浓度
+    sensorData.glucose = ConvertCurrentToConcentration(
+        sensorData.current_glucose_nA, 
+        SENSOR_GLUCOSE
+    );
+    
+    DBG_PRINTF("  电流: %.2f nA\r\n", sensorData.current_glucose_nA);
+    DBG_PRINTF("  浓度: %.2f mM\r\n", sensorData.glucose);
     
     // 3. 乳酸测量
-    current_nA = MeasureAmperometricSensor(SENSOR_LACTATE);
-    sensorData.lactate = ConvertCurrentToConcentration(current_nA, SENSOR_LACTATE);
-    DBG_PRINTF("  乳酸: %.2f mM\r\n", sensorData.lactate);
+    DBG_PRINTF("\n--- 乳酸传感器 ---\r\n");
+    sensorData.current_lactate_nA = ReadCurrentFromAD5940(SENSOR_LACTATE);
+    sensorData.lactate = ConvertCurrentToConcentration(
+        sensorData.current_lactate_nA, 
+        SENSOR_LACTATE
+    );
+    
+    DBG_PRINTF("  电流: %.2f nA\r\n", sensorData.current_lactate_nA);
+    DBG_PRINTF("  浓度: %.2f mM\r\n", sensorData.lactate);
     
     // 4. 尿酸测量
-    current_nA = MeasureAmperometricSensor(SENSOR_URIC_ACID);
-    sensorData.uric_acid = ConvertCurrentToConcentration(current_nA, SENSOR_URIC_ACID);
-    DBG_PRINTF("  尿酸: %.2f μM\r\n", sensorData.uric_acid);
+    DBG_PRINTF("\n--- 尿酸传感器 ---\r\n");
+    sensorData.current_uric_nA = ReadCurrentFromAD5940(SENSOR_URIC_ACID);
+    sensorData.uric_acid = ConvertCurrentToConcentration(
+        sensorData.current_uric_nA, 
+        SENSOR_URIC_ACID
+    );
     
-    // 温度校准（论文中的温度补偿算法）
+    DBG_PRINTF("  电流: %.2f nA\r\n", sensorData.current_uric_nA);
+    DBG_PRINTF("  浓度: %.2f μM\r\n", sensorData.uric_acid);
+    
+
+    
+    // 6. 温度校准
     float temp_factor = 1.0 + 0.03 * (sensorData.temperature - 37.0);
     sensorData.glucose *= temp_factor;
     sensorData.lactate *= temp_factor;
@@ -301,8 +461,9 @@ void MeasureAllSensors(void)
     
     sensorData.timestamp = mainTimer;
     
-    DBG_PRINTF("========== 测量完成 ==========\r\n\r\n");
+    DBG_PRINTF("\n========== 测量完成 ==========\r\n\r\n");
 }
+
 
 /*******************************************************************************
 * Function Name: ControlDrugRelease
@@ -345,53 +506,60 @@ void ControlElectricalStimulation(uint8 enable)
 }
 
 /*******************************************************************************
-* Function Name: SendDataViaBLE
+* Function Name: SendCurrentDataViaBLE
 ********************************************************************************
-
-
 * Summary:
-*   通过BLE发送传感器数据
-*   数据包：[温度(4B)][葡萄糖(4B)][乳酸(4B)][尿酸(4B)] = 16字节
-
-********************************************************************************
+*   发送电流值到 BLE（显示在手机 App 上）
 *******************************************************************************/
 
-
-void SendDataViaBLE(void)
+// 发送葡萄糖数据（浓度 + 电流）
+void SendGlucoseDataViaBLE(void)
 {
     CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
-    uint8 dataPacket[16];
+    char dataString[30];
     
     if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
     {
-        // 打包数据
-        memcpy(&dataPacket[0], &sensorData.temperature, 4);
-        memcpy(&dataPacket[4], &sensorData.glucose, 4);
-        memcpy(&dataPacket[8], &sensorData.lactate, 4);
-        memcpy(&dataPacket[12], &sensorData.uric_acid, 4);
+        // 格式：浓度 + 电流值
+        sprintf(dataString, "%.2f mM (%.1f nA)", 
+                sensorData.glucose, 
+                sensorData.current_glucose_nA);
         
-        // 发送通知 - 使用自定义服务的葡萄糖测量特征句柄
         notificationHandle.attrHandle = CYBLE_CUSTOM_SERVICE_GLUCOSE_MEASUREMENT_CHAR_HANDLE;
-        notificationHandle.value.val = dataPacket;
-        notificationHandle.value.len = 16;
+        notificationHandle.value.val = (uint8*)dataString;
+        notificationHandle.value.len = strlen(dataString);
         
-        apiResult = CyBle_GattsNotification(cyBle_connHandle, &notificationHandle);
-        
-        if(apiResult == CYBLE_ERROR_OK)
+        if(CyBle_GattsNotification(cyBle_connHandle, &notificationHandle) == CYBLE_ERROR_OK)
         {
-            DBG_PRINTF("数据已发送\r\n");
+            DBG_PRINTF("葡萄糖数据已发送: %s\r\n", dataString);
         }
     }
 }
 
+// 发送乳酸数据（浓度 + 电流）
+void SendLactateDataViaBLE(void)
+{
+    CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
+    char dataString[30];
+    
+    if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
+    {
+        sprintf(dataString, "%.2f mM (%.1f nA)", 
+                sensorData.lactate, 
+                sensorData.current_lactate_nA);
+        
+        notificationHandle.attrHandle = CYBLE_CUSTOM_SERVICE_LACTATE_CHAR_HANDLE;
+        notificationHandle.value.val = (uint8*)dataString;
+        notificationHandle.value.len = strlen(dataString);
+        
+        if(CyBle_GattsNotification(cyBle_connHandle, &notificationHandle) == CYBLE_ERROR_OK)
+        {
+            DBG_PRINTF("乳酸数据已发送: %s\r\n", dataString);
+        }
+    }
+}
 
-
-/*******************************************************************************
-* Function Name: SendTemperatureViaBLE
-********************************************************************************
-* Summary:
-*   发送温度数据 - 字符串格式，易读
-*******************************************************************************/
+// 发送温度数据
 void SendTemperatureViaBLE(void)
 {
     CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
@@ -399,135 +567,48 @@ void SendTemperatureViaBLE(void)
     
     if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
     {
-        // 格式化为易读字符串: "36.5 °C"
         sprintf(tempString, "%.1f C", sensorData.temperature);
         
-        // 发送通知
         notificationHandle.attrHandle = CYBLE_CUSTOM_SERVICE_TEMPERATURE_MEASUREMENT_CHAR_HANDLE;
         notificationHandle.value.val = (uint8*)tempString;
         notificationHandle.value.len = strlen(tempString);
         
-        if(CyBle_GattsNotification(cyBle_connHandle, &notificationHandle) == CYBLE_ERROR_OK)
-        {
-            DBG_PRINTF("温度已发送: %s\r\n", tempString);
-        }
+        CyBle_GattsNotification(cyBle_connHandle, &notificationHandle);
     }
 }
 
-/*******************************************************************************
-* Function Name: SendGlucoseViaBLE
-********************************************************************************
-* Summary:
-*   发送葡萄糖数据
-*******************************************************************************/
-void SendGlucoseViaBLE(void)
-{
-    CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
-    char glucoseString[20];
-    
-    if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
-    {
-        // 格式化为易读字符串: "5.2 mM"
-        sprintf(glucoseString, "%.2f mM", sensorData.glucose);
-        
-        // 发送通知
-        notificationHandle.attrHandle = CYBLE_CUSTOM_SERVICE_GLUCOSE_MEASUREMENT_CHAR_HANDLE;
-        notificationHandle.value.val = (uint8*)glucoseString;
-        notificationHandle.value.len = strlen(glucoseString);
-        
-        if(CyBle_GattsNotification(cyBle_connHandle, &notificationHandle) == CYBLE_ERROR_OK)
-        {
-            DBG_PRINTF("葡萄糖已发送: %s\r\n", glucoseString);
-        }
-    }
-}
 
-/*******************************************************************************
-* Function Name: SendLactateViaBLE
-********************************************************************************
-* Summary:
-*   发送乳酸数据
-*******************************************************************************/
-void SendLactateViaBLE(void)
-{
-    CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
-    char lactateString[20];
-    
-    if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
-    {
-        // 格式化为易读字符串: "2.5 mM"
-        sprintf(lactateString, "%.2f mM", sensorData.lactate);
-        
-        // 发送通知 - 使用 Lactate Characteristic
-        notificationHandle.attrHandle = CYBLE_CUSTOM_SERVICE_LACTATE_CHAR_HANDLE;
-        notificationHandle.value.val = (uint8*)lactateString;
-        notificationHandle.value.len = strlen(lactateString);
-        
-        if(CyBle_GattsNotification(cyBle_connHandle, &notificationHandle) == CYBLE_ERROR_OK)
-        {
-            DBG_PRINTF("乳酸已发送: %s\r\n", lactateString);
-        }
-    }
-}
 
-/*******************************************************************************
-* Function Name: SendPHViaBLE
-********************************************************************************
-* Summary:
-*   发送 pH 数据
-*******************************************************************************/
-void SendPHViaBLE(void)
-{
-    CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
-    char phString[20];
-    float phValue = 7.4;  // 从传感器读取的实际 pH 值
-    
-    if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
-    {
-        // 格式化为易读字符串: "7.35"
-        sprintf(phString, "%.2f", phValue);
-        
-        // 发送通知 - 使用 PH Characteristic
-        notificationHandle.attrHandle = CYBLE_CUSTOM_SERVICE_PH_CHAR_HANDLE;
-        notificationHandle.value.val = (uint8*)phString;
-        notificationHandle.value.len = strlen(phString);
-        
-        if(CyBle_GattsNotification(cyBle_connHandle, &notificationHandle) == CYBLE_ERROR_OK)
-        {
-            DBG_PRINTF("pH已发送: %s\r\n", phString);
-        }
-    }
-}
+
+
+
+
 
 /*******************************************************************************
 * Function Name: SendAllSensorDataViaBLE
 ********************************************************************************
 * Summary:
-*   发送所有传感器数据 - 替换原来的 SendDataViaBLE()
+*   发送所有传感器数据（包含电流值）
 *******************************************************************************/
 void SendAllSensorDataViaBLE(void)
 {
     if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
     {
-        DBG_PRINTF("\r\n--- 发送所有传感器数据 ---\r\n");
+        DBG_PRINTF("\r\n--- 发送所有传感器数据到 BLE ---\r\n");
         
-        // 分别发送每个传感器的数据
         SendTemperatureViaBLE();
-        CyDelay(50);  // 小延迟确保数据包顺序
-        
-        SendGlucoseViaBLE();
         CyDelay(50);
         
-        SendLactateViaBLE();
+        SendGlucoseDataViaBLE();  // 包含电流值
         CyDelay(50);
         
-        SendPHViaBLE();
+        SendLactateDataViaBLE();  // 包含电流值
         CyDelay(50);
         
+       
         DBG_PRINTF("--- 数据发送完成 ---\r\n\r\n");
     }
 }
-
 
 /*******************************************************************************
 * Function Name: Timer_Interrupt
@@ -679,7 +760,9 @@ int main()
     // 启动定时器中断
     CySysWdtSetInterruptCallback(CY_SYS_WDT_COUNTER2, Timer_Interrupt);
     CySysWdtEnableCounterIsr(CY_SYS_WDT_COUNTER2);
-    
+    uint32 lastSendTime = 0;
+    #define SEND_INTERVAL 3  // 每3秒刷新一次
+
     DBG_PRINTF("系统初始化完成\r\n\r\n");
     
     /***************************************************************************
@@ -699,7 +782,7 @@ int main()
             measurementFlag = 0;
             
             // 测量所有传感器
-            MeasureAllSensors();
+            MeasureAllSensorsWithCurrent();
             
             // 每3秒发送一次数据（自动刷新）
             if((mainTimer - lastSendTime) >= SEND_INTERVAL)
