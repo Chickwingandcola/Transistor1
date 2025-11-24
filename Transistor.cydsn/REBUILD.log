@@ -1,4 +1,4 @@
---------------- Rebuild Started: 11/24/2025 12:23:32 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+--------------- Rebuild Started: 11/24/2025 15:23:54 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\main.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\debug.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\Impedance.o"
@@ -86,136 +86,34 @@ API Generation...
 Dependency Generation...
 Cleanup...
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/main.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c main.c -o .\CortexM0\ARM_GCC_541\Debug\main.o
-In file included from main.h:23:0,
-                 from main.c:16:
-main.c: In function 'AD5941_Initialize':
-main.c:138:20: warning: format '%d' expects argument of type 'int', but argument 2 has type 'AD5940Err {aka long int}' [-Wformat=]
-         DBG_PRINTF("AD5941鍒濆鍖栧け璐? %d\r\n", error);
-                    ^
-debug.h:46:46: note: in definition of macro 'DBG_PRINTF'
-     #define DBG_PRINTF(...)          (printf(__VA_ARGS__))
-                                              ^
-main.c:138:20: warning: format '%d' expects argument of type 'int', but argument 2 has type 'AD5940Err {aka long int}' [-Wformat=]
-         DBG_PRINTF("AD5941鍒濆鍖栧け璐? %d\r\n", error);
-                    ^
-debug.h:46:46: note: in definition of macro 'DBG_PRINTF'
-     #define DBG_PRINTF(...)          (printf(__VA_ARGS__))
-                                              ^
-main.c: In function 'MeasureAmperometricSensor':
-main.c:164:20: warning: format '%d' expects argument of type 'int', but argument 2 has type 'AD5940Err {aka long int}' [-Wformat=]
-         DBG_PRINTF("  鍚姩娴嬮噺澶辫触: %d\r\n", error);
-                    ^
-debug.h:46:46: note: in definition of macro 'DBG_PRINTF'
-     #define DBG_PRINTF(...)          (printf(__VA_ARGS__))
-                                              ^
-main.c:164:20: warning: format '%d' expects argument of type 'int', but argument 2 has type 'AD5940Err {aka long int}' [-Wformat=]
-         DBG_PRINTF("  鍚姩娴嬮噺澶辫触: %d\r\n", error);
-                    ^
-debug.h:46:46: note: in definition of macro 'DBG_PRINTF'
-     #define DBG_PRINTF(...)          (printf(__VA_ARGS__))
-                                              ^
-main.c:182:20: warning: format '%d' expects argument of type 'int', but argument 2 has type 'AD5940Err {aka long int}' [-Wformat=]
-         DBG_PRINTF("  娴嬮噺澶辫触鎴栨棤鏁版嵁: error=%d, count=%d\r\n", error, dataCount);
-                    ^
-debug.h:46:46: note: in definition of macro 'DBG_PRINTF'
-     #define DBG_PRINTF(...)          (printf(__VA_ARGS__))
-                                              ^
-main.c:182:20: warning: format '%d' expects argument of type 'int', but argument 3 has type 'uint32_t {aka long unsigned int}' [-Wformat=]
-         DBG_PRINTF("  娴嬮噺澶辫触鎴栨棤鏁版嵁: error=%d, count=%d\r\n", error, dataCount);
-                    ^
-debug.h:46:46: note: in definition of macro 'DBG_PRINTF'
-     #define DBG_PRINTF(...)          (printf(__VA_ARGS__))
-                                              ^
-main.c:182:20: warning: format '%d' expects argument of type 'int', but argument 2 has type 'AD5940Err {aka long int}' [-Wformat=]
-         DBG_PRINTF("  娴嬮噺澶辫触鎴栨棤鏁版嵁: error=%d, count=%d\r\n", error, dataCount);
-                    ^
-debug.h:46:46: note: in definition of macro 'DBG_PRINTF'
-     #define DBG_PRINTF(...)          (printf(__VA_ARGS__))
-                                              ^
-main.c:182:20: warning: format '%d' expects argument of type 'int', but argument 3 has type 'uint32_t {aka long unsigned int}' [-Wformat=]
-         DBG_PRINTF("  娴嬮噺澶辫触鎴栨棤鏁版嵁: error=%d, count=%d\r\n", error, dataCount);
-                    ^
-debug.h:46:46: note: in definition of macro 'DBG_PRINTF'
-     #define DBG_PRINTF(...)          (printf(__VA_ARGS__))
-                                              ^
 main.c: In function 'MeasureTemperature':
-main.c:234:20: warning: unused variable 'resistance' [-Wunused-variable]
+main.c:229:20: warning: unused variable 'resistance' [-Wunused-variable]
      float voltage, resistance;
                     ^
-main.c:234:11: warning: unused variable 'voltage' [-Wunused-variable]
+main.c:229:11: warning: unused variable 'voltage' [-Wunused-variable]
      float voltage, resistance;
            ^
-main.c:233:14: warning: unused variable 'adcCode' [-Wunused-variable]
+main.c:228:14: warning: unused variable 'adcCode' [-Wunused-variable]
      uint32_t adcCode;
               ^
 main.c: In function 'ReadCurrentFromAD5940':
-main.c:299:5: warning: enumeration value 'SENSOR_COUNT' not handled in switch [-Wswitch]
+main.c:291:5: warning: enumeration value 'SENSOR_COUNT' not handled in switch [-Wswitch]
      switch(sensorType)
      ^
-In file included from main.h:23:0,
-                 from main.c:16:
-main.c:329:20: warning: format '%d' expects argument of type 'int', but argument 2 has type 'AD5940Err {aka long int}' [-Wformat=]
-         DBG_PRINTF("  鍚姩娴嬮噺澶辫触: %d\r\n", error);
-                    ^
-debug.h:46:46: note: in definition of macro 'DBG_PRINTF'
-     #define DBG_PRINTF(...)          (printf(__VA_ARGS__))
-                                              ^
-main.c:329:20: warning: format '%d' expects argument of type 'int', but argument 2 has type 'AD5940Err {aka long int}' [-Wformat=]
-         DBG_PRINTF("  鍚姩娴嬮噺澶辫触: %d\r\n", error);
-                    ^
-debug.h:46:46: note: in definition of macro 'DBG_PRINTF'
-     #define DBG_PRINTF(...)          (printf(__VA_ARGS__))
-                                              ^
-main.c:345:20: warning: format '%d' expects argument of type 'int', but argument 2 has type 'uint32_t {aka long unsigned int}' [-Wformat=]
-         DBG_PRINTF("  鏁版嵁鐐规暟: %d\r\n", dataCount);
-                    ^
-debug.h:46:46: note: in definition of macro 'DBG_PRINTF'
-     #define DBG_PRINTF(...)          (printf(__VA_ARGS__))
-                                              ^
-main.c:345:20: warning: format '%d' expects argument of type 'int', but argument 2 has type 'uint32_t {aka long unsigned int}' [-Wformat=]
-         DBG_PRINTF("  鏁版嵁鐐规暟: %d\r\n", dataCount);
-                    ^
-debug.h:46:46: note: in definition of macro 'DBG_PRINTF'
-     #define DBG_PRINTF(...)          (printf(__VA_ARGS__))
-                                              ^
-main.c:349:20: warning: format '%d' expects argument of type 'int', but argument 2 has type 'AD5940Err {aka long int}' [-Wformat=]
-         DBG_PRINTF("  娴嬮噺澶辫触鎴栨棤鏁版嵁: error=%d, count=%d\r\n", error, dataCount);
-                    ^
-debug.h:46:46: note: in definition of macro 'DBG_PRINTF'
-     #define DBG_PRINTF(...)          (printf(__VA_ARGS__))
-                                              ^
-main.c:349:20: warning: format '%d' expects argument of type 'int', but argument 3 has type 'uint32_t {aka long unsigned int}' [-Wformat=]
-         DBG_PRINTF("  娴嬮噺澶辫触鎴栨棤鏁版嵁: error=%d, count=%d\r\n", error, dataCount);
-                    ^
-debug.h:46:46: note: in definition of macro 'DBG_PRINTF'
-     #define DBG_PRINTF(...)          (printf(__VA_ARGS__))
-                                              ^
-main.c:349:20: warning: format '%d' expects argument of type 'int', but argument 2 has type 'AD5940Err {aka long int}' [-Wformat=]
-         DBG_PRINTF("  娴嬮噺澶辫触鎴栨棤鏁版嵁: error=%d, count=%d\r\n", error, dataCount);
-                    ^
-debug.h:46:46: note: in definition of macro 'DBG_PRINTF'
-     #define DBG_PRINTF(...)          (printf(__VA_ARGS__))
-                                              ^
-main.c:349:20: warning: format '%d' expects argument of type 'int', but argument 3 has type 'uint32_t {aka long unsigned int}' [-Wformat=]
-         DBG_PRINTF("  娴嬮噺澶辫触鎴栨棤鏁版嵁: error=%d, count=%d\r\n", error, dataCount);
-                    ^
-debug.h:46:46: note: in definition of macro 'DBG_PRINTF'
-     #define DBG_PRINTF(...)          (printf(__VA_ARGS__))
-                                              ^
 main.c: In function 'ReadCurrentFromSourceMeter_Simulated':
-main.c:378:34: warning: implicit declaration of function 'rand' [-Wimplicit-function-declaration]
+main.c:363:34: warning: implicit declaration of function 'rand' [-Wimplicit-function-declaration]
              current_nA = 85.0 + (rand() % 10 - 5);  // 80-90 nA
                                   ^
 main.c: In function 'AppCallBack':
-main.c:641:12: warning: unused variable 'i' [-Wunused-variable]
+main.c:613:12: warning: unused variable 'i' [-Wunused-variable]
      uint16 i;
             ^
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/debug.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c debug.c -o .\CortexM0\ARM_GCC_541\Debug\debug.o
 In file included from debug.c:19:0:
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/Impedance.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Impedance.c -o .\CortexM0\ARM_GCC_541\Debug\Impedance.o
 main.h:116:13: warning: 'LowPowerImplementation' declared 'static' but never defined [-Wunused-function]
  static void LowPowerImplementation(void);
              ^
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/Impedance.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Impedance.c -o .\CortexM0\ARM_GCC_541\Debug\Impedance.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/ad5940.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c ad5940.c -o .\CortexM0\ARM_GCC_541\Debug\ad5940.o
 ad5940.c: In function 'AD5940_HSRtiaCal':
 ad5940.c:3416:54: warning: large integer implicitly truncated to unsigned type [-Woverflow]
@@ -293,12 +191,12 @@ arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-
 arm-none-eabi-as.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -alh=.\CortexM0\ARM_GCC_541\Debug/CyBootAsmGnu.lst -g -o .\CortexM0\ARM_GCC_541\Debug\CyBootAsmGnu.o Generated_Source\PSoC4\CyBootAsmGnu.s
 arm-none-eabi-ar.exe -rs .\CortexM0\ARM_GCC_541\Debug\Transistor.a .\CortexM0\ARM_GCC_541\Debug\CYBLE.o .\CortexM0\ARM_GCC_541\Debug\CYBLE_gatt.o .\CortexM0\ARM_GCC_541\Debug\CYBLE_eventHandler.o .\CortexM0\ARM_GCC_541\Debug\CYBLE_HAL_INT.o .\CortexM0\ARM_GCC_541\Debug\CYBLE_HAL_PVT.o .\CortexM0\ARM_GCC_541\Debug\CYBLE_custom.o .\CortexM0\ARM_GCC_541\Debug\Disconnect_LED.o .\CortexM0\ARM_GCC_541\Debug\Disconnect_LED_PM.o .\CortexM0\ARM_GCC_541\Debug\AD5940_CS.o .\CortexM0\ARM_GCC_541\Debug\AD5940_CS_PM.o .\CortexM0\ARM_GCC_541\Debug\AD5940_EXTI.o .\CortexM0\ARM_GCC_541\Debug\AD5940_EXTI_PM.o .\CortexM0\ARM_GCC_541\Debug\LowPower_LED.o .\CortexM0\ARM_GCC_541\Debug\LowPower_LED_PM.o .\CortexM0\ARM_GCC_541\Debug\AD5940_Interrupt.o .\CortexM0\ARM_GCC_541\Debug\AD5940_MISO.o .\CortexM0\ARM_GCC_541\Debug\AD5940_MISO_PM.o .\CortexM0\ARM_GCC_541\Debug\AD5940_SCLK.o .\CortexM0\ARM_GCC_541\Debug\AD5940_SCLK_PM.o .\CortexM0\ARM_GCC_541\Debug\AD5940_MOSI.o .\CortexM0\ARM_GCC_541\Debug\AD5940_MOSI_PM.o .\CortexM0\ARM_GCC_541\Debug\Advertising_LED.o .\CortexM0\ARM_GCC_541\Debug\Advertising_LED_PM.o .\CortexM0\ARM_GCC_541\Debug\DRUG_EN_1.o .\CortexM0\ARM_GCC_541\Debug\DRUG_EN_1_PM.o .\CortexM0\ARM_GCC_541\Debug\STIM_EN_A.o .\CortexM0\ARM_GCC_541\Debug\STIM_EN_A_PM.o .\CortexM0\ARM_GCC_541\Debug\AD5940_RST.o .\CortexM0\ARM_GCC_541\Debug\AD5940_RST_PM.o .\CortexM0\ARM_GCC_541\Debug\AMP1_EN.o .\CortexM0\ARM_GCC_541\Debug\AMP1_EN_PM.o .\CortexM0\ARM_GCC_541\Debug\AMP2_EN.o .\CortexM0\ARM_GCC_541\Debug\AMP2_EN_PM.o .\CortexM0\ARM_GCC_541\Debug\AMP3_EN.o .\CortexM0\ARM_GCC_541\Debug\AMP3_EN_PM.o .\CortexM0\ARM_GCC_541\Debug\SPI_1.o .\CortexM0\ARM_GCC_541\Debug\SPI_1_SPI_UART.o .\CortexM0\ARM_GCC_541\Debug\SPI_1_PM.o .\CortexM0\ARM_GCC_541\Debug\SPI_1_SPI.o .\CortexM0\ARM_GCC_541\Debug\SPI_1_BOOT.o .\CortexM0\ARM_GCC_541\Debug\SPI_1_SPI_BOOT.o .\CortexM0\ARM_GCC_541\Debug\CYBLE_bless_isr.o .\CortexM0\ARM_GCC_541\Debug\SPI_1_SCBCLK.o .\CortexM0\ARM_GCC_541\Debug\CyFlash.o .\CortexM0\ARM_GCC_541\Debug\CyLib.o .\CortexM0\ARM_GCC_541\Debug\cyPm.o .\CortexM0\ARM_GCC_541\Debug\cyutils.o .\CortexM0\ARM_GCC_541\Debug\CyDMA.o .\CortexM0\ARM_GCC_541\Debug\CyLFClk.o .\CortexM0\ARM_GCC_541\Debug\cy_em_eeprom.o .\CortexM0\ARM_GCC_541\Debug\CyBootAsmGnu.o
 arm-none-eabi-ar.exe: creating .\CortexM0\ARM_GCC_541\Debug\Transistor.a
-arm-none-eabi-gcc.exe -Wl,--start-group -o E:\desktop\bu\eda\Transistor\Transistor.cydsn\CortexM0\ARM_GCC_541\Debug\Transistor.elf .\CortexM0\ARM_GCC_541\Debug\main.o .\CortexM0\ARM_GCC_541\Debug\debug.o .\CortexM0\ARM_GCC_541\Debug\Impedance.o .\CortexM0\ARM_GCC_541\Debug\ad5940.o .\CortexM0\ARM_GCC_541\Debug\Amperometric.o .\CortexM0\ARM_GCC_541\Debug\biosensor_ble.o .\CortexM0\ARM_GCC_541\Debug\ad5941_platform.o .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o .\CortexM0\ARM_GCC_541\Debug\cymetadata.o .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o .\CortexM0\ARM_GCC_541\Debug\Transistor.a "F:\infineon\PSoC Creator\4.4\PSoC Creator\psoc\content\CyComponentLibrary\CyComponentLibrary.cylib\BLE_v3_30\Library\gccCyBLEStack_BLE_SOC_PERIPHERAL.a" -mcpu=cortex-m0 -mthumb -l m -L Generated_Source\PSoC4 -Wl,-Map,.\CortexM0\ARM_GCC_541\Debug/Transistor.map -T Generated_Source\PSoC4\cm0gcc.ld -specs=nano.specs -Wl,--gc-sections -g -ffunction-sections -O0 -ffat-lto-objects -Wl,--end-group
+arm-none-eabi-gcc.exe -Wl,--start-group -o E:\desktop\bu\eda\Transistor\Transistor.cydsn\CortexM0\ARM_GCC_541\Debug\Transistor.elf .\CortexM0\ARM_GCC_541\Debug\main.o .\CortexM0\ARM_GCC_541\Debug\debug.o .\CortexM0\ARM_GCC_541\Debug\Impedance.o .\CortexM0\ARM_GCC_541\Debug\ad5940.o .\CortexM0\ARM_GCC_541\Debug\Amperometric.o .\CortexM0\ARM_GCC_541\Debug\biosensor_ble.o .\CortexM0\ARM_GCC_541\Debug\ad5941_platform.o .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o .\CortexM0\ARM_GCC_541\Debug\cymetadata.o .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o .\CortexM0\ARM_GCC_541\Debug\Transistor.a "F:\infineon\PSoC Creator\4.4\PSoC Creator\psoc\content\CyComponentLibrary\CyComponentLibrary.cylib\BLE_v3_30\Library\gccCyBLEStack_BLE_SOC_PERIPHERAL.a" -mcpu=cortex-m0 -mthumb -l m -L Generated_Source\PSoC4 -Wl,-Map,.\CortexM0\ARM_GCC_541\Debug/Transistor.map -T Generated_Source\PSoC4\cm0gcc.ld -specs=nano.specs -Wl,--gc-sections -u _printf_float -g -ffunction-sections -O0 -ffat-lto-objects -Wl,--end-group
 cyelftool.exe -C E:\desktop\bu\eda\Transistor\Transistor.cydsn\CortexM0\ARM_GCC_541\Debug\Transistor.elf --flash_row_size 256 --flash_size 262144 --flash_offset 0x00000000
 No ELF section .cychecksum found, creating one
 Application checksum calculated and stored in ELF section .cychecksum
 Checksum calculated and stored in ELF section .cymeta
 cyelftool.exe -S E:\desktop\bu\eda\Transistor\Transistor.cydsn\CortexM0\ARM_GCC_541\Debug\Transistor.elf
-Flash used: 127648 of 262144 bytes (48.7%).
-SRAM used: 14216 of 32768 bytes (43.4%). Stack: 2048 bytes. Heap: 1024 bytes.
---------------- Rebuild Succeeded: 11/24/2025 12:23:48 ---------------
+Flash used: 133044 of 262144 bytes (50.8%).
+SRAM used: 14272 of 32768 bytes (43.6%). Stack: 2048 bytes. Heap: 1024 bytes.
+--------------- Rebuild Succeeded: 11/24/2025 15:24:10 ---------------

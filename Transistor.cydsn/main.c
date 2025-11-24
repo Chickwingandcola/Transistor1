@@ -131,11 +131,9 @@ void AD5941_Initialize(void)
     
     if(error == AD5940ERR_OK)
     {
-        DBG_PRINTF("AD5941初始化成功\r\n");
     }
     else
     {
-        DBG_PRINTF("AD5941初始化失败: %d\r\n", error);
     }
 }
 
@@ -161,7 +159,6 @@ float MeasureAmperometricSensor(AmperometricSensor_t sensorType)
     error = AppAMPCtrl(AMPCTRL_START, NULL);
     if(error != AD5940ERR_OK)
     {
-        DBG_PRINTF("  启动测量失败: %d\r\n", error);
         return 0;
     }
     
@@ -175,11 +172,9 @@ float MeasureAmperometricSensor(AmperometricSensor_t sensorType)
     {
         // 获取电流值（fAmpRes_Type结构体中的Current成员）
         current_uA = ampResult.Current * 1000.0;  // 转换为nA
-        DBG_PRINTF("  电流值: %.2f nA\r\n", current_uA);
     }
     else
     {
-        DBG_PRINTF("  测量失败或无数据: error=%d, count=%d\r\n", error, dataCount);
     }
     
     // 停止测量
@@ -233,7 +228,6 @@ float MeasureTemperature(void)
     uint32_t adcCode;
     float voltage, resistance;
     
-    DBG_PRINTF("测量温度...\r\n");
     
     // 方法1: 使用AD5940的辅助ADC（AUX ADC）测量温度传感器
     // 注意：需要配置AD5940的GPIO或者AUX输入来连接温度传感器
@@ -263,7 +257,6 @@ float MeasureTemperature(void)
     // 临时方案：从系统读取或使用固定值
     temperature = 37.0;  // 假设体温
     
-    DBG_PRINTF("  温度: %.2f °C\r\n", temperature);
     
     return temperature;
 }
@@ -287,7 +280,6 @@ float ReadCurrentFromAD5940(AmperometricSensor_t sensorType)
     uint32_t dataCount = 0;
     AD5940Err error;
     
-    DBG_PRINTF("读取传感器 %d 电流...\r\n", sensorType);
     
     // 方法 1: 使用你已有的 AppAMP 框架
     
@@ -302,21 +294,18 @@ float ReadCurrentFromAD5940(AmperometricSensor_t sensorType)
             AMP1_EN_Write(1);  // 启用通道1
             AMP2_EN_Write(0);
             AMP3_EN_Write(0);
-            DBG_PRINTF("  选择葡萄糖传感器通道\r\n");
             break;
             
         case SENSOR_LACTATE:
             AMP1_EN_Write(0);
             AMP2_EN_Write(1);  // 启用通道2
             AMP3_EN_Write(0);
-            DBG_PRINTF("  选择乳酸传感器通道\r\n");
             break;
             
         case SENSOR_URIC_ACID:
             AMP1_EN_Write(0);
             AMP2_EN_Write(0);
             AMP3_EN_Write(1);  // 启用通道3
-            DBG_PRINTF("  选择尿酸传感器通道\r\n");
             break;
     }
     
@@ -326,7 +315,6 @@ float ReadCurrentFromAD5940(AmperometricSensor_t sensorType)
     error = AppAMPCtrl(AMPCTRL_START, NULL);
     if(error != AD5940ERR_OK)
     {
-        DBG_PRINTF("  启动测量失败: %d\r\n", error);
         return 0;
     }
     
@@ -341,12 +329,9 @@ float ReadCurrentFromAD5940(AmperometricSensor_t sensorType)
         // 5. 从结果中提取电流值
         current_nA = ampResult.Current * 1e9;  // 转换为 nA
         
-        DBG_PRINTF("  测量成功: %.2f nA\r\n", current_nA);
-        DBG_PRINTF("  数据点数: %d\r\n", dataCount);
     }
     else
     {
-        DBG_PRINTF("  测量失败或无数据: error=%d, count=%d\r\n", error, dataCount);
         current_nA = 0;
     }
     
@@ -393,7 +378,7 @@ float ReadCurrentFromSourceMeter_Simulated(AmperometricSensor_t sensorType)
             break;
     }
     
-    DBG_PRINTF("  模拟电流值: %.2f nA\r\n", current_nA);
+
     
     return current_nA;
 }
@@ -406,19 +391,18 @@ float ReadCurrentFromSourceMeter_Simulated(AmperometricSensor_t sensorType)
 *******************************************************************************/
 void MeasureAllSensorsWithCurrent(void)
 {
-    DBG_PRINTF("\r\n========== 开始传感器测量（含电流值）==========\r\n");
-    
+ 
     // 1. 温度测量
     sensorData.temperature = MeasureTemperature();
     
     // 2. 葡萄糖测量
-    DBG_PRINTF("\n--- 葡萄糖传感器 ---\r\n");
+
     
     // 方法 A: 使用 AD5940 读取（推荐）
-    sensorData.current_glucose_nA = ReadCurrentFromAD5940(SENSOR_GLUCOSE);
+    //sensorData.current_glucose_nA = ReadCurrentFromAD5940(SENSOR_GLUCOSE);
     
     // 方法 B: 使用模拟值测试（测试用）
-    // sensorData.current_glucose_nA = ReadCurrentFromSourceMeter_Simulated(SENSOR_GLUCOSE);
+     sensorData.current_glucose_nA = ReadCurrentFromSourceMeter_Simulated(SENSOR_GLUCOSE);
     
     // 转换为浓度
     sensorData.glucose = ConvertCurrentToConcentration(
@@ -426,30 +410,27 @@ void MeasureAllSensorsWithCurrent(void)
         SENSOR_GLUCOSE
     );
     
-    DBG_PRINTF("  电流: %.2f nA\r\n", sensorData.current_glucose_nA);
-    DBG_PRINTF("  浓度: %.2f mM\r\n", sensorData.glucose);
+
     
     // 3. 乳酸测量
-    DBG_PRINTF("\n--- 乳酸传感器 ---\r\n");
+
     sensorData.current_lactate_nA = ReadCurrentFromAD5940(SENSOR_LACTATE);
     sensorData.lactate = ConvertCurrentToConcentration(
         sensorData.current_lactate_nA, 
         SENSOR_LACTATE
     );
     
-    DBG_PRINTF("  电流: %.2f nA\r\n", sensorData.current_lactate_nA);
-    DBG_PRINTF("  浓度: %.2f mM\r\n", sensorData.lactate);
+
     
     // 4. 尿酸测量
-    DBG_PRINTF("\n--- 尿酸传感器 ---\r\n");
+
     sensorData.current_uric_nA = ReadCurrentFromAD5940(SENSOR_URIC_ACID);
     sensorData.uric_acid = ConvertCurrentToConcentration(
         sensorData.current_uric_nA, 
         SENSOR_URIC_ACID
     );
     
-    DBG_PRINTF("  电流: %.2f nA\r\n", sensorData.current_uric_nA);
-    DBG_PRINTF("  浓度: %.2f μM\r\n", sensorData.uric_acid);
+
     
 
     
@@ -461,7 +442,6 @@ void MeasureAllSensorsWithCurrent(void)
     
     sensorData.timestamp = mainTimer;
     
-    DBG_PRINTF("\n========== 测量完成 ==========\r\n\r\n");
 }
 
 
@@ -475,12 +455,10 @@ void ControlDrugRelease(uint8 enable)
 {
     if(enable)
     {
-        DBG_PRINTF("启动药物释放\r\n");
         DRUG_EN_1_Write(1);
     }
     else
     {
-        DBG_PRINTF("停止药物释放\r\n");
         DRUG_EN_1_Write(0);
     }
 }
@@ -495,12 +473,10 @@ void ControlElectricalStimulation(uint8 enable)
 {
     if(enable)
     {
-        DBG_PRINTF("启动电刺激\r\n");
         STIM_EN_A_Write(1);
     }
     else
     {
-        DBG_PRINTF("停止电刺激\r\n");
         STIM_EN_A_Write(0);
     }
 }
@@ -531,7 +507,6 @@ void SendGlucoseDataViaBLE(void)
         
         if(CyBle_GattsNotification(cyBle_connHandle, &notificationHandle) == CYBLE_ERROR_OK)
         {
-            DBG_PRINTF("葡萄糖数据已发送: %s\r\n", dataString);
         }
     }
 }
@@ -554,7 +529,6 @@ void SendLactateDataViaBLE(void)
         
         if(CyBle_GattsNotification(cyBle_connHandle, &notificationHandle) == CYBLE_ERROR_OK)
         {
-            DBG_PRINTF("乳酸数据已发送: %s\r\n", dataString);
         }
     }
 }
@@ -594,7 +568,6 @@ void SendAllSensorDataViaBLE(void)
 {
     if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
     {
-        DBG_PRINTF("\r\n--- 发送所有传感器数据到 BLE ---\r\n");
         
         SendTemperatureViaBLE();
         CyDelay(50);
@@ -606,7 +579,6 @@ void SendAllSensorDataViaBLE(void)
         CyDelay(50);
         
        
-        DBG_PRINTF("--- 数据发送完成 ---\r\n\r\n");
     }
 }
 
@@ -643,17 +615,14 @@ void AppCallBack(uint32 event, void* eventParam)
     switch(event)
     {
         case CYBLE_EVT_STACK_ON:
-            DBG_PRINTF("BLE协议栈启动\r\n");
             StartAdvertisement();
             break;
 
         case CYBLE_EVT_GAP_DEVICE_CONNECTED:
-            DBG_PRINTF("设备已连接\r\n");
             Advertising_LED_Write(LED_OFF);
             break;
 
         case CYBLE_EVT_GAP_DEVICE_DISCONNECTED:
-            DBG_PRINTF("设备已断开\r\n");
             StartAdvertisement();
             LowPower_LED_Write(LED_OFF);
             break;
@@ -674,7 +643,6 @@ void AppCallBack(uint32 event, void* eventParam)
             break;
 
         case CYBLE_EVT_PENDING_FLASH_WRITE:
-            DBG_PRINTF("等待Flash写入\r\n");
             break;
 
         default:
@@ -735,11 +703,9 @@ int main()
     LowPower_LED_Write(LED_OFF);
     
     // 初始化BLE
-    DBG_PRINTF("启动BLE...\r\n");
     apiResult = CyBle_Start(AppCallBack);
     if(apiResult != CYBLE_ERROR_OK)
     {
-        DBG_PRINTF("BLE启动失败: %d\r\n", apiResult);
     }
     
     // 初始化SPI
@@ -747,7 +713,6 @@ int main()
     CyDelay(10);
     
     // 初始化AD5941
-    DBG_PRINTF("初始化AD5941...\r\n");
     AD5941_Initialize();
     
     // 初始化控制引脚
@@ -763,7 +728,6 @@ int main()
     uint32 lastSendTime = 0;
     #define SEND_INTERVAL 3  // 每3秒刷新一次
 
-    DBG_PRINTF("系统初始化完成\r\n\r\n");
     
     /***************************************************************************
     * 主循环
@@ -799,7 +763,6 @@ int main()
             // 1. 检测感染（温度升高或乳酸升高）
             if(sensorData.temperature > 38.5 || sensorData.lactate > 5.0)
             {
-                DBG_PRINTF("[警告] 检测到异常，启动药物释放\r\n");
                 ControlDrugRelease(1);
                 CyDelay(10000);  // 释放10秒（实际应该是10分钟，这里缩短用于测试）
                 ControlDrugRelease(0);
