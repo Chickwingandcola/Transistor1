@@ -17,6 +17,10 @@
 #include "ad5940.h"
 #include "Amperometric.h"
 
+// 在 main() 函数开头添加变量
+uint32 lastSendTime = 0;  // 上次发送数据的时间
+#define SEND_INTERVAL 3   // 每3秒发送一次数据
+
 /*******************************************************************************
 * 全局变量
 *******************************************************************************/
@@ -343,10 +347,16 @@ void ControlElectricalStimulation(uint8 enable)
 /*******************************************************************************
 * Function Name: SendDataViaBLE
 ********************************************************************************
+
+
 * Summary:
 *   通过BLE发送传感器数据
 *   数据包：[温度(4B)][葡萄糖(4B)][乳酸(4B)][尿酸(4B)] = 16字节
+
+********************************************************************************
 *******************************************************************************/
+
+
 void SendDataViaBLE(void)
 {
     CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
@@ -373,6 +383,152 @@ void SendDataViaBLE(void)
         }
     }
 }
+
+
+
+/*******************************************************************************
+* Function Name: SendTemperatureViaBLE
+********************************************************************************
+* Summary:
+*   发送温度数据 - 字符串格式，易读
+*******************************************************************************/
+void SendTemperatureViaBLE(void)
+{
+    CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
+    char tempString[20];
+    
+    if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
+    {
+        // 格式化为易读字符串: "36.5 °C"
+        sprintf(tempString, "%.1f C", sensorData.temperature);
+        
+        // 发送通知
+        notificationHandle.attrHandle = CYBLE_CUSTOM_SERVICE_TEMPERATURE_MEASUREMENT_CHAR_HANDLE;
+        notificationHandle.value.val = (uint8*)tempString;
+        notificationHandle.value.len = strlen(tempString);
+        
+        if(CyBle_GattsNotification(cyBle_connHandle, &notificationHandle) == CYBLE_ERROR_OK)
+        {
+            DBG_PRINTF("温度已发送: %s\r\n", tempString);
+        }
+    }
+}
+
+/*******************************************************************************
+* Function Name: SendGlucoseViaBLE
+********************************************************************************
+* Summary:
+*   发送葡萄糖数据
+*******************************************************************************/
+void SendGlucoseViaBLE(void)
+{
+    CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
+    char glucoseString[20];
+    
+    if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
+    {
+        // 格式化为易读字符串: "5.2 mM"
+        sprintf(glucoseString, "%.2f mM", sensorData.glucose);
+        
+        // 发送通知
+        notificationHandle.attrHandle = CYBLE_CUSTOM_SERVICE_GLUCOSE_MEASUREMENT_CHAR_HANDLE;
+        notificationHandle.value.val = (uint8*)glucoseString;
+        notificationHandle.value.len = strlen(glucoseString);
+        
+        if(CyBle_GattsNotification(cyBle_connHandle, &notificationHandle) == CYBLE_ERROR_OK)
+        {
+            DBG_PRINTF("葡萄糖已发送: %s\r\n", glucoseString);
+        }
+    }
+}
+
+/*******************************************************************************
+* Function Name: SendLactateViaBLE
+********************************************************************************
+* Summary:
+*   发送乳酸数据
+*******************************************************************************/
+void SendLactateViaBLE(void)
+{
+    CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
+    char lactateString[20];
+    
+    if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
+    {
+        // 格式化为易读字符串: "2.5 mM"
+        sprintf(lactateString, "%.2f mM", sensorData.lactate);
+        
+        // 发送通知 - 使用 Lactate Characteristic
+        notificationHandle.attrHandle = CYBLE_CUSTOM_SERVICE_LACTATE_CHAR_HANDLE;
+        notificationHandle.value.val = (uint8*)lactateString;
+        notificationHandle.value.len = strlen(lactateString);
+        
+        if(CyBle_GattsNotification(cyBle_connHandle, &notificationHandle) == CYBLE_ERROR_OK)
+        {
+            DBG_PRINTF("乳酸已发送: %s\r\n", lactateString);
+        }
+    }
+}
+
+/*******************************************************************************
+* Function Name: SendPHViaBLE
+********************************************************************************
+* Summary:
+*   发送 pH 数据
+*******************************************************************************/
+void SendPHViaBLE(void)
+{
+    CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
+    char phString[20];
+    float phValue = 7.4;  // 从传感器读取的实际 pH 值
+    
+    if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
+    {
+        // 格式化为易读字符串: "7.35"
+        sprintf(phString, "%.2f", phValue);
+        
+        // 发送通知 - 使用 PH Characteristic
+        notificationHandle.attrHandle = CYBLE_CUSTOM_SERVICE_PH_CHAR_HANDLE;
+        notificationHandle.value.val = (uint8*)phString;
+        notificationHandle.value.len = strlen(phString);
+        
+        if(CyBle_GattsNotification(cyBle_connHandle, &notificationHandle) == CYBLE_ERROR_OK)
+        {
+            DBG_PRINTF("pH已发送: %s\r\n", phString);
+        }
+    }
+}
+
+/*******************************************************************************
+* Function Name: SendAllSensorDataViaBLE
+********************************************************************************
+* Summary:
+*   发送所有传感器数据 - 替换原来的 SendDataViaBLE()
+*******************************************************************************/
+void SendAllSensorDataViaBLE(void)
+{
+    if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
+    {
+        DBG_PRINTF("\r\n--- 发送所有传感器数据 ---\r\n");
+        
+        // 分别发送每个传感器的数据
+        SendTemperatureViaBLE();
+        CyDelay(50);  // 小延迟确保数据包顺序
+        
+        SendGlucoseViaBLE();
+        CyDelay(50);
+        
+        SendLactateViaBLE();
+        CyDelay(50);
+        
+        SendPHViaBLE();
+        CyDelay(50);
+        
+        DBG_PRINTF("--- 数据发送完成 ---\r\n\r\n");
+    }
+}
+
+
 /*******************************************************************************
 * Function Name: Timer_Interrupt
 ********************************************************************************
@@ -545,10 +701,15 @@ int main()
             // 测量所有传感器
             MeasureAllSensors();
             
-            // 如果已连接，发送数据
-            if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
+            // 每3秒发送一次数据（自动刷新）
+            if((mainTimer - lastSendTime) >= SEND_INTERVAL)
             {
-                SendDataViaBLE();
+                lastSendTime = mainTimer;
+                
+                if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
+                {
+                    SendAllSensorDataViaBLE();  // 使用新的发送函数
+                }
             }
             
             // 智能治疗决策
