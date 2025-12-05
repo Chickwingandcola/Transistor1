@@ -2,7 +2,7 @@
 --	Conversion of Transistor.v to vh2:
 --
 --	Cypress Semiconductor - WARP Version 6.3 IR 41
---	Mon Nov 24 15:23:58 2025
+--	Fri Nov 28 10:58:12 2025
 --
 
 USE cypress.cypress.all;

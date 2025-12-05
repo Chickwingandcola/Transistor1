@@ -1,4 +1,4 @@
---------------- Rebuild Started: 11/24/2025 15:23:54 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+--------------- Rebuild Started: 11/28/2025 10:58:08 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\main.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\debug.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\Impedance.o"
@@ -87,25 +87,25 @@ Dependency Generation...
 Cleanup...
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/main.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c main.c -o .\CortexM0\ARM_GCC_541\Debug\main.o
 main.c: In function 'MeasureTemperature':
-main.c:229:20: warning: unused variable 'resistance' [-Wunused-variable]
+main.c:228:20: warning: unused variable 'resistance' [-Wunused-variable]
      float voltage, resistance;
                     ^
-main.c:229:11: warning: unused variable 'voltage' [-Wunused-variable]
+main.c:228:11: warning: unused variable 'voltage' [-Wunused-variable]
      float voltage, resistance;
            ^
-main.c:228:14: warning: unused variable 'adcCode' [-Wunused-variable]
+main.c:227:14: warning: unused variable 'adcCode' [-Wunused-variable]
      uint32_t adcCode;
               ^
 main.c: In function 'ReadCurrentFromAD5940':
-main.c:291:5: warning: enumeration value 'SENSOR_COUNT' not handled in switch [-Wswitch]
+main.c:290:5: warning: enumeration value 'SENSOR_COUNT' not handled in switch [-Wswitch]
      switch(sensorType)
      ^
 main.c: In function 'ReadCurrentFromSourceMeter_Simulated':
-main.c:363:34: warning: implicit declaration of function 'rand' [-Wimplicit-function-declaration]
+main.c:362:34: warning: implicit declaration of function 'rand' [-Wimplicit-function-declaration]
              current_nA = 85.0 + (rand() % 10 - 5);  // 80-90 nA
                                   ^
 main.c: In function 'AppCallBack':
-main.c:613:12: warning: unused variable 'i' [-Wunused-variable]
+main.c:608:12: warning: unused variable 'i' [-Wunused-variable]
      uint16 i;
             ^
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/debug.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c debug.c -o .\CortexM0\ARM_GCC_541\Debug\debug.o
@@ -133,10 +133,10 @@ arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/cymetadata.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\cymetadata.c -o .\CortexM0\ARM_GCC_541\Debug\cymetadata.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/CYBLE.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\CYBLE.c -o .\CortexM0\ARM_GCC_541\Debug\CYBLE.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/CYBLE_gatt.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\CYBLE_gatt.c -o .\CortexM0\ARM_GCC_541\Debug\CYBLE_gatt.o
-Generated_Source\PSoC4\CYBLE_gatt.c:174:60: warning: multi-character character constant [-Wmultichar]
+Generated_Source\PSoC4\CYBLE_gatt.c:173:60: warning: multi-character character constant [-Wmultichar]
      (uint8)'r', (uint8)'e', (uint8)' ', (uint8)'(', (uint8)'脗', (uint8)'掳', (uint8)'C', (uint8)')',
                                                             ^
-Generated_Source\PSoC4\CYBLE_gatt.c:174:73: warning: multi-character character constant [-Wmultichar]
+Generated_Source\PSoC4\CYBLE_gatt.c:173:73: warning: multi-character character constant [-Wmultichar]
      (uint8)'r', (uint8)'e', (uint8)' ', (uint8)'(', (uint8)'脗', (uint8)'掳', (uint8)'C', (uint8)')',
                                                                          ^
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/CYBLE_eventHandler.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\CYBLE_eventHandler.c -o .\CortexM0\ARM_GCC_541\Debug\CYBLE_eventHandler.o
@@ -197,6 +197,6 @@ No ELF section .cychecksum found, creating one
 Application checksum calculated and stored in ELF section .cychecksum
 Checksum calculated and stored in ELF section .cymeta
 cyelftool.exe -S E:\desktop\bu\eda\Transistor\Transistor.cydsn\CortexM0\ARM_GCC_541\Debug\Transistor.elf
-Flash used: 133044 of 262144 bytes (50.8%).
-SRAM used: 14272 of 32768 bytes (43.6%). Stack: 2048 bytes. Heap: 1024 bytes.
---------------- Rebuild Succeeded: 11/24/2025 15:24:10 ---------------
+Flash used: 132596 of 262144 bytes (50.6%).
+SRAM used: 14264 of 32768 bytes (43.5%). Stack: 2048 bytes. Heap: 1024 bytes.
+--------------- Rebuild Succeeded: 11/28/2025 10:58:29 ---------------

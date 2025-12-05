@@ -150,7 +150,6 @@ float MeasureAmperometricSensor(AmperometricSensor_t sensorType)
     uint32_t dataCount = 0;
     AD5940Err error;
     
-    DBG_PRINTF("测量传感器 %d...\r\n", sensorType);
     
     // 注意：如果不使用AMux，AD5941会使用默认的WE0通道
     // 如果需要切换WE通道，需要在配置中修改
@@ -189,7 +188,7 @@ float MeasureAmperometricSensor(AmperometricSensor_t sensorType)
 * Summary:
 *   将电流值转换为浓度（根据论文校准系数）
 *******************************************************************************/
-float ConvertCurrentToConcentration(float current_nA, AmperometricSensor_t sensorType)
+float ConvertCurrentToConcentration(float current_nA, uint8 sensorType)
 {
     float concentration = 0;
     
@@ -370,7 +369,8 @@ float ReadCurrentFromSourceMeter_Simulated(AmperometricSensor_t sensorType)
             
         case SENSOR_URIC_ACID:
             // 300 μM 尿酸 → 约 57000 nA（根据论文校准系数 189.60 nA/μM）
-            current_nA = 57000.0 + (rand() % 100 - 50);
+            //current_nA = 57000.0 + (rand() % 100 - 50);
+            current_nA = 570.0 + (rand() % 100 - 50);
             break;
             
         default:
@@ -399,37 +399,30 @@ void MeasureAllSensorsWithCurrent(void)
 
     
     // 方法 A: 使用 AD5940 读取（推荐）
-    //sensorData.current_glucose_nA = ReadCurrentFromAD5940(SENSOR_GLUCOSE);
+   sensorData.current_glucose_nA = ReadCurrentFromAD5940(SENSOR_GLUCOSE);
     
     // 方法 B: 使用模拟值测试（测试用）
-     sensorData.current_glucose_nA = ReadCurrentFromSourceMeter_Simulated(SENSOR_GLUCOSE);
+    //sensorData.current_glucose_nA = ReadCurrentFromSourceMeter_Simulated(SENSOR_GLUCOSE);
     
     // 转换为浓度
-    sensorData.glucose = ConvertCurrentToConcentration(
-        sensorData.current_glucose_nA, 
-        SENSOR_GLUCOSE
-    );
+    sensorData.glucose = ConvertCurrentToConcentration(sensorData.current_glucose_nA, SENSOR_GLUCOSE);
     
-
     
     // 3. 乳酸测量
 
-    sensorData.current_lactate_nA = ReadCurrentFromAD5940(SENSOR_LACTATE);
-    sensorData.lactate = ConvertCurrentToConcentration(
-        sensorData.current_lactate_nA, 
-        SENSOR_LACTATE
-    );
-    
-
+     sensorData.current_lactate_nA = ReadCurrentFromAD5940(SENSOR_LACTATE); 
+    //sensorData.current_lactate_nA = ReadCurrentFromSourceMeter_Simulated(SENSOR_LACTATE);
+    sensorData.lactate = ConvertCurrentToConcentration(sensorData.current_lactate_nA, SENSOR_LACTATE);
     
     // 4. 尿酸测量
 
     sensorData.current_uric_nA = ReadCurrentFromAD5940(SENSOR_URIC_ACID);
-    sensorData.uric_acid = ConvertCurrentToConcentration(
-        sensorData.current_uric_nA, 
-        SENSOR_URIC_ACID
-    );
-    
+    //sensorData.uric_acid = ConvertCurrentToConcentration(sensorData.current_uric_nA,SENSOR_URIC_ACID);
+    // [修改] 切换为模拟数据
+    // sensorData.current_uric_acid_nA = ReadCurrentFromAD5940(SENSOR_URIC_ACID);
+    //sensorData.current_uric_nA = ReadCurrentFromSourceMeter_Simulated(SENSOR_URIC_ACID); 
+    // [增加] 电流换算到浓度
+    sensorData.uric_acid = ConvertCurrentToConcentration(sensorData.current_uric_nA, SENSOR_URIC_ACID);    
 
     
 
