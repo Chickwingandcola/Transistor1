@@ -79,18 +79,18 @@
   <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AD5940_RST.h" value="HEADER;;;;;AD5940_RST" />
   <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AD5940_RST_aliases.h" value="HEADER;;;;;AD5940_RST" />
   <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AD5940_RST_PM.c" value="SOURCE_C;CortexM0;;;;AD5940_RST" />
-  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AMP1_EN.c" value="SOURCE_C;CortexM0;;;;AMP1_EN" />
-  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AMP1_EN.h" value="HEADER;;;;;AMP1_EN" />
-  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AMP1_EN_aliases.h" value="HEADER;;;;;AMP1_EN" />
-  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AMP1_EN_PM.c" value="SOURCE_C;CortexM0;;;;AMP1_EN" />
-  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AMP2_EN.c" value="SOURCE_C;CortexM0;;;;AMP2_EN" />
-  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AMP2_EN.h" value="HEADER;;;;;AMP2_EN" />
-  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AMP2_EN_aliases.h" value="HEADER;;;;;AMP2_EN" />
-  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AMP2_EN_PM.c" value="SOURCE_C;CortexM0;;;;AMP2_EN" />
   <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AMP3_EN.c" value="SOURCE_C;CortexM0;;;;AMP3_EN" />
   <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AMP3_EN.h" value="HEADER;;;;;AMP3_EN" />
   <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AMP3_EN_aliases.h" value="HEADER;;;;;AMP3_EN" />
   <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AMP3_EN_PM.c" value="SOURCE_C;CortexM0;;;;AMP3_EN" />
+  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AMP2_EN.c" value="SOURCE_C;CortexM0;;;;AMP2_EN" />
+  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AMP2_EN.h" value="HEADER;;;;;AMP2_EN" />
+  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AMP2_EN_aliases.h" value="HEADER;;;;;AMP2_EN" />
+  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AMP2_EN_PM.c" value="SOURCE_C;CortexM0;;;;AMP2_EN" />
+  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AMP1_EN.c" value="SOURCE_C;CortexM0;;;;AMP1_EN" />
+  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AMP1_EN.h" value="HEADER;;;;;AMP1_EN" />
+  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AMP1_EN_aliases.h" value="HEADER;;;;;AMP1_EN" />
+  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AMP1_EN_PM.c" value="SOURCE_C;CortexM0;;;;AMP1_EN" />
   <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\SPI_1.c" value="SOURCE_C;CortexM0;;;;SPI_1" />
   <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\SPI_1.h" value="HEADER;;;;;SPI_1" />
   <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\SPI_1_SPI_UART.h" value="HEADER;;;;;SPI_1" />

@@ -2,7 +2,7 @@
 <blockRegMap version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://cypress.com/xsd/cyblockregmap cyblockregmap.xsd" xmlns="http://cypress.com/xsd/cyblockregmap">
   <block name="STIM_EN_A" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="AD5940_RST" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="AMP1_EN" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="AMP3_EN" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="DRUG_EN_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="R_6" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="R_5" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
@@ -1390,7 +1390,7 @@
   <block name="Em_EEPROM_Dynamic" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="cy_boot" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="AMP2_EN" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="AMP3_EN" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="AMP1_EN" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="SPI_1" BASE="0x0" SIZE="0x0" desc="Serial Communication Block" visible="true" hidden="false">
     <block name="rx_wake_VM" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="clock_VM" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />

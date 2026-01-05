@@ -43,23 +43,23 @@ AppAMPCfg_Type AppAMPCfg =
   
   /* LPTIA Configure */
   .ExtRtia = bFALSE,            /* Set to true if using external RTIA */
-  .LptiaRtiaSel = LPTIARTIA_4K, /* COnfigure RTIA */
+  .LptiaRtiaSel = LPTIARTIA_10K, /* COnfigure RTIA */
   .LpTiaRf = LPTIARF_1M,        /* Configure LPF resistor */
   .LpTiaRl = LPTIARLOAD_100R,
-  .ReDoRtiaCal = bTRUE,
-  .RtiaCalValue = 0,
+  .ReDoRtiaCal = bFALSE,
+  .RtiaCalValue = {10000.0, 0},
 	.ExtRtiaVal = 0,
   
 /*LPDAC Configure */
   .Vzero = 1100,                /* Sets voltage on SE0 and LPTIA */
-  .SensorBias = 500,            /* Sets voltage between RE0 and SE0 */
+  .SensorBias = 500,            /* Sets voltage between RE0 and SE0 500*/
   
 /* ADC Configure*/
   .ADCPgaGain = ADCPGA_1P5,
   .ADCSinc3Osr = ADCSINC3OSR_4,
-  .ADCSinc2Osr = ADCSINC2OSR_22,
-  .DataFifoSrc = FIFOSRC_SINC2NOTCH,
-  .ADCRefVolt = 1.8162,			/* Measure voltage on ADCRefVolt pin and enter here*/
+  .ADCSinc2Osr = ADCSINC2OSR_178, //22
+  .DataFifoSrc = FIFOSRC_SINC3,
+  .ADCRefVolt = 1.82,			/* Measure voltage on ADCRefVolt pin and enter here*/
 };
 
 /**
@@ -481,9 +481,16 @@ float AppAMPCalcVoltage(uint32_t ADCcode)
 /* Calculate current in uA */
 float AppAMPCalcCurrent(uint32_t ADCcode)
 {
-  float fCurrent, fVoltage = 0.0;
+   /*
+float fCurrent, fVoltage = 0.0;
   fVoltage = AppAMPCalcVoltage(ADCcode);
-  fCurrent = fVoltage/AppAMPCfg.RtiaCalValue.Magnitude;
-  
+
+  // 增加保护：获取校准值。如果值异常，强制使用 10K 标称值。
+  float magnitude = AppAMPCfg.RtiaCalValue.Magnitude;
+  if(magnitude < 1.0) magnitude = 10000.0; // 假设 10kOhm 
+
+  fCurrent = fVoltage / magnitude;
   return -fCurrent*1000000;
+    */
+    return (float)ADCcode;
 }

@@ -1,4 +1,4 @@
---------------- Rebuild Started: 11/28/2025 10:58:08 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+--------------- Rebuild Started: 01/05/2026 19:25:06 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\main.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\debug.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\Impedance.o"
@@ -86,28 +86,36 @@ API Generation...
 Dependency Generation...
 Cleanup...
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/main.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c main.c -o .\CortexM0\ARM_GCC_541\Debug\main.o
+main.c: In function 'DiagnosticsFIFO':
+main.c:287:12: warning: unused variable 'fifoCount' [-Wunused-variable]
+     uint32 fifoCount = 0;
+            ^
 main.c: In function 'MeasureTemperature':
-main.c:228:20: warning: unused variable 'resistance' [-Wunused-variable]
+main.c:573:20: warning: unused variable 'resistance' [-Wunused-variable]
      float voltage, resistance;
                     ^
-main.c:228:11: warning: unused variable 'voltage' [-Wunused-variable]
+main.c:573:11: warning: unused variable 'voltage' [-Wunused-variable]
      float voltage, resistance;
            ^
-main.c:227:14: warning: unused variable 'adcCode' [-Wunused-variable]
+main.c:572:14: warning: unused variable 'adcCode' [-Wunused-variable]
      uint32_t adcCode;
               ^
 main.c: In function 'ReadCurrentFromAD5940':
-main.c:290:5: warning: enumeration value 'SENSOR_COUNT' not handled in switch [-Wswitch]
+main.c:632:5: warning: enumeration value 'SENSOR_COUNT' not handled in switch [-Wswitch]
      switch(sensorType)
      ^
 main.c: In function 'ReadCurrentFromSourceMeter_Simulated':
-main.c:362:34: warning: implicit declaration of function 'rand' [-Wimplicit-function-declaration]
+main.c:745:34: warning: implicit declaration of function 'rand' [-Wimplicit-function-declaration]
              current_nA = 85.0 + (rand() % 10 - 5);  // 80-90 nA
                                   ^
 main.c: In function 'AppCallBack':
-main.c:608:12: warning: unused variable 'i' [-Wunused-variable]
+main.c:1029:12: warning: unused variable 'i' [-Wunused-variable]
      uint16 i;
             ^
+main.c: At top level:
+main.c:1075:13: warning: 'LowPowerImplementation' defined but not used [-Wunused-function]
+ static void LowPowerImplementation(void)
+             ^
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/debug.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c debug.c -o .\CortexM0\ARM_GCC_541\Debug\debug.o
 In file included from debug.c:19:0:
 main.h:116:13: warning: 'LowPowerImplementation' declared 'static' but never defined [-Wunused-function]
@@ -115,18 +123,18 @@ main.h:116:13: warning: 'LowPowerImplementation' declared 'static' but never def
              ^
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/Impedance.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Impedance.c -o .\CortexM0\ARM_GCC_541\Debug\Impedance.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/ad5940.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c ad5940.c -o .\CortexM0\ARM_GCC_541\Debug\ad5940.o
+ad5940.c: In function 'AD5940_SPIReadReg':
+ad5940.c:974:3: warning: implicit declaration of function 'CyDelayUs' [-Wimplicit-function-declaration]
+   CyDelayUs(1);
+   ^
 ad5940.c: In function 'AD5940_HSRtiaCal':
-ad5940.c:3416:54: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+ad5940.c:3434:54: warning: large integer implicitly truncated to unsigned type [-Woverflow]
    uint32_t const HSTIADERLOADTable[]={0,10,30,50,100,999999999999};
                                                       ^
-ad5940.c:3417:94: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+ad5940.c:3435:94: warning: large integer implicitly truncated to unsigned type [-Woverflow]
    uint32_t const HSTIADERTIATable[] = {50,100,200,1000,5000,10000,20000,40000,80000,160000,0,999999999999999};
                                                                                               ^
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/Amperometric.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Amperometric.c -o .\CortexM0\ARM_GCC_541\Debug\Amperometric.o
-Amperometric.c:25:1: warning: missing braces around initializer [-Wmissing-braces]
- {
- ^
-Amperometric.c:25:1: note: (near initialization for 'AppAMPCfg')
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/biosensor_ble.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c biosensor_ble.c -o .\CortexM0\ARM_GCC_541\Debug\biosensor_ble.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/ad5941_platform.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c ad5941_platform.c -o .\CortexM0\ARM_GCC_541\Debug\ad5941_platform.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/cyfitter_cfg.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\cyfitter_cfg.c -o .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
@@ -197,6 +205,6 @@ No ELF section .cychecksum found, creating one
 Application checksum calculated and stored in ELF section .cychecksum
 Checksum calculated and stored in ELF section .cymeta
 cyelftool.exe -S E:\desktop\bu\eda\Transistor\Transistor.cydsn\CortexM0\ARM_GCC_541\Debug\Transistor.elf
-Flash used: 132596 of 262144 bytes (50.6%).
-SRAM used: 14264 of 32768 bytes (43.5%). Stack: 2048 bytes. Heap: 1024 bytes.
---------------- Rebuild Succeeded: 11/28/2025 10:58:29 ---------------
+Flash used: 140108 of 262144 bytes (53.4%).
+SRAM used: 15400 of 32768 bytes (47.0%). Stack: 2048 bytes. Heap: 1024 bytes.
+--------------- Rebuild Succeeded: 01/05/2026 19:25:26 ---------------

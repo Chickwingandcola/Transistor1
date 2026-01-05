@@ -957,26 +957,44 @@ static void AD5940_SPIWriteReg(uint16_t RegAddr, uint32_t RegData)
  * @brief Read register through SPI.
  * @param RegAddr: The register address.
  * @return Return register data.
+ * 
+ * ✅ 修正版本 - 解决CS提前拉高和字节序问题
+ * - 整个transaction内CS保持LOW
+ * - 正确的dummy byte处理
+ * - 正确的4字节拼接顺序
 **/
 static uint32_t AD5940_SPIReadReg(uint16_t RegAddr)
 {  
-  uint32_t Data = 0;
-  /* Set register address that we want to read */
+  uint8_t tx;
+  uint8_t rx;
+  uint32_t reg = 0;
+  int i;
+
   AD5940_CsClr();
-  AD5940_ReadWrite8B(SPICMD_SETADDR);
-  AD5940_ReadWrite16B(RegAddr);
+  CyDelayUs(1);
+
+  /* Byte 0: Read command + high address */
+  tx = 0x80 | ((RegAddr >> 8) & 0x7F);
+  AD5940_ReadWrite8B(tx);
+
+  /* Byte 1: low address */
+  tx = RegAddr & 0xFF;
+  AD5940_ReadWrite8B(tx);
+
+  /* Byte 2: dummy byte */
+  AD5940_ReadWrite8B(0x00);
+
+  /* Byte 3~6: read 4 data bytes */
+  for(i = 0; i < 4; i++)
+  {
+    rx = AD5940_ReadWrite8B(0x00);
+    reg = (reg << 8) | rx;
+  }
+
   AD5940_CsSet();
-  /* Read it */
-  AD5940_CsClr();
-  AD5940_ReadWrite8B(SPICMD_READREG);
-  AD5940_ReadWrite8B(0);  //Dummy read
-  /* The real data is coming */
-  if((RegAddr>=0x1000)&&(RegAddr<=0x3014))
-    Data = AD5940_ReadWrite32B(0);
-  else
-    Data = AD5940_ReadWrite16B(0);
-  AD5940_CsSet();
-  return Data;
+  CyDelayUs(1);
+
+  return reg;
 }
 
 /**

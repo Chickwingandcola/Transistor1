@@ -72,18 +72,49 @@ void AD5941_Initialize(void)
     AD5940Err error;
     
     // 步骤1: 复位AD5940
+    printf("[INIT] Step 1: Resetting AD5940...\n");
     AD5940_RST_Write(0);
     CyDelay(10);
     AD5940_RST_Write(1);
     CyDelay(100);
+    printf("[INIT] Reset complete\n");
     
     // 步骤2: 初始化MCU资源（SPI通信）
+    printf("[INIT] Step 2: Initializing MCU SPI resources...\n");
     AD5940_MCUResourceInit(NULL);
+    printf("[INIT] SPI resources initialized\n");
+    
+    // 步骤2.5: 执行AD5940硬件初始化 (Table 14 - 必须在复位后立即执行)
+    // 这是关键步骤：写入初始化寄存器序列以激活芯片内部SPI接口和模拟前端
+    printf("[INIT] Step 2.5: Running AD5940_Initialize (Table 14 sequence)...\n");
+    AD5940_Initialize();
+    printf("[INIT] AD5940_Initialize complete\n");
+    CyDelay(50);  // 重要！等待AFE唤醒（数据手册要求≥30ms，这里用50ms确保充分）
+        // 🔍 立即检查 ID
+    uint32 chipid = AD5940_ReadReg(REG_AFECON_CHIPID);
+    printf("[DEBUG] CHIPID after 50ms wait: 0x%lX\n", chipid);
+    
+    if(chipid != 0x5502 && chipid != 0x5501)
+    {
+        printf("[ERROR] Chip not responding! Got: 0x%lX\n", chipid);
+        // 尝试更长的等待
+        CyDelay(100);
+        chipid = AD5940_ReadReg(REG_AFECON_CHIPID);
+        printf("[RETRY] CHIPID after 150ms: 0x%lX\n", chipid);
+    }
     
     // 步骤3: 获取配置指针
+    printf("[INIT] Step 3: Getting config pointer...\n");
     AppAMPGetCfg(&pAmpCfg);
+    if(pAmpCfg == NULL)
+    {
+        printf("[ERROR] pAmpCfg is NULL!\n");
+        return;
+    }
+    printf("[INIT] Config pointer obtained: %p\n", (void*)pAmpCfg);
     
     // 步骤4: 配置安培法测量参数（根据Amperometric.h结构体）
+    printf("[INIT] Step 4: Configuring amperometric parameters...\n");
     pAmpCfg->bParaChanged = bTRUE;
     pAmpCfg->SeqStartAddr = 0;
     pAmpCfg->MaxSeqLen = 512;
@@ -125,16 +156,330 @@ void AD5941_Initialize(void)
     pAmpCfg->AMPInited = bFALSE;
     pAmpCfg->StopRequired = bFALSE;
     pAmpCfg->FifoDataCount = 0;
+    printf("[INIT] Parameters configured\n");
+    printf("[INIT] AMPInited before AppAMPInit: %d\n", (int)pAmpCfg->AMPInited);
     
     // 步骤5: 初始化应用（使用缓冲区）
+    printf("[INIT] Step 5: Calling AppAMPInit...\n");
     error = AppAMPInit(ampBuffer, 512);
+    printf("[INIT] AppAMPInit returned: %d\n", (int)error);
+    printf("[INIT] AMPInited after AppAMPInit: %d\n", (int)pAmpCfg->AMPInited);
     
     if(error == AD5940ERR_OK)
     {
+        printf("[OK] AD5941 initialization successful\n");
     }
     else
     {
+        printf("[ERROR] AD5941 initialization failed: error=%d\n", (int)error);
     }
+    
+    // 快速ID寄存器检查（在初始化后）
+    printf("\n[ID CHECK] Reading AD5941 ID registers...\n");
+    uint32 id_adiid = AD5940_ReadReg(REG_AFECON_ADIID);
+    uint32 id_chipid = AD5940_ReadReg(REG_AFECON_CHIPID);
+    printf("ADIID: 0x%lX\n", (unsigned long)id_adiid);
+    printf("CHIPID: 0x%lX\n", (unsigned long)id_chipid);
+    if(id_adiid == 0x4144 && id_chipid == 0x5501)
+    {
+        printf("[OK] ID registers correct!\n");
+    }
+    else if(id_adiid == 0x808080 || id_chipid == 0x808080)
+    {
+        printf("[ERROR] Still getting 0x808080 - MISO issue persists!\n");
+    }
+    else
+    {
+        printf("[WARNING] Unexpected ID values\n");
+    }
+}
+
+/*******************************************************************************
+* Function Name: DiagnosticsSPI
+********************************************************************************
+* Summary:
+*   诊断 SPI 通讯 - 增强版本，多寄存器测试
+*******************************************************************************/
+void DiagnosticsSPI(void)
+{
+    printf("\n=== SPI COMMUNICATION TEST (ENHANCED) ===\n");
+    
+    uint32 regValue = 0;
+    uint32 regValue2 = 0;
+    uint32 regValue3 = 0;
+    uint32 regValue4 = 0;
+    int testCount = 0;
+    
+    // 尝试多次读取，看是否有任何变化
+    printf("[TEST] Attempting 3 consecutive reads of REG_AFE_AFECON...\n");
+    for(testCount = 0; testCount < 3; testCount++)
+    {
+        regValue = AD5940_ReadReg(REG_AFE_AFECON);
+        printf("[ATTEMPT %d] Register Value: 0x%lX\n", testCount + 1, (unsigned long)regValue);
+        CyDelay(50);
+    }
+    
+    // 尝试读取不同的寄存器
+    printf("\n[TEST] Reading different AD5940 registers...\n");
+    regValue = AD5940_ReadReg(REG_AFE_AFECON);
+    printf("  REG_AFE_AFECON:  0x%lX\n", (unsigned long)regValue);
+    CyDelay(20);
+    
+    regValue2 = AD5940_ReadReg(REG_AFE_ADCCON);
+    printf("  REG_AFE_ADCCON:  0x%lX\n", (unsigned long)regValue2);
+    CyDelay(20);
+    
+    regValue3 = AD5940_ReadReg(REG_AFE_FIFOCON);
+    printf("  REG_AFE_FIFOCON: 0x%lX\n", (unsigned long)regValue3);
+    CyDelay(20);
+    
+    regValue4 = AD5940_ReadReg(REG_AFE_ADCDAT);
+    printf("  REG_AFE_ADCDAT:  0x%lX\n", (unsigned long)regValue4);
+    
+    // 分析读取结果
+    printf("\n[ANALYSIS]\n");
+    
+    if((regValue == 0x808080 || regValue == 0x80) && 
+       (regValue2 == 0x808080 || regValue2 == 0x80) &&
+       (regValue3 == 0x808080 || regValue3 == 0x80))
+    {
+        printf("[CRITICAL] Consistent 0x80 pattern detected!\n");
+        printf("   This is NOT random garbage - it's a systematic issue:\n");
+        printf("   Possible Causes:\n");
+        printf("   1. **MISO line floating** - Not connected or open circuit\n");
+        printf("   2. **CS timing** - Signal not toggling correctly\n");
+        printf("   3. **DUMMY READ issue** - SPI read sequence problem\n");
+        printf("   4. **AD5940 not responding** - Check power, reset, and connections\n");
+        printf("\n   ACTION REQUIRED:\n");
+        printf("   1. Check physical connection: PSoC P0.5 <-> AD5940 DOUT\n");
+        printf("   2. Measure voltage on DOUT pin (should toggle with SCLK)\n");
+        printf("   3. Verify AD5940 VDD = 3.3V and GND is connected\n");
+        printf("   4. Try reducing SPI speed further (now at 100 kbps)\n");
+    }
+    else if(regValue != regValue2 || regValue != regValue3)
+    {
+        printf("[GOOD SIGN] Different values in different registers!\n");
+        printf("   This suggests SPI communication is partially working\n");
+    }
+    else
+    {
+        printf("[OK] Register values appear reasonable\n");
+    }
+    
+    printf("\n[SPI CONFIGURATION]\n");
+    printf("   - SPI Speed: 100 kbps (reduced from 1 Mbps)\n");
+    printf("   - Mode: Motorola (CPHA=0, CPOL=0)\n");
+    printf("   - Data Width: 8-bit\n");
+    
+    printf("=== SPI TEST END ===\n\n");
+}
+
+/*******************************************************************************
+* Function Name: DiagnosticsFIFO
+********************************************************************************
+* Summary:
+*   诊断 FIFO 和中断状态 - 增强版本
+*******************************************************************************/
+void DiagnosticsFIFO(void)
+{
+    printf("\n=== FIFO & INTERRUPT STATUS (ENHANCED) ===\n");
+    
+    uint32 fifoCount = 0;
+    
+    printf("[DEBUG] Checking FIFO status...\n");
+    if(pAmpCfg != NULL)
+    {
+        printf("    FifoDataCount: %lu\n", (unsigned long)pAmpCfg->FifoDataCount);
+        printf("    FifoThresh: %d\n", (int)pAmpCfg->FifoThresh);
+        printf("    AMPInited: %d\n", (int)pAmpCfg->AMPInited);
+        printf("    StopRequired: %d\n", (int)pAmpCfg->StopRequired);
+    }
+    else
+    {
+        printf("[ERROR] pAmpCfg is NULL!\n");
+        printf("=== FIFO TEST END ===\n\n");
+        return;
+    }
+    
+    if(AD5940_INTCTestFlag(AFEINTC_0, AFEINTSRC_DATAFIFOTHRESH) == bTRUE)
+    {
+        printf("    [OK] FIFO Threshold Interrupt: DETECTED\n");
+    }
+    else
+    {
+        printf("    [WARNING] FIFO Threshold Interrupt: NOT DETECTED\n");
+        printf("            Check if ADC is running and FIFO has data\n");
+    }
+    
+    printf("\n[DIAGNOSIS]\n");
+    if(pAmpCfg->AMPInited == 0)
+    {
+        printf("    [CRITICAL] AMPInited = 0, initialization incomplete\n");
+        printf("    This prevents any measurements from starting\n");
+    }
+    else
+    {
+        printf("    [OK] AMPInited = 1, initialization complete\n");
+    }
+    
+    printf("=== FIFO TEST END ===\n\n");
+}
+
+/*******************************************************************************
+* Function Name: DiagnosticsElectrodes
+********************************************************************************
+* Summary:
+*   诊断电极配置和接线
+*******************************************************************************/
+void DiagnosticsElectrodes(void)
+{
+    printf("\n=== ELECTRODE CONFIGURATION ===\n");
+    
+    printf("[DEBUG] Electrode Control Pin Status:\n");
+    printf("    AMP1_EN (Glucose): %d\n", (int)AMP1_EN_Read());
+    printf("    AMP2_EN (Lactate): %d\n", (int)AMP2_EN_Read());
+    printf("    AMP3_EN (Uric Acid): %d\n", (int)AMP3_EN_Read());
+    
+    printf("\n[CHECK] Please verify:\n");
+    printf("    1. WE (Working Electrode): Connected to appropriate sensor\n");
+    printf("    2. RE (Reference Electrode): Connected to Ag/AgCl or similar\n");
+    printf("    3. CE (Counter Electrode): Connected to carbon or similar\n");
+    printf("    4. Sensor bias voltage: %.1f mV\n", (double)pAmpCfg->SensorBias);
+    printf("    5. RTIA value: %.0f Ohm\n", (double)pAmpCfg->RtiaCalValue.Magnitude);
+    
+    printf("=== ELECTRODE TEST END ===\n\n");
+}
+
+/*******************************************************************************
+* Function Name: TestRawSPI
+********************************************************************************
+* Summary:
+*   测试原生 SPI 通讯（使用底层AD5940接口）
+*   用于确认 SPI 硬件是否工作
+*******************************************************************************/
+void TestRawSPI(void)
+{
+    printf("\n=== RAW SPI TEST ===\n");
+    
+    uint8 txBuffer[8];
+    uint8 rxBuffer[8];
+    int i;
+    
+    // 测试 1: 发送 0x00 模式
+    printf("[TEST 1] Sending 0x00, 0x00, 0x00, 0x00...\n");
+    for(i = 0; i < 4; i++)
+        txBuffer[i] = 0x00;
+    
+    AD5940_CsClr();
+    CyDelay(2);
+    AD5940_ReadWriteNBytes(txBuffer, rxBuffer, 4);
+    CyDelay(2);
+    AD5940_CsSet();
+    
+    printf("  TX: 0x00 0x00 0x00 0x00\n");
+    printf("  RX: 0x%02X 0x%02X 0x%02X 0x%02X\n", rxBuffer[0], rxBuffer[1], rxBuffer[2], rxBuffer[3]);
+    
+    CyDelay(100);
+    
+    // 测试 2: 发送 0xFF 模式
+    printf("[TEST 2] Sending 0xFF, 0xFF, 0xFF, 0xFF...\n");
+    for(i = 0; i < 4; i++)
+        txBuffer[i] = 0xFF;
+    
+    AD5940_CsClr();
+    CyDelay(2);
+    AD5940_ReadWriteNBytes(txBuffer, rxBuffer, 4);
+    CyDelay(2);
+    AD5940_CsSet();
+    
+    printf("  TX: 0xFF 0xFF 0xFF 0xFF\n");
+    printf("  RX: 0x%02X 0x%02X 0x%02X 0x%02X\n", rxBuffer[0], rxBuffer[1], rxBuffer[2], rxBuffer[3]);
+    
+    CyDelay(100);
+    
+    // 测试 3: 发送 0xAA 0x55 交替模式
+    printf("[TEST 3] Sending 0xAA, 0x55, 0xAA, 0x55...\n");
+    txBuffer[0] = 0xAA;
+    txBuffer[1] = 0x55;
+    txBuffer[2] = 0xAA;
+    txBuffer[3] = 0x55;
+    
+    AD5940_CsClr();
+    CyDelay(2);
+    AD5940_ReadWriteNBytes(txBuffer, rxBuffer, 4);
+    CyDelay(2);
+    AD5940_CsSet();
+    
+    printf("  TX: 0xAA 0x55 0xAA 0x55\n");
+    printf("  RX: 0x%02X 0x%02X 0x%02X 0x%02X\n", rxBuffer[0], rxBuffer[1], rxBuffer[2], rxBuffer[3]);
+    
+    // 分析结果
+    printf("\n[ANALYSIS]\n");
+    
+    // 如果所有测试都返回相同的值，说明有严重的硬件问题
+    if((rxBuffer[0] == 0x80 && rxBuffer[1] == 0x80 && rxBuffer[2] == 0x80 && rxBuffer[3] == 0x80) ||
+       (rxBuffer[0] == 0xFF && rxBuffer[1] == 0xFF && rxBuffer[2] == 0xFF && rxBuffer[3] == 0xFF) ||
+       (rxBuffer[0] == 0x00 && rxBuffer[1] == 0x00 && rxBuffer[2] == 0x00 && rxBuffer[3] == 0x00))
+    {
+        printf("  [CRITICAL] All tests return same value!\n");
+        printf("  This indicates MISO line is:\n");
+        
+        if(rxBuffer[0] == 0x80)
+            printf("  - Stuck or floating with 0x80 pattern (10000000 binary)\n");
+        else if(rxBuffer[0] == 0xFF)
+            printf("  - Pulled high (0xFF = 11111111 binary, likely floating/not connected)\n");
+        else if(rxBuffer[0] == 0x00)
+            printf("  - Stuck low or shorted to ground\n");
+            
+        printf("\n  HARDWARE CHECK REQUIRED:\n");
+        printf("  1. Verify MISO pin (PSoC P0.5) is physically connected to AD5940 DOUT\n");
+        printf("  2. Check for shorts or cold solder joints\n");
+        printf("  3. Verify AD5940 is powered correctly (3.3V)\n");
+        printf("  4. Check CS and SCLK connections\n");
+    }
+    else
+    {
+        printf("  [OK] SPI is responding with variable data\n");
+    }
+    
+    printf("\n=== RAW SPI TEST END ===\n\n");
+}
+
+/*******************************************************************************
+* Function Name: FullDiagnostics
+********************************************************************************
+* Summary:
+*   执行完整诊断 - 包含原生SPI测试
+*******************************************************************************/
+void FullDiagnostics(void)
+{
+    printf("\n\n");
+    printf("╔════════════════════════════════════════════════════════╗\n");
+    printf("║        AD5941 COMPLETE DIAGNOSTIC SUITE                ║\n");
+    printf("║         Troubleshooting BLE Data Transmission          ║\n");
+    printf("╚════════════════════════════════════════════════════════╝\n");
+    
+    printf("\n[STEP 0] Testing Raw SPI Communication...\n");
+    TestRawSPI();
+    
+    CyDelay(100);
+    
+    printf("[STEP 1] Verifying AD5940 SPI Communication...\n");
+    DiagnosticsSPI();
+    
+    CyDelay(100);
+    
+    printf("[STEP 2] Checking FIFO and Interrupts...\n");
+    DiagnosticsFIFO();
+    
+    CyDelay(100);
+    
+    printf("[STEP 3] Verifying Electrode Configuration...\n");
+    DiagnosticsElectrodes();
+    
+    printf("\n╔════════════════════════════════════════════════════════╗\n");
+    printf("║  DIAGNOSTIC COMPLETE - Check output above for issues   ║\n");
+    printf("╚════════════════════════════════════════════════════════╝\n\n");
 }
 
 /*******************************************************************************
@@ -278,15 +623,12 @@ float ReadCurrentFromAD5940(AmperometricSensor_t sensorType)
     float current_nA = 0;
     uint32_t dataCount = 0;
     AD5940Err error;
-    
-    
-    // 方法 1: 使用你已有的 AppAMP 框架
+    static uint32_t ampFifoBuffer[256];  // 存储FIFO数据的缓冲区
     
     // 1. 配置 AD5940 为安培法测量模式
     AppAMPGetCfg(&pAmpCfg);
     
-    // 根据传感器类型设置工作电极（如果有多路复用）
-    // 注意：你的硬件可能使用 AMP1_EN, AMP2_EN, AMP3_EN 来选择通道
+    // 根据传感器类型设置工作电极
     switch(sensorType)
     {
         case SENSOR_GLUCOSE:
@@ -308,6 +650,47 @@ float ReadCurrentFromAD5940(AmperometricSensor_t sensorType)
             break;
     }
     
+    CyDelay(50);  // 等待通道切换稳定
+    
+    // 2. 启动测量
+    error = AppAMPCtrl(AMPCTRL_START, NULL);
+    if(error != AD5940ERR_OK)
+    {
+        return 0;
+    }
+    
+    // 3. 等待测量稳定（安培法需要 500ms）
+    CyDelay(500);
+    
+    // 4. 读取 FIFO 数据
+    // 第一个参数：指向FIFO数据缓冲区，AppAMPISR会将ADC代码读到这里，然后转换为电流值
+    // 第二个参数：指向数据计数，返回读取的数据点数
+    error = AppAMPISR(ampFifoBuffer, &dataCount);
+    
+    if(error == AD5940ERR_OK && dataCount > 0)
+    {
+        // 5. 从缓冲区中提取电流值
+        // AppAMPDataProcess 已经将ADC值转换为电流值（float）
+        // 结果存储在 ampFifoBuffer 中（已转换为float指针）
+        float *pCurrentData = (float *)ampFifoBuffer;
+        
+        // 取第一个样本的电流值（单位：A）
+        current_nA = pCurrentData[0] * 1e9;  // 转换为 nA
+        
+    }
+    else
+    {
+        current_nA = 0;
+    }
+    
+    // 6. 停止测量
+    AppAMPCtrl(AMPCTRL_STOPNOW, NULL);
+    
+
+    
+    
+    
+
     CyDelay(50);  // 等待通道切换稳定
     
     // 2. 启动测量
@@ -485,11 +868,10 @@ void ControlElectricalStimulation(uint8 enable)
 void SendGlucoseDataViaBLE(void)
 {
     CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
-    char dataString[30];
+    static char dataString[30];
     
     if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
     {
-        // 格式：浓度 + 电流值
         sprintf(dataString, "%.2f mM (%.1f nA)", 
                 sensorData.glucose, 
                 sensorData.current_glucose_nA);
@@ -504,17 +886,45 @@ void SendGlucoseDataViaBLE(void)
     }
 }
 
-// 发送乳酸数据（浓度 + 电流）
+// 发送乳酸数据（改为诊断日志输出）
 void SendLactateDataViaBLE(void)
 {
     CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
-    char dataString[30];
+    static char dataString[40];
+    static uint8 diagStep = 0;
+    uint32 regValue;
+    uint8 initStatus;
+    uint32 fifoCount;
     
     if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
     {
-        sprintf(dataString, "%.2f mM (%.1f nA)", 
-                sensorData.lactate, 
-                sensorData.current_lactate_nA);
+        // 轮流显示不同的诊断信息
+        switch(diagStep % 4)
+        {
+            case 0:
+                // 显示原始寄存器值（不做 & 0xFFFFFF）
+                regValue = AD5940_ReadReg(REG_AFE_AFECON);
+                sprintf(dataString, "Reg:0x%lX", (unsigned long)regValue);
+                break;
+            case 1:
+                // 显示初始化状态
+                initStatus = (pAmpCfg != NULL) ? (uint8)pAmpCfg->AMPInited : 99;
+                sprintf(dataString, "Init:%d", (int)initStatus);
+                break;
+            case 2:
+                // 显示 FIFO 计数
+                fifoCount = (pAmpCfg != NULL) ? pAmpCfg->FifoDataCount : 0;
+                sprintf(dataString, "FIFO:%lu", fifoCount);
+                break;
+            case 3:
+                // 显示电极引脚状态
+                sprintf(dataString, "A1:%d A2:%d A3:%d", 
+                        (int)AMP1_EN_Read(), 
+                        (int)AMP2_EN_Read(), 
+                        (int)AMP3_EN_Read());
+                break;
+        }
+        diagStep++;
         
         notificationHandle.attrHandle = CYBLE_CUSTOM_SERVICE_LACTATE_CHAR_HANDLE;
         notificationHandle.value.val = (uint8*)dataString;
@@ -526,17 +936,30 @@ void SendLactateDataViaBLE(void)
     }
 }
 
-// 发送温度数据
+// 发送温度数据（改为芯片状态诊断）
 void SendTemperatureViaBLE(void)
 {
     CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
-    char tempString[20];
+    static char tempString[40];
     
     if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
     {
-        sprintf(tempString, "%.1f C", sensorData.temperature);
+        // 读取 SPI 寄存器检查芯片状态
+        uint32 regValue = AD5940_ReadReg(REG_AFE_AFECON);
+        uint8 initStatus = 0;
         
-        notificationHandle.attrHandle = CYBLE_CUSTOM_SERVICE_TEMPERATURE_MEASUREMENT_CHAR_HANDLE;
+        // 检查 pAmpCfg 指针是否有效
+        if(pAmpCfg != NULL)
+        {
+            initStatus = (uint8)pAmpCfg->AMPInited;
+        }
+        
+        // 显示 SPI 寄存器值 + 初始化状态
+        sprintf(tempString, "SPI:0x%lX Init:%d", 
+                (unsigned long)regValue,
+                (int)initStatus);
+        
+        notificationHandle.attrHandle = CYBLE_CUSTOM_SERVICE_LACTATE_CHAR_HANDLE;
         notificationHandle.value.val = (uint8*)tempString;
         notificationHandle.value.len = strlen(tempString);
         
@@ -695,33 +1118,93 @@ int main()
     Advertising_LED_Write(LED_OFF);
     LowPower_LED_Write(LED_OFF);
     
+    printf("\n*** SYSTEM STARTUP ***\n");
+    
     // 初始化BLE
     apiResult = CyBle_Start(AppCallBack);
     if(apiResult != CYBLE_ERROR_OK)
     {
+        printf("[ERROR] BLE initialization failed\n");
+    }
+    else
+    {
+        printf("[OK] BLE initialized\n");
     }
     
     // 初始化SPI
+    printf("[INFO] Initializing SPI...\n");
     SPI_1_Start();
     CyDelay(10);
+    printf("[OK] SPI initialized\n");
     
-    // 初始化AD5941
-    AD5941_Initialize();
+    // 🔍 快速验证 CHIPID - 在 AD5941_Initialize 前进行简单测试
+    printf("\n[VERIFY] Quick CHIPID test BEFORE AD5941_Initialize...\n");
+    uint32_t testChipID = AD5940_ReadReg(REG_AFECON_CHIPID);
+    printf("[DEBUG] CHIPID (raw read): 0x%08lX\n", testChipID);
+    if(testChipID == 0x5502 || testChipID == 0x5501)
+    {
+        printf("[OK] ✅ CHIPID VALID! SPI communication working correctly.\n");
+    }
+    else
+    {
+        printf("[ERROR] ❌ CHIPID INVALID! Expected 0x5501/0x5502, got 0x%08lX\n", testChipID);
+        printf("[ERROR] This indicates SPI read/write problem. Continuing anyway...\n");
+    }
+    printf("\n");
     
     // 初始化控制引脚
+    printf("[INFO] Initializing control pins...\n");
     DRUG_EN_1_Write(0);
     STIM_EN_A_Write(0);
-    AMP1_EN_Write(1);
-    AMP2_EN_Write(1);
-    AMP3_EN_Write(1);
-    
+    AMP1_EN_Write(0);
+    AMP2_EN_Write(0);
+    AMP3_EN_Write(0);
+    printf("[OK] Control pins initialized\n");
+        // 初始化AD5941
+    printf("[INFO] Initializing AD5941...\n");
+    AD5941_Initialize();
     // 启动定时器中断
+    printf("[INFO] Starting timer interrupt...\n");
     CySysWdtSetInterruptCallback(CY_SYS_WDT_COUNTER2, Timer_Interrupt);
     CySysWdtEnableCounterIsr(CY_SYS_WDT_COUNTER2);
+    printf("[OK] Timer started\n");
+    
+    // ===== 完整诊断 =====
+    printf("\n[DIAGNOSTIC] Running full system diagnostics...\n");
+    CyDelay(500);
+    FullDiagnostics();
+    CyDelay(500);
+    
+    // 等待初始化完成
+    printf("[INFO] Waiting for AD5941 initialization...\n");
+    uint32 initWaitTime = 0;
+    while((pAmpCfg->AMPInited == bFALSE) && (initWaitTime < 5000))
+    {
+        CyDelay(100);
+        initWaitTime += 100;
+        printf("[INFO] Init status: %d (waited %lu ms)\n", (int)pAmpCfg->AMPInited, initWaitTime);
+    }
+        if(pAmpCfg->AMPInited == bTRUE)
+    {
+        printf("[INFO] Enabling electrode channels...\n");
+        AMP1_EN_Write(1);
+        AMP2_EN_Write(1);
+        AMP3_EN_Write(1);
+    }
+    if(pAmpCfg->AMPInited == bTRUE)
+    {
+        printf("[OK] AD5941 initialization COMPLETE!\n");
+    }
+    else
+    {
+        printf("[WARNING] AD5941 initialization timeout or failed\n");
+    }
+    
     uint32 lastSendTime = 0;
     #define SEND_INTERVAL 3  // 每3秒刷新一次
-
     
+    printf("[INFO] Entering main loop...\n");
+    printf("*** SYSTEM READY ***\n\n");
     /***************************************************************************
     * 主循环
     ***************************************************************************/
@@ -731,7 +1214,7 @@ int main()
         CyBle_ProcessEvents();
         
         // 低功耗管理
-        LowPowerImplementation();
+        //LowPowerImplementation();
         
         // 每秒执行一次传感器测量
         if(measurementFlag)

@@ -1,6 +1,6 @@
-E:\desktop\bu\eda\Transistor\Transistor.cydsn\Transistor.cyprj|a01b95cc-97ae-4432-9412-5437d4dfef3e
-F:\infineon\PSoC Creator\4.4\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|91fcb79e-5952-42a2-a81f-5728186cb2d7
-C:\Users\13740\Documents\PSoC Creator\4.4\Downloads ( 4.4).cylib\Downloads ( 4.4).cyprj|1fcca2f2-5dce-4594-b3a5-7710a25f7023
-F:\infineon\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|0b188373-fcaf-4cd4-9078-4c4a21402d59
-F:\infineon\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|4e061c21-af26-47ab-b8fe-189a0dd6c462
-F:\infineon\PSoC Creator\4.4\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|c2088e5c-6fb4-4ed9-b59f-c07ecaefa16f
+E:\desktop\bu\eda\Transistor\Transistor.cydsn\Transistor.cyprj|dc132ccf-c782-42c2-9e72-c634019b70c5
+F:\infineon\PSoC Creator\4.4\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|fca5862a-769f-4b90-8c01-e043930d0f34
+C:\Users\13740\Documents\PSoC Creator\4.4\Downloads ( 4.4).cylib\Downloads ( 4.4).cyprj|50e5b3ee-a227-41a6-9995-9217a8df4775
+F:\infineon\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|53296388-1b34-4072-adb3-e646f1a7b030
+F:\infineon\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|b07f7e7b-0e28-4051-99bd-94421bbd7d3a
+F:\infineon\PSoC Creator\4.4\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|7c3f5191-4bae-43a5-b127-40e52d7f67da

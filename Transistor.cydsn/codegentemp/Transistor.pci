@@ -1,5 +1,5 @@
 # Transistor
-# 2025-11-28 02:58:12Z
+# 2026-01-05 11:25:11Z
 
 # IO_6@[IOP=(0)][IoId=(6)] is reserved: SWDDebugEnabled
 dont_use_io iocell 0 6
@@ -29,6 +29,6 @@ set_io "Advertising_LED(0)" iocell 4 1
 set_io "DRUG_EN_1(0)" iocell 3 6
 set_io "STIM_EN_A(0)" iocell 1 5
 set_io "AD5940_RST(0)" iocell 4 0
-set_io "AMP1_EN(0)" iocell 3 4
-set_io "AMP2_EN(0)" iocell 3 5
 set_io "AMP3_EN(0)" iocell 3 7
+set_io "AMP2_EN(0)" iocell 3 5
+set_io "AMP1_EN(0)" iocell 3 4
