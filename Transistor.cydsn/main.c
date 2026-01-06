@@ -1103,6 +1103,14 @@ static void LowPowerImplementation(void)
     }
 }
 
+void AD5941_HardReset(void)
+{
+    AD5940_RST_Write(0);
+    CyDelay(20);          // ≥10ms
+    AD5940_RST_Write(1);
+    CyDelay(100);         // ≥50ms，给足
+}
+
 /*******************************************************************************
 * Function Name: main
 ********************************************************************************
@@ -1136,6 +1144,9 @@ int main()
     SPI_1_Start();
     CyDelay(10);
     printf("[OK] SPI initialized\n");
+    
+    AD5941_HardReset();   // ← 必须在任何 SPI 前
+
     
     // 🔍 快速验证 CHIPID - 在 AD5941_Initialize 前进行简单测试
     printf("\n[VERIFY] Quick CHIPID test BEFORE AD5941_Initialize...\n");
