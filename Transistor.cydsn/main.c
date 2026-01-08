@@ -176,7 +176,7 @@ void AD5941_Initialize(void)
     
     // 快速ID寄存器检查（在初始化后）
     printf("\n[ID CHECK] Reading AD5941 ID registers...\n");
-    uint32 id_adiid = AD5940_ReadReg(REG_AFECON_ADIID);
+    uint32 id_adiid = AD5940_ReadReg(REG_AFECON_CHIPID);
     uint32 id_chipid = AD5940_ReadReg(REG_AFECON_CHIPID);
     printf("ADIID: 0x%lX\n", (unsigned long)id_adiid);
     printf("CHIPID: 0x%lX\n", (unsigned long)id_chipid);
@@ -903,7 +903,7 @@ void SendLactateDataViaBLE(void)
         {
             case 0:
                 // 显示原始寄存器值（不做 & 0xFFFFFF）
-                regValue = AD5940_ReadReg(REG_AFECON_ADIID);
+                regValue = AD5940_ReadReg(REG_AFECON_CHIPID);
                 sprintf(dataString, "Reg:0x%lX", (unsigned long)regValue);
                 break;
             case 1:
@@ -1040,7 +1040,6 @@ void AppCallBack(uint32 event, void* eventParam)
 
         case CYBLE_EVT_GAP_DEVICE_DISCONNECTED:
             StartAdvertisement();
-            LowPower_LED_Write(LED_OFF);
             break;
             
         case CYBLE_EVT_GAPP_ADVERTISEMENT_START_STOP:
@@ -1048,7 +1047,6 @@ void AppCallBack(uint32 event, void* eventParam)
             {
                 Advertising_LED_Write(LED_OFF);
                 Disconnect_LED_Write(LED_ON);
-                LowPower_LED_Write(LED_OFF);
                 
                 // 清除中断并进入休眠
                 AD5940_EXTI_ClearInterrupt();
@@ -1124,7 +1122,6 @@ int main()
     // 初始化LED
     Disconnect_LED_Write(LED_OFF);
     Advertising_LED_Write(LED_OFF);
-    LowPower_LED_Write(LED_OFF);
     
     printf("\n*** SYSTEM STARTUP ***\n");
     
@@ -1147,7 +1144,7 @@ int main()
     // MISO设置为输入（在read函数中）
     
     // 设置SCLK初始状态为高（空闲）
-    AD5940_SCLK_Write(1);
+    AD5940_SCLK_Write(0);  // 正确：CPOL=0, 空闲状态为低电平
     CyDelay(10);
     printf("[OK] Software SPI initialized\n");
     

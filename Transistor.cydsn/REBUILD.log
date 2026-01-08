@@ -1,4 +1,4 @@
---------------- Rebuild Started: 01/08/2026 14:41:03 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+--------------- Rebuild Started: 01/08/2026 15:59:13 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\main.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\debug.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\Impedance.o"
@@ -105,11 +105,11 @@ main.c:1029:12: warning: unused variable 'i' [-Wunused-variable]
      uint16 i;
             ^
 main.c: In function 'main':
-main.c:1198:14: warning: unused variable 'testChipID' [-Wunused-variable]
+main.c:1195:14: warning: unused variable 'testChipID' [-Wunused-variable]
      uint32_t testChipID = AD5940_ReadReg(REG_AFECON_CHIPID);
               ^
 main.c: At top level:
-main.c:1075:13: warning: 'LowPowerImplementation' defined but not used [-Wunused-function]
+main.c:1073:13: warning: 'LowPowerImplementation' defined but not used [-Wunused-function]
  static void LowPowerImplementation(void)
              ^
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/debug.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c debug.c -o .\CortexM0\ARM_GCC_541\Debug\debug.o
@@ -197,6 +197,6 @@ No ELF section .cychecksum found, creating one
 Application checksum calculated and stored in ELF section .cychecksum
 Checksum calculated and stored in ELF section .cymeta
 cyelftool.exe -S E:\desktop\bu\eda\Transistor\Transistor.cydsn\CortexM0\ARM_GCC_541\Debug\Transistor.elf
-Flash used: 140284 of 262144 bytes (53.5%).
+Flash used: 140204 of 262144 bytes (53.5%).
 SRAM used: 15392 of 32768 bytes (47.0%). Stack: 2048 bytes. Heap: 1024 bytes.
---------------- Rebuild Succeeded: 01/08/2026 14:41:26 ---------------
+--------------- Rebuild Succeeded: 01/08/2026 15:59:33 ---------------

@@ -58,73 +58,68 @@ static uint8_t SoftSPI_TxRxByte(uint8_t tx)
 
     for(i = 7; i >= 0; i--)  // MSB先行
     {
-
-        /* 在 SCLK 低电平期间设置 MOSI */
+        /* 先拉低时钟（对应时序图 t₃ 时刻）*/
+        SPI_SCLK_CLR();
+        
+        /* 在 SCLK 低电平期间设置 MOSI（对应时序图 t₇-t₈）*/
         if(tx & (1 << i))
             SPI_MOSI_SET();
         else
             SPI_MOSI_CLR();
 
-        SPI_Delay();  // MOSI 建立时间
+        SPI_Delay();  // MOSI 建立时间（满足 t₇ 要求）
 
-        /* 上升沿：AD5941 在这里驱动 MISO */
+        /* 上升沿：AD5941 在这里采样 MOSI，同时驱动 MISO（对应时序图 t₆）*/
         SPI_SCLK_SET();
-        SPI_Delay();  // MISO 建立时间（关键）
+        SPI_Delay();  // MISO 建立时间（满足 t₁ 要求）
 
+        /* 读取 MISO 数据 */
         rx <<= 1;
         if(SPI_MISO_GET())
             rx |= 1;
-            
-                /* CPOL=1：先拉低时钟 */
-        SPI_SCLK_CLR();
-        SPI_Delay();
     }
+    
+    /* 恢复时钟到空闲状态（低电平）*/
+    SPI_SCLK_CLR();
     
     return rx;
 }
 
 /**
- * @brief SPI读写多字节 - AD5940库的核心接口
- * @param pSendBuffer: 发送缓冲区指针
- * @param pRecvBuff: 接收缓冲区指针  
- * @param length: 数据长度（字节数）
- * @return 0=成功, -1=参数错误
- * 
- * 使用软件SPI替代硬件SPI
+ * @brief SPI读写多字节 - 修正空闲态
  */
 int32_t AD5940_ReadWriteNBytes(unsigned char *pSendBuffer, unsigned char *pRecvBuff, unsigned long length)
 {
     uint32_t i;
     
-    /* 参数检查 */
     if(pSendBuffer == NULL || pRecvBuff == NULL || length == 0)
     {
-        return -1;  /* 参数错误 */
+        return -1;
     }
     
-    /* SPI 空闲态初始化 */
+    /* ===== 关键修改：SCLK 空闲态必须是低电平 ===== */
     SPI_CS_HIGH();
-    SPI_SCLK_CLR();
+    SPI_SCLK_CLR();    // ← 改为低电平
     SPI_MOSI_CLR();
     SPI_Delay();
     
-    /* 拉低CS片选信号 */
+    /* 拉低CS片选信号（对应时序图 t₂）*/
     SPI_CS_LOW();
-    SPI_Delay();
+    SPI_Delay();       // 满足 t₂ 建立时间
     
-    /* 逐字节收发数据 - 使用软件SPI */
+    /* 逐字节收发数据 */
     for(i = 0; i < length; i++)
     {
         pRecvBuff[i] = SoftSPI_TxRxByte(pSendBuffer[i]);
     }
     
-    /* 拉高CS片选信号 */
+    /* 拉高CS片选信号（对应时序图 t₉）*/
+    SPI_Delay();       // 满足 t₉ 保持时间
     SPI_CS_HIGH();
-    SPI_Delay();
+    SPI_Delay();       // 满足 t₁₀ 恢复时间
     
-    return 0;  /* 成功 */
+    return 0;
 }
-
 /*******************************************************************************
 
 * GPIO控制函数
