@@ -91,22 +91,8 @@
   <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AMP1_EN.h" value="HEADER;;;;;AMP1_EN" />
   <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AMP1_EN_aliases.h" value="HEADER;;;;;AMP1_EN" />
   <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AMP1_EN_PM.c" value="SOURCE_C;CortexM0;;;;AMP1_EN" />
-  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\SPI_1.c" value="SOURCE_C;CortexM0;;;;SPI_1" />
-  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\SPI_1.h" value="HEADER;;;;;SPI_1" />
-  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\SPI_1_SPI_UART.h" value="HEADER;;;;;SPI_1" />
-  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\SPI_1_SPI_UART.c" value="SOURCE_C;CortexM0;;;;SPI_1" />
-  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\SPI_1_PM.c" value="SOURCE_C;CortexM0;;;;SPI_1" />
-  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\SPI_1_SPI.c" value="SOURCE_C;CortexM0;;;;SPI_1" />
-  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\SPI_1_BOOT.c" value="SOURCE_C;CortexM0;;;;SPI_1" />
-  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\SPI_1_SPI_BOOT.c" value="SOURCE_C;CortexM0;;;;SPI_1" />
-  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\SPI_1_PINS.h" value="HEADER;;;;;SPI_1" />
-  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\SPI_1_SPI_UART_PVT.h" value="HEADER;;;;;SPI_1" />
-  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\SPI_1_PVT.h" value="HEADER;;;;;SPI_1" />
-  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\SPI_1_BOOT.h" value="HEADER;;;;;SPI_1" />
   <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\CYBLE_bless_isr.c" value="SOURCE_C;CortexM0;;;;CYBLE_bless_isr" />
   <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\CYBLE_bless_isr.h" value="HEADER;;;;;CYBLE_bless_isr" />
-  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\SPI_1_SCBCLK.c" value="SOURCE_C;CortexM0;;;;SPI_1_SCBCLK" />
-  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\SPI_1_SCBCLK.h" value="HEADER;;;;;SPI_1_SCBCLK" />
   <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\cm0gcc.ld" value="LINKER_SCRIPT;;;b98f980c-3bd1-4fc7-a887-c56a20a46fdd;;cy_boot" />
   <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\Cm0RealView.scat" value="LINKER_SCRIPT;;;fdb8e1ae-f83a-46cf-9446-1d703716f38a;;cy_boot" />
   <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\Cm0Start.c" value="SOURCE_C;CortexM0;;;;cy_boot" />

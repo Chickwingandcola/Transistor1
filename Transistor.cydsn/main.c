@@ -214,22 +214,22 @@ void DiagnosticsSPI(void)
     printf("[TEST] Attempting 3 consecutive reads of REG_AFE_AFECON...\n");
     for(testCount = 0; testCount < 3; testCount++)
     {
-        regValue = AD5940_ReadReg(REG_AFE_AFECON);
+        regValue = AD5940_ReadReg(BITM_AFE_AFECON_INAMPEN);
         printf("[ATTEMPT %d] Register Value: 0x%lX\n", testCount + 1, (unsigned long)regValue);
         CyDelay(50);
     }
     
     // 尝试读取不同的寄存器
     printf("\n[TEST] Reading different AD5940 registers...\n");
-    regValue = AD5940_ReadReg(REG_AFE_AFECON);
+    regValue = AD5940_ReadReg(BITM_AFE_AFECON_INAMPEN);
     printf("  REG_AFE_AFECON:  0x%lX\n", (unsigned long)regValue);
     CyDelay(20);
     
-    regValue2 = AD5940_ReadReg(REG_AFE_ADCCON);
+    regValue2 = AD5940_ReadReg(BITM_AFE_AFECON_INAMPEN);
     printf("  REG_AFE_ADCCON:  0x%lX\n", (unsigned long)regValue2);
     CyDelay(20);
     
-    regValue3 = AD5940_ReadReg(REG_AFE_FIFOCON);
+    regValue3 = AD5940_ReadReg(BITM_AFE_AFECON_INAMPEN);
     printf("  REG_AFE_FIFOCON: 0x%lX\n", (unsigned long)regValue3);
     CyDelay(20);
     
@@ -903,7 +903,7 @@ void SendLactateDataViaBLE(void)
         {
             case 0:
                 // 显示原始寄存器值（不做 & 0xFFFFFF）
-                regValue = AD5940_ReadReg(REG_AFE_AFECON);
+                regValue = AD5940_ReadReg(REG_AFECON_ADIID);
                 sprintf(dataString, "Reg:0x%lX", (unsigned long)regValue);
                 break;
             case 1:
@@ -1139,29 +1139,64 @@ int main()
         printf("[OK] BLE initialized\n");
     }
     
-    // 初始化SPI
-    printf("[INFO] Initializing SPI...\n");
-    SPI_1_Start();
+    // 初始化SPI引脚为GPIO（软件SPI不需要硬件SPI_1）
+    printf("[INFO] Initializing Software SPI on GPIO pins...\n");
+    
+    // 初始化SPI引脚为输出
+    // SCLK、MOSI、CS设置为输出
+    // MISO设置为输入（在read函数中）
+    
+    // 设置SCLK初始状态为高（空闲）
+    AD5940_SCLK_Write(1);
     CyDelay(10);
-    printf("[OK] SPI initialized\n");
+    printf("[OK] Software SPI initialized\n");
+    
+    // 🔍 软件SPI诊断
+    printf("\n[DIAGNOSTIC] Software SPI GPIO Pin Status:\n");
+    
+    // 检查各引脚的初始状态
+    uint8_t sclk_data = AD5940_SCLK_Read();
+    uint8_t mosi_data = AD5940_MOSI_Read();
+    uint8_t miso_data = AD5940_MISO_Read();
+    uint8_t cs_data = AD5940_CS_Read();
+    
+    printf("  SCLK (P1.7): %d (should be 1 at idle)\n", sclk_data);
+    printf("  MOSI (P0.4): %d\n", mosi_data);
+    printf("  MISO (P0.5): %d\n", miso_data);
+    printf("  CS   (P?.?): %d (should be 1 at idle)\n", cs_data);
+    
+    // 验证SCLK能否正确跳变（快速测试）
+    printf("\n[DIAGNOSTIC] SCLK Toggle Test:\n");
+    AD5940_SCLK_Write(0);
+    CyDelayUs(1);
+    uint8_t sclk_low = AD5940_SCLK_Read();
+    
+    AD5940_SCLK_Write(1);
+    CyDelayUs(1);
+    uint8_t sclk_high = AD5940_SCLK_Read();
+    
+    printf("  SCLK Low: %d (expect 0)\n", sclk_low);
+    printf("  SCLK High: %d (expect 1)\n", sclk_high);
+    
+    if(sclk_low == 0 && sclk_high == 1)
+    {
+        printf("  ✅ SCLK can toggle correctly!\n");
+    }
+    else
+    {
+        printf("  ❌ SCLK toggle test FAILED - pin may be stuck!\n");
+    }
+    printf("\n");
     
     AD5941_HardReset();   // ← 必须在任何 SPI 前
 
     
+    
+   
     // 🔍 快速验证 CHIPID - 在 AD5941_Initialize 前进行简单测试
-    printf("\n[VERIFY] Quick CHIPID test BEFORE AD5941_Initialize...\n");
+  
     uint32_t testChipID = AD5940_ReadReg(REG_AFECON_CHIPID);
-    printf("[DEBUG] CHIPID (raw read): 0x%08lX\n", testChipID);
-    if(testChipID == 0x5502 || testChipID == 0x5501)
-    {
-        printf("[OK] ✅ CHIPID VALID! SPI communication working correctly.\n");
-    }
-    else
-    {
-        printf("[ERROR] ❌ CHIPID INVALID! Expected 0x5501/0x5502, got 0x%08lX\n", testChipID);
-        printf("[ERROR] This indicates SPI read/write problem. Continuing anyway...\n");
-    }
-    printf("\n");
+
     
     // 初始化控制引脚
     printf("[INFO] Initializing control pins...\n");

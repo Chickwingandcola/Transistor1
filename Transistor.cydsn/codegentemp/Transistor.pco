@@ -1,5 +1,5 @@
 # Transistor
-# 2026-01-06 03:59:48Z
+# 2026-01-08 06:41:09Z
 
 # IO_6@[IOP=(0)][IoId=(6)] is reserved: SWDDebugEnabled
 dont_use_io iocell 0 6
@@ -37,4 +37,3 @@ set_io "AMP1_EN(0)" iocell 3 4
 set_location "\CYBLE:cy_m0s8_ble\" p4blecell -1 -1 0
 set_location "\CYBLE:bless_isr\" interrupt -1 -1 12
 set_location "AD5940_Interrupt" interrupt -1 -1 1
-set_location "\SPI_1:SCB\" m0s8scbcell -1 -1 0

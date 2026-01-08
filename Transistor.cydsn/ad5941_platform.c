@@ -18,27 +18,83 @@
 #include "project.h"
 
 /*******************************************************************************
-* 底层SPI通信函数 - AD5940库的核心接口
+* 底层SPI通信函数 - 使用软件SPI实现（解决硬件SPI时钟问题）
 *******************************************************************************/
 
+/* ===== 软件 SPI 引脚定义 ===== */
+/* 使用GPIO模拟SPI，避免TopDesign时钟配置问题 */
+
+#define SPI_CS_HIGH()      AD5940_CS_Write(1)        // CS 高电平
+#define SPI_CS_LOW()       AD5940_CS_Write(0)        // CS 低电平
+#define SPI_SCLK_SET()     AD5940_SCLK_Write(1)      // SCLK 设高
+#define SPI_SCLK_CLR()     AD5940_SCLK_Write(0)      // SCLK 设低
+#define SPI_MOSI_SET()     AD5940_MOSI_Write(1)      // MOSI 设高
+#define SPI_MOSI_CLR()     AD5940_MOSI_Write(0)      // MOSI 设低
+#define SPI_MISO_GET()     AD5940_MISO_Read()        // MISO 读取
+
 /**
- * @brief SPI读写函数 - AD5940库需要的核心函数
+ * @brief 软件SPI延时 - 控制时钟频率
+ * 2us延时对应约250 kHz时钟频率（符合AD5940规范 ≤400 kHz）
+ */
+static inline void SPI_Delay(void)
+{
+    CyDelayUs(2);   // ≈ 250 kHz，安全范围
+}
+
+/**
+ * @brief 软件SPI读写单个字节
+ * @param tx: 待发送字节
+ * @return 接收到的字节
+ * 
+ * SPI时序（CPOL=1, CPHA=1）：
+ * - 空闲状态：SCLK = 1
+ * - 下降沿：MOSI改变，准备数据
+ * - 上升沿：采样MISO
+ */
+static uint8_t SoftSPI_TxRxByte(uint8_t tx)
+{
+    uint8_t rx = 0;
+    int i;
+
+    for(i = 7; i >= 0; i--)  // MSB先行
+    {
+
+        /* 在 SCLK 低电平期间设置 MOSI */
+        if(tx & (1 << i))
+            SPI_MOSI_SET();
+        else
+            SPI_MOSI_CLR();
+
+        SPI_Delay();  // MOSI 建立时间
+
+        /* 上升沿：AD5941 在这里驱动 MISO */
+        SPI_SCLK_SET();
+        SPI_Delay();  // MISO 建立时间（关键）
+
+        rx <<= 1;
+        if(SPI_MISO_GET())
+            rx |= 1;
+            
+                /* CPOL=1：先拉低时钟 */
+        SPI_SCLK_CLR();
+        SPI_Delay();
+    }
+    
+    return rx;
+}
+
+/**
+ * @brief SPI读写多字节 - AD5940库的核心接口
  * @param pSendBuffer: 发送缓冲区指针
  * @param pRecvBuff: 接收缓冲区指针  
  * @param length: 数据长度（字节数）
- * @return 0=成功, -1=参数错误或超时
+ * @return 0=成功, -1=参数错误
  * 
- * 实现步骤：
- * 1. 参数验证
- * 2. 拉低CS片选信号
- * 3. 逐字节SPI收发数据
- * 4. 拉高CS片选信号
- * 5. 返回成功状态
+ * 使用软件SPI替代硬件SPI
  */
 int32_t AD5940_ReadWriteNBytes(unsigned char *pSendBuffer, unsigned char *pRecvBuff, unsigned long length)
 {
     uint32_t i;
-    uint32_t timeout;
     
     /* 参数检查 */
     if(pSendBuffer == NULL || pRecvBuff == NULL || length == 0)
@@ -46,48 +102,31 @@ int32_t AD5940_ReadWriteNBytes(unsigned char *pSendBuffer, unsigned char *pRecvB
         return -1;  /* 参数错误 */
     }
     
-    /* 拉低CS片选信号 */
-    AD5940_CS_Write(0);
-    CyDelayUs(2);  /* 等待CS建立时间 */
+    /* SPI 空闲态初始化 */
+    SPI_CS_HIGH();
+    SPI_SCLK_CLR();
+    SPI_MOSI_CLR();
+    SPI_Delay();
     
-    /* 逐字节收发数据 */
+    /* 拉低CS片选信号 */
+    SPI_CS_LOW();
+    SPI_Delay();
+    
+    /* 逐字节收发数据 - 使用软件SPI */
     for(i = 0; i < length; i++)
     {
-        /* 清空接收缓冲区中的旧数据 */
-        while(SPI_1_SpiUartGetRxBufferSize() > 0)
-        {
-            SPI_1_SpiUartReadRxData();
-        }
-        
-        /* 发送一个字节 */
-        SPI_1_SpiUartWriteTxData(pSendBuffer[i]);
-        
-        /* 等待接收完成（带超时保护） */
-        timeout = 10000;
-        while(SPI_1_SpiUartGetRxBufferSize() == 0 && timeout > 0)
-        {
-            timeout--;
-            CyDelayUs(1);
-        }
-        
-        if(timeout == 0)
-        {
-            AD5940_CS_Write(1);
-            return -1;  /* SPI超时 */
-        }
-        
-        /* 读取接收到的字节 */
-        pRecvBuff[i] = SPI_1_SpiUartReadRxData();
+        pRecvBuff[i] = SoftSPI_TxRxByte(pSendBuffer[i]);
     }
     
     /* 拉高CS片选信号 */
-    CyDelayUs(2);
-    AD5940_CS_Write(1);
+    SPI_CS_HIGH();
+    SPI_Delay();
     
     return 0;  /* 成功 */
 }
 
 /*******************************************************************************
+
 * GPIO控制函数
 *******************************************************************************/
 

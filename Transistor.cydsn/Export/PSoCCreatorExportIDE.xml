@@ -147,22 +147,8 @@
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\AMP3_EN.h</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\AMP3_EN_aliases.h</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\AMP3_EN_PM.c</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\SPI_1.c</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\SPI_1.h</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\SPI_1_SPI_UART.h</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\SPI_1_SPI_UART.c</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\SPI_1_PM.c</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\SPI_1_SPI.c</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\SPI_1_BOOT.c</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\SPI_1_SPI_BOOT.c</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\SPI_1_PINS.h</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\SPI_1_SPI_UART_PVT.h</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\SPI_1_PVT.h</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\SPI_1_BOOT.h</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\CYBLE_bless_isr.c</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\CYBLE_bless_isr.h</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\SPI_1_SCBCLK.c</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\SPI_1_SCBCLK.h</File>
           <File BuildType="BUILD" Toolchain="ARM GCC Generic">Generated_Source\PSoC4\cm0gcc.ld</File>
           <File BuildType="BUILD" Toolchain="ARM MDK Generic">Generated_Source\PSoC4\Cm0RealView.scat</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\Cm0Start.c</File>

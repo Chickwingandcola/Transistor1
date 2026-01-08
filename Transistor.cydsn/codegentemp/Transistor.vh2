@@ -2,7 +2,7 @@
 --	Conversion of Transistor.v to vh2:
 --
 --	Cypress Semiconductor - WARP Version 6.3 IR 41
---	Tue Jan 06 11:59:47 2026
+--	Thu Jan 08 14:41:07 2026
 --
 
 USE cypress.cypress.all;
@@ -28,7 +28,6 @@ TERMINAL Net_107 : bit;
 SIGNAL one : bit;
 SIGNAL tmpINTERRUPT_0__Disconnect_LED_net_0 : bit;
 SIGNAL tmpOE__AD5940_CS_net_0 : bit;
-SIGNAL Net_226 : bit;
 SIGNAL tmpFB_0__AD5940_CS_net_0 : bit;
 SIGNAL tmpIO_0__AD5940_CS_net_0 : bit;
 TERMINAL tmpSIOVREF__AD5940_CS_net_0 : bit;
@@ -49,18 +48,16 @@ TERMINAL Net_48 : bit;
 SIGNAL tmpINTERRUPT_0__LowPower_LED_net_0 : bit;
 TERMINAL Net_26 : bit;
 SIGNAL tmpOE__AD5940_MISO_net_0 : bit;
-SIGNAL Net_223 : bit;
+SIGNAL tmpFB_0__AD5940_MISO_net_0 : bit;
 SIGNAL tmpIO_0__AD5940_MISO_net_0 : bit;
 TERMINAL tmpSIOVREF__AD5940_MISO_net_0 : bit;
 SIGNAL tmpINTERRUPT_0__AD5940_MISO_net_0 : bit;
 SIGNAL tmpOE__AD5940_SCLK_net_0 : bit;
-SIGNAL Net_225 : bit;
 SIGNAL tmpFB_0__AD5940_SCLK_net_0 : bit;
 SIGNAL tmpIO_0__AD5940_SCLK_net_0 : bit;
 TERMINAL tmpSIOVREF__AD5940_SCLK_net_0 : bit;
 SIGNAL tmpINTERRUPT_0__AD5940_SCLK_net_0 : bit;
 SIGNAL tmpOE__AD5940_MOSI_net_0 : bit;
-SIGNAL Net_224 : bit;
 SIGNAL tmpFB_0__AD5940_MOSI_net_0 : bit;
 SIGNAL tmpIO_0__AD5940_MOSI_net_0 : bit;
 TERMINAL tmpSIOVREF__AD5940_MOSI_net_0 : bit;
@@ -101,40 +98,6 @@ SIGNAL tmpFB_0__AMP1_EN_net_0 : bit;
 SIGNAL tmpIO_0__AMP1_EN_net_0 : bit;
 TERMINAL tmpSIOVREF__AMP1_EN_net_0 : bit;
 SIGNAL tmpINTERRUPT_0__AMP1_EN_net_0 : bit;
-SIGNAL \SPI_1:Net_847\ : bit;
-SIGNAL \SPI_1:select_s_wire\ : bit;
-SIGNAL \SPI_1:rx_wire\ : bit;
-SIGNAL \SPI_1:Net_1257\ : bit;
-SIGNAL \SPI_1:uncfg_rx_irq\ : bit;
-SIGNAL \SPI_1:Net_1170\ : bit;
-SIGNAL \SPI_1:sclk_s_wire\ : bit;
-SIGNAL \SPI_1:mosi_s_wire\ : bit;
-SIGNAL \SPI_1:miso_m_wire\ : bit;
-SIGNAL \SPI_1:Net_1099\ : bit;
-SIGNAL \SPI_1:Net_1258\ : bit;
-SIGNAL \SPI_1:cts_wire\ : bit;
-SIGNAL Net_229 : bit;
-SIGNAL \SPI_1:tx_wire\ : bit;
-SIGNAL \SPI_1:rts_wire\ : bit;
-SIGNAL \SPI_1:mosi_m_wire\ : bit;
-SIGNAL \SPI_1:select_m_wire_3\ : bit;
-SIGNAL \SPI_1:select_m_wire_2\ : bit;
-SIGNAL \SPI_1:select_m_wire_1\ : bit;
-SIGNAL \SPI_1:select_m_wire_0\ : bit;
-SIGNAL \SPI_1:sclk_m_wire\ : bit;
-SIGNAL \SPI_1:miso_s_wire\ : bit;
-SIGNAL Net_241 : bit;
-SIGNAL Net_242 : bit;
-SIGNAL Net_243 : bit;
-SIGNAL Net_234 : bit;
-SIGNAL \SPI_1:Net_1000\ : bit;
-SIGNAL Net_230 : bit;
-SIGNAL Net_231 : bit;
-SIGNAL Net_232 : bit;
-SIGNAL Net_233 : bit;
-SIGNAL Net_236 : bit;
-SIGNAL Net_237 : bit;
-SIGNAL Net_244 : bit;
 BEGIN
 
 zero <=  ('0') ;
@@ -238,7 +201,7 @@ AD5940_CS:cy_psoc3_pins_v1_10
 	GENERIC MAP(id=>"e1d9cb65-5e12-44d0-bd77-52416ce9fe43",
 		drive_mode=>"110",
 		ibuf_enabled=>"1",
-		init_dr_st=>"1",
+		init_dr_st=>"0",
 		input_sync=>"1",
 		input_clk_en=>'0',
 		input_sync_mode=>"0",
@@ -251,7 +214,7 @@ AD5940_CS:cy_psoc3_pins_v1_10
 		invert_out_reset=>'0',
 		io_voltage=>"",
 		layout_mode=>"CONTIGUOUS",
-		output_conn=>"1",
+		output_conn=>"0",
 		output_sync=>"0",
 		output_clk_en=>'0',
 		output_mode=>"0",
@@ -291,7 +254,7 @@ AD5940_CS:cy_psoc3_pins_v1_10
 		ovt_hyst_trim=>"0",
 		input_buffer_sel=>"00")
 	PORT MAP(oe=>(tmpOE__Disconnect_LED_net_0),
-		y=>Net_226,
+		y=>(zero),
 		fb=>(tmpFB_0__AD5940_CS_net_0),
 		analog=>(open),
 		io=>(tmpIO_0__AD5940_CS_net_0),
@@ -472,7 +435,7 @@ AD5940_MISO:cy_psoc3_pins_v1_10
 	GENERIC MAP(id=>"bca6f86c-602e-45c7-805a-14899568ce23",
 		drive_mode=>"001",
 		ibuf_enabled=>"1",
-		init_dr_st=>"0",
+		init_dr_st=>"1",
 		input_sync=>"0",
 		input_clk_en=>'0',
 		input_sync_mode=>"0",
@@ -526,7 +489,7 @@ AD5940_MISO:cy_psoc3_pins_v1_10
 		input_buffer_sel=>"00")
 	PORT MAP(oe=>(tmpOE__Disconnect_LED_net_0),
 		y=>(zero),
-		fb=>Net_223,
+		fb=>(tmpFB_0__AD5940_MISO_net_0),
 		analog=>(open),
 		io=>(tmpIO_0__AD5940_MISO_net_0),
 		siovref=>(tmpSIOVREF__AD5940_MISO_net_0),
@@ -542,7 +505,7 @@ AD5940_SCLK:cy_psoc3_pins_v1_10
 	GENERIC MAP(id=>"832be99a-93d9-486c-9f93-d3f404287aef",
 		drive_mode=>"110",
 		ibuf_enabled=>"1",
-		init_dr_st=>"1",
+		init_dr_st=>"0",
 		input_sync=>"1",
 		input_clk_en=>'0',
 		input_sync_mode=>"0",
@@ -555,7 +518,7 @@ AD5940_SCLK:cy_psoc3_pins_v1_10
 		invert_out_reset=>'0',
 		io_voltage=>"",
 		layout_mode=>"CONTIGUOUS",
-		output_conn=>"1",
+		output_conn=>"0",
 		output_sync=>"0",
 		output_clk_en=>'0',
 		output_mode=>"0",
@@ -595,7 +558,7 @@ AD5940_SCLK:cy_psoc3_pins_v1_10
 		ovt_hyst_trim=>"0",
 		input_buffer_sel=>"00")
 	PORT MAP(oe=>(tmpOE__Disconnect_LED_net_0),
-		y=>Net_225,
+		y=>(zero),
 		fb=>(tmpFB_0__AD5940_SCLK_net_0),
 		analog=>(open),
 		io=>(tmpIO_0__AD5940_SCLK_net_0),
@@ -612,7 +575,7 @@ AD5940_MOSI:cy_psoc3_pins_v1_10
 	GENERIC MAP(id=>"bd120a5e-dab5-4448-846f-6b8a7a195dd3",
 		drive_mode=>"110",
 		ibuf_enabled=>"1",
-		init_dr_st=>"1",
+		init_dr_st=>"0",
 		input_sync=>"1",
 		input_clk_en=>'0',
 		input_sync_mode=>"0",
@@ -625,7 +588,7 @@ AD5940_MOSI:cy_psoc3_pins_v1_10
 		invert_out_reset=>'0',
 		io_voltage=>"",
 		layout_mode=>"CONTIGUOUS",
-		output_conn=>"1",
+		output_conn=>"0",
 		output_sync=>"0",
 		output_clk_en=>'0',
 		output_mode=>"0",
@@ -665,7 +628,7 @@ AD5940_MOSI:cy_psoc3_pins_v1_10
 		ovt_hyst_trim=>"0",
 		input_buffer_sel=>"00")
 	PORT MAP(oe=>(tmpOE__Disconnect_LED_net_0),
-		y=>Net_224,
+		y=>(zero),
 		fb=>(tmpFB_0__AD5940_MOSI_net_0),
 		analog=>(open),
 		io=>(tmpIO_0__AD5940_MOSI_net_0),
@@ -1183,36 +1146,5 @@ AMP1_EN:cy_psoc3_pins_v1_10
 		out_clock_en=>tmpOE__Disconnect_LED_net_0,
 		out_reset=>zero,
 		interrupt=>tmpINTERRUPT_0__AMP1_EN_net_0);
-\SPI_1:SCBCLK\:cy_clock_v1_0
-	GENERIC MAP(cy_registers=>"",
-		id=>"8c8734ef-3644-4eed-bc55-360072b94fff/2dc2d7a8-ce2b-43c7-af4a-821c8cd73ccf",
-		source_clock_id=>"",
-		divisor=>0,
-		period=>"625000000",
-		is_direct=>'0',
-		is_digital=>'0')
-	PORT MAP(clock_out=>\SPI_1:Net_847\,
-		dig_domain_out=>open);
-\SPI_1:SCB\:cy_m0s8_scb_v2_0
-	GENERIC MAP(cy_registers=>"",
-		scb_mode=>1)
-	PORT MAP(clock=>\SPI_1:Net_847\,
-		interrupt=>Net_229,
-		rx=>zero,
-		tx=>\SPI_1:tx_wire\,
-		cts=>zero,
-		rts=>\SPI_1:rts_wire\,
-		mosi_m=>Net_224,
-		miso_m=>Net_223,
-		select_m=>(\SPI_1:select_m_wire_3\, \SPI_1:select_m_wire_2\, \SPI_1:select_m_wire_1\, Net_226),
-		sclk_m=>Net_225,
-		mosi_s=>zero,
-		miso_s=>\SPI_1:miso_s_wire\,
-		select_s=>zero,
-		sclk_s=>zero,
-		scl=>Net_241,
-		sda=>Net_242,
-		tx_req=>Net_243,
-		rx_req=>Net_234);
 
 END R_T_L;

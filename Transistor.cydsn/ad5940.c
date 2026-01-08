@@ -964,37 +964,42 @@ static void AD5940_SPIWriteReg(uint16_t RegAddr, uint32_t RegData)
  * - 正确的4字节拼接顺序
 **/
 static uint32_t AD5940_SPIReadReg(uint16_t RegAddr)
-{  
-  uint8_t tx;
-  uint8_t rx;
-  uint32_t reg = 0;
-  int i;
+{
+    uint8_t tx_buf[4]; // 命令 + 地址高 + 地址低 + Dummy
+    uint8_t rx_buf[4]; // 接收缓冲 (前4个字节也是无效的)
+    uint32_t reg = 0;
+    
+    /* 1. 准备发送缓冲区 */
+    tx_buf[0] = 0x6D;             // [修正] SPICMD_READREG 命令字
+    tx_buf[1] = (RegAddr >> 8);   // 地址高 8 位
+    tx_buf[2] = RegAddr & 0xFF;   // 地址低 8 位
+    tx_buf[3] = 0xFF;             // Dummy Byte (用于产生时钟以读取数据前奏)
 
-  AD5940_CsClr();
-  CyDelayUs(1);
+    AD5940_CsClr();
+    CyDelayUs(1); // 稍微延时保证 CS 稳定
 
-  /* Byte 0: Read command + high address */
-  tx = 0x80 | ((RegAddr >> 8) & 0x7F);
-  AD5940_ReadWrite8B(tx);
+    /* 2. 发送命令头 (Cmd + Addr + Dummy) */
+    // 注意：这里只是为了发送，rx_buf 里读回来的这时候是无效数据
+    for(int i = 0; i < 4; i++) {
+        AD5940_ReadWrite8B(tx_buf[i]); 
+    }
 
-  /* Byte 1: low address */
-  tx = RegAddr & 0xFF;
-  AD5940_ReadWrite8B(tx);
+    /* 3. 正式读取数据 (通常是 16位 或 32位) */
+    // AD5941 的寄存器大多是 16位 或 32位。
+    // 如果读 CHIPID (0x400)，它是 16位的；如果是 FIFO，可能是 32位。
+    // 假设读取 32 位 (4字节)：
+    for(int i = 0; i < 4; i++)
+    {
+        // 发送 0xFF 产生时钟，读取 MISO 数据
+        uint8_t val = AD5940_ReadWrite8B(0xFF); 
+        reg = (reg << 8) | val;
+    }
 
-  /* Byte 2: dummy byte */
-  AD5940_ReadWrite8B(0x00);
-
-  /* Byte 3~6: read 4 data bytes */
-  for(i = 0; i < 4; i++)
-  {
-    rx = AD5940_ReadWrite8B(0x00);
-    reg = (reg << 8) | rx;
-  }
-
-  AD5940_CsSet();
-  CyDelayUs(1);
-
-  return reg;
+    AD5940_CsSet();
+    
+    // 如果您读的是 16位寄存器 (如 CHIP_ID)，需要根据情况移位或只读2字节
+    // 对于 CHIP_ID (0x400)，建议只读2字节，或者取 reg 的低16位
+    return reg;
 }
 
 /**
