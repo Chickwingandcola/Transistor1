@@ -51,7 +51,7 @@ static inline void SPI_Delay(void)
  * - 下降沿：MOSI改变，准备数据
  * - 上升沿：采样MISO
  */
-static uint8_t SoftSPI_TxRxByte(uint8_t tx)
+uint8_t SoftSPI_TxRxByte(uint8_t tx)
 {
     uint8_t rx = 0;
     int i;
@@ -97,26 +97,26 @@ int32_t AD5940_ReadWriteNBytes(unsigned char *pSendBuffer, unsigned char *pRecvB
         return -1;
     }
     
-    /* ===== 关键修改：SCLK 空闲态必须是低电平 ===== */
-    SPI_CS_HIGH();
-    SPI_SCLK_CLR();    // ← 改为低电平
-    SPI_MOSI_CLR();
-    SPI_Delay();
+    // ✅ 恢复：设置空闲状态
+    AD5940_CsSet();      // CS高（空闲）
+    AD5940_SCLK_Write(0); // SCLK低（CPOL=0）
+    AD5940_MOSI_Write(0);
+    CyDelayUs(2);
     
-    /* 拉低CS片选信号（对应时序图 t₂）*/
-    SPI_CS_LOW();
-    SPI_Delay();       // 满足 t₂ 建立时间
+    // ✅ 恢复：拉低CS开始传输
+    AD5940_CsClr();
+    CyDelayUs(2);
     
-    /* 逐字节收发数据 */
+    // 逐字节收发数据
     for(i = 0; i < length; i++)
     {
         pRecvBuff[i] = SoftSPI_TxRxByte(pSendBuffer[i]);
     }
     
-    /* 拉高CS片选信号（对应时序图 t₉）*/
-    SPI_Delay();       // 满足 t₉ 保持时间
-    SPI_CS_HIGH();
-    SPI_Delay();       // 满足 t₁₀ 恢复时间
+    // ✅ 恢复：拉高CS结束传输
+    CyDelayUs(2);
+    AD5940_CsSet();
+    CyDelayUs(2);
     
     return 0;
 }
@@ -246,6 +246,7 @@ uint32_t AD5940_ClrMCUIntFlag(void)
 int32_t AD5940_MCUResourceInit(void *pCfg)
 {
     /* 设置CS和RST的初始状态 */
+    AD5940_CS_SetDriveMode(AD5940_CS_DM_STRONG);  // 强驱动模式
     AD5940_CS_Write(1);      /* CS默认高电平（未选中） */
     AD5940_RST_Write(1);     /* RST默认高电平（正常工作） */
     
@@ -253,6 +254,9 @@ int32_t AD5940_MCUResourceInit(void *pCfg)
      * 如果需要在此启动SPI，取消下行注释
      */
     /* SPI_1_Start(); */
+        /* SPI 引脚初始化 */
+    AD5940_SCLK_Write(0);    // CPOL=0, 空闲低电平
+    AD5940_MOSI_Write(0);
     
     /* 等待系统稳定 */
     CyDelay(10);

@@ -3,10 +3,10 @@
   <block name="DRUG_EN_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="STIM_EN_A" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="AD5940_RST" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="Advertising_LED" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="Blue" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="R_6" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="R_5" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="Advertising_LED" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="AMP3_EN" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="DMAC" BASE="0x0" SIZE="0x0" desc="DMAC Registers" visible="true" hidden="false">
     <register name="DMAC_CH_CTL17" address="0x40000000" bitWidth="32" desc="DMA channel 17 control register" hidden="true">
       <field name="ENABLED" from="31" to="31" access="RW" resetVal="" desc="Channel enable control." hidden="false">
@@ -1388,14 +1388,13 @@
   </block>
   <block name="cy_lfclk" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="Em_EEPROM_Dynamic" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="cy_boot" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="AMP3_EN" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="AMP2_EN" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="AMP1_EN" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="cy_boot" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="Blue" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="AD5940_CS" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="AD5940_EXTI" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="SW_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="GND_4" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="AD5940_CS" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="CYBLE" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false">
     <block name="or_lfclk" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="cy_constant_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
@@ -1405,11 +1404,11 @@
   </block>
   <block name="Red" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="Disconnect_LED" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="GND_4" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="AD5940_MISO" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="AD5940_SCLK" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="AD5940_MOSI" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="AD5940_Interrupt" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="Green" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="LowPower_LED" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="R_4" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="AD5940_Interrupt" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
 </blockRegMap>

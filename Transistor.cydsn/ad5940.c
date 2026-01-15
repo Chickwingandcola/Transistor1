@@ -938,20 +938,50 @@ static uint32_t AD5940_ReadWrite32B(uint32_t data)
 **/
 static void AD5940_SPIWriteReg(uint16_t RegAddr, uint32_t RegData)
 {  
-  /* Set register address */
-  AD5940_CsClr();
-  AD5940_ReadWrite8B(SPICMD_SETADDR);
-  AD5940_ReadWrite16B(RegAddr);
-  AD5940_CsSet();
-  /* Add delay here to meet the SPI timing. */
-  AD5940_CsClr();
-  AD5940_ReadWrite8B(SPICMD_WRITEREG);
-  if(((RegAddr>=0x1000)&&(RegAddr<=0x3014)))
-    AD5940_ReadWrite32B(RegData);
-  else
-    AD5940_ReadWrite16B(RegData);
-  AD5940_CsSet();
+    uint8_t tx_buf[10];
+    uint8_t rx_buf[10];
+    uint8_t len;
+    
+    /* ===== 第一步：设置地址 ===== */
+    tx_buf[0] = SPICMD_SETADDR;          // 设置地址命令
+    tx_buf[1] = (RegAddr >> 8) & 0xFF;
+    tx_buf[2] = RegAddr & 0xFF;
+    
+    AD5940_CsClr();
+    CyDelayUs(2);
+    AD5940_ReadWriteNBytes(tx_buf, rx_buf, 3);
+    CyDelayUs(2);
+    AD5940_CsSet();
+    CyDelayUs(2);  // 两次操作之间的间隔
+    
+    /* ===== 第二步：写数据 ===== */
+    tx_buf[0] = SPICMD_WRITEREG;         // 写寄存器命令
+    
+    if(((RegAddr >= 0x1000) && (RegAddr <= 0x3014)))
+    {
+        // 32位寄存器
+        tx_buf[1] = (RegData >> 24) & 0xFF;
+        tx_buf[2] = (RegData >> 16) & 0xFF;
+        tx_buf[3] = (RegData >> 8) & 0xFF;
+        tx_buf[4] = RegData & 0xFF;
+        len = 5;
+    }
+    else
+    {
+        // 16位寄存器
+        tx_buf[1] = (RegData >> 8) & 0xFF;
+        tx_buf[2] = RegData & 0xFF;
+        len = 3;
+    }
+    
+    AD5940_CsClr();
+    CyDelayUs(2);
+    AD5940_ReadWriteNBytes(tx_buf, rx_buf, len);
+    CyDelayUs(2);
+    AD5940_CsSet();
 }
+
+
 
 /**
  * @brief Read register through SPI.
@@ -965,8 +995,8 @@ static void AD5940_SPIWriteReg(uint16_t RegAddr, uint32_t RegData)
 **/
 static uint32_t AD5940_SPIReadReg(uint16_t RegAddr)
 {
-    uint8_t tx_buf[4]; // 命令 + 地址高 + 地址低 + Dummy
-    uint8_t rx_buf[4]; // 接收缓冲 (前4个字节也是无效的)
+    uint8_t tx_buf[6]; // 命令 + 地址高 + 地址低 + Dummy
+    uint8_t rx_buf[6]; // 接收缓冲 (前4个字节也是无效的)
     uint32_t reg = 0;
     
     /* 1. 准备发送缓冲区 */
@@ -975,31 +1005,59 @@ static uint32_t AD5940_SPIReadReg(uint16_t RegAddr)
     tx_buf[2] = RegAddr & 0xFF;   // 地址低 8 位
     tx_buf[3] = 0xFF;             // Dummy Byte (用于产生时钟以读取数据前奏)
 
-    AD5940_CsClr();
-    CyDelayUs(1); // 稍微延时保证 CS 稳定
+    tx_buf[4] = 0xFF;
+    tx_buf[5] = 0xFF;
+    tx_buf[6] = 0xFF;
+    tx_buf[7] = 0xFF;
 
-    /* 2. 发送命令头 (Cmd + Addr + Dummy) */
-    // 注意：这里只是为了发送，rx_buf 里读回来的这时候是无效数据
-    for(int i = 0; i < 4; i++) {
-        AD5940_ReadWrite8B(tx_buf[i]); 
-    }
+    uint32_t result = 0;
 
-    /* 3. 正式读取数据 (通常是 16位 或 32位) */
-    // AD5941 的寄存器大多是 16位 或 32位。
-    // 如果读 CHIPID (0x400)，它是 16位的；如果是 FIFO，可能是 32位。
-    // 假设读取 32 位 (4字节)：
-    for(int i = 0; i < 4; i++)
-    {
-        // 发送 0xFF 产生时钟，读取 MISO 数据
-        uint8_t val = AD5940_ReadWrite8B(0xFF); 
-        reg = (reg << 8) | val;
-    }
+    // AD5940_CsClr();
+    // CyDelayUs(1); // 稍微延时保证 CS 稳定
 
-    AD5940_CsSet();
-    
+    // /* 2. 发送命令头 (Cmd + Addr + Dummy) */
+    // // 注意：这里只是为了发送，rx_buf 里读回来的这时候是无效数据
+    // for(int i = 0; i < 4; i++) {
+    //     AD5940_ReadWrite8B(tx_buf[i]); 
+    // }
+
+    // /* 3. 正式读取数据 (通常是 16位 或 32位) */
+    // // AD5941 的寄存器大多是 16位 或 32位。
+    // // 如果读 CHIPID (0x400)，它是 16位的；如果是 FIFO，可能是 32位。
+    // // 假设读取 32 位 (4字节)：
+    // for(int i = 0; i < 4; i++)
+    // {
+    //     // 发送 0xFF 产生时钟，读取 MISO 数据
+    //     uint8_t val = AD5940_ReadWrite8B(0xFF); 
+    //     reg = (reg << 8) | val;
+    // }
+
+    // AD5940_CsSet();
+  
     // 如果您读的是 16位寄存器 (如 CHIP_ID)，需要根据情况移位或只读2字节
     // 对于 CHIP_ID (0x400)，建议只读2字节，或者取 reg 的低16位
-    return reg;
+    // return reg;2026.01.08
+
+            /* CS拉低 → 传输 → CS拉高 */
+    AD5940_CsClr();
+    CyDelayUs(2);
+    AD5940_ReadWriteNBytes(tx_buf, rx_buf, 8);
+    CyDelayUs(2);
+    AD5940_CsSet();
+
+    if(((RegAddr >= 0x1000) && (RegAddr <= 0x3014)))
+    {
+        // 32位寄存器（需要再读2个字节）
+        // 这里需要修改为读取8字节
+        result = ((uint32_t)rx_buf[4] << 8) | rx_buf[5];  // 暂时只返回16位
+    }
+    else
+    {
+        // 16位寄存器
+        result = ((uint32_t)rx_buf[4] << 8) | rx_buf[5];
+    }
+    
+    return result;
 }
 
 /**

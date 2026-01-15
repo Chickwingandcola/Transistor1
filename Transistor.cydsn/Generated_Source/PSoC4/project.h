@@ -38,8 +38,6 @@
 #include "AD5940_CS_aliases.h"
 #include "AD5940_EXTI.h"
 #include "AD5940_EXTI_aliases.h"
-#include "LowPower_LED.h"
-#include "LowPower_LED_aliases.h"
 #include "AD5940_Interrupt.h"
 #include "AD5940_MISO.h"
 #include "AD5940_MISO_aliases.h"

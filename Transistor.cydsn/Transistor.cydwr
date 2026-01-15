@@ -1550,11 +1550,6 @@
         <Data key="Port Format" value="2,6" />
       </Group>
     </Group>
-    <Group key="76d26b07-4bcd-4cde-aaf2-aec79c5b7b8d">
-      <Group key="0">
-        <Data key="Port Format" value="5,1" />
-      </Group>
-    </Group>
     <Group key="81d364bb-532a-424f-9e0e-1f53a29f0558">
       <Group key="0">
         <Data key="Port Format" value="3,5" />
@@ -1635,7 +1630,11 @@
         <Data key="Port Format" value="3,6" />
       </Group>
     </Group>
-    <Group key="UnAssigned Pins" />
+    <Group key="UnAssigned Pins">
+      <Group key="76d26b07-4bcd-4cde-aaf2-aec79c5b7b8d">
+        <Data key="0" value="134126742563710585" />
+      </Group>
+    </Group>
   </Group>
   <Group key="PlaceDir">
     <Data key="count" value="0" />

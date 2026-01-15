@@ -101,10 +101,6 @@
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\AD5940_EXTI.h</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\AD5940_EXTI_aliases.h</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\AD5940_EXTI_PM.c</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\LowPower_LED.c</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\LowPower_LED.h</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\LowPower_LED_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\LowPower_LED_PM.c</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\AD5940_Interrupt.c</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\AD5940_Interrupt.h</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\AD5940_MISO.c</File>

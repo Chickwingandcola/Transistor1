@@ -1,5 +1,5 @@
 # Transistor
-# 2026-01-08 07:59:18Z
+# 2026-01-14 13:01:28Z
 
 # IO_6@[IOP=(0)][IoId=(6)] is reserved: SWDDebugEnabled
 dont_use_io iocell 0 6
@@ -23,7 +23,6 @@ set_io "Disconnect_LED(0)" iocell 5 0
 set_io "AD5940_CS(0)" iocell 1 6
 set_location "AD5940_EXTI" logicalport -1 -1 1
 set_io "AD5940_EXTI(0)" iocell 1 4
-set_io "LowPower_LED(0)" iocell 5 1
 set_io "AD5940_MISO(0)" iocell 0 5
 set_io "AD5940_SCLK(0)" iocell 1 7
 set_io "AD5940_MOSI(0)" iocell 0 4

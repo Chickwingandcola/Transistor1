@@ -1,5 +1,5 @@
 /*******************************************************************************
-* File Name: LowPower_LED.c  
+* File Name: Lowpower_LED.c  
 * Version 2.20
 *
 * Description:
@@ -15,13 +15,13 @@
 *******************************************************************************/
 
 #include "cytypes.h"
-#include "LowPower_LED.h"
+#include "Lowpower_LED.h"
 
-static LowPower_LED_BACKUP_STRUCT  LowPower_LED_backup = {0u, 0u, 0u};
+static Lowpower_LED_BACKUP_STRUCT  Lowpower_LED_backup = {0u, 0u, 0u};
 
 
 /*******************************************************************************
-* Function Name: LowPower_LED_Sleep
+* Function Name: Lowpower_LED_Sleep
 ****************************************************************************//**
 *
 * \brief Stores the pin configuration and prepares the pin for entering chip 
@@ -39,30 +39,30 @@ static LowPower_LED_BACKUP_STRUCT  LowPower_LED_backup = {0u, 0u, 0u};
 *  deep-sleep/hibernate modes.
 *
 * \funcusage
-*  \snippet LowPower_LED_SUT.c usage_LowPower_LED_Sleep_Wakeup
+*  \snippet Lowpower_LED_SUT.c usage_Lowpower_LED_Sleep_Wakeup
 *******************************************************************************/
-void LowPower_LED_Sleep(void)
+void Lowpower_LED_Sleep(void)
 {
-    #if defined(LowPower_LED__PC)
-        LowPower_LED_backup.pcState = LowPower_LED_PC;
+    #if defined(Lowpower_LED__PC)
+        Lowpower_LED_backup.pcState = Lowpower_LED_PC;
     #else
         #if (CY_PSOC4_4200L)
             /* Save the regulator state and put the PHY into suspend mode */
-            LowPower_LED_backup.usbState = LowPower_LED_CR1_REG;
-            LowPower_LED_USB_POWER_REG |= LowPower_LED_USBIO_ENTER_SLEEP;
-            LowPower_LED_CR1_REG &= LowPower_LED_USBIO_CR1_OFF;
+            Lowpower_LED_backup.usbState = Lowpower_LED_CR1_REG;
+            Lowpower_LED_USB_POWER_REG |= Lowpower_LED_USBIO_ENTER_SLEEP;
+            Lowpower_LED_CR1_REG &= Lowpower_LED_USBIO_CR1_OFF;
         #endif
     #endif
-    #if defined(CYIPBLOCK_m0s8ioss_VERSION) && defined(LowPower_LED__SIO)
-        LowPower_LED_backup.sioState = LowPower_LED_SIO_REG;
+    #if defined(CYIPBLOCK_m0s8ioss_VERSION) && defined(Lowpower_LED__SIO)
+        Lowpower_LED_backup.sioState = Lowpower_LED_SIO_REG;
         /* SIO requires unregulated output buffer and single ended input buffer */
-        LowPower_LED_SIO_REG &= (uint32)(~LowPower_LED_SIO_LPM_MASK);
+        Lowpower_LED_SIO_REG &= (uint32)(~Lowpower_LED_SIO_LPM_MASK);
     #endif  
 }
 
 
 /*******************************************************************************
-* Function Name: LowPower_LED_Wakeup
+* Function Name: Lowpower_LED_Wakeup
 ****************************************************************************//**
 *
 * \brief Restores the pin configuration that was saved during Pin_Sleep(). This 
@@ -77,22 +77,22 @@ void LowPower_LED_Sleep(void)
 *  None
 *  
 * \funcusage
-*  Refer to LowPower_LED_Sleep() for an example usage.
+*  Refer to Lowpower_LED_Sleep() for an example usage.
 *******************************************************************************/
-void LowPower_LED_Wakeup(void)
+void Lowpower_LED_Wakeup(void)
 {
-    #if defined(LowPower_LED__PC)
-        LowPower_LED_PC = LowPower_LED_backup.pcState;
+    #if defined(Lowpower_LED__PC)
+        Lowpower_LED_PC = Lowpower_LED_backup.pcState;
     #else
         #if (CY_PSOC4_4200L)
             /* Restore the regulator state and come out of suspend mode */
-            LowPower_LED_USB_POWER_REG &= LowPower_LED_USBIO_EXIT_SLEEP_PH1;
-            LowPower_LED_CR1_REG = LowPower_LED_backup.usbState;
-            LowPower_LED_USB_POWER_REG &= LowPower_LED_USBIO_EXIT_SLEEP_PH2;
+            Lowpower_LED_USB_POWER_REG &= Lowpower_LED_USBIO_EXIT_SLEEP_PH1;
+            Lowpower_LED_CR1_REG = Lowpower_LED_backup.usbState;
+            Lowpower_LED_USB_POWER_REG &= Lowpower_LED_USBIO_EXIT_SLEEP_PH2;
         #endif
     #endif
-    #if defined(CYIPBLOCK_m0s8ioss_VERSION) && defined(LowPower_LED__SIO)
-        LowPower_LED_SIO_REG = LowPower_LED_backup.sioState;
+    #if defined(CYIPBLOCK_m0s8ioss_VERSION) && defined(Lowpower_LED__SIO)
+        Lowpower_LED_SIO_REG = Lowpower_LED_backup.sioState;
     #endif
 }
 

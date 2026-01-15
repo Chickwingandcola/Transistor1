@@ -45,10 +45,6 @@
   <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AD5940_EXTI.h" value="HEADER;;;;;AD5940_EXTI" />
   <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AD5940_EXTI_aliases.h" value="HEADER;;;;;AD5940_EXTI" />
   <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AD5940_EXTI_PM.c" value="SOURCE_C;CortexM0;;;;AD5940_EXTI" />
-  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\LowPower_LED.c" value="SOURCE_C;CortexM0;;;;LowPower_LED" />
-  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\LowPower_LED.h" value="HEADER;;;;;LowPower_LED" />
-  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\LowPower_LED_aliases.h" value="HEADER;;;;;LowPower_LED" />
-  <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\LowPower_LED_PM.c" value="SOURCE_C;CortexM0;;;;LowPower_LED" />
   <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AD5940_Interrupt.c" value="SOURCE_C;CortexM0;;;;AD5940_Interrupt" />
   <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AD5940_Interrupt.h" value="HEADER;;;;;AD5940_Interrupt" />
   <file name="E:\desktop\bu\eda\Transistor\Transistor.cydsn\codegentemp\AD5940_MISO.c" value="SOURCE_C;CortexM0;;;;AD5940_MISO" />

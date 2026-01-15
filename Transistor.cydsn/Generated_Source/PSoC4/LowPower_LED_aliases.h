@@ -1,5 +1,5 @@
 /*******************************************************************************
-* File Name: LowPower_LED.h  
+* File Name: Lowpower_LED.h  
 * Version 2.20
 *
 * Description:
@@ -15,8 +15,8 @@
 * the software package with which this file was provided.
 *******************************************************************************/
 
-#if !defined(CY_PINS_LowPower_LED_ALIASES_H) /* Pins LowPower_LED_ALIASES_H */
-#define CY_PINS_LowPower_LED_ALIASES_H
+#if !defined(CY_PINS_Lowpower_LED_ALIASES_H) /* Pins Lowpower_LED_ALIASES_H */
+#define CY_PINS_Lowpower_LED_ALIASES_H
 
 #include "cytypes.h"
 #include "cyfitter.h"
@@ -26,17 +26,17 @@
 /***************************************
 *              Constants        
 ***************************************/
-#define LowPower_LED_0			(LowPower_LED__0__PC)
-#define LowPower_LED_0_PS		(LowPower_LED__0__PS)
-#define LowPower_LED_0_PC		(LowPower_LED__0__PC)
-#define LowPower_LED_0_DR		(LowPower_LED__0__DR)
-#define LowPower_LED_0_SHIFT	(LowPower_LED__0__SHIFT)
-#define LowPower_LED_0_INTR	((uint16)((uint16)0x0003u << (LowPower_LED__0__SHIFT*2u)))
+#define Lowpower_LED_0			(Lowpower_LED__0__PC)
+#define Lowpower_LED_0_PS		(Lowpower_LED__0__PS)
+#define Lowpower_LED_0_PC		(Lowpower_LED__0__PC)
+#define Lowpower_LED_0_DR		(Lowpower_LED__0__DR)
+#define Lowpower_LED_0_SHIFT	(Lowpower_LED__0__SHIFT)
+#define Lowpower_LED_0_INTR	((uint16)((uint16)0x0003u << (Lowpower_LED__0__SHIFT*2u)))
 
-#define LowPower_LED_INTR_ALL	 ((uint16)(LowPower_LED_0_INTR))
+#define Lowpower_LED_INTR_ALL	 ((uint16)(Lowpower_LED_0_INTR))
 
 
-#endif /* End Pins LowPower_LED_ALIASES_H */
+#endif /* End Pins Lowpower_LED_ALIASES_H */
 
 
 /* [] END OF FILE */
