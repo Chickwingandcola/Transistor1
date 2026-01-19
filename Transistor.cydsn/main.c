@@ -71,161 +71,166 @@ void AD5941_Initialize(void)
 {
     AD5940Err error;
     
-    // 步骤1: 复位AD5940
-    printf("[INIT] Step 1: Resetting AD5940...\n");
-    AD5940_RST_Write(0);
+    // ====================================================================
+    // 步骤 1: 硬件复位与引脚状态强制初始化
+    // ====================================================================
+    printf("[INIT] Step 1: Resetting hardware...\r\n");
+    
+    // 1.1 确保SPI总线处于空闲状态 (Mode 0: SCLK=0, CS=1)
+    // 防止引脚之前的状态导致芯片误判
+    AD5940_CS_Write(1);   
+    AD5940_SCLK_Write(0); 
+    AD5940_MOSI_Write(0); 
     CyDelay(10);
-    AD5940_RST_Write(1);
-    CyDelay(100);
-    printf("[INIT] Reset complete\n");
+
+    // 1.2 执行硬件复位
+    AD5940_RST_Write(0);  // 拉低复位
+    CyDelay(10);          // 保持10ms
+    AD5940_RST_Write(1);  // 释放复位
+    CyDelay(100);         // 等待芯片内部加载 (Boot time)
     
-    // 步骤2: 初始化MCU资源（SPI通信）
-    printf("[INIT] Step 2: Initializing MCU SPI resources...\n");
+    printf("[INIT] Hardware Reset complete.\r\n");
+
+    // ====================================================================
+    // 步骤 2: 唤醒 SPI 接口 (关键步骤！)
+    // ====================================================================
+    // AD5940 复位后处于休眠状态，需要一个 CS 下降沿来唤醒 SPI 接口
+    printf("[INIT] Step 2: Waking up SPI interface...\r\n");
+    
+    AD5940_CS_Write(0);   // 拉低 CS 唤醒
+    CyDelayUs(100);       // 保持一小段时间
+    AD5940_CS_Write(1);   // 拉高 CS
+    CyDelay(10);          // 等待接口准备就绪
+
+    // 初始化 MCU SPI 资源变量
     AD5940_MCUResourceInit(NULL);
-    printf("[INIT] SPI resources initialized\n");
 
-    // ===== 新增：在 AD5940_Initialize() 之前读取寄存器 =====
-    printf("\n[DEBUG] Reading registers BEFORE AD5940_Initialize():\n");
-    uint32 adiid_before = AD5940_ReadReg(REG_AFECON_ADIID);
-    uint32 chipid_before = AD5940_ReadReg(REG_AFECON_CHIPID);
-    printf("  ADIID (before):  0x%08lX (expect 0x00004144)\n", adiid_before);
-    printf("  CHIPID (before): 0x%08lX (expect 0x00005501 or 0x00005502)\n", chipid_before);
-  
+    // ====================================================================
+    // 步骤 3: 寄存器通信测试 (ID 检查)
+    // ====================================================================
+    printf("\r\n[DEBUG] Verifying SPI Communication...\r\n");
     
-    // 步骤2.5: 执行AD5940硬件初始化 (Table 14 - 必须在复位后立即执行)
-    // 这是关键步骤：写入初始化寄存器序列以激活芯片内部SPI接口和模拟前端
-    printf("[INIT] Step 2.5: Running AD5940_Initialize (Table 14 sequence)...\n");
-    AD5940_Initialize();
-    printf("[INIT] AD5940_Initialize complete\n");
+    uint32_t adiid = 0;
+    uint32_t chipid = 0;
+    uint8_t id_valid = 0;
 
-    CyDelay(100);  // 重要！等待AFE唤醒（数据手册要求≥30ms，这里用100ms确保充分）
-
-    // ===== 新增：读取多次验证 =====
-    printf("\n[DEBUG] Reading registers AFTER AD5940_Initialize() (multiple attempts):\n");
-    for(int attempt = 0; attempt < 3; attempt++)
+    // 尝试读取3次，排除偶发的上电不稳定
+    for(int attempt = 1; attempt <= 3; attempt++)
     {
-        uint32 adiid = AD5940_ReadReg(REG_AFECON_ADIID);
-        uint32 chipid = AD5940_ReadReg(REG_AFECON_CHIPID);
-        printf("  [Attempt %d] ADIID: 0x%08lX, CHIPID: 0x%08lX\n", 
-               attempt + 1, adiid, chipid);
+        adiid = AD5940_ReadReg(REG_AFECON_ADIID);
+        chipid = AD5940_ReadReg(REG_AFECON_CHIPID);
         
+        printf("  [Attempt %d] ADIID: 0x%08lX, CHIPID: 0x%08lX\r\n", attempt, adiid, chipid);
+
+        // 判定标准：ADIID 应为 0x4144, CHIPID 应为 0x5502 (AD5941) 或 0x5501 (AD5940)
         if(adiid == 0x4144 && (chipid == 0x5501 || chipid == 0x5502))
         {
-            printf("  ✅ Correct ID detected on attempt %d!\n", attempt + 1);
+            id_valid = 1;
+            printf("  ✅ Communication Success!\r\n");
             break;
         }
-        CyDelay(50);  // 每次尝试间隔 50ms
+        else
+        {
+            // 如果读到全是 0，可能是 MISO 没连好或者芯片没电
+            // 如果读到全是 F，可能是 MISO 短路到 VCC
+            if(adiid == 0x0000) printf("     -> Warning: Read 0x00. Check MISO Connection or Power.\r\n");
+            if(adiid == 0xFFFF) printf("     -> Warning: Read 0xFF. Check if MISO is shorted to VDD.\r\n");
+            
+            // 失败重试前再次尝试唤醒
+            AD5940_CS_Write(0); CyDelayUs(20); AD5940_CS_Write(1);
+            CyDelay(50);
+        }
     }
-    
-    // ===== 新增：读取 AFE 状态寄存器 =====
-    printf("\n[DEBUG] Reading AFE status registers:\n");
-    uint32 afecon = AD5940_ReadReg(REG_AFE_AFECON);
-    uint32 intcflag = AD5940_ReadReg(REG_INTC_INTCFLAG0);
-    printf("  AFECON:    0x%08lX\n", afecon);
-    printf("  INTCFLAG0: 0x%08lX\n", intcflag);
 
-
-        // 🔍 立即检查 ID
-    uint32 chipid = AD5940_ReadReg(REG_AFECON_CHIPID);
-    printf("[DEBUG] CHIPID after 100ms wait: 0x%lX\n", chipid);
-    
-    if(chipid != 0x5502 && chipid != 0x5501)
+    if(!id_valid)
     {
-        printf("[ERROR] Chip not responding! Got: 0x%lX\n", chipid);
-        // 尝试更长的等待
-        CyDelay(100);
-        chipid = AD5940_ReadReg(REG_AFECON_CHIPID);
-        printf("[RETRY] CHIPID after 150ms: 0x%lX\n", chipid);
+        printf("[ERROR] SPI Communication Failed. Halting Initialization.\r\n");
+        // 这里可以选择 return，或者继续尝试(有时候是 glitch)
+        // return; 
     }
+
+    // ====================================================================
+    // 步骤 4: 执行 ADI 库初始化 (AD5940_Initialize)
+    // ====================================================================
+    // 这个函数会向芯片写入大量的校准数据和默认配置
+    printf("\r\n[INIT] Step 4: Running ADI Library Init (Table 14)...\r\n");
+    AD5940_Initialize(); 
+    printf("[INIT] Library Init complete.\r\n");
     
-    // 步骤3: 获取配置指针
-    printf("[INIT] Step 3: Getting config pointer...\n");
+    // 再次等待 AFE 稳定
+    CyDelay(100); 
+
+    // ====================================================================
+    // 步骤 5: 配置安培法 (Amperometric) 参数
+    // ====================================================================
+    printf("[INIT] Step 5: Configuring Application Parameters...\r\n");
+    
     AppAMPGetCfg(&pAmpCfg);
     if(pAmpCfg == NULL)
     {
-        printf("[ERROR] pAmpCfg is NULL!\n");
+        printf("[ERROR] pAmpCfg is NULL!\r\n");
         return;
     }
-    printf("[INIT] Config pointer obtained: %p\n", (void*)pAmpCfg);
     
-    // 步骤4: 配置安培法测量参数（根据Amperometric.h结构体）
-    printf("[INIT] Step 4: Configuring amperometric parameters...\n");
+    AD5940_LPModeClkS(LPMODECLK_LFOSC);
+
+    // --- 基础配置 ---
     pAmpCfg->bParaChanged = bTRUE;
     pAmpCfg->SeqStartAddr = 0;
     pAmpCfg->MaxSeqLen = 512;
     pAmpCfg->SeqStartAddrCal = 0;
     pAmpCfg->MaxSeqLenCal = 512;
     
-    pAmpCfg->ReDoRtiaCal = bFALSE;
-    pAmpCfg->SysClkFreq = 16000000.0;   // 16MHz系统时钟
-    pAmpCfg->WuptClkFreq = 32000.0;     // 32kHz唤醒时钟
-    pAmpCfg->AdcClkFreq = 16000000.0;   // 16MHz ADC时钟
-    pAmpCfg->FifoThresh = 4;            // FIFO阈值
-    pAmpCfg->AmpODR = 10.0;             // 10Hz采样率
-    pAmpCfg->NumOfData = -1;            // 连续测量
+    // --- 时钟与电源 ---
+    pAmpCfg->SysClkFreq = 16000000.0;
+    pAmpCfg->WuptClkFreq = 32000.0;
+    pAmpCfg->AdcClkFreq = 16000000.0;
+    pAmpCfg->PwrMod = AFEPWR_LP; // 低功耗
+
+    // --- 测量参数 ---
+    pAmpCfg->AmpODR = 10.0;      // 采样率 10Hz
+    pAmpCfg->NumOfData = -1;     // -1 表示无限连续测量
+    pAmpCfg->FifoThresh = 4;     // FIFO 阈值
+
+    // --- 电化学参数 (根据你的代码) ---
+    pAmpCfg->RcalVal = 10000.0;     // 10k 校准电阻
+    pAmpCfg->ADCRefVolt = 1.82;     // Vref 1.82V
+    pAmpCfg->ExtRtia = bFALSE;      // 使用内部 RTIA
+
+    // --- LPTIA (低功耗跨阻放大器) ---
+    pAmpCfg->LptiaRtiaSel = LPTIARTIA_10K; // 反馈电阻 10k
+    pAmpCfg->LpTiaRf = LPTIARF_1M;         // 滤波电阻
+    pAmpCfg->LpTiaRl = LPTIARLOAD_100R;    // 负载电阻
     
-    // 电化学参数
-    pAmpCfg->RcalVal = 10000.0;         // 10kΩ校准电阻
-    pAmpCfg->ADCRefVolt = 1.82;         // ADC参考电压1.82V
-    pAmpCfg->PwrMod = AFEPWR_LP;        // 低功耗模式
-    
-    // ADC配置
-    pAmpCfg->ADCPgaGain = ADCPGA_1P5;   // PGA增益1.5
+    // --- 偏置电压 ---
+    pAmpCfg->Vzero = 1100.0;      // Vzero = 1.1V
+    pAmpCfg->SensorBias = 0.0;    // Vbias = 0V (Sensor = Vzero)
+
+    // --- ADC ---
+    pAmpCfg->ADCPgaGain = ADCPGA_1P5;
     pAmpCfg->ADCSinc3Osr = ADCSINC3OSR_4;
     pAmpCfg->ADCSinc2Osr = ADCSINC2OSR_178;
     pAmpCfg->DataFifoSrc = FIFOSRC_SINC3;
-    
-    // LPTIA配置（跨阻放大器）
-    pAmpCfg->LptiaRtiaSel = LPTIARTIA_10K;  // 10kΩ内部RTIA
-    pAmpCfg->LpTiaRf = LPTIARF_1M;          // 1MΩ滤波电阻
-    pAmpCfg->LpTiaRl = LPTIARLOAD_100R;     // 100Ω负载电阻
-    
-    // 偏置电压
-    pAmpCfg->Vzero = 1100.0;            // SE0偏置电压1.1V
-    pAmpCfg->SensorBias = 0.0;          // 传感器偏置0V（普鲁士蓝介体）
-    
-    // 外部RTIA（不使用）
-    pAmpCfg->ExtRtia = bFALSE;
-    pAmpCfg->ExtRtiaVal = 0.0;
-    
+
+    // 清除状态
     pAmpCfg->AMPInited = bFALSE;
     pAmpCfg->StopRequired = bFALSE;
     pAmpCfg->FifoDataCount = 0;
-    printf("[INIT] Parameters configured\n");
-    printf("[INIT] AMPInited before AppAMPInit: %d\n", (int)pAmpCfg->AMPInited);
-    
-    // 步骤5: 初始化应用（使用缓冲区）
-    printf("[INIT] Step 5: Calling AppAMPInit...\n");
+
+    // ====================================================================
+    // 步骤 6: 启动应用
+    // ====================================================================
+    printf("[INIT] Step 6: Calling AppAMPInit...\r\n");
     error = AppAMPInit(ampBuffer, 512);
-    printf("[INIT] AppAMPInit returned: %d\n", (int)error);
-    printf("[INIT] AMPInited after AppAMPInit: %d\n", (int)pAmpCfg->AMPInited);
     
     if(error == AD5940ERR_OK)
     {
-        printf("[OK] AD5941 initialization successful\n");
+        printf("[OK] AD5941 System Initialized Successfully.\r\n");
+        printf("     AMPInited Flag: %d\r\n", pAmpCfg->AMPInited);
     }
     else
     {
-        printf("[ERROR] AD5941 initialization failed: error=%d\n", (int)error);
-    }
-    
-    // 快速ID寄存器检查（在初始化后）
-    printf("\n[ID CHECK] Reading AD5941 ID registers...\n");
-    uint32 id_adiid = AD5940_ReadReg(REG_AFECON_CHIPID);
-    uint32 id_chipid = AD5940_ReadReg(REG_AFECON_CHIPID);
-    printf("ADIID: 0x%lX\n", (unsigned long)id_adiid);
-    printf("CHIPID: 0x%lX\n", (unsigned long)id_chipid);
-    if(id_adiid == 0x4144 && id_chipid == 0x5501)
-    {
-        printf("[OK] ID registers correct!\n");
-    }
-    else if(id_adiid == 0x808080 || id_chipid == 0x808080)
-    {
-        printf("[ERROR] Still getting 0x808080 - MISO issue persists!\n");
-    }
-    else
-    {
-        printf("[WARNING] Unexpected ID values\n");
+        printf("[ERROR] AppAMPInit failed with error code: %d\r\n", error);
     }
 }
 
@@ -899,6 +904,8 @@ void ControlElectricalStimulation(uint8 enable)
 *   发送电流值到 BLE（显示在手机 App 上）
 *******************************************************************************/
 
+/*
+
 // 发送葡萄糖数据（浓度 + 电流）
 void SendGlucoseDataViaBLE(void)
 {
@@ -921,6 +928,129 @@ void SendGlucoseDataViaBLE(void)
     }
 }
 
+*/
+
+void SendGlucoseDataViaBLE(void)
+{
+    CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
+    static char dataString[50];
+    static uint8 testStep = 0;
+    
+    if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
+    {
+        switch(testStep % 8)
+        {
+            case 0:
+                // ✅ CS测试：手动设置为1
+                AD5940_CsSet();
+                CyDelayUs(100);
+                sprintf(dataString, "CS=1, Read:%d", AD5940_CS_Read());
+                break;
+                
+            case 1:
+                // ✅ CS测试：手动设置为0
+                AD5940_CsClr();
+                CyDelayUs(100);
+                sprintf(dataString, "CS=0, Read:%d", AD5940_CS_Read());
+                AD5940_CsSet();  // 恢复
+                break;
+                
+            case 2:
+                // 🧪 完整SPI读取测试（带CS控制）
+                {
+                    uint8_t tx[6] = {0x20, 0x04, 0x00, 0xFF, 0xFF, 0xFF};
+                    uint8_t rx[6] = {0};
+                    
+                    AD5940_CsSet();
+                    CyDelayUs(10);
+                    AD5940_CsClr();
+                    CyDelayUs(10);
+                    AD5940_ReadWriteNBytes(tx, rx, 6);
+                    CyDelayUs(10);
+                    AD5940_CsSet();
+                    
+                    sprintf(dataString, "RX:%02X %02X %02X %02X",
+                            rx[2], rx[3], rx[4], rx[5]);
+                }
+                break;
+                
+            case 3:
+                // 🧪 测试：读取ADIID（修复CS后）
+                {
+                    uint32 adiid = AD5940_ReadReg(REG_AFECON_ADIID);
+                    sprintf(dataString, "ADIID:0x%lX (exp 4144)", adiid);
+                }
+                break;
+                
+            case 4:
+                // 🧪 测试：读取CHIPID（修复CS后）
+                {
+                    uint32 chipid = AD5940_ReadReg(REG_AFECON_CHIPID);
+                    sprintf(dataString, "CHIP:0x%lX (exp 5502)", chipid);
+                }
+                break;
+                
+            case 5:
+                // 📊 检查是否还是重复字节
+                {
+                    uint32 val = AD5940_ReadReg(REG_AFECON_CHIPID);
+                    uint8_t b0 = val & 0xFF;
+                    uint8_t b1 = (val >> 8) & 0xFF;
+                    uint8_t b2 = (val >> 16) & 0xFF;
+                    
+                    if(b0 == b1 && b1 == b2) {
+                        sprintf(dataString, "REPEAT byte:0x%02X", b0);
+                    } else {
+                        sprintf(dataString, "OK: %02X %02X %02X", b0, b1, b2);
+                    }
+                }
+                break;
+                
+            case 6:
+                // 🔧 降低速度重试
+                {
+                    // 临时改为20us延时
+                    uint8_t tx[6] = {0x6D, 0x04, 0x00, 0xFF, 0xFF, 0xFF};
+                    uint8_t rx[6] = {0};
+                    
+                    AD5940_CsSet();
+                    CyDelayUs(20);
+                    AD5940_CsClr();
+                    CyDelayUs(20);
+                    
+                    for(int i = 0; i < 6; i++) {
+                        rx[i] = SoftSPI_TxRxByte(tx[i]);
+                        CyDelayUs(20);  // 字节间延时
+                    }
+                    
+                    CyDelayUs(20);
+                    AD5940_CsSet();
+                    
+                    uint16_t result = (rx[4] << 8) | rx[5];
+                    sprintf(dataString, "Slow: 0x%04X", result);
+                }
+                break;
+                
+            case 7:
+                // 📍 显示所有引脚状态
+                sprintf(dataString, "CS:%d SCK:%d MO:%d MI:%d",
+                        AD5940_CS_Read(),
+                        AD5940_SCLK_Read(),
+                        AD5940_MOSI_Read(),
+                        AD5940_MISO_Read());
+                break;
+        }
+        
+        testStep++;
+        
+        notificationHandle.attrHandle = CYBLE_CUSTOM_SERVICE_GLUCOSE_MEASUREMENT_CHAR_HANDLE;
+        notificationHandle.value.val = (uint8*)dataString;
+        notificationHandle.value.len = strlen(dataString);
+        CyBle_GattsNotification(cyBle_connHandle, &notificationHandle);
+    }
+}
+
+
 // 发送乳酸数据（改为诊断日志输出）
 void SendLactateDataViaBLE(void)
 {
@@ -938,7 +1068,7 @@ void SendLactateDataViaBLE(void)
         {
             case 0:
                 // 显示原始寄存器值（不做 & 0xFFFFFF）
-                regValue = AD5940_ReadReg(REG_AFECON_CHIPID);
+                regValue = AD5940_ReadReg(REG_AFECON_ADIID);
                 sprintf(dataString, "Reg:0x%lX", (unsigned long)regValue);
                 break;
             case 1:
@@ -1006,51 +1136,54 @@ void SendTemperatureViaBLE(void)
 {
     CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
     static char tempString[60];
-    static uint8 diagStep = 0;  // 轮询步骤标志
-    
-    // 定义发送和接收缓冲区（与TestReadADIID保持一致）
-    uint8_t tx[6] = {0x6D, 0x04, 0x00, 0xFF, 0xFF, 0xFF};
-    uint8_t rx[6] = {0};
-    uint16_t result1, result2, result3;
+    static uint8 testStep = 0;
     
     if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
     {
-        // 每次调用都执行一次ADIID读取（与TestReadADIID逻辑相同）
-        AD5940_CsClr();
-        CyDelayUs(2);
-        AD5940_ReadWriteNBytes(tx, rx, 6);
-        CyDelayUs(2);
-        AD5940_CsSet();
-        
-        // 计算解析结果
-        result1 = (rx[2] << 8) | rx[3];  // 从索引2解析
-        result2 = (rx[3] << 8) | rx[4];  // 从索引3解析
-        result3 = (rx[4] << 8) | rx[5];  // 从索引4解析（预期0x4144）
-        
-        // 轮询显示不同的调试信息
-        switch(diagStep % 4)
+        switch(testStep % 5)
         {
             case 0:
-                // 显示发送和接收的原始数据
-                sprintf(tempString, "TX:%02X %02X %02X %02X %02X %02X",
-                        tx[0], tx[1], tx[2], tx[3], tx[4], tx[5]);
+                // 🔧 测试1：尝试设置SCLK为0
+                AD5940_SCLK_Write(0);
+                CyDelay(10);
+                sprintf(tempString, "SCLK=0, Read:%d", AD5940_SCLK_Read());
                 break;
+                
             case 1:
-                sprintf(tempString, "RX:%02X %02X %02X %02X %02X %02X",
-                        rx[0], rx[1], rx[2], rx[3], rx[4], rx[5]);
+                // 🔧 测试2：尝试设置SCLK为1
+                AD5940_SCLK_Write(1);
+                CyDelay(10);
+                sprintf(tempString, "SCLK=1, Read:%d", AD5940_SCLK_Read());
                 break;
+                
             case 2:
-                // 显示前两种解析结果
-                sprintf(tempString, "Res1:0x%04X Res2:0x%04X", result1, result2);
+                // 🔧 测试3：检查CS和MOSI
+                sprintf(tempString, "CS:%d MOSI:%d MISO:%d", 
+                        AD5940_CS_Read(),
+                        AD5940_MOSI_Read(),
+                        AD5940_MISO_Read());
                 break;
+                
             case 3:
-                // 显示第三种解析结果（预期值）
-                sprintf(tempString, "Res3:0x%04X (exp 0x4144)", result3);
+                // 🔧 测试4：快速翻转SCLK 10次
+                for(int i=0; i<10; i++) {
+                    AD5940_SCLK_Write(1);
+                    CyDelayUs(10);
+                    AD5940_SCLK_Write(0);
+                    CyDelayUs(10);
+                }
+                sprintf(tempString, "SCLK toggled 10x");
+                break;
+                
+            case 4:
+                // 🔧 测试5：读取引脚配置寄存器（如果可能）
+                // 这需要查PSoC寄存器，暂时显示基本状态
+                sprintf(tempString, "Check TopDesign pin cfg");
                 break;
         }
-        diagStep++;  // 切换到下一个步骤
         
-        // 发送BLE通知
+        testStep++;
+        
         notificationHandle.attrHandle = CYBLE_CUSTOM_SERVICE_LACTATE_CHAR_HANDLE;
         notificationHandle.value.val = (uint8*)tempString;
         notificationHandle.value.len = strlen(tempString);
@@ -1348,6 +1481,8 @@ int main()
         CyBle_ProcessEvents();
         
         // 低功耗管理
+        
+
         //LowPowerImplementation();
         
         // 每秒执行一次传感器测量

@@ -38,8 +38,10 @@
  */
 static inline void SPI_Delay(void)
 {
-    CyDelayUs(2);   // ≈ 250 kHz，安全范围
+    volatile int i;
+    for (i = 0; i < 20; i++);
 }
+
 
 /**
  * @brief 软件SPI读写单个字节
@@ -51,75 +53,78 @@ static inline void SPI_Delay(void)
  * - 下降沿：MOSI改变，准备数据
  * - 上升沿：采样MISO
  */
-static uint8_t SoftSPI_TxRxByte(uint8_t tx)
+uint8_t SoftSPI_TxRxByte(uint8_t tx)
 {
     uint8_t rx = 0;
-    int i;
+    int8_t i;
 
-    for(i = 7; i >= 0; i--)  // MSB先行
+    /* SCLK 空闲态必须为低（CPOL = 0） */
+    SPI_SCLK_CLR();
+
+    for (i = 7; i >= 0; i--)   // MSB first
     {
-        /* 先拉低时钟（对应时序图 t₃ 时刻）*/
-        SPI_SCLK_CLR();
-        
-        /* 在 SCLK 低电平期间设置 MOSI（对应时序图 t₇-t₈）*/
-        if(tx & (1 << i))
+        /* ---------- SCLK 低电平：设置 MOSI（t7~t8） ---------- */
+        if (tx & (1 << i))
             SPI_MOSI_SET();
         else
             SPI_MOSI_CLR();
 
-        SPI_Delay();  // MOSI 建立时间（满足 t₇ 要求）
+        SPI_Delay();   // MOSI 建立时间（t7）
 
-        /* 上升沿：AD5941 在这里采样 MOSI，同时驱动 MISO（对应时序图 t₆）*/
+        /* ---------- 上升沿：采样 MISO（t1） ---------- */
         SPI_SCLK_SET();
-        SPI_Delay();  // MISO 建立时间（满足 t₁ 要求）
 
-        /* 读取 MISO 数据 */
         rx <<= 1;
-        if(SPI_MISO_GET())
+        if (SPI_MISO_GET())
             rx |= 1;
+
+        SPI_Delay();   // SCLK 高电平时间（t4）
+
+        /* ---------- 下降沿：从机准备下一位 ---------- */
+        SPI_SCLK_CLR();
+        SPI_Delay();   // SCLK 低电平时间（t5）
     }
-    
-    /* 恢复时钟到空闲状态（低电平）*/
-    SPI_SCLK_CLR();
-    
+
     return rx;
 }
+
 
 /**
  * @brief SPI读写多字节 - 修正空闲态
  */
-int32_t AD5940_ReadWriteNBytes(unsigned char *pSendBuffer, unsigned char *pRecvBuff, unsigned long length)
+int32_t AD5940_ReadWriteNBytes(uint8_t *pSendBuffer,
+                              uint8_t *pRecvBuff,
+                              uint32_t length)
 {
     uint32_t i;
-    
-    if(pSendBuffer == NULL || pRecvBuff == NULL || length == 0)
-    {
+
+    if (!pSendBuffer || !pRecvBuff || length == 0)
         return -1;
-    }
-    
-    // /* ===== 关键修改：SCLK 空闲态必须是低电平 ===== */
-    // SPI_CS_HIGH();
-    // SPI_SCLK_CLR();    // ← 改为低电平
-    // SPI_MOSI_CLR();
-    // SPI_Delay();
-    
-    // /* 拉低CS片选信号（对应时序图 t₂）*/
-    // SPI_CS_LOW();
-    // SPI_Delay();       // 满足 t₂ 建立时间
-    
-    /* 逐字节收发数据 */
-    for(i = 0; i < length; i++)
+
+    /* ---------- 空闲态 ---------- */
+    SPI_CS_HIGH();
+    SPI_SCLK_CLR();     // CPOL = 0
+    SPI_MOSI_CLR();
+    SPI_Delay();
+
+    /* ---------- 拉低 CS（t2）---------- */
+    SPI_CS_LOW();
+    SPI_Delay();
+
+    /* ---------- 连续字节传输（CS 期间 SCLK 不停）---------- */
+    for (i = 0; i < length; i++)
     {
         pRecvBuff[i] = SoftSPI_TxRxByte(pSendBuffer[i]);
     }
-    
-    // /* 拉高CS片选信号（对应时序图 t₉）*/
-    // SPI_Delay();       // 满足 t₉ 保持时间
-    // SPI_CS_HIGH();
-    // SPI_Delay();       // 满足 t₁₀ 恢复时间
-    
+
+    /* ---------- 拉高 CS（t9 / t10）---------- */
+    SPI_Delay();
+    SPI_CS_HIGH();
+    SPI_Delay();
+
     return 0;
 }
+
 /*******************************************************************************
 
 * GPIO控制函数
