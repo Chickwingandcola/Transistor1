@@ -38,56 +38,46 @@
  */
 static inline void SPI_Delay(void)
 {
-    volatile int i;
-    for (i = 0; i < 20; i++);
+    // 增加延时，确保波形稳定，特别是对于长线连接
+    CyDelayUs(5); 
 }
 
-
-/**
- * @brief 软件SPI读写单个字节
- * @param tx: 待发送字节
- * @return 接收到的字节
- * 
- * SPI时序（CPOL=1, CPHA=1）：
- * - 空闲状态：SCLK = 1
- * - 下降沿：MOSI改变，准备数据
- * - 上升沿：采样MISO
- */
 uint8_t SoftSPI_TxRxByte(uint8_t tx)
 {
     uint8_t rx = 0;
-    int8_t i;
+    int i;
 
-    /* SCLK 空闲态必须为低（CPOL = 0） */
-    SPI_SCLK_CLR();
-
-    for (i = 7; i >= 0; i--)   // MSB first
+    for(i = 7; i >= 0; i--)
     {
-        /* ---------- SCLK 低电平：设置 MOSI（t7~t8） ---------- */
-        if (tx & (1 << i))
+        // 1. 准备数据 (MOSI)
+        if(tx & (1 << i))
             SPI_MOSI_SET();
         else
             SPI_MOSI_CLR();
+        
+        SPI_Delay(); // 建立时间 (Setup Time)
 
-        SPI_Delay();   // MOSI 建立时间（t7）
-
-        /* ---------- 上升沿：采样 MISO（t1） ---------- */
+        // 2. 时钟拉高 (SCLK Rising) - 此时 AD5940 采样 MOSI
         SPI_SCLK_SET();
-
+        
+        SPI_Delay(); // 增加延时，避开上升沿的串扰尖峰!
+        
+        // 3. 读取 MISO 
+        // 此时由于延时，串扰应该已经消失。
+        // 如果是真实数据，AD5940 会强驱动保持电平。
         rx <<= 1;
-        if (SPI_MISO_GET())
+        if(SPI_MISO_GET())
+        {
             rx |= 1;
+        }
 
-        SPI_Delay();   // SCLK 高电平时间（t4）
-
-        /* ---------- 下降沿：从机准备下一位 ---------- */
+        // 4. 时钟拉低 (SCLK Falling)
         SPI_SCLK_CLR();
-        SPI_Delay();   // SCLK 低电平时间（t5）
+        SPI_Delay(); // 保持时间 (Hold Time)
     }
-
+    
     return rx;
 }
-
 
 /**
  * @brief SPI读写多字节 - 修正空闲态

@@ -995,67 +995,60 @@ static void AD5940_SPIWriteReg(uint16_t RegAddr, uint32_t RegData)
 **/
 static uint32_t AD5940_SPIReadReg(uint16_t RegAddr)
 {
-    uint8_t tx_buf[8];
+    uint8_t tx_buf[8];  // ✅ 修正:足够大的数组
     uint8_t rx_buf[8];
     uint32_t result = 0;
-    uint8_t bufLen;
+    uint8_t dataLen;
     
-    /* 1. 判断寄存器是 16位 还是 32位 */
-    BoolFlag is32BitReg = bFALSE;
-    if((RegAddr >= 0x1000) && (RegAddr < 0x3000))
+    /* 1. 判断寄存器类型 */
+    if((RegAddr >= 0x1000) && (RegAddr <= 0x3014))
     {
-        is32BitReg = bTRUE;
-    }
-    
-    /* 2. 构建发送缓冲区 */
-    // [致命错误修复] 读命令必须是 0x20，不能是 0x6D
-    tx_buf[0] = 0x6D;              // SPICMD_READREG
-    
-    tx_buf[1] = (RegAddr >> 8);    // 地址高字节
-    tx_buf[2] = RegAddr & 0xFF;    // 地址低字节
-    tx_buf[3] = 0xFF;              // Dummy Byte (必须有1个空字节)
-    
-    if(is32BitReg)
-    {
-        // 32位寄存器: Cmd(1)+Addr(2)+Dummy(1)+Data(4) = 8字节
-        tx_buf[4] = 0xFF; 
-        tx_buf[5] = 0xFF; 
-        tx_buf[6] = 0xFF; 
-        tx_buf[7] = 0xFF;
-        bufLen = 8;
+        // 32位寄存器:需要读4个字节数据
+        dataLen = 7;  // 命令(1) + 地址(2) + Dummy(1) + 数据(4) = 8字节
+                      // 但实际我们传7,因为最后会在循环中处理
+        tx_buf[0] = 0x6D;              // 读命令
+        tx_buf[1] = (RegAddr >> 8);    // 地址高字节
+        tx_buf[2] = RegAddr & 0xFF;    // 地址低字节
+        tx_buf[3] = 0xFF;              // Dummy
+        tx_buf[4] = 0xFF;              // 数据字节1
+        tx_buf[5] = 0xFF;              // 数据字节2
+        tx_buf[6] = 0xFF;              // 数据字节3
+        tx_buf[7] = 0xFF;              // 数据字节4
     }
     else
     {
-        // 16位寄存器: Cmd(1)+Addr(2)+Dummy(1)+Data(2) = 6字节
-        tx_buf[4] = 0xFF;
-        tx_buf[5] = 0xFF;
-        bufLen = 6;
+        // 16位寄存器:需要读2个字节数据
+        dataLen = 5;  // 命令(1) + 地址(2) + Dummy(1) + 数据(2) = 6字节
+        tx_buf[0] = 0x6D;              // 读命令
+        tx_buf[1] = (RegAddr >> 8);    // 地址高字节
+        tx_buf[2] = RegAddr & 0xFF;    // 地址低字节
+        tx_buf[3] = 0xFF;              // Dummy
+        tx_buf[4] = 0xFF;              // 数据字节1
+        tx_buf[5] = 0xFF;              // 数据字节2
     }
     
-    /* 3. SPI 传输 (CS 必须全程拉低) */
+    /* 2. SPI传输 */
     AD5940_CsClr();
-    CyDelayUs(2); // 稍微等待 CS 稳定
-    
-    // 使用你 ad5941_platform.c 中已经验证通过的函数
-    AD5940_ReadWriteNBytes(tx_buf, rx_buf, bufLen);
-    
     CyDelayUs(2);
-    AD5940_CsSet();
     
-    /* 4. 提取数据 (大端序 MSB First) */
-    // 数据从第 5 个字节开始 (索引 4)
-    if(is32BitReg)
+    if((RegAddr >= 0x1000) && (RegAddr <= 0x3014))
     {
-        result = ((uint32_t)rx_buf[4] << 24) |
+        AD5940_ReadWriteNBytes(tx_buf, rx_buf, 8);
+        // 32位数据:组装4个字节 (大端序或小端序取决于AD5940规范)
+        result = ((uint32_t)rx_buf[4] << 24) | 
                  ((uint32_t)rx_buf[5] << 16) |
                  ((uint32_t)rx_buf[6] << 8)  |
                  ((uint32_t)rx_buf[7]);
     }
     else
     {
-        result = ((uint32_t)rx_buf[4] << 8) |
-                 ((uint32_t)rx_buf[5]);
+        AD5940_ReadWriteNBytes(tx_buf, rx_buf, 6);
+        // 16位数据:组装2个字节
+        result = ((uint32_t)rx_buf[4] << 8) | rx_buf[5];
     }
+    
+    CyDelayUs(2);
+    AD5940_CsSet();
     
     return result;
 }

@@ -1060,33 +1060,50 @@ void SendLactateDataViaBLE(void)
     uint32 regValue;
     uint8 initStatus;
     uint32 fifoCount;
+    uint32 afeStatus;
     
     if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
     {
-        // 轮流显示不同的诊断信息
-        switch(diagStep % 4)
+        switch(diagStep % 5)
         {
             case 0:
-                // 显示原始寄存器值（不做 & 0xFFFFFF）
-                regValue = AD5940_ReadReg(REG_AFECON_ADIID);
-                sprintf(dataString, "Reg:0x%lX", (unsigned long)regValue);
+                // 测试1:读取 CHIPID (0x0400) - 应该得到 0x5502
+                {
+                    uint32 chipid = AD5940_ReadReg(0x0400);
+                    sprintf(dataString, "CHIP:0x%lX", (unsigned long)chipid);
+                }
                 break;
+                
             case 1:
-                // 显示初始化状态
-                initStatus = (pAmpCfg != NULL) ? (uint8)pAmpCfg->AMPInited : 99;
-                sprintf(dataString, "Init:%d", (int)initStatus);
+                // 测试2:读取 ADIID (0x0404) - 应该得到 0x4144
+                {
+                    uint32 adiid = AD5940_ReadReg(0x0404);
+                    sprintf(dataString, "ADIID:0x%lX", (unsigned long)adiid);
+                }
                 break;
+                
             case 2:
-                // 显示 FIFO 计数
-                fifoCount = (pAmpCfg != NULL) ? pAmpCfg->FifoDataCount : 0;
-                sprintf(dataString, "FIFO:%lu", fifoCount);
+                // 测试3:读取 AFE控制寄存器 (0x1000)
+                {
+                    uint32 afecon = AD5940_ReadReg(0x1000);
+                    sprintf(dataString, "AFE:0x%lX", (unsigned long)afecon);
+                }
                 break;
+                
             case 3:
-                // 显示电极引脚状态
-                sprintf(dataString, "A1:%d A2:%d A3:%d", 
-                        (int)AMP1_EN_Read(), 
-                        (int)AMP2_EN_Read(), 
-                        (int)AMP3_EN_Read());
+                // 测试4:读取 FIFO状态寄存器
+                {
+                    uint32 fifostat = AD5940_ReadReg(0x22C8);
+                    sprintf(dataString, "FIFO:0x%lX", (unsigned long)fifostat);
+                }
+                break;
+                
+            case 4:
+                // 显示初始化状态
+                {
+                    uint8 initStatus = (pAmpCfg != NULL) ? (uint8)pAmpCfg->AMPInited : 99;
+                    sprintf(dataString, "Init:%d", (int)initStatus);
+                }
                 break;
         }
         diagStep++;
