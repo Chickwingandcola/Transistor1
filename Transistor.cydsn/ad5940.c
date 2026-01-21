@@ -1000,61 +1000,55 @@ static uint32_t AD5940_SPIReadReg(uint16_t RegAddr)
     uint32_t result = 0;
     uint8_t bufLen;
     
-    /* 1. 判断寄存器是 16位 还是 32位 */
     BoolFlag is32BitReg = bFALSE;
     if((RegAddr >= 0x1000) && (RegAddr < 0x3000))
     {
         is32BitReg = bTRUE;
     }
     
-    /* 2. 构建发送缓冲区 */
-    // [致命错误修复] 读命令必须是 0x20，不能是 0x6D
-    tx_buf[0] = 0x6D;              // SPICMD_READREG
-    
-    tx_buf[1] = (RegAddr >> 8);    // 地址高字节
-    tx_buf[2] = RegAddr & 0xFF;    // 地址低字节
-    tx_buf[3] = 0xFF;              // Dummy Byte (必须有1个空字节)
+    /* 构建发送缓冲区 */
+    tx_buf[0] = 0x6D;              
+    tx_buf[1] = (RegAddr >> 8);    
+    tx_buf[2] = RegAddr & 0xFF;    
     
     if(is32BitReg)
     {
-        // 32位寄存器: Cmd(1)+Addr(2)+Dummy(1)+Data(4) = 8字节
+        // 32位寄存器
+        tx_buf[3] = 0xFF; 
         tx_buf[4] = 0xFF; 
         tx_buf[5] = 0xFF; 
-        tx_buf[6] = 0xFF; 
-        tx_buf[7] = 0xFF;
-        bufLen = 8;
+        tx_buf[6] = 0xFF;
+        bufLen = 7;
     }
     else
     {
-        // 16位寄存器: Cmd(1)+Addr(2)+Dummy(1)+Data(2) = 6字节
+        // 16位寄存器
+        tx_buf[3] = 0xFF;
         tx_buf[4] = 0xFF;
-        tx_buf[5] = 0xFF;
-        bufLen = 6;
+        bufLen = 5;
     }
     
-    /* 3. SPI 传输 (CS 必须全程拉低) */
+    /* SPI传输 */
     AD5940_CsClr();
-    CyDelayUs(2); // 稍微等待 CS 稳定
+    CyDelayUs(5);
     
-    // 使用你 ad5941_platform.c 中已经验证通过的函数
     AD5940_ReadWriteNBytes(tx_buf, rx_buf, bufLen);
     
-    CyDelayUs(2);
+    CyDelayUs(5);
     AD5940_CsSet();
     
-    /* 4. 提取数据 (大端序 MSB First) */
-    // 数据从第 5 个字节开始 (索引 4)
+    /* ⭐ 关键：从rx_buf[2]开始提取数据！ */
     if(is32BitReg)
     {
-        result = ((uint32_t)rx_buf[4] << 24) |
-                 ((uint32_t)rx_buf[5] << 16) |
-                 ((uint32_t)rx_buf[6] << 8)  |
-                 ((uint32_t)rx_buf[7]);
+        result = ((uint32_t)rx_buf[2] << 24) |  // ⭐ 改为[2]
+                 ((uint32_t)rx_buf[3] << 16) |  // ⭐ 改为[3]
+                 ((uint32_t)rx_buf[4] << 8)  |  // ⭐ 改为[4]
+                 ((uint32_t)rx_buf[5]);         // ⭐ 改为[5]
     }
     else
     {
-        result = ((uint32_t)rx_buf[4] << 8) |
-                 ((uint32_t)rx_buf[5]);
+        result = ((uint32_t)rx_buf[2] << 8) |   // ⭐ 改为[2]
+                 ((uint32_t)rx_buf[3]);         // ⭐ 改为[3]
     }
     
     return result;

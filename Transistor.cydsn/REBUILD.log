@@ -1,4 +1,4 @@
---------------- Rebuild Started: 01/20/2026 18:03:15 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+--------------- Rebuild Started: 01/21/2026 20:32:51 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\main.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\debug.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\Impedance.o"
@@ -144,10 +144,10 @@ ad5940.c:951:5: warning: implicit declaration of function 'CyDelayUs' [-Wimplici
      CyDelayUs(2);
      ^
 ad5940.c: In function 'AD5940_HSRtiaCal':
-ad5940.c:3497:54: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+ad5940.c:3491:54: warning: large integer implicitly truncated to unsigned type [-Woverflow]
    uint32_t const HSTIADERLOADTable[]={0,10,30,50,100,999999999999};
                                                       ^
-ad5940.c:3498:94: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+ad5940.c:3492:94: warning: large integer implicitly truncated to unsigned type [-Woverflow]
    uint32_t const HSTIADERTIATable[] = {50,100,200,1000,5000,10000,20000,40000,80000,160000,0,999999999999999};
                                                                                               ^
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/Amperometric.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Amperometric.c -o .\CortexM0\ARM_GCC_541\Debug\Amperometric.o
@@ -212,6 +212,6 @@ No ELF section .cychecksum found, creating one
 Application checksum calculated and stored in ELF section .cychecksum
 Checksum calculated and stored in ELF section .cymeta
 cyelftool.exe -S E:\desktop\bu\eda\Transistor\Transistor.cydsn\CortexM0\ARM_GCC_541\Debug\Transistor.elf
-Flash used: 141436 of 262144 bytes (54.0%).
+Flash used: 141476 of 262144 bytes (54.0%).
 SRAM used: 15440 of 32768 bytes (47.1%). Stack: 2048 bytes. Heap: 1024 bytes.
---------------- Rebuild Succeeded: 01/20/2026 18:03:32 ---------------
+--------------- Rebuild Succeeded: 01/21/2026 20:33:07 ---------------

@@ -101,10 +101,22 @@ int32_t AD5940_ReadWriteNBytes(uint8_t *pSendBuffer,
     SPI_CS_LOW();
     SPI_Delay();
 
-    /* ---------- 连续字节传输（CS 期间 SCLK 不停）---------- */
+    /* ---------- 连续字节传输 ---------- */
     for (i = 0; i < length; i++)
     {
         pRecvBuff[i] = SoftSPI_TxRxByte(pSendBuffer[i]);
+        
+        /* 根据字节位置调整延时 */
+        if (i == 0) {
+            // 命令字节后需要更长延时
+            CyDelayUs(20);
+        } else if (i == 3) {
+            // Dummy byte后可能也需要延时
+            CyDelayUs(15);
+        } else if (i < length - 1) {
+            // 普通字节间延时
+            CyDelayUs(10);
+        }
     }
 
     /* ---------- 拉高 CS（t9 / t10）---------- */
