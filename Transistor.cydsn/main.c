@@ -1066,43 +1066,81 @@ void SendLactateDataViaBLE(void)
     {
         switch(diagStep % 5)
         {
-            case 0:
-                // 测试1:读取 CHIPID (0x0400) - 应该得到 0x5502
+
+            case 0: // 读写一致性测试
                 {
-                    uint32 chipid = AD5940_ReadReg(0x0400);
-                    sprintf(dataString, "CHIP:0x%lX", (unsigned long)chipid);
+                    uint32_t test_val = 0x1234;
+                    // 找一个不影响系统的通用寄存器，比如 AFECON (0x1000) 
+                    // 或者通用的 SCRATCHPAD 寄存器（如果有的话）
+                    AD5940_WriteReg(0x1000, test_val); 
+                    uint32_t read_back = AD5940_ReadReg(0x1000);
+                    
+                    sprintf(dataString, "W:%X R:%X", (unsigned int)test_val, (unsigned int)read_back);
+                    // 如果返回 W:1234 R:4144 (旧值) 或 R:0，说明 WriteReg 依然没写进去
                 }
                 break;
-                
             case 1:
-                // 测试2:读取 ADIID (0x0404) - 应该得到 0x4144
+            // 测试写入和回读
                 {
-                    uint32 adiid = AD5940_ReadReg(0x0404);
-                    sprintf(dataString, "ADIID:0x%lX", (unsigned long)adiid);
+                    uint32_t test_addr = 0x1000;  // AFE控制寄存器
+                    uint32_t write_val = 0x12345678;
+                    uint32_t read_val;
+                    
+                    // 先读原始值
+                    uint32_t original = AD5940_ReadReg(test_addr);
+                    
+                    // 写入测试值
+                    AD5940_WriteReg(test_addr, write_val);
+                    CyDelayUs(100);
+                    
+                    // 回读
+                    read_val = AD5940_ReadReg(test_addr);
+                    
+                    // 恢复原始值
+                    AD5940_WriteReg(test_addr, original);
+                    
+                    if(read_val == write_val) {
+                        sprintf(dataString, "WR-OK:%08lX", read_val);
+                    } else {
+                        sprintf(dataString, "WR-ERR:%08lX", read_val);
+                    }
                 }
                 break;
-                
             case 2:
-                // 测试3:读取 AFE控制寄存器 (0x1000)
+                // 详细测试写操作
                 {
-                    uint32 afecon = AD5940_ReadReg(0x1000);
-                    sprintf(dataString, "AFE:0x%lX", (unsigned long)afecon);
+                    uint8_t tx[7] = {0x2D, 0x10, 0x00, 0x12, 0x34, 0x56, 0x78};
+                    uint8_t rx[7] = {0};
+                    
+                    // 手动执行写操作
+                    AD5940_CsClr();
+                    CyDelayUs(10);
+                    AD5940_ReadWriteNBytes(tx, rx, 7);
+                    CyDelayUs(10);
+                    AD5940_CsSet();
+                    CyDelayUs(50);
+                    
+                    // 回读
+                    uint32_t readback = AD5940_ReadReg(0x1000);
+                    
+                    sprintf(dataString, "ManWR:%08lX", readback);
                 }
                 break;
-                
+
             case 3:
-                // 测试4:读取 FIFO状态寄存器
+                // 测试简单的16位寄存器写入
                 {
-                    uint32 fifostat = AD5940_ReadReg(0x22C8);
-                    sprintf(dataString, "FIFO:0x%lX", (unsigned long)fifostat);
-                }
-                break;
-                
-            case 4:
-                // 显示初始化状态
-                {
-                    uint8 initStatus = (pAmpCfg != NULL) ? (uint8)pAmpCfg->AMPInited : 99;
-                    sprintf(dataString, "Init:%d", (int)initStatus);
+                    uint16_t test_addr = 0x0908;  // 这是初始化表中的第一个寄存器
+                    uint16_t test_val = 0xABCD;
+                    
+                    // 写入
+                    AD5940_WriteReg(test_addr, test_val);
+                    CyDelayUs(100);
+                    
+                    // 回读
+                    uint32_t read_val = AD5940_ReadReg(test_addr);
+                    
+                    sprintf(dataString, "16W:%04lX", read_val);
                 }
                 break;
         }
@@ -1446,6 +1484,12 @@ int main()
     printf("[OK] Control pins initialized\n");
         // 初始化AD5941
     printf("[INFO] Initializing AD5941...\n");
+    
+    // 物理复位序列
+    AD5940_RST_Write(0); 
+    CyDelay(10);
+    AD5940_RST_Write(1);
+    CyDelay(50); // 等待芯片内部启动
     AD5941_Initialize();
     // 启动定时器中断
     printf("[INFO] Starting timer interrupt...\n");

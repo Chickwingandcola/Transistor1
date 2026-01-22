@@ -937,48 +937,46 @@ static uint32_t AD5940_ReadWrite32B(uint32_t data)
  * @return Return None.
 **/
 static void AD5940_SPIWriteReg(uint16_t RegAddr, uint32_t RegData)
-{  
-    uint8_t tx_buf[10];
-    uint8_t rx_buf[10];
-    uint8_t len;
+{
+    uint8_t tx_buf[8];
+    uint8_t rx_buf[8];
+    uint8_t bufLen;
     
-    /* ===== 第一步：设置地址 ===== */
-    tx_buf[0] = SPICMD_SETADDR;          // 设置地址命令
-    tx_buf[1] = (RegAddr >> 8) & 0xFF;
-    tx_buf[2] = RegAddr & 0xFF;
-    
-    AD5940_CsClr();
-    CyDelayUs(2);
-    AD5940_ReadWriteNBytes(tx_buf, rx_buf, 3);
-    CyDelayUs(2);
-    AD5940_CsSet();
-    CyDelayUs(2);  // 两次操作之间的间隔
-    
-    /* ===== 第二步：写数据 ===== */
-    tx_buf[0] = SPICMD_WRITEREG;         // 写寄存器命令
-    
-    if(((RegAddr >= 0x1000) && (RegAddr <= 0x3014)))
+    BoolFlag is32BitReg = bFALSE;
+    if((RegAddr >= 0x1000) && (RegAddr < 0x3000))
     {
-        // 32位寄存器
-        tx_buf[1] = (RegData >> 24) & 0xFF;
-        tx_buf[2] = (RegData >> 16) & 0xFF;
-        tx_buf[3] = (RegData >> 8) & 0xFF;
-        tx_buf[4] = RegData & 0xFF;
-        len = 5;
+        is32BitReg = bTRUE;
+    }
+    
+    tx_buf[0] = 0x2D;  // 写命令
+    tx_buf[1] = (RegAddr >> 8);    
+    tx_buf[2] = RegAddr & 0xFF;    
+    
+    if(is32BitReg)
+    {
+        tx_buf[3] = (RegData >> 24) & 0xFF;
+        tx_buf[4] = (RegData >> 16) & 0xFF;
+        tx_buf[5] = (RegData >> 8) & 0xFF;
+        tx_buf[6] = RegData & 0xFF;
+        bufLen = 7;
     }
     else
     {
-        // 16位寄存器
-        tx_buf[1] = (RegData >> 8) & 0xFF;
-        tx_buf[2] = RegData & 0xFF;
-        len = 3;
+        tx_buf[3] = (RegData >> 8) & 0xFF;
+        tx_buf[4] = RegData & 0xFF;
+        bufLen = 5;
     }
     
-    AD5940_CsClr();
-    CyDelayUs(2);
-    AD5940_ReadWriteNBytes(tx_buf, rx_buf, len);
-    CyDelayUs(2);
-    AD5940_CsSet();
+    // ⭐ 去掉这些CS控制：
+    // AD5940_CsClr();
+    // CyDelayUs(5);
+    
+    AD5940_ReadWriteNBytes(tx_buf, rx_buf, bufLen);
+    
+    // ⭐ 去掉这些CS控制：
+    // CyDelayUs(5);
+    // AD5940_CsSet();
+    // CyDelayUs(20);
 }
 
 
@@ -1006,14 +1004,12 @@ static uint32_t AD5940_SPIReadReg(uint16_t RegAddr)
         is32BitReg = bTRUE;
     }
     
-    /* 构建发送缓冲区 */
-    tx_buf[0] = 0x6D;              
+    tx_buf[0] = 0x6D;  // 读命令
     tx_buf[1] = (RegAddr >> 8);    
     tx_buf[2] = RegAddr & 0xFF;    
     
     if(is32BitReg)
     {
-        // 32位寄存器
         tx_buf[3] = 0xFF; 
         tx_buf[4] = 0xFF; 
         tx_buf[5] = 0xFF; 
@@ -1022,33 +1018,32 @@ static uint32_t AD5940_SPIReadReg(uint16_t RegAddr)
     }
     else
     {
-        // 16位寄存器
         tx_buf[3] = 0xFF;
         tx_buf[4] = 0xFF;
         bufLen = 5;
     }
     
-    /* SPI传输 */
-    AD5940_CsClr();
-    CyDelayUs(5);
+    // ⭐ 去掉这些CS控制：
+    // AD5940_CsClr();
+    // CyDelayUs(5);
     
     AD5940_ReadWriteNBytes(tx_buf, rx_buf, bufLen);
     
-    CyDelayUs(5);
-    AD5940_CsSet();
+    // ⭐ 去掉这些CS控制：
+    // CyDelayUs(5);
+    // AD5940_CsSet();
     
-    /* ⭐ 关键：从rx_buf[2]开始提取数据！ */
     if(is32BitReg)
     {
-        result = ((uint32_t)rx_buf[2] << 24) |  // ⭐ 改为[2]
-                 ((uint32_t)rx_buf[3] << 16) |  // ⭐ 改为[3]
-                 ((uint32_t)rx_buf[4] << 8)  |  // ⭐ 改为[4]
-                 ((uint32_t)rx_buf[5]);         // ⭐ 改为[5]
+        result = ((uint32_t)rx_buf[2] << 24) |
+                 ((uint32_t)rx_buf[3] << 16) |
+                 ((uint32_t)rx_buf[4] << 8)  |
+                 ((uint32_t)rx_buf[5]);
     }
     else
     {
-        result = ((uint32_t)rx_buf[2] << 8) |   // ⭐ 改为[2]
-                 ((uint32_t)rx_buf[3]);         // ⭐ 改为[3]
+        result = ((uint32_t)rx_buf[2] << 8) |
+                 ((uint32_t)rx_buf[3]);
     }
     
     return result;

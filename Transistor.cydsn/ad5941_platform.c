@@ -82,47 +82,30 @@ uint8_t SoftSPI_TxRxByte(uint8_t tx)
 /**
  * @brief SPI读写多字节 - 修正空闲态
  */
-int32_t AD5940_ReadWriteNBytes(uint8_t *pSendBuffer,
-                              uint8_t *pRecvBuff,
-                              uint32_t length)
+int32_t AD5940_ReadWriteNBytes(uint8_t *pSendBuffer, uint8_t *pRecvBuff, uint32_t length)
 {
     uint32_t i;
 
-    if (!pSendBuffer || !pRecvBuff || length == 0)
-        return -1;
-
-    /* ---------- 空闲态 ---------- */
+    // 1. 确保 CS 拉高且 SCLK 为低（Mode 0 空闲态）
     SPI_CS_HIGH();
-    SPI_SCLK_CLR();     // CPOL = 0
-    SPI_MOSI_CLR();
-    SPI_Delay();
+    SPI_SCLK_CLR(); 
+    CyDelayUs(1);
 
-    /* ---------- 拉低 CS（t2）---------- */
+    // 2. 拉低 CS 开始传输
     SPI_CS_LOW();
-    SPI_Delay();
+    CyDelayUs(2); // t2: CS setup time
 
-    /* ---------- 连续字节传输 ---------- */
     for (i = 0; i < length; i++)
     {
         pRecvBuff[i] = SoftSPI_TxRxByte(pSendBuffer[i]);
-        
-        /* 根据字节位置调整延时 */
-        if (i == 0) {
-            // 命令字节后需要更长延时
-            CyDelayUs(20);
-        } else if (i == 3) {
-            // Dummy byte后可能也需要延时
-            CyDelayUs(15);
-        } else if (i < length - 1) {
-            // 普通字节间延时
-            CyDelayUs(10);
-        }
+        // 去掉复杂的 if(i==0) 判断，只给一个极小的字节间空隙
+        CyDelayUs(2); 
     }
 
-    /* ---------- 拉高 CS（t9 / t10）---------- */
-    SPI_Delay();
+    // 3. 结束传输
+    CyDelayUs(2); // t9: CS hold time
     SPI_CS_HIGH();
-    SPI_Delay();
+    CyDelayUs(5); // t10: CS High time (重要：给芯片时间复位状态机)
 
     return 0;
 }
