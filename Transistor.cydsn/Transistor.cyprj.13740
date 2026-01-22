@@ -914,6 +914,7 @@
 <dep name=".\Generated_Source\PSoC4\cypins.h" />
 <dep name=".\Generated_Source\PSoC4\cytypes.h" />
 <dep name=".\ad5940.h" />
+<dep name=".\ad5941_platform.h" />
 <dep name=".\bass.h" />
 <dep name=".\debug.h" />
 <dep name=".\hrss.h" />
@@ -1811,7 +1812,7 @@
 <v>F:\infineon\PSoC Creator\4.4\PSoC Creator\warp\lib\common\stdlogic\mod_genv.vif</v>
 <v>F:\infineon\PSoC Creator\4.4\PSoC Creator\warp\lib\common\stdlogic\rtlpkg.vif</v>
 </warp_dep>
-<deps_time v="134135352087031983" />
+<deps_time v="134135609301174232" />
 <top_block v="TopDesign" />
 <last_generation v="146" />
 <pdl_path v="" />
@@ -1826,7 +1827,7 @@
 <dataGuid v="769d31ea-68b1-4f0c-b90a-7c10a43ee563">
 <CyGuid_769d31ea-68b1-4f0c-b90a-7c10a43ee563 type_name="CyDesigner.Common.ProjMgmt.Model.CyLinkCustomData" version="1">
 <link_deps_times>
-<name_val_pair name="c9323d49-d323-40b8-9b59-cc008d68a989@Debug@CortexM0" v="134135352181661264" />
+<name_val_pair name="c9323d49-d323-40b8-9b59-cc008d68a989@Debug@CortexM0" v="134135609391924110" />
 </link_deps_times>
 </CyGuid_769d31ea-68b1-4f0c-b90a-7c10a43ee563>
 </dataGuid>

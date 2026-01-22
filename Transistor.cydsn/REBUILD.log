@@ -1,4 +1,4 @@
---------------- Rebuild Started: 01/22/2026 14:00:01 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+--------------- Rebuild Started: 01/22/2026 21:08:43 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\main.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\debug.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\Impedance.o"
@@ -51,6 +51,8 @@ Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyBootAsmGnu.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyDMA.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyLFClk.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\cy_em_eeprom.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\Transistor.hex"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\Transistor.elf"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\Transistor.map"
 Deleting file ".\Transistor.cycdx"
 Deleting file ".\Transistor.rpt"
@@ -75,59 +77,46 @@ Dependency Generation...
 Cleanup...
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/main.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c main.c -o .\CortexM0\ARM_GCC_541\Debug\main.o
 main.c: In function 'AD5941_Initialize':
-main.c:233:16: warning: format '%d' expects argument of type 'int', but argument 2 has type 'AD5940Err {aka long int}' [-Wformat=]
+main.c:234:16: warning: format '%d' expects argument of type 'int', but argument 2 has type 'AD5940Err {aka long int}' [-Wformat=]
          printf("[ERROR] AppAMPInit failed with error code: %d\r\n", error);
                 ^
-main.c:233:16: warning: format '%d' expects argument of type 'int', but argument 2 has type 'AD5940Err {aka long int}' [-Wformat=]
+main.c:234:16: warning: format '%d' expects argument of type 'int', but argument 2 has type 'AD5940Err {aka long int}' [-Wformat=]
 main.c: In function 'DiagnosticsFIFO':
-main.c:327:12: warning: unused variable 'fifoCount' [-Wunused-variable]
+main.c:328:12: warning: unused variable 'fifoCount' [-Wunused-variable]
      uint32 fifoCount = 0;
             ^
 main.c: In function 'MeasureTemperature':
-main.c:613:20: warning: unused variable 'resistance' [-Wunused-variable]
+main.c:614:20: warning: unused variable 'resistance' [-Wunused-variable]
      float voltage, resistance;
                     ^
-main.c:613:11: warning: unused variable 'voltage' [-Wunused-variable]
+main.c:614:11: warning: unused variable 'voltage' [-Wunused-variable]
      float voltage, resistance;
            ^
-main.c:612:14: warning: unused variable 'adcCode' [-Wunused-variable]
+main.c:613:14: warning: unused variable 'adcCode' [-Wunused-variable]
      uint32_t adcCode;
               ^
 main.c: In function 'ReadCurrentFromAD5940':
-main.c:672:5: warning: enumeration value 'SENSOR_COUNT' not handled in switch [-Wswitch]
+main.c:673:5: warning: enumeration value 'SENSOR_COUNT' not handled in switch [-Wswitch]
      switch(sensorType)
      ^
 main.c: In function 'ReadCurrentFromSourceMeter_Simulated':
-main.c:785:34: warning: implicit declaration of function 'rand' [-Wimplicit-function-declaration]
+main.c:786:34: warning: implicit declaration of function 'rand' [-Wimplicit-function-declaration]
              current_nA = 85.0 + (rand() % 10 - 5);  // 80-90 nA
                                   ^
 main.c: In function 'SendGlucoseDataViaBLE':
-main.c:1022:33: warning: implicit declaration of function 'SoftSPI_TxRxByte' [-Wimplicit-function-declaration]
+main.c:1023:33: warning: implicit declaration of function 'SoftSPI_TxRxByte' [-Wimplicit-function-declaration]
                          rx[i] = SoftSPI_TxRxByte(tx[i]);
                                  ^
-main.c: In function 'SendLactateDataViaBLE':
-main.c:1063:12: warning: unused variable 'afeStatus' [-Wunused-variable]
-     uint32 afeStatus;
-            ^
-main.c:1062:12: warning: unused variable 'fifoCount' [-Wunused-variable]
-     uint32 fifoCount;
-            ^
-main.c:1061:11: warning: unused variable 'initStatus' [-Wunused-variable]
-     uint8 initStatus;
-           ^
-main.c:1060:12: warning: unused variable 'regValue' [-Wunused-variable]
-     uint32 regValue;
-            ^
 main.c: In function 'AppCallBack':
-main.c:1332:12: warning: unused variable 'i' [-Wunused-variable]
+main.c:1265:12: warning: unused variable 'i' [-Wunused-variable]
      uint16 i;
             ^
 main.c: In function 'main':
-main.c:1498:14: warning: unused variable 'testChipID' [-Wunused-variable]
+main.c:1431:14: warning: unused variable 'testChipID' [-Wunused-variable]
      uint32_t testChipID = AD5940_ReadReg(REG_AFECON_CHIPID);
               ^
 main.c: At top level:
-main.c:1376:13: warning: 'LowPowerImplementation' defined but not used [-Wunused-function]
+main.c:1309:13: warning: 'LowPowerImplementation' defined but not used [-Wunused-function]
  static void LowPowerImplementation(void)
              ^
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/debug.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c debug.c -o .\CortexM0\ARM_GCC_541\Debug\debug.o
@@ -137,28 +126,18 @@ main.h:116:13: warning: 'LowPowerImplementation' declared 'static' but never def
              ^
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/Impedance.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Impedance.c -o .\CortexM0\ARM_GCC_541\Debug\Impedance.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/ad5940.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c ad5940.c -o .\CortexM0\ARM_GCC_541\Debug\ad5940.o
-In file included from ad5940.c:15:0:
 ad5940.c: In function 'AD5940_SPIWriteReg':
-ad5941_platform.h:19:28: warning: implicit declaration of function 'AD5940_CS_Write' [-Wimplicit-function-declaration]
- #define SPI_CS_HIGH()      AD5940_CS_Write(1)        // CS 楂樼數骞?
-                            ^
-ad5940.c:972:5: note: in expansion of macro 'SPI_CS_HIGH'
-     SPI_CS_HIGH();      // 纭繚CS鍏堟槸楂?
-     ^
-ad5941_platform.h:22:28: warning: implicit declaration of function 'AD5940_SCLK_Write' [-Wimplicit-function-declaration]
- #define SPI_SCLK_CLR()     AD5940_SCLK_Write(0)      // SCLK 璁句綆
-                            ^
-ad5940.c:973:5: note: in expansion of macro 'SPI_SCLK_CLR'
-     SPI_SCLK_CLR();     // CPOL=0
-     ^
-ad5940.c:974:5: warning: implicit declaration of function 'CyDelayUs' [-Wimplicit-function-declaration]
+ad5940.c:961:5: warning: implicit declaration of function 'CyDelayUs' [-Wimplicit-function-declaration]
      CyDelayUs(5);
      ^
+ad5940.c:963:9: warning: implicit declaration of function 'SoftSPI_TxRxByte' [-Wimplicit-function-declaration]
+         SoftSPI_TxRxByte(tx_buf[i]);
+         ^
 ad5940.c: In function 'AD5940_HSRtiaCal':
-ad5940.c:3495:54: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+ad5940.c:3466:54: warning: large integer implicitly truncated to unsigned type [-Woverflow]
    uint32_t const HSTIADERLOADTable[]={0,10,30,50,100,999999999999};
                                                       ^
-ad5940.c:3496:94: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+ad5940.c:3467:94: warning: large integer implicitly truncated to unsigned type [-Woverflow]
    uint32_t const HSTIADERTIATable[] = {50,100,200,1000,5000,10000,20000,40000,80000,160000,0,999999999999999};
                                                                                               ^
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/Amperometric.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Amperometric.c -o .\CortexM0\ARM_GCC_541\Debug\Amperometric.o
@@ -223,6 +202,6 @@ No ELF section .cychecksum found, creating one
 Application checksum calculated and stored in ELF section .cychecksum
 Checksum calculated and stored in ELF section .cymeta
 cyelftool.exe -S E:\desktop\bu\eda\Transistor\Transistor.cydsn\CortexM0\ARM_GCC_541\Debug\Transistor.elf
-Flash used: 141804 of 262144 bytes (54.1%).
+Flash used: 141436 of 262144 bytes (54.0%).
 SRAM used: 15440 of 32768 bytes (47.1%). Stack: 2048 bytes. Heap: 1024 bytes.
---------------- Rebuild Succeeded: 01/22/2026 14:00:18 ---------------
+--------------- Rebuild Succeeded: 01/22/2026 21:08:59 ---------------

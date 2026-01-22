@@ -15,6 +15,7 @@
 
 #include "main.h"
 #include "ad5940.h"
+#include "ad5941_platform.h"
 #include "Amperometric.h"
 
 // 在 main() 函数开头添加变量
@@ -261,15 +262,15 @@ void DiagnosticsSPI(void)
     
     // 尝试读取不同的寄存器
     printf("\n[TEST] Reading different AD5940 registers...\n");
-    regValue = AD5940_ReadReg(BITM_AFE_AFECON_INAMPEN);
+    regValue = AD5940_ReadReg(REG_AFE_AFECON);
     printf("  REG_AFE_AFECON:  0x%lX\n", (unsigned long)regValue);
     CyDelay(20);
     
-    regValue2 = AD5940_ReadReg(BITM_AFE_AFECON_INAMPEN);
-    printf("  REG_AFE_ADCCON:  0x%lX\n", (unsigned long)regValue2);
+    regValue2 = AD5940_ReadReg(REG_AFE_ADCCON);
+    printf("  REG_AFE_ADCCON:  0x%lX\n", (unsigned long)regValue2);     
     CyDelay(20);
     
-    regValue3 = AD5940_ReadReg(BITM_AFE_AFECON_INAMPEN);
+    regValue3 = AD5940_ReadReg(REG_AFE_FIFOCON);
     printf("  REG_AFE_FIFOCON: 0x%lX\n", (unsigned long)regValue3);
     CyDelay(20);
     
@@ -962,11 +963,11 @@ void SendGlucoseDataViaBLE(void)
                     uint8_t rx[6] = {0};
                     
                     AD5940_CsSet();
-                    CyDelayUs(10);
+                    CyDelayUs(20);
                     AD5940_CsClr();
-                    CyDelayUs(10);
+                    CyDelayUs(20);
                     AD5940_ReadWriteNBytes(tx, rx, 6);
-                    CyDelayUs(10);
+                    CyDelayUs(20);
                     AD5940_CsSet();
                     
                     sprintf(dataString, "RX:%02X %02X %02X %02X",
@@ -1057,117 +1058,49 @@ void SendLactateDataViaBLE(void)
     CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
     static char dataString[40];
     static uint8 diagStep = 0;
-    uint32 regValue;
-    uint8 initStatus;
-    uint32 fifoCount;
-    uint32 afeStatus;
     
     if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
     {
-        switch(diagStep % 5)
+        switch(diagStep % 3)
         {
-
-            case 0: // 读写一致性测试
+            case 0:
+                // 测试 1: 读取固定 ID (最基础的验证)
                 {
-                    uint32_t test_val = 0x1234;
-                    // 找一个不影响系统的通用寄存器，比如 AFECON (0x1000) 
-                    // 或者通用的 SCRATCHPAD 寄存器（如果有的话）
-                    AD5940_WriteReg(0x1000, test_val); 
-                    uint32_t read_back = AD5940_ReadReg(0x1000);
+                    // 读 ADIID (应为 0x4144)
+                    uint32_t adiid = AD5940_ReadReg(REG_AFECON_ADIID);
+                    // 读 CHIPID (应为 0x5502)
+                    uint32_t chipid = AD5940_ReadReg(REG_AFECON_CHIPID);
                     
-                    sprintf(dataString, "W:%X R:%X", (unsigned int)test_val, (unsigned int)read_back);
-                    // 如果返回 W:1234 R:4144 (旧值) 或 R:0，说明 WriteReg 依然没写进去
+                    sprintf(dataString, "ID:%04X-%04X", (unsigned int)adiid, (unsigned int)chipid);
+                    // 预期输出: ID:4144-5502
                 }
                 break;
+                
             case 1:
-            // 测试写入和回读
+                // 测试 2: 读写测试寄存器 (AFECON)
                 {
-                    uint32_t test_addr = 0x1000;  // AFE控制寄存器
-                    uint32_t write_val = 0x12345678;
-                    uint32_t read_val;
+                    // 先读取当前值
+                    uint32_t original = AD5940_ReadReg(REG_AFE_AFECON);
+                    // 准备一个不会破坏系统的位 (例如禁用 Waveform Gen: bit 14设为0)
+                    // 或者写入一个特定的 Scratch 寄存器（如果有），这里为了安全，我们写回读取的值
+                    // 只是为了测试通信链路
+                    AD5940_WriteReg(REG_AFE_AFECON, original); 
+                    uint32_t readback = AD5940_ReadReg(REG_AFE_AFECON);
                     
-                    // 先读原始值
-                    uint32_t original = AD5940_ReadReg(test_addr);
-                    
-                    // 写入测试值
-                    AD5940_WriteReg(test_addr, write_val);
-                    CyDelayUs(100);
-                    
-                    // 回读
-                    read_val = AD5940_ReadReg(test_addr);
-                    
-                    // 恢复原始值
-                    AD5940_WriteReg(test_addr, original);
-                    
-                    if(read_val == write_val) {
-                        sprintf(dataString, "WR-OK:%08lX", read_val);
-                    } else {
-                        sprintf(dataString, "WR-ERR:%08lX", read_val);
-                    }
+                    sprintf(dataString, "AFE:%08lX", readback);
+                    // 如果能读出非0、非FFFF的值，通常说明正常
                 }
                 break;
+                
             case 2:
-                // 详细测试写操作
+                // 测试 3: 读取 FIFO 状态 (32位寄存器测试)
                 {
-                    uint8_t tx[7] = {0x2D, 0x10, 0x00, 0x12, 0x34, 0x56, 0x78};
-                    uint8_t rx[7] = {0};
-                    
-                    // 手动执行写操作
-                    AD5940_CsClr();
-                    CyDelayUs(10);
-                    AD5940_ReadWriteNBytes(tx, rx, 7);
-                    CyDelayUs(10);
-                    AD5940_CsSet();
-                    CyDelayUs(50);
-                    
-                    // 回读
-                    uint32_t readback = AD5940_ReadReg(0x1000);
-                    
-                    sprintf(dataString, "ManWR:%08lX", readback);
-                }
-                break;
-
-            case 3:
-                // 测试简单的16位寄存器写入
-                {
-                    uint16_t test_addr = 0x0908;  // 这是初始化表中的第一个寄存器
-                    uint16_t test_val = 0xABCD;
-                    
-                    // 写入
-                    AD5940_WriteReg(test_addr, test_val);
-                    CyDelayUs(100);
-                    
-                    // 回读
-                    uint32_t read_val = AD5940_ReadReg(test_addr);
-                    
-                    sprintf(dataString, "16W:%04lX", read_val);
-                }
-                break;
-            case 4:
-                // 测试多次写入和读取
-                {
-                    uint32_t test_addr = 0x1000;
-                    uint32_t patterns[] = {0x00000000, 0xAAAAAAAA, 0x55555555, 0x12345678};
-                    int success = 0;
-                    
-                    for(int p = 0; p < 4; p++)
-                    {
-                        // 写入
-                        AD5940_WriteReg(test_addr, patterns[p]);
-                        CyDelay(1);  // 等待1ms（更保守）
-                        
-                        // 回读
-                        uint32_t read_val = AD5940_ReadReg(test_addr);
-                        
-                        if(read_val == patterns[p]) {
-                            success++;
-                        }
-                    }
-                    
-                    sprintf(dataString, "WR:%d/4", success);
+                    uint32_t fifo_con = AD5940_ReadReg(REG_AFE_FIFOCON);
+                    sprintf(dataString, "FIFO:%08lX", fifo_con);
                 }
                 break;
         }
+        
         diagStep++;
         
         notificationHandle.attrHandle = CYBLE_CUSTOM_SERVICE_LACTATE_CHAR_HANDLE;

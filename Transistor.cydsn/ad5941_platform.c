@@ -42,41 +42,33 @@ static inline void SPI_Delay(void)
     CyDelayUs(5); 
 }
 
-uint8_t SoftSPI_TxRxByte(uint8_t tx)
+uint8_t SoftSPI_TxRxByte(uint8_t data)
 {
-    uint8_t rx = 0;
-    int i;
+    uint8_t i;
+    uint8_t receive = 0;
 
-    for(i = 7; i >= 0; i--)
+    for (i = 0; i < 8; i++)
     {
-        // 1. 准备数据 (MOSI)
-        if(tx & (1 << i))
-            SPI_MOSI_SET();
-        else
-            SPI_MOSI_CLR();
+        // 1. 准备 MOSI 数据
+        if (data & 0x80) AD5940_MOSI_Write(1);
+        else AD5940_MOSI_Write(0);
+        data <<= 1;
         
-        SPI_Delay(); // 建立时间 (Setup Time)
-
-        // 2. 时钟拉高 (SCLK Rising) - 此时 AD5940 采样 MOSI
-        SPI_SCLK_SET();
+        CyDelayUs(1); // ⭐ 增加 1us 确保电平稳定
         
-        SPI_Delay(); // 增加延时，避开上升沿的串扰尖峰!
+        // 2. 拉高时钟 (Mode 0: 在上升沿采样)
+        AD5940_SCLK_Write(1);
+        CyDelayUs(2); // ⭐ 时钟高电平宽度
         
-        // 3. 读取 MISO 
-        // 此时由于延时，串扰应该已经消失。
-        // 如果是真实数据，AD5940 会强驱动保持电平。
-        rx <<= 1;
-        if(SPI_MISO_GET())
-        {
-            rx |= 1;
-        }
-
-        // 4. 时钟拉低 (SCLK Falling)
-        SPI_SCLK_CLR();
-        SPI_Delay(); // 保持时间 (Hold Time)
+        // 3. 读取 MISO
+        receive <<= 1;
+        if (AD5940_MISO_Read()) receive |= 1;
+        
+        // 4. 拉低时钟
+        AD5940_SCLK_Write(0);
+        CyDelayUs(1); // ⭐ 时钟低电平宽度
     }
-    
-    return rx;
+    return receive;
 }
 
 /**

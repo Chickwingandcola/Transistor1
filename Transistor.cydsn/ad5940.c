@@ -939,50 +939,34 @@ static uint32_t AD5940_ReadWrite32B(uint32_t data)
 **/
 static void AD5940_SPIWriteReg(uint16_t RegAddr, uint32_t RegData)
 {
-    uint8_t tx_buf[8];
-    uint8_t rx_buf[8];
+    uint8_t tx_buf[8] = {0};
     uint8_t bufLen;
     
-    BoolFlag is32BitReg = bFALSE;
-    if((RegAddr >= 0x1000) && (RegAddr < 0x3000))
-    {
-        is32BitReg = bTRUE;
-    }
+    BoolFlag is32BitReg = (RegAddr >= 0x1000 && RegAddr < 0x3000);
     
-    tx_buf[0] = 0x2D;  // SPICMD_WRITEREG
-    tx_buf[1] = (RegAddr >> 8);    
-    tx_buf[2] = RegAddr & 0xFF;    
+    tx_buf[0] = 0x2D;           // SPICMD_WRITEREG
+    tx_buf[1] = (RegAddr >> 8); 
+    tx_buf[2] = RegAddr & 0xFF; 
     
-    if(is32BitReg)
-    {
-        tx_buf[3] = (RegData >> 24) & 0xFF;
-        tx_buf[4] = (RegData >> 16) & 0xFF;
-        tx_buf[5] = (RegData >> 8) & 0xFF;
-        tx_buf[6] = RegData & 0xFF;
+    if(is32BitReg) {
+        tx_buf[3] = (RegData >> 24); tx_buf[4] = (RegData >> 16);
+        tx_buf[5] = (RegData >> 8);  tx_buf[6] = RegData;
         bufLen = 7;
-    }
-    else
-    {
-        tx_buf[3] = (RegData >> 8) & 0xFF;
-        tx_buf[4] = RegData & 0xFF;
+    } else {
+        tx_buf[3] = (RegData >> 8);  tx_buf[4] = RegData;
         bufLen = 5;
     }
     
-    // ⭐ 在这里控制CS
-    SPI_CS_HIGH();      // 确保CS先是高
-    SPI_SCLK_CLR();     // CPOL=0
+    AD5940_CsClr();
     CyDelayUs(5);
-    
-    SPI_CS_LOW();       // 开始传输
+    for(uint8_t i=0; i<bufLen; i++) {
+        SoftSPI_TxRxByte(tx_buf[i]);
+        CyDelayUs(5); // 字节间延时
+    }
     CyDelayUs(2);
-    
-    AD5940_ReadWriteNBytes(tx_buf, rx_buf, bufLen);
-    
-    CyDelayUs(2);
-    SPI_CS_HIGH();      // 结束传输
-    CyDelayUs(50);      // ⭐ 写入后需要更长的恢复时间
+    AD5940_CsSet();
+    CyDelayUs(10); // 连续写入间隔
 }
-
 
 
 /**
@@ -997,62 +981,49 @@ static void AD5940_SPIWriteReg(uint16_t RegAddr, uint32_t RegData)
 **/
 static uint32_t AD5940_SPIReadReg(uint16_t RegAddr)
 {
-    uint8_t tx_buf[8];
-    uint8_t rx_buf[8];
+    uint8_t tx_buf[8] = {0};
+    uint8_t rx_buf[8] = {0};
     uint32_t result = 0;
-    uint8_t bufLen;
     
-    BoolFlag is32BitReg = bFALSE;
-    if((RegAddr >= 0x1000) && (RegAddr < 0x3000))
-    {
-        is32BitReg = bTRUE;
+    BoolFlag is32BitReg = (RegAddr >= 0x1000 && RegAddr < 0x3000);
+    
+    // 1. 强制重置 CS 状态（这是解决你“前后错位”的关键）
+    AD5940_CsSet();     
+    CyDelayUs(10);      
+    
+    tx_buf[0] = 0x6D;           // SPICMD_READREG
+    tx_buf[1] = (RegAddr >> 8); 
+    tx_buf[2] = RegAddr & 0xFF; 
+    tx_buf[3] = 0xFF;           // Dummy Byte (芯片准备数据的时间)
+    
+    uint8_t bufLen = is32BitReg ? 8 : 6;
+    
+    // 2. 开始正式传输
+    AD5940_CsClr();
+    CyDelayUs(10);      // 给芯片一点反应时间
+    
+    for(uint8_t i = 0; i < bufLen; i++) {
+        rx_buf[i] = SoftSPI_TxRxByte(tx_buf[i]);
+        // 关键：在每个字节之间加 2us 延时，确保软件 SPI 不会“超速”
+        CyDelayUs(2);   
     }
     
-    tx_buf[0] = 0x6D;  // SPICMD_READREG
-    tx_buf[1] = (RegAddr >> 8);    
-    tx_buf[2] = RegAddr & 0xFF;    
-    
-    if(is32BitReg)
-    {
-        tx_buf[3] = 0xFF; 
-        tx_buf[4] = 0xFF; 
-        tx_buf[5] = 0xFF; 
-        tx_buf[6] = 0xFF;
-        bufLen = 7;
-    }
-    else
-    {
-        tx_buf[3] = 0xFF;
-        tx_buf[4] = 0xFF;
-        bufLen = 5;
-    }
-    
-    // ⭐ 在这里控制CS
-    SPI_CS_HIGH();      // 确保CS先是高
-    SPI_SCLK_CLR();     // CPOL=0
     CyDelayUs(5);
+    AD5940_CsSet();     // 结束传输
+    CyDelayUs(20);      // 重要：给芯片内部逻辑释放 SPI 总线的时间
     
-    SPI_CS_LOW();       // 开始传输
-    CyDelayUs(2);
-    
-    AD5940_ReadWriteNBytes(tx_buf, rx_buf, bufLen);
-    
-    CyDelayUs(2);
-    SPI_CS_HIGH();      // 结束传输
-    CyDelayUs(10);
-    
-    // 提取数据（从rx_buf[2]开始）
-    if(is32BitReg)
-    {
-        result = ((uint32_t)rx_buf[2] << 24) |
-                 ((uint32_t)rx_buf[3] << 16) |
-                 ((uint32_t)rx_buf[4] << 8)  |
-                 ((uint32_t)rx_buf[5]);
-    }
-    else
-    {
-        result = ((uint32_t)rx_buf[2] << 8) |
-                 ((uint32_t)rx_buf[3]);
+    /* 数据对齐逻辑（基于你 Slow 测试返回 5502 的结果）：
+       tx_buf: [6D] [AddrH] [AddrL] [Dummy] [Clock] [Clock]
+       rx_buf: [0]   [1]     [2]     [3]     [4]     [5]
+       数据就在 rx_buf[4] 和 rx_buf[5]
+    */
+    if(is32BitReg) {
+        result = ((uint32_t)rx_buf[4] << 24) | 
+                 ((uint32_t)rx_buf[5] << 16) |
+                 ((uint32_t)rx_buf[6] << 8)  | 
+                 ((uint32_t)rx_buf[7]);
+    } else {
+        result = ((uint32_t)rx_buf[4] << 8) | rx_buf[5];
     }
     
     return result;
