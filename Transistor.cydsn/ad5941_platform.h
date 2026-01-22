@@ -13,6 +13,18 @@
 #include <stdint.h>
 
 /*******************************************************************************
+* SPI引脚宏定义
+*******************************************************************************/
+
+#define SPI_CS_HIGH()      AD5940_CS_Write(1)        // CS 高电平
+#define SPI_CS_LOW()       AD5940_CS_Write(0)        // CS 低电平
+#define SPI_SCLK_SET()     AD5940_SCLK_Write(1)      // SCLK 设高
+#define SPI_SCLK_CLR()     AD5940_SCLK_Write(0)      // SCLK 设低
+#define SPI_MOSI_SET()     AD5940_MOSI_Write(1)      // MOSI 设高
+#define SPI_MOSI_CLR()     AD5940_MOSI_Write(0)      // MOSI 设低
+#define SPI_MISO_GET()     AD5940_MISO_Read()        // MISO 读取
+
+/*******************************************************************************
 * 核心SPI通信函数
 *******************************************************************************/
 
@@ -23,9 +35,9 @@
  * @param length: 数据长度
  * @return 0=成功, -1=失败
  */
-int32_t AD5940_ReadWriteNBytes(unsigned char *pSendBuffer, 
-                                unsigned char *pRecvBuff, 
-                                unsigned long length);
+int32_t AD5940_ReadWriteNBytes(uint8_t *pSendBuffer, 
+                                uint8_t *pRecvBuff, 
+                                uint32_t length);
 
 /*******************************************************************************
 * GPIO控制函数

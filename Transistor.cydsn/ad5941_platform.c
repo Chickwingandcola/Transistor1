@@ -86,26 +86,15 @@ int32_t AD5940_ReadWriteNBytes(uint8_t *pSendBuffer, uint8_t *pRecvBuff, uint32_
 {
     uint32_t i;
 
-    // 1. 确保 CS 拉高且 SCLK 为低（Mode 0 空闲态）
-    SPI_CS_HIGH();
-    SPI_SCLK_CLR(); 
-    CyDelayUs(1);
+    if (!pSendBuffer || !pRecvBuff || length == 0)
+        return -1;
 
-    // 2. 拉低 CS 开始传输
-    SPI_CS_LOW();
-    CyDelayUs(2); // t2: CS setup time
-
+    // ⭐ 不控制CS，只负责传输数据
     for (i = 0; i < length; i++)
     {
         pRecvBuff[i] = SoftSPI_TxRxByte(pSendBuffer[i]);
-        // 去掉复杂的 if(i==0) 判断，只给一个极小的字节间空隙
-        CyDelayUs(2); 
+        CyDelayUs(2);  // 字节间延时
     }
-
-    // 3. 结束传输
-    CyDelayUs(2); // t9: CS hold time
-    SPI_CS_HIGH();
-    CyDelayUs(5); // t10: CS High time (重要：给芯片时间复位状态机)
 
     return 0;
 }

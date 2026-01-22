@@ -12,6 +12,7 @@
  * Analog Devices Software License Agreement.
 **/
 #include "ad5940.h"
+#include "ad5941_platform.h"
 
 /*! \mainpage AD5940 Library Introduction
  * 
@@ -948,7 +949,7 @@ static void AD5940_SPIWriteReg(uint16_t RegAddr, uint32_t RegData)
         is32BitReg = bTRUE;
     }
     
-    tx_buf[0] = 0x2D;  // 写命令
+    tx_buf[0] = 0x2D;  // SPICMD_WRITEREG
     tx_buf[1] = (RegAddr >> 8);    
     tx_buf[2] = RegAddr & 0xFF;    
     
@@ -967,16 +968,19 @@ static void AD5940_SPIWriteReg(uint16_t RegAddr, uint32_t RegData)
         bufLen = 5;
     }
     
-    // ⭐ 去掉这些CS控制：
-    // AD5940_CsClr();
-    // CyDelayUs(5);
+    // ⭐ 在这里控制CS
+    SPI_CS_HIGH();      // 确保CS先是高
+    SPI_SCLK_CLR();     // CPOL=0
+    CyDelayUs(5);
+    
+    SPI_CS_LOW();       // 开始传输
+    CyDelayUs(2);
     
     AD5940_ReadWriteNBytes(tx_buf, rx_buf, bufLen);
     
-    // ⭐ 去掉这些CS控制：
-    // CyDelayUs(5);
-    // AD5940_CsSet();
-    // CyDelayUs(20);
+    CyDelayUs(2);
+    SPI_CS_HIGH();      // 结束传输
+    CyDelayUs(50);      // ⭐ 写入后需要更长的恢复时间
 }
 
 
@@ -1004,7 +1008,7 @@ static uint32_t AD5940_SPIReadReg(uint16_t RegAddr)
         is32BitReg = bTRUE;
     }
     
-    tx_buf[0] = 0x6D;  // 读命令
+    tx_buf[0] = 0x6D;  // SPICMD_READREG
     tx_buf[1] = (RegAddr >> 8);    
     tx_buf[2] = RegAddr & 0xFF;    
     
@@ -1023,16 +1027,21 @@ static uint32_t AD5940_SPIReadReg(uint16_t RegAddr)
         bufLen = 5;
     }
     
-    // ⭐ 去掉这些CS控制：
-    // AD5940_CsClr();
-    // CyDelayUs(5);
+    // ⭐ 在这里控制CS
+    SPI_CS_HIGH();      // 确保CS先是高
+    SPI_SCLK_CLR();     // CPOL=0
+    CyDelayUs(5);
+    
+    SPI_CS_LOW();       // 开始传输
+    CyDelayUs(2);
     
     AD5940_ReadWriteNBytes(tx_buf, rx_buf, bufLen);
     
-    // ⭐ 去掉这些CS控制：
-    // CyDelayUs(5);
-    // AD5940_CsSet();
+    CyDelayUs(2);
+    SPI_CS_HIGH();      // 结束传输
+    CyDelayUs(10);
     
+    // 提取数据（从rx_buf[2]开始）
     if(is32BitReg)
     {
         result = ((uint32_t)rx_buf[2] << 24) |

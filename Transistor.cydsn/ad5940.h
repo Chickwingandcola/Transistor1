@@ -4923,11 +4923,11 @@ void      AD5940_Delay10us(uint32_t time);
 void      AD5940_MCUGpioWrite(uint32_t data);   /*  */
 uint32_t  AD5940_MCUGpioRead(uint32_t);
 void      AD5940_MCUGpioCtrl(uint32_t, BoolFlag);
-void      AD5940_ReadWriteNBytes(unsigned char *pSendBuffer,unsigned char *pRecvBuff,unsigned long length);
+int32_t   AD5940_ReadWriteNBytes(uint8_t *pSendBuffer, uint8_t *pRecvBuff, uint32_t length);
 /* Below functions are frequently used in example code but not necessary for library */
 uint32_t  AD5940_GetMCUIntFlag(void);
 uint32_t  AD5940_ClrMCUIntFlag(void);
-uint32_t  AD5940_MCUResourceInit(void *pCfg);
+int32_t   AD5940_MCUResourceInit(void *pCfg);
 /**
  * @} Library_Interface
 */

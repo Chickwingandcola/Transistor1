@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 1
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccD9q1Nc.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 1
   29:ad5941_platform.c **** #define SPI_SCLK_SET()     AD5940_SCLK_Write(1)      // SCLK 设高
   30:ad5941_platform.c **** #define SPI_SCLK_CLR()     AD5940_SCLK_Write(0)      // SCLK 设低
   31:ad5941_platform.c **** #define SPI_MOSI_SET()     AD5940_MOSI_Write(1)      // MOSI 设高
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 2
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccD9q1Nc.s 			page 2
 
 
   32:ad5941_platform.c **** #define SPI_MOSI_CLR()     AD5940_MOSI_Write(0)      // MOSI 设低
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 1
   66 0004 00AF     		add	r7, sp, #0
   67              		.cfi_def_cfa_register 7
   68 0006 0200     		movs	r2, r0
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 3
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccD9q1Nc.s 			page 3
 
 
   69 0008 FB1D     		adds	r3, r7, #7
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 1
   64:ad5941_platform.c ****         
   65:ad5941_platform.c ****         // 3. 读取 MISO 
   66:ad5941_platform.c ****         // 此时由于延时，串扰应该已经消失。
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 4
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccD9q1Nc.s 			page 4
 
 
   67:ad5941_platform.c ****         // 如果是真实数据，AD5940 会强驱动保持电平。
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 1
  145 0086 1B78     		ldrb	r3, [r3]
   80:ad5941_platform.c **** }
  146              		.loc 1 80 0
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 5
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccD9q1Nc.s 			page 5
 
 
  147 0088 1800     		movs	r0, r3
@@ -281,1409 +281,1390 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 1
  178 000a 7A60     		str	r2, [r7, #4]
   87:ad5941_platform.c ****     uint32_t i;
   88:ad5941_platform.c **** 
-  89:ad5941_platform.c ****     // 1. 确保 CS 拉高且 SCLK 为低（Mode 0 空闲态）
-  90:ad5941_platform.c ****     SPI_CS_HIGH();
- 179              		.loc 1 90 0
- 180 000c 0120     		movs	r0, #1
- 181 000e FFF7FEFF 		bl	AD5940_CS_Write
-  91:ad5941_platform.c ****     SPI_SCLK_CLR(); 
- 182              		.loc 1 91 0
- 183 0012 0020     		movs	r0, #0
- 184 0014 FFF7FEFF 		bl	AD5940_SCLK_Write
-  92:ad5941_platform.c ****     CyDelayUs(1);
- 185              		.loc 1 92 0
- 186 0018 0120     		movs	r0, #1
- 187 001a FFF7FEFF 		bl	CyDelayUs
-  93:ad5941_platform.c **** 
-  94:ad5941_platform.c ****     // 2. 拉低 CS 开始传输
-  95:ad5941_platform.c ****     SPI_CS_LOW();
- 188              		.loc 1 95 0
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 6
+  89:ad5941_platform.c ****     if (!pSendBuffer || !pRecvBuff || length == 0)
+ 179              		.loc 1 89 0
+ 180 000c FB68     		ldr	r3, [r7, #12]
+ 181 000e 002B     		cmp	r3, #0
+ 182 0010 05D0     		beq	.L10
+ 183              		.loc 1 89 0 is_stmt 0 discriminator 1
+ 184 0012 BB68     		ldr	r3, [r7, #8]
+ 185 0014 002B     		cmp	r3, #0
+ 186 0016 02D0     		beq	.L10
+ 187              		.loc 1 89 0 discriminator 2
+ 188 0018 7B68     		ldr	r3, [r7, #4]
+ 189 001a 002B     		cmp	r3, #0
+ 190 001c 02D1     		bne	.L11
+ 191              	.L10:
+  90:ad5941_platform.c ****         return -1;
+ 192              		.loc 1 90 0 is_stmt 1
+ 193 001e 0123     		movs	r3, #1
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccD9q1Nc.s 			page 6
 
 
- 189 001e 0020     		movs	r0, #0
- 190 0020 FFF7FEFF 		bl	AD5940_CS_Write
-  96:ad5941_platform.c ****     CyDelayUs(2); // t2: CS setup time
- 191              		.loc 1 96 0
- 192 0024 0220     		movs	r0, #2
- 193 0026 FFF7FEFF 		bl	CyDelayUs
-  97:ad5941_platform.c **** 
-  98:ad5941_platform.c ****     for (i = 0; i < length; i++)
- 194              		.loc 1 98 0
- 195 002a 0023     		movs	r3, #0
- 196 002c 7B61     		str	r3, [r7, #20]
- 197 002e 11E0     		b	.L10
- 198              	.L11:
-  99:ad5941_platform.c ****     {
- 100:ad5941_platform.c ****         pRecvBuff[i] = SoftSPI_TxRxByte(pSendBuffer[i]);
- 199              		.loc 1 100 0 discriminator 3
- 200 0030 BA68     		ldr	r2, [r7, #8]
- 201 0032 7B69     		ldr	r3, [r7, #20]
- 202 0034 D418     		adds	r4, r2, r3
- 203 0036 FA68     		ldr	r2, [r7, #12]
- 204 0038 7B69     		ldr	r3, [r7, #20]
- 205 003a D318     		adds	r3, r2, r3
- 206 003c 1B78     		ldrb	r3, [r3]
- 207 003e 1800     		movs	r0, r3
- 208 0040 FFF7FEFF 		bl	SoftSPI_TxRxByte
- 209 0044 0300     		movs	r3, r0
- 210 0046 2370     		strb	r3, [r4]
- 101:ad5941_platform.c ****         // 去掉复杂的 if(i==0) 判断，只给一个极小的字节间空隙
- 102:ad5941_platform.c ****         CyDelayUs(2); 
- 211              		.loc 1 102 0 discriminator 3
- 212 0048 0220     		movs	r0, #2
- 213 004a FFF7FEFF 		bl	CyDelayUs
-  98:ad5941_platform.c ****     {
- 214              		.loc 1 98 0 discriminator 3
- 215 004e 7B69     		ldr	r3, [r7, #20]
- 216 0050 0133     		adds	r3, r3, #1
- 217 0052 7B61     		str	r3, [r7, #20]
- 218              	.L10:
-  98:ad5941_platform.c ****     {
- 219              		.loc 1 98 0 is_stmt 0 discriminator 1
- 220 0054 7A69     		ldr	r2, [r7, #20]
- 221 0056 7B68     		ldr	r3, [r7, #4]
- 222 0058 9A42     		cmp	r2, r3
- 223 005a E9D3     		bcc	.L11
- 103:ad5941_platform.c ****     }
- 104:ad5941_platform.c **** 
- 105:ad5941_platform.c ****     // 3. 结束传输
- 106:ad5941_platform.c ****     CyDelayUs(2); // t9: CS hold time
- 224              		.loc 1 106 0 is_stmt 1
- 225 005c 0220     		movs	r0, #2
- 226 005e FFF7FEFF 		bl	CyDelayUs
- 107:ad5941_platform.c ****     SPI_CS_HIGH();
- 227              		.loc 1 107 0
- 228 0062 0120     		movs	r0, #1
- 229 0064 FFF7FEFF 		bl	AD5940_CS_Write
- 108:ad5941_platform.c ****     CyDelayUs(5); // t10: CS High time (重要：给芯片时间复位状态机)
- 230              		.loc 1 108 0
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 7
+ 194 0020 5B42     		rsbs	r3, r3, #0
+ 195 0022 19E0     		b	.L12
+ 196              	.L11:
+  91:ad5941_platform.c **** 
+  92:ad5941_platform.c ****     // ⭐ 不控制CS，只负责传输数据
+  93:ad5941_platform.c ****     for (i = 0; i < length; i++)
+ 197              		.loc 1 93 0
+ 198 0024 0023     		movs	r3, #0
+ 199 0026 7B61     		str	r3, [r7, #20]
+ 200 0028 11E0     		b	.L13
+ 201              	.L14:
+  94:ad5941_platform.c ****     {
+  95:ad5941_platform.c ****         pRecvBuff[i] = SoftSPI_TxRxByte(pSendBuffer[i]);
+ 202              		.loc 1 95 0 discriminator 3
+ 203 002a BA68     		ldr	r2, [r7, #8]
+ 204 002c 7B69     		ldr	r3, [r7, #20]
+ 205 002e D418     		adds	r4, r2, r3
+ 206 0030 FA68     		ldr	r2, [r7, #12]
+ 207 0032 7B69     		ldr	r3, [r7, #20]
+ 208 0034 D318     		adds	r3, r2, r3
+ 209 0036 1B78     		ldrb	r3, [r3]
+ 210 0038 1800     		movs	r0, r3
+ 211 003a FFF7FEFF 		bl	SoftSPI_TxRxByte
+ 212 003e 0300     		movs	r3, r0
+ 213 0040 2370     		strb	r3, [r4]
+  96:ad5941_platform.c ****         CyDelayUs(2);  // 字节间延时
+ 214              		.loc 1 96 0 discriminator 3
+ 215 0042 0220     		movs	r0, #2
+ 216 0044 FFF7FEFF 		bl	CyDelayUs
+  93:ad5941_platform.c ****     {
+ 217              		.loc 1 93 0 discriminator 3
+ 218 0048 7B69     		ldr	r3, [r7, #20]
+ 219 004a 0133     		adds	r3, r3, #1
+ 220 004c 7B61     		str	r3, [r7, #20]
+ 221              	.L13:
+  93:ad5941_platform.c ****     {
+ 222              		.loc 1 93 0 is_stmt 0 discriminator 1
+ 223 004e 7A69     		ldr	r2, [r7, #20]
+ 224 0050 7B68     		ldr	r3, [r7, #4]
+ 225 0052 9A42     		cmp	r2, r3
+ 226 0054 E9D3     		bcc	.L14
+  97:ad5941_platform.c ****     }
+  98:ad5941_platform.c **** 
+  99:ad5941_platform.c ****     return 0;
+ 227              		.loc 1 99 0 is_stmt 1
+ 228 0056 0023     		movs	r3, #0
+ 229              	.L12:
+ 100:ad5941_platform.c **** }
+ 230              		.loc 1 100 0
+ 231 0058 1800     		movs	r0, r3
+ 232 005a BD46     		mov	sp, r7
+ 233 005c 07B0     		add	sp, sp, #28
+ 234              		@ sp needed
+ 235 005e 90BD     		pop	{r4, r7, pc}
+ 236              		.cfi_endproc
+ 237              	.LFE37:
+ 238              		.size	AD5940_ReadWriteNBytes, .-AD5940_ReadWriteNBytes
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccD9q1Nc.s 			page 7
 
 
- 231 0068 0520     		movs	r0, #5
- 232 006a FFF7FEFF 		bl	CyDelayUs
- 109:ad5941_platform.c **** 
- 110:ad5941_platform.c ****     return 0;
- 233              		.loc 1 110 0
- 234 006e 0023     		movs	r3, #0
- 111:ad5941_platform.c **** }
- 235              		.loc 1 111 0
- 236 0070 1800     		movs	r0, r3
- 237 0072 BD46     		mov	sp, r7
- 238 0074 07B0     		add	sp, sp, #28
- 239              		@ sp needed
- 240 0076 90BD     		pop	{r4, r7, pc}
- 241              		.cfi_endproc
- 242              	.LFE37:
- 243              		.size	AD5940_ReadWriteNBytes, .-AD5940_ReadWriteNBytes
- 244              		.section	.text.AD5940_CsClr,"ax",%progbits
- 245              		.align	2
- 246              		.global	AD5940_CsClr
- 247              		.code	16
- 248              		.thumb_func
- 249              		.type	AD5940_CsClr, %function
- 250              	AD5940_CsClr:
- 251              	.LFB38:
- 112:ad5941_platform.c **** 
- 113:ad5941_platform.c **** /*******************************************************************************
- 114:ad5941_platform.c **** 
- 115:ad5941_platform.c **** * GPIO控制函数
- 116:ad5941_platform.c **** *******************************************************************************/
- 117:ad5941_platform.c **** 
- 118:ad5941_platform.c **** /**
- 119:ad5941_platform.c ****  * @brief 拉低CS片选信号
- 120:ad5941_platform.c ****  * 
- 121:ad5941_platform.c ****  * CS为低电平时AD5940被选中，可以进行SPI通信
- 122:ad5941_platform.c ****  */
- 123:ad5941_platform.c **** void AD5940_CsClr(void)
- 124:ad5941_platform.c **** {
- 252              		.loc 1 124 0
- 253              		.cfi_startproc
- 254              		@ args = 0, pretend = 0, frame = 0
- 255              		@ frame_needed = 1, uses_anonymous_args = 0
- 256 0000 80B5     		push	{r7, lr}
- 257              		.cfi_def_cfa_offset 8
- 258              		.cfi_offset 7, -8
- 259              		.cfi_offset 14, -4
- 260 0002 00AF     		add	r7, sp, #0
- 261              		.cfi_def_cfa_register 7
- 125:ad5941_platform.c ****     AD5940_CS_Write(0);
- 262              		.loc 1 125 0
- 263 0004 0020     		movs	r0, #0
- 264 0006 FFF7FEFF 		bl	AD5940_CS_Write
- 126:ad5941_platform.c **** }
- 265              		.loc 1 126 0
- 266 000a C046     		nop
- 267 000c BD46     		mov	sp, r7
- 268              		@ sp needed
- 269 000e 80BD     		pop	{r7, pc}
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 8
+ 239              		.section	.text.AD5940_CsClr,"ax",%progbits
+ 240              		.align	2
+ 241              		.global	AD5940_CsClr
+ 242              		.code	16
+ 243              		.thumb_func
+ 244              		.type	AD5940_CsClr, %function
+ 245              	AD5940_CsClr:
+ 246              	.LFB38:
+ 101:ad5941_platform.c **** 
+ 102:ad5941_platform.c **** /*******************************************************************************
+ 103:ad5941_platform.c **** 
+ 104:ad5941_platform.c **** * GPIO控制函数
+ 105:ad5941_platform.c **** *******************************************************************************/
+ 106:ad5941_platform.c **** 
+ 107:ad5941_platform.c **** /**
+ 108:ad5941_platform.c ****  * @brief 拉低CS片选信号
+ 109:ad5941_platform.c ****  * 
+ 110:ad5941_platform.c ****  * CS为低电平时AD5940被选中，可以进行SPI通信
+ 111:ad5941_platform.c ****  */
+ 112:ad5941_platform.c **** void AD5940_CsClr(void)
+ 113:ad5941_platform.c **** {
+ 247              		.loc 1 113 0
+ 248              		.cfi_startproc
+ 249              		@ args = 0, pretend = 0, frame = 0
+ 250              		@ frame_needed = 1, uses_anonymous_args = 0
+ 251 0000 80B5     		push	{r7, lr}
+ 252              		.cfi_def_cfa_offset 8
+ 253              		.cfi_offset 7, -8
+ 254              		.cfi_offset 14, -4
+ 255 0002 00AF     		add	r7, sp, #0
+ 256              		.cfi_def_cfa_register 7
+ 114:ad5941_platform.c ****     AD5940_CS_Write(0);
+ 257              		.loc 1 114 0
+ 258 0004 0020     		movs	r0, #0
+ 259 0006 FFF7FEFF 		bl	AD5940_CS_Write
+ 115:ad5941_platform.c **** }
+ 260              		.loc 1 115 0
+ 261 000a C046     		nop
+ 262 000c BD46     		mov	sp, r7
+ 263              		@ sp needed
+ 264 000e 80BD     		pop	{r7, pc}
+ 265              		.cfi_endproc
+ 266              	.LFE38:
+ 267              		.size	AD5940_CsClr, .-AD5940_CsClr
+ 268              		.section	.text.AD5940_CsSet,"ax",%progbits
+ 269              		.align	2
+ 270              		.global	AD5940_CsSet
+ 271              		.code	16
+ 272              		.thumb_func
+ 273              		.type	AD5940_CsSet, %function
+ 274              	AD5940_CsSet:
+ 275              	.LFB39:
+ 116:ad5941_platform.c **** 
+ 117:ad5941_platform.c **** /**
+ 118:ad5941_platform.c ****  * @brief 拉高CS片选信号
+ 119:ad5941_platform.c ****  * 
+ 120:ad5941_platform.c ****  * CS为高电平时AD5940不被选中，SPI通信结束
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccD9q1Nc.s 			page 8
 
 
- 270              		.cfi_endproc
- 271              	.LFE38:
- 272              		.size	AD5940_CsClr, .-AD5940_CsClr
- 273              		.section	.text.AD5940_CsSet,"ax",%progbits
- 274              		.align	2
- 275              		.global	AD5940_CsSet
- 276              		.code	16
- 277              		.thumb_func
- 278              		.type	AD5940_CsSet, %function
- 279              	AD5940_CsSet:
- 280              	.LFB39:
- 127:ad5941_platform.c **** 
- 128:ad5941_platform.c **** /**
- 129:ad5941_platform.c ****  * @brief 拉高CS片选信号
- 130:ad5941_platform.c ****  * 
- 131:ad5941_platform.c ****  * CS为高电平时AD5940不被选中，SPI通信结束
+ 121:ad5941_platform.c ****  */
+ 122:ad5941_platform.c **** void AD5940_CsSet(void)
+ 123:ad5941_platform.c **** {
+ 276              		.loc 1 123 0
+ 277              		.cfi_startproc
+ 278              		@ args = 0, pretend = 0, frame = 0
+ 279              		@ frame_needed = 1, uses_anonymous_args = 0
+ 280 0000 80B5     		push	{r7, lr}
+ 281              		.cfi_def_cfa_offset 8
+ 282              		.cfi_offset 7, -8
+ 283              		.cfi_offset 14, -4
+ 284 0002 00AF     		add	r7, sp, #0
+ 285              		.cfi_def_cfa_register 7
+ 124:ad5941_platform.c ****     AD5940_CS_Write(1);
+ 286              		.loc 1 124 0
+ 287 0004 0120     		movs	r0, #1
+ 288 0006 FFF7FEFF 		bl	AD5940_CS_Write
+ 125:ad5941_platform.c **** }
+ 289              		.loc 1 125 0
+ 290 000a C046     		nop
+ 291 000c BD46     		mov	sp, r7
+ 292              		@ sp needed
+ 293 000e 80BD     		pop	{r7, pc}
+ 294              		.cfi_endproc
+ 295              	.LFE39:
+ 296              		.size	AD5940_CsSet, .-AD5940_CsSet
+ 297              		.section	.text.AD5940_RstSet,"ax",%progbits
+ 298              		.align	2
+ 299              		.global	AD5940_RstSet
+ 300              		.code	16
+ 301              		.thumb_func
+ 302              		.type	AD5940_RstSet, %function
+ 303              	AD5940_RstSet:
+ 304              	.LFB40:
+ 126:ad5941_platform.c **** 
+ 127:ad5941_platform.c **** /**
+ 128:ad5941_platform.c ****  * @brief 拉高复位引脚（芯片正常工作）
+ 129:ad5941_platform.c ****  * 
+ 130:ad5941_platform.c ****  * RST=1: 芯片正常工作
+ 131:ad5941_platform.c ****  * RST=0: 芯片处于复位状态
  132:ad5941_platform.c ****  */
- 133:ad5941_platform.c **** void AD5940_CsSet(void)
+ 133:ad5941_platform.c **** void AD5940_RstSet(void)
  134:ad5941_platform.c **** {
- 281              		.loc 1 134 0
- 282              		.cfi_startproc
- 283              		@ args = 0, pretend = 0, frame = 0
- 284              		@ frame_needed = 1, uses_anonymous_args = 0
- 285 0000 80B5     		push	{r7, lr}
- 286              		.cfi_def_cfa_offset 8
- 287              		.cfi_offset 7, -8
- 288              		.cfi_offset 14, -4
- 289 0002 00AF     		add	r7, sp, #0
- 290              		.cfi_def_cfa_register 7
- 135:ad5941_platform.c ****     AD5940_CS_Write(1);
- 291              		.loc 1 135 0
- 292 0004 0120     		movs	r0, #1
- 293 0006 FFF7FEFF 		bl	AD5940_CS_Write
+ 305              		.loc 1 134 0
+ 306              		.cfi_startproc
+ 307              		@ args = 0, pretend = 0, frame = 0
+ 308              		@ frame_needed = 1, uses_anonymous_args = 0
+ 309 0000 80B5     		push	{r7, lr}
+ 310              		.cfi_def_cfa_offset 8
+ 311              		.cfi_offset 7, -8
+ 312              		.cfi_offset 14, -4
+ 313 0002 00AF     		add	r7, sp, #0
+ 314              		.cfi_def_cfa_register 7
+ 135:ad5941_platform.c ****     AD5940_RST_Write(1);
+ 315              		.loc 1 135 0
+ 316 0004 0120     		movs	r0, #1
+ 317 0006 FFF7FEFF 		bl	AD5940_RST_Write
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccD9q1Nc.s 			page 9
+
+
  136:ad5941_platform.c **** }
- 294              		.loc 1 136 0
- 295 000a C046     		nop
- 296 000c BD46     		mov	sp, r7
- 297              		@ sp needed
- 298 000e 80BD     		pop	{r7, pc}
- 299              		.cfi_endproc
- 300              	.LFE39:
- 301              		.size	AD5940_CsSet, .-AD5940_CsSet
- 302              		.section	.text.AD5940_RstSet,"ax",%progbits
- 303              		.align	2
- 304              		.global	AD5940_RstSet
- 305              		.code	16
- 306              		.thumb_func
- 307              		.type	AD5940_RstSet, %function
- 308              	AD5940_RstSet:
- 309              	.LFB40:
+ 318              		.loc 1 136 0
+ 319 000a C046     		nop
+ 320 000c BD46     		mov	sp, r7
+ 321              		@ sp needed
+ 322 000e 80BD     		pop	{r7, pc}
+ 323              		.cfi_endproc
+ 324              	.LFE40:
+ 325              		.size	AD5940_RstSet, .-AD5940_RstSet
+ 326              		.section	.text.AD5940_RstClr,"ax",%progbits
+ 327              		.align	2
+ 328              		.global	AD5940_RstClr
+ 329              		.code	16
+ 330              		.thumb_func
+ 331              		.type	AD5940_RstClr, %function
+ 332              	AD5940_RstClr:
+ 333              	.LFB41:
  137:ad5941_platform.c **** 
  138:ad5941_platform.c **** /**
- 139:ad5941_platform.c ****  * @brief 拉高复位引脚（芯片正常工作）
+ 139:ad5941_platform.c ****  * @brief 拉低复位引脚（复位芯片）
  140:ad5941_platform.c ****  * 
- 141:ad5941_platform.c ****  * RST=1: 芯片正常工作
- 142:ad5941_platform.c ****  * RST=0: 芯片处于复位状态
+ 141:ad5941_platform.c ****  * 将AD5940置于复位状态
+ 142:ad5941_platform.c ****  * 通常需要保持低电平至少10us，然后拉高以完成复位
  143:ad5941_platform.c ****  */
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 9
-
-
- 144:ad5941_platform.c **** void AD5940_RstSet(void)
+ 144:ad5941_platform.c **** void AD5940_RstClr(void)
  145:ad5941_platform.c **** {
- 310              		.loc 1 145 0
- 311              		.cfi_startproc
- 312              		@ args = 0, pretend = 0, frame = 0
- 313              		@ frame_needed = 1, uses_anonymous_args = 0
- 314 0000 80B5     		push	{r7, lr}
- 315              		.cfi_def_cfa_offset 8
- 316              		.cfi_offset 7, -8
- 317              		.cfi_offset 14, -4
- 318 0002 00AF     		add	r7, sp, #0
- 319              		.cfi_def_cfa_register 7
- 146:ad5941_platform.c ****     AD5940_RST_Write(1);
- 320              		.loc 1 146 0
- 321 0004 0120     		movs	r0, #1
- 322 0006 FFF7FEFF 		bl	AD5940_RST_Write
+ 334              		.loc 1 145 0
+ 335              		.cfi_startproc
+ 336              		@ args = 0, pretend = 0, frame = 0
+ 337              		@ frame_needed = 1, uses_anonymous_args = 0
+ 338 0000 80B5     		push	{r7, lr}
+ 339              		.cfi_def_cfa_offset 8
+ 340              		.cfi_offset 7, -8
+ 341              		.cfi_offset 14, -4
+ 342 0002 00AF     		add	r7, sp, #0
+ 343              		.cfi_def_cfa_register 7
+ 146:ad5941_platform.c ****     AD5940_RST_Write(0);
+ 344              		.loc 1 146 0
+ 345 0004 0020     		movs	r0, #0
+ 346 0006 FFF7FEFF 		bl	AD5940_RST_Write
  147:ad5941_platform.c **** }
- 323              		.loc 1 147 0
- 324 000a C046     		nop
- 325 000c BD46     		mov	sp, r7
- 326              		@ sp needed
- 327 000e 80BD     		pop	{r7, pc}
- 328              		.cfi_endproc
- 329              	.LFE40:
- 330              		.size	AD5940_RstSet, .-AD5940_RstSet
- 331              		.section	.text.AD5940_RstClr,"ax",%progbits
- 332              		.align	2
- 333              		.global	AD5940_RstClr
- 334              		.code	16
- 335              		.thumb_func
- 336              		.type	AD5940_RstClr, %function
- 337              	AD5940_RstClr:
- 338              	.LFB41:
+ 347              		.loc 1 147 0
+ 348 000a C046     		nop
+ 349 000c BD46     		mov	sp, r7
+ 350              		@ sp needed
+ 351 000e 80BD     		pop	{r7, pc}
+ 352              		.cfi_endproc
+ 353              	.LFE41:
+ 354              		.size	AD5940_RstClr, .-AD5940_RstClr
+ 355              		.section	.text.AD5940_Delay10us,"ax",%progbits
+ 356              		.align	2
+ 357              		.global	AD5940_Delay10us
+ 358              		.code	16
+ 359              		.thumb_func
+ 360              		.type	AD5940_Delay10us, %function
+ 361              	AD5940_Delay10us:
+ 362              	.LFB42:
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccD9q1Nc.s 			page 10
+
+
  148:ad5941_platform.c **** 
- 149:ad5941_platform.c **** /**
- 150:ad5941_platform.c ****  * @brief 拉低复位引脚（复位芯片）
- 151:ad5941_platform.c ****  * 
- 152:ad5941_platform.c ****  * 将AD5940置于复位状态
- 153:ad5941_platform.c ****  * 通常需要保持低电平至少10us，然后拉高以完成复位
- 154:ad5941_platform.c ****  */
- 155:ad5941_platform.c **** void AD5940_RstClr(void)
- 156:ad5941_platform.c **** {
- 339              		.loc 1 156 0
- 340              		.cfi_startproc
- 341              		@ args = 0, pretend = 0, frame = 0
- 342              		@ frame_needed = 1, uses_anonymous_args = 0
- 343 0000 80B5     		push	{r7, lr}
- 344              		.cfi_def_cfa_offset 8
- 345              		.cfi_offset 7, -8
- 346              		.cfi_offset 14, -4
- 347 0002 00AF     		add	r7, sp, #0
- 348              		.cfi_def_cfa_register 7
- 157:ad5941_platform.c ****     AD5940_RST_Write(0);
- 349              		.loc 1 157 0
- 350 0004 0020     		movs	r0, #0
- 351 0006 FFF7FEFF 		bl	AD5940_RST_Write
- 158:ad5941_platform.c **** }
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 10
+ 149:ad5941_platform.c **** /*******************************************************************************
+ 150:ad5941_platform.c **** * 延时和中断函数
+ 151:ad5941_platform.c **** *******************************************************************************/
+ 152:ad5941_platform.c **** 
+ 153:ad5941_platform.c **** /**
+ 154:ad5941_platform.c ****  * @brief 延时函数（以10微秒为单位）
+ 155:ad5941_platform.c ****  * @param time: 延时时间，单位为10us
+ 156:ad5941_platform.c ****  * 
+ 157:ad5941_platform.c ****  * 例如：AD5940_Delay10us(100) 延时1000us（1ms）
+ 158:ad5941_platform.c ****  *      AD5940_Delay10us(1000) 延时10ms
+ 159:ad5941_platform.c ****  */
+ 160:ad5941_platform.c **** void AD5940_Delay10us(uint32_t time)
+ 161:ad5941_platform.c **** {
+ 363              		.loc 1 161 0
+ 364              		.cfi_startproc
+ 365              		@ args = 0, pretend = 0, frame = 16
+ 366              		@ frame_needed = 1, uses_anonymous_args = 0
+ 367 0000 80B5     		push	{r7, lr}
+ 368              		.cfi_def_cfa_offset 8
+ 369              		.cfi_offset 7, -8
+ 370              		.cfi_offset 14, -4
+ 371 0002 84B0     		sub	sp, sp, #16
+ 372              		.cfi_def_cfa_offset 24
+ 373 0004 00AF     		add	r7, sp, #0
+ 374              		.cfi_def_cfa_register 7
+ 375 0006 7860     		str	r0, [r7, #4]
+ 162:ad5941_platform.c ****     uint32_t i;
+ 163:ad5941_platform.c ****     
+ 164:ad5941_platform.c ****     if(time == 0) 
+ 376              		.loc 1 164 0
+ 377 0008 7B68     		ldr	r3, [r7, #4]
+ 378 000a 002B     		cmp	r3, #0
+ 379 000c 0DD0     		beq	.L24
+ 165:ad5941_platform.c ****         return;
+ 166:ad5941_platform.c ****     
+ 167:ad5941_platform.c ****     /* 延时 time*10 微秒 */
+ 168:ad5941_platform.c ****     for(i = 0; i < time; i++)
+ 380              		.loc 1 168 0
+ 381 000e 0023     		movs	r3, #0
+ 382 0010 FB60     		str	r3, [r7, #12]
+ 383 0012 05E0     		b	.L22
+ 384              	.L23:
+ 169:ad5941_platform.c ****     {
+ 170:ad5941_platform.c ****         CyDelayUs(10);
+ 385              		.loc 1 170 0 discriminator 3
+ 386 0014 0A20     		movs	r0, #10
+ 387 0016 FFF7FEFF 		bl	CyDelayUs
+ 168:ad5941_platform.c ****     {
+ 388              		.loc 1 168 0 discriminator 3
+ 389 001a FB68     		ldr	r3, [r7, #12]
+ 390 001c 0133     		adds	r3, r3, #1
+ 391 001e FB60     		str	r3, [r7, #12]
+ 392              	.L22:
+ 168:ad5941_platform.c ****     {
+ 393              		.loc 1 168 0 is_stmt 0 discriminator 1
+ 394 0020 FA68     		ldr	r2, [r7, #12]
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccD9q1Nc.s 			page 11
 
 
- 352              		.loc 1 158 0
- 353 000a C046     		nop
- 354 000c BD46     		mov	sp, r7
- 355              		@ sp needed
- 356 000e 80BD     		pop	{r7, pc}
- 357              		.cfi_endproc
- 358              	.LFE41:
- 359              		.size	AD5940_RstClr, .-AD5940_RstClr
- 360              		.section	.text.AD5940_Delay10us,"ax",%progbits
- 361              		.align	2
- 362              		.global	AD5940_Delay10us
- 363              		.code	16
- 364              		.thumb_func
- 365              		.type	AD5940_Delay10us, %function
- 366              	AD5940_Delay10us:
- 367              	.LFB42:
- 159:ad5941_platform.c **** 
- 160:ad5941_platform.c **** /*******************************************************************************
- 161:ad5941_platform.c **** * 延时和中断函数
- 162:ad5941_platform.c **** *******************************************************************************/
- 163:ad5941_platform.c **** 
- 164:ad5941_platform.c **** /**
- 165:ad5941_platform.c ****  * @brief 延时函数（以10微秒为单位）
- 166:ad5941_platform.c ****  * @param time: 延时时间，单位为10us
- 167:ad5941_platform.c ****  * 
- 168:ad5941_platform.c ****  * 例如：AD5940_Delay10us(100) 延时1000us（1ms）
- 169:ad5941_platform.c ****  *      AD5940_Delay10us(1000) 延时10ms
- 170:ad5941_platform.c ****  */
- 171:ad5941_platform.c **** void AD5940_Delay10us(uint32_t time)
- 172:ad5941_platform.c **** {
- 368              		.loc 1 172 0
- 369              		.cfi_startproc
- 370              		@ args = 0, pretend = 0, frame = 16
- 371              		@ frame_needed = 1, uses_anonymous_args = 0
- 372 0000 80B5     		push	{r7, lr}
- 373              		.cfi_def_cfa_offset 8
- 374              		.cfi_offset 7, -8
- 375              		.cfi_offset 14, -4
- 376 0002 84B0     		sub	sp, sp, #16
- 377              		.cfi_def_cfa_offset 24
- 378 0004 00AF     		add	r7, sp, #0
- 379              		.cfi_def_cfa_register 7
- 380 0006 7860     		str	r0, [r7, #4]
- 173:ad5941_platform.c ****     uint32_t i;
- 174:ad5941_platform.c ****     
- 175:ad5941_platform.c ****     if(time == 0) 
- 381              		.loc 1 175 0
- 382 0008 7B68     		ldr	r3, [r7, #4]
- 383 000a 002B     		cmp	r3, #0
- 384 000c 0DD0     		beq	.L22
- 176:ad5941_platform.c ****         return;
- 177:ad5941_platform.c ****     
- 178:ad5941_platform.c ****     /* 延时 time*10 微秒 */
- 179:ad5941_platform.c ****     for(i = 0; i < time; i++)
- 385              		.loc 1 179 0
- 386 000e 0023     		movs	r3, #0
- 387 0010 FB60     		str	r3, [r7, #12]
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 11
+ 395 0022 7B68     		ldr	r3, [r7, #4]
+ 396 0024 9A42     		cmp	r2, r3
+ 397 0026 F5D3     		bcc	.L23
+ 398 0028 00E0     		b	.L19
+ 399              	.L24:
+ 165:ad5941_platform.c ****         return;
+ 400              		.loc 1 165 0 is_stmt 1
+ 401 002a C046     		nop
+ 402              	.L19:
+ 171:ad5941_platform.c ****     }
+ 172:ad5941_platform.c **** }
+ 403              		.loc 1 172 0
+ 404 002c BD46     		mov	sp, r7
+ 405 002e 04B0     		add	sp, sp, #16
+ 406              		@ sp needed
+ 407 0030 80BD     		pop	{r7, pc}
+ 408              		.cfi_endproc
+ 409              	.LFE42:
+ 410              		.size	AD5940_Delay10us, .-AD5940_Delay10us
+ 411 0032 C046     		.section	.text.AD5940_GetMCUIntFlag,"ax",%progbits
+ 412              		.align	2
+ 413              		.global	AD5940_GetMCUIntFlag
+ 414              		.code	16
+ 415              		.thumb_func
+ 416              		.type	AD5940_GetMCUIntFlag, %function
+ 417              	AD5940_GetMCUIntFlag:
+ 418              	.LFB43:
+ 173:ad5941_platform.c **** 
+ 174:ad5941_platform.c **** /**
+ 175:ad5941_platform.c ****  * @brief 获取MCU中断标志
+ 176:ad5941_platform.c ****  * @return 中断状态（0=无中断, 非0=有中断）
+ 177:ad5941_platform.c ****  * 
+ 178:ad5941_platform.c ****  * 如果硬件中连接了AD5940的中断输出引脚，可在此读取其状态
+ 179:ad5941_platform.c ****  * 当前实现返回0，表示未检测到中断
+ 180:ad5941_platform.c ****  */
+ 181:ad5941_platform.c **** uint32_t AD5940_GetMCUIntFlag(void)
+ 182:ad5941_platform.c **** {
+ 419              		.loc 1 182 0
+ 420              		.cfi_startproc
+ 421              		@ args = 0, pretend = 0, frame = 0
+ 422              		@ frame_needed = 1, uses_anonymous_args = 0
+ 423 0000 80B5     		push	{r7, lr}
+ 424              		.cfi_def_cfa_offset 8
+ 425              		.cfi_offset 7, -8
+ 426              		.cfi_offset 14, -4
+ 427 0002 00AF     		add	r7, sp, #0
+ 428              		.cfi_def_cfa_register 7
+ 183:ad5941_platform.c ****     /* 如果硬件中连接了AD5940的中断引脚，可在此读取
+ 184:ad5941_platform.c ****      * 例如：return AD5940_Interrupt_Read();
+ 185:ad5941_platform.c ****      */
+ 186:ad5941_platform.c ****     
+ 187:ad5941_platform.c ****     /* 如果未使用中断引脚，返回0表示无中断 */
+ 188:ad5941_platform.c ****     return 0;
+ 429              		.loc 1 188 0
+ 430 0004 0023     		movs	r3, #0
+ 189:ad5941_platform.c **** }
+ 431              		.loc 1 189 0
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccD9q1Nc.s 			page 12
 
 
- 388 0012 05E0     		b	.L20
- 389              	.L21:
- 180:ad5941_platform.c ****     {
- 181:ad5941_platform.c ****         CyDelayUs(10);
- 390              		.loc 1 181 0 discriminator 3
- 391 0014 0A20     		movs	r0, #10
- 392 0016 FFF7FEFF 		bl	CyDelayUs
- 179:ad5941_platform.c ****     {
- 393              		.loc 1 179 0 discriminator 3
- 394 001a FB68     		ldr	r3, [r7, #12]
- 395 001c 0133     		adds	r3, r3, #1
- 396 001e FB60     		str	r3, [r7, #12]
- 397              	.L20:
- 179:ad5941_platform.c ****     {
- 398              		.loc 1 179 0 is_stmt 0 discriminator 1
- 399 0020 FA68     		ldr	r2, [r7, #12]
- 400 0022 7B68     		ldr	r3, [r7, #4]
- 401 0024 9A42     		cmp	r2, r3
- 402 0026 F5D3     		bcc	.L21
- 403 0028 00E0     		b	.L17
- 404              	.L22:
- 176:ad5941_platform.c ****         return;
- 405              		.loc 1 176 0 is_stmt 1
- 406 002a C046     		nop
- 407              	.L17:
- 182:ad5941_platform.c ****     }
- 183:ad5941_platform.c **** }
- 408              		.loc 1 183 0
- 409 002c BD46     		mov	sp, r7
- 410 002e 04B0     		add	sp, sp, #16
- 411              		@ sp needed
- 412 0030 80BD     		pop	{r7, pc}
- 413              		.cfi_endproc
- 414              	.LFE42:
- 415              		.size	AD5940_Delay10us, .-AD5940_Delay10us
- 416 0032 C046     		.section	.text.AD5940_GetMCUIntFlag,"ax",%progbits
- 417              		.align	2
- 418              		.global	AD5940_GetMCUIntFlag
- 419              		.code	16
- 420              		.thumb_func
- 421              		.type	AD5940_GetMCUIntFlag, %function
- 422              	AD5940_GetMCUIntFlag:
- 423              	.LFB43:
- 184:ad5941_platform.c **** 
- 185:ad5941_platform.c **** /**
- 186:ad5941_platform.c ****  * @brief 获取MCU中断标志
- 187:ad5941_platform.c ****  * @return 中断状态（0=无中断, 非0=有中断）
- 188:ad5941_platform.c ****  * 
- 189:ad5941_platform.c ****  * 如果硬件中连接了AD5940的中断输出引脚，可在此读取其状态
- 190:ad5941_platform.c ****  * 当前实现返回0，表示未检测到中断
- 191:ad5941_platform.c ****  */
- 192:ad5941_platform.c **** uint32_t AD5940_GetMCUIntFlag(void)
- 193:ad5941_platform.c **** {
- 424              		.loc 1 193 0
- 425              		.cfi_startproc
- 426              		@ args = 0, pretend = 0, frame = 0
- 427              		@ frame_needed = 1, uses_anonymous_args = 0
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 12
+ 432 0006 1800     		movs	r0, r3
+ 433 0008 BD46     		mov	sp, r7
+ 434              		@ sp needed
+ 435 000a 80BD     		pop	{r7, pc}
+ 436              		.cfi_endproc
+ 437              	.LFE43:
+ 438              		.size	AD5940_GetMCUIntFlag, .-AD5940_GetMCUIntFlag
+ 439              		.section	.text.AD5940_ClrMCUIntFlag,"ax",%progbits
+ 440              		.align	2
+ 441              		.global	AD5940_ClrMCUIntFlag
+ 442              		.code	16
+ 443              		.thumb_func
+ 444              		.type	AD5940_ClrMCUIntFlag, %function
+ 445              	AD5940_ClrMCUIntFlag:
+ 446              	.LFB44:
+ 190:ad5941_platform.c **** 
+ 191:ad5941_platform.c **** /**
+ 192:ad5941_platform.c ****  * @brief 清除MCU中断标志
+ 193:ad5941_platform.c ****  * @return 1=成功, 0=失败
+ 194:ad5941_platform.c ****  * 
+ 195:ad5941_platform.c ****  * 清除之前检测到的中断标志，为下一次中断做准备
+ 196:ad5941_platform.c ****  */
+ 197:ad5941_platform.c **** uint32_t AD5940_ClrMCUIntFlag(void)
+ 198:ad5941_platform.c **** {
+ 447              		.loc 1 198 0
+ 448              		.cfi_startproc
+ 449              		@ args = 0, pretend = 0, frame = 0
+ 450              		@ frame_needed = 1, uses_anonymous_args = 0
+ 451 0000 80B5     		push	{r7, lr}
+ 452              		.cfi_def_cfa_offset 8
+ 453              		.cfi_offset 7, -8
+ 454              		.cfi_offset 14, -4
+ 455 0002 00AF     		add	r7, sp, #0
+ 456              		.cfi_def_cfa_register 7
+ 199:ad5941_platform.c ****     /* 如果使用了中断引脚，在此清除中断
+ 200:ad5941_platform.c ****      * 例如：AD5940_Interrupt_ClearInterrupt();
+ 201:ad5941_platform.c ****      */
+ 202:ad5941_platform.c ****     
+ 203:ad5941_platform.c ****     return 1;  /* 成功 */
+ 457              		.loc 1 203 0
+ 458 0004 0123     		movs	r3, #1
+ 204:ad5941_platform.c **** }
+ 459              		.loc 1 204 0
+ 460 0006 1800     		movs	r0, r3
+ 461 0008 BD46     		mov	sp, r7
+ 462              		@ sp needed
+ 463 000a 80BD     		pop	{r7, pc}
+ 464              		.cfi_endproc
+ 465              	.LFE44:
+ 466              		.size	AD5940_ClrMCUIntFlag, .-AD5940_ClrMCUIntFlag
+ 467              		.section	.text.AD5940_MCUResourceInit,"ax",%progbits
+ 468              		.align	2
+ 469              		.global	AD5940_MCUResourceInit
+ 470              		.code	16
+ 471              		.thumb_func
+ 472              		.type	AD5940_MCUResourceInit, %function
+ 473              	AD5940_MCUResourceInit:
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccD9q1Nc.s 			page 13
 
 
- 428 0000 80B5     		push	{r7, lr}
- 429              		.cfi_def_cfa_offset 8
- 430              		.cfi_offset 7, -8
- 431              		.cfi_offset 14, -4
- 432 0002 00AF     		add	r7, sp, #0
- 433              		.cfi_def_cfa_register 7
- 194:ad5941_platform.c ****     /* 如果硬件中连接了AD5940的中断引脚，可在此读取
- 195:ad5941_platform.c ****      * 例如：return AD5940_Interrupt_Read();
- 196:ad5941_platform.c ****      */
- 197:ad5941_platform.c ****     
- 198:ad5941_platform.c ****     /* 如果未使用中断引脚，返回0表示无中断 */
- 199:ad5941_platform.c ****     return 0;
- 434              		.loc 1 199 0
- 435 0004 0023     		movs	r3, #0
- 200:ad5941_platform.c **** }
- 436              		.loc 1 200 0
- 437 0006 1800     		movs	r0, r3
- 438 0008 BD46     		mov	sp, r7
- 439              		@ sp needed
- 440 000a 80BD     		pop	{r7, pc}
- 441              		.cfi_endproc
- 442              	.LFE43:
- 443              		.size	AD5940_GetMCUIntFlag, .-AD5940_GetMCUIntFlag
- 444              		.section	.text.AD5940_ClrMCUIntFlag,"ax",%progbits
- 445              		.align	2
- 446              		.global	AD5940_ClrMCUIntFlag
- 447              		.code	16
- 448              		.thumb_func
- 449              		.type	AD5940_ClrMCUIntFlag, %function
- 450              	AD5940_ClrMCUIntFlag:
- 451              	.LFB44:
- 201:ad5941_platform.c **** 
- 202:ad5941_platform.c **** /**
- 203:ad5941_platform.c ****  * @brief 清除MCU中断标志
- 204:ad5941_platform.c ****  * @return 1=成功, 0=失败
- 205:ad5941_platform.c ****  * 
- 206:ad5941_platform.c ****  * 清除之前检测到的中断标志，为下一次中断做准备
- 207:ad5941_platform.c ****  */
- 208:ad5941_platform.c **** uint32_t AD5940_ClrMCUIntFlag(void)
- 209:ad5941_platform.c **** {
- 452              		.loc 1 209 0
- 453              		.cfi_startproc
- 454              		@ args = 0, pretend = 0, frame = 0
- 455              		@ frame_needed = 1, uses_anonymous_args = 0
- 456 0000 80B5     		push	{r7, lr}
- 457              		.cfi_def_cfa_offset 8
- 458              		.cfi_offset 7, -8
- 459              		.cfi_offset 14, -4
- 460 0002 00AF     		add	r7, sp, #0
- 461              		.cfi_def_cfa_register 7
- 210:ad5941_platform.c ****     /* 如果使用了中断引脚，在此清除中断
- 211:ad5941_platform.c ****      * 例如：AD5940_Interrupt_ClearInterrupt();
- 212:ad5941_platform.c ****      */
- 213:ad5941_platform.c ****     
- 214:ad5941_platform.c ****     return 1;  /* 成功 */
- 462              		.loc 1 214 0
- 463 0004 0123     		movs	r3, #1
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 13
+ 474              	.LFB45:
+ 205:ad5941_platform.c **** 
+ 206:ad5941_platform.c **** /*******************************************************************************
+ 207:ad5941_platform.c **** * 初始化函数
+ 208:ad5941_platform.c **** *******************************************************************************/
+ 209:ad5941_platform.c **** 
+ 210:ad5941_platform.c **** /**
+ 211:ad5941_platform.c ****  * @brief 初始化MCU资源（SPI、GPIO等）
+ 212:ad5941_platform.c ****  * @param pCfg: 配置参数（通常为NULL）
+ 213:ad5941_platform.c ****  * @return 0=成功, -1=失败
+ 214:ad5941_platform.c ****  * 
+ 215:ad5941_platform.c ****  * 该函数初始化：
+ 216:ad5941_platform.c ****  * 1. CS和RST引脚的初始状态
+ 217:ad5941_platform.c ****  * 2. SPI通信参数（通常已在TopDesign中配置）
+ 218:ad5941_platform.c ****  * 3. 芯片工作环境
+ 219:ad5941_platform.c ****  * 
+ 220:ad5941_platform.c ****  * 调用时机：
+ 221:ad5941_platform.c ****  * - 在main()函数早期调用
+ 222:ad5941_platform.c ****  * - 在SPI_1_Start()之后调用
+ 223:ad5941_platform.c ****  * - 在任何AD5940操作之前调用
+ 224:ad5941_platform.c ****  */
+ 225:ad5941_platform.c **** int32_t AD5940_MCUResourceInit(void *pCfg)
+ 226:ad5941_platform.c **** {
+ 475              		.loc 1 226 0
+ 476              		.cfi_startproc
+ 477              		@ args = 0, pretend = 0, frame = 8
+ 478              		@ frame_needed = 1, uses_anonymous_args = 0
+ 479 0000 80B5     		push	{r7, lr}
+ 480              		.cfi_def_cfa_offset 8
+ 481              		.cfi_offset 7, -8
+ 482              		.cfi_offset 14, -4
+ 483 0002 82B0     		sub	sp, sp, #8
+ 484              		.cfi_def_cfa_offset 16
+ 485 0004 00AF     		add	r7, sp, #0
+ 486              		.cfi_def_cfa_register 7
+ 487 0006 7860     		str	r0, [r7, #4]
+ 227:ad5941_platform.c ****     #ifdef AD5940_CS_SetDriveMode
+ 228:ad5941_platform.c ****         AD5940_CS_SetDriveMode(AD5940_CS_DM_STRONG);
+ 229:ad5941_platform.c ****     #endif
+ 230:ad5941_platform.c ****     
+ 231:ad5941_platform.c ****     #ifdef AD5940_SCLK_SetDriveMode
+ 232:ad5941_platform.c ****         AD5940_SCLK_SetDriveMode(AD5940_SCLK_DM_STRONG);
+ 233:ad5941_platform.c ****     #endif
+ 234:ad5941_platform.c ****     
+ 235:ad5941_platform.c ****     #ifdef AD5940_MOSI_SetDriveMode
+ 236:ad5941_platform.c ****         AD5940_MOSI_SetDriveMode(AD5940_MOSI_DM_STRONG);
+ 237:ad5941_platform.c ****     #endif
+ 238:ad5941_platform.c ****     
+ 239:ad5941_platform.c ****     #ifdef AD5940_RST_SetDriveMode
+ 240:ad5941_platform.c ****         AD5940_RST_SetDriveMode(AD5940_RST_DM_STRONG);
+ 241:ad5941_platform.c ****     #endif
+ 242:ad5941_platform.c ****     
+ 243:ad5941_platform.c ****     /* 设置引脚初始状态 */
+ 244:ad5941_platform.c ****     AD5940_CS_Write(1);      /* CS 高电平 */
+ 488              		.loc 1 244 0
+ 489 0008 0120     		movs	r0, #1
+ 490 000a FFF7FEFF 		bl	AD5940_CS_Write
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccD9q1Nc.s 			page 14
 
 
- 215:ad5941_platform.c **** }
- 464              		.loc 1 215 0
- 465 0006 1800     		movs	r0, r3
- 466 0008 BD46     		mov	sp, r7
- 467              		@ sp needed
- 468 000a 80BD     		pop	{r7, pc}
- 469              		.cfi_endproc
- 470              	.LFE44:
- 471              		.size	AD5940_ClrMCUIntFlag, .-AD5940_ClrMCUIntFlag
- 472              		.section	.text.AD5940_MCUResourceInit,"ax",%progbits
- 473              		.align	2
- 474              		.global	AD5940_MCUResourceInit
- 475              		.code	16
- 476              		.thumb_func
- 477              		.type	AD5940_MCUResourceInit, %function
- 478              	AD5940_MCUResourceInit:
- 479              	.LFB45:
- 216:ad5941_platform.c **** 
- 217:ad5941_platform.c **** /*******************************************************************************
- 218:ad5941_platform.c **** * 初始化函数
- 219:ad5941_platform.c **** *******************************************************************************/
- 220:ad5941_platform.c **** 
- 221:ad5941_platform.c **** /**
- 222:ad5941_platform.c ****  * @brief 初始化MCU资源（SPI、GPIO等）
- 223:ad5941_platform.c ****  * @param pCfg: 配置参数（通常为NULL）
- 224:ad5941_platform.c ****  * @return 0=成功, -1=失败
- 225:ad5941_platform.c ****  * 
- 226:ad5941_platform.c ****  * 该函数初始化：
- 227:ad5941_platform.c ****  * 1. CS和RST引脚的初始状态
- 228:ad5941_platform.c ****  * 2. SPI通信参数（通常已在TopDesign中配置）
- 229:ad5941_platform.c ****  * 3. 芯片工作环境
- 230:ad5941_platform.c ****  * 
- 231:ad5941_platform.c ****  * 调用时机：
- 232:ad5941_platform.c ****  * - 在main()函数早期调用
- 233:ad5941_platform.c ****  * - 在SPI_1_Start()之后调用
- 234:ad5941_platform.c ****  * - 在任何AD5940操作之前调用
- 235:ad5941_platform.c ****  */
- 236:ad5941_platform.c **** int32_t AD5940_MCUResourceInit(void *pCfg)
- 237:ad5941_platform.c **** {
- 480              		.loc 1 237 0
- 481              		.cfi_startproc
- 482              		@ args = 0, pretend = 0, frame = 8
- 483              		@ frame_needed = 1, uses_anonymous_args = 0
- 484 0000 80B5     		push	{r7, lr}
- 485              		.cfi_def_cfa_offset 8
- 486              		.cfi_offset 7, -8
- 487              		.cfi_offset 14, -4
- 488 0002 82B0     		sub	sp, sp, #8
- 489              		.cfi_def_cfa_offset 16
- 490 0004 00AF     		add	r7, sp, #0
- 491              		.cfi_def_cfa_register 7
- 492 0006 7860     		str	r0, [r7, #4]
- 238:ad5941_platform.c ****     #ifdef AD5940_CS_SetDriveMode
- 239:ad5941_platform.c ****         AD5940_CS_SetDriveMode(AD5940_CS_DM_STRONG);
- 240:ad5941_platform.c ****     #endif
- 241:ad5941_platform.c ****     
- 242:ad5941_platform.c ****     #ifdef AD5940_SCLK_SetDriveMode
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 14
+ 245:ad5941_platform.c ****     AD5940_RST_Write(1);     /* RST 高电平 */
+ 491              		.loc 1 245 0
+ 492 000e 0120     		movs	r0, #1
+ 493 0010 FFF7FEFF 		bl	AD5940_RST_Write
+ 246:ad5941_platform.c ****     AD5940_SCLK_Write(0);    /* SCLK 低电平（CPOL=0）*/
+ 494              		.loc 1 246 0
+ 495 0014 0020     		movs	r0, #0
+ 496 0016 FFF7FEFF 		bl	AD5940_SCLK_Write
+ 247:ad5941_platform.c ****     AD5940_MOSI_Write(0);    /* MOSI 低电平 */
+ 497              		.loc 1 247 0
+ 498 001a 0020     		movs	r0, #0
+ 499 001c FFF7FEFF 		bl	AD5940_MOSI_Write
+ 248:ad5941_platform.c ****     
+ 249:ad5941_platform.c ****     /* 等待系统稳定 */
+ 250:ad5941_platform.c ****     CyDelay(10);
+ 500              		.loc 1 250 0
+ 501 0020 0A20     		movs	r0, #10
+ 502 0022 FFF7FEFF 		bl	CyDelay
+ 251:ad5941_platform.c ****     
+ 252:ad5941_platform.c ****     return 0;  /* 成功 */
+ 503              		.loc 1 252 0
+ 504 0026 0023     		movs	r3, #0
+ 253:ad5941_platform.c **** }
+ 505              		.loc 1 253 0
+ 506 0028 1800     		movs	r0, r3
+ 507 002a BD46     		mov	sp, r7
+ 508 002c 02B0     		add	sp, sp, #8
+ 509              		@ sp needed
+ 510 002e 80BD     		pop	{r7, pc}
+ 511              		.cfi_endproc
+ 512              	.LFE45:
+ 513              		.size	AD5940_MCUResourceInit, .-AD5940_MCUResourceInit
+ 514              		.text
+ 515              	.Letext0:
+ 516              		.file 2 "f:\\infineon\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.1\\arm-none-eabi\\in
+ 517              		.file 3 "f:\\infineon\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.1\\arm-none-eabi\\in
+ 518              		.section	.debug_info,"",%progbits
+ 519              	.Ldebug_info0:
+ 520 0000 38020000 		.4byte	0x238
+ 521 0004 0400     		.2byte	0x4
+ 522 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 523 000a 04       		.byte	0x4
+ 524 000b 01       		.uleb128 0x1
+ 525 000c D1000000 		.4byte	.LASF35
+ 526 0010 0C       		.byte	0xc
+ 527 0011 24020000 		.4byte	.LASF36
+ 528 0015 66010000 		.4byte	.LASF37
+ 529 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 530 001d 00000000 		.4byte	0
+ 531 0021 00000000 		.4byte	.Ldebug_line0
+ 532 0025 02       		.uleb128 0x2
+ 533 0026 01       		.byte	0x1
+ 534 0027 06       		.byte	0x6
+ 535 0028 75020000 		.4byte	.LASF0
+ 536 002c 03       		.uleb128 0x3
+ 537 002d 00000000 		.4byte	.LASF4
+ 538 0031 02       		.byte	0x2
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccD9q1Nc.s 			page 15
 
 
- 243:ad5941_platform.c ****         AD5940_SCLK_SetDriveMode(AD5940_SCLK_DM_STRONG);
- 244:ad5941_platform.c ****     #endif
- 245:ad5941_platform.c ****     
- 246:ad5941_platform.c ****     #ifdef AD5940_MOSI_SetDriveMode
- 247:ad5941_platform.c ****         AD5940_MOSI_SetDriveMode(AD5940_MOSI_DM_STRONG);
- 248:ad5941_platform.c ****     #endif
- 249:ad5941_platform.c ****     
- 250:ad5941_platform.c ****     #ifdef AD5940_RST_SetDriveMode
- 251:ad5941_platform.c ****         AD5940_RST_SetDriveMode(AD5940_RST_DM_STRONG);
- 252:ad5941_platform.c ****     #endif
- 253:ad5941_platform.c ****     
- 254:ad5941_platform.c ****     /* 设置引脚初始状态 */
- 255:ad5941_platform.c ****     AD5940_CS_Write(1);      /* CS 高电平 */
- 493              		.loc 1 255 0
- 494 0008 0120     		movs	r0, #1
- 495 000a FFF7FEFF 		bl	AD5940_CS_Write
- 256:ad5941_platform.c ****     AD5940_RST_Write(1);     /* RST 高电平 */
- 496              		.loc 1 256 0
- 497 000e 0120     		movs	r0, #1
- 498 0010 FFF7FEFF 		bl	AD5940_RST_Write
- 257:ad5941_platform.c ****     AD5940_SCLK_Write(0);    /* SCLK 低电平（CPOL=0）*/
- 499              		.loc 1 257 0
- 500 0014 0020     		movs	r0, #0
- 501 0016 FFF7FEFF 		bl	AD5940_SCLK_Write
- 258:ad5941_platform.c ****     AD5940_MOSI_Write(0);    /* MOSI 低电平 */
- 502              		.loc 1 258 0
- 503 001a 0020     		movs	r0, #0
- 504 001c FFF7FEFF 		bl	AD5940_MOSI_Write
- 259:ad5941_platform.c ****     
- 260:ad5941_platform.c ****     /* 等待系统稳定 */
- 261:ad5941_platform.c ****     CyDelay(10);
- 505              		.loc 1 261 0
- 506 0020 0A20     		movs	r0, #10
- 507 0022 FFF7FEFF 		bl	CyDelay
- 262:ad5941_platform.c ****     
- 263:ad5941_platform.c ****     return 0;  /* 成功 */
- 508              		.loc 1 263 0
- 509 0026 0023     		movs	r3, #0
- 264:ad5941_platform.c **** }
- 510              		.loc 1 264 0
- 511 0028 1800     		movs	r0, r3
- 512 002a BD46     		mov	sp, r7
- 513 002c 02B0     		add	sp, sp, #8
- 514              		@ sp needed
- 515 002e 80BD     		pop	{r7, pc}
- 516              		.cfi_endproc
- 517              	.LFE45:
- 518              		.size	AD5940_MCUResourceInit, .-AD5940_MCUResourceInit
- 519              		.text
- 520              	.Letext0:
- 521              		.file 2 "f:\\infineon\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.1\\arm-none-eabi\\in
- 522              		.file 3 "f:\\infineon\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.1\\arm-none-eabi\\in
- 523              		.section	.debug_info,"",%progbits
- 524              	.Ldebug_info0:
- 525 0000 38020000 		.4byte	0x238
- 526 0004 0400     		.2byte	0x4
- 527 0006 00000000 		.4byte	.Ldebug_abbrev0
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 15
+ 539 0032 1D       		.byte	0x1d
+ 540 0033 37000000 		.4byte	0x37
+ 541 0037 02       		.uleb128 0x2
+ 542 0038 01       		.byte	0x1
+ 543 0039 08       		.byte	0x8
+ 544 003a B1000000 		.4byte	.LASF1
+ 545 003e 02       		.uleb128 0x2
+ 546 003f 02       		.byte	0x2
+ 547 0040 05       		.byte	0x5
+ 548 0041 4D020000 		.4byte	.LASF2
+ 549 0045 02       		.uleb128 0x2
+ 550 0046 02       		.byte	0x2
+ 551 0047 07       		.byte	0x7
+ 552 0048 4E000000 		.4byte	.LASF3
+ 553 004c 03       		.uleb128 0x3
+ 554 004d 44000000 		.4byte	.LASF5
+ 555 0051 02       		.byte	0x2
+ 556 0052 3F       		.byte	0x3f
+ 557 0053 57000000 		.4byte	0x57
+ 558 0057 02       		.uleb128 0x2
+ 559 0058 04       		.byte	0x4
+ 560 0059 05       		.byte	0x5
+ 561 005a 60020000 		.4byte	.LASF6
+ 562 005e 03       		.uleb128 0x3
+ 563 005f 94010000 		.4byte	.LASF7
+ 564 0063 02       		.byte	0x2
+ 565 0064 41       		.byte	0x41
+ 566 0065 69000000 		.4byte	0x69
+ 567 0069 02       		.uleb128 0x2
+ 568 006a 04       		.byte	0x4
+ 569 006b 07       		.byte	0x7
+ 570 006c BF000000 		.4byte	.LASF8
+ 571 0070 02       		.uleb128 0x2
+ 572 0071 08       		.byte	0x8
+ 573 0072 05       		.byte	0x5
+ 574 0073 0C020000 		.4byte	.LASF9
+ 575 0077 02       		.uleb128 0x2
+ 576 0078 08       		.byte	0x8
+ 577 0079 07       		.byte	0x7
+ 578 007a 9A000000 		.4byte	.LASF10
+ 579 007e 04       		.uleb128 0x4
+ 580 007f 04       		.byte	0x4
+ 581 0080 05       		.byte	0x5
+ 582 0081 696E7400 		.ascii	"int\000"
+ 583 0085 02       		.uleb128 0x2
+ 584 0086 04       		.byte	0x4
+ 585 0087 07       		.byte	0x7
+ 586 0088 AD010000 		.4byte	.LASF11
+ 587 008c 03       		.uleb128 0x3
+ 588 008d BF010000 		.4byte	.LASF12
+ 589 0091 03       		.byte	0x3
+ 590 0092 18       		.byte	0x18
+ 591 0093 2C000000 		.4byte	0x2c
+ 592 0097 03       		.uleb128 0x3
+ 593 0098 FB010000 		.4byte	.LASF13
+ 594 009c 03       		.byte	0x3
+ 595 009d 2C       		.byte	0x2c
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccD9q1Nc.s 			page 16
 
 
- 528 000a 04       		.byte	0x4
- 529 000b 01       		.uleb128 0x1
- 530 000c D1000000 		.4byte	.LASF35
- 531 0010 0C       		.byte	0xc
- 532 0011 24020000 		.4byte	.LASF36
- 533 0015 66010000 		.4byte	.LASF37
- 534 0019 00000000 		.4byte	.Ldebug_ranges0+0
- 535 001d 00000000 		.4byte	0
- 536 0021 00000000 		.4byte	.Ldebug_line0
- 537 0025 02       		.uleb128 0x2
- 538 0026 01       		.byte	0x1
- 539 0027 06       		.byte	0x6
- 540 0028 75020000 		.4byte	.LASF0
- 541 002c 03       		.uleb128 0x3
- 542 002d 00000000 		.4byte	.LASF4
- 543 0031 02       		.byte	0x2
- 544 0032 1D       		.byte	0x1d
- 545 0033 37000000 		.4byte	0x37
- 546 0037 02       		.uleb128 0x2
- 547 0038 01       		.byte	0x1
- 548 0039 08       		.byte	0x8
- 549 003a B1000000 		.4byte	.LASF1
- 550 003e 02       		.uleb128 0x2
- 551 003f 02       		.byte	0x2
- 552 0040 05       		.byte	0x5
- 553 0041 4D020000 		.4byte	.LASF2
- 554 0045 02       		.uleb128 0x2
- 555 0046 02       		.byte	0x2
- 556 0047 07       		.byte	0x7
- 557 0048 4E000000 		.4byte	.LASF3
- 558 004c 03       		.uleb128 0x3
- 559 004d 44000000 		.4byte	.LASF5
- 560 0051 02       		.byte	0x2
- 561 0052 3F       		.byte	0x3f
- 562 0053 57000000 		.4byte	0x57
- 563 0057 02       		.uleb128 0x2
- 564 0058 04       		.byte	0x4
- 565 0059 05       		.byte	0x5
- 566 005a 60020000 		.4byte	.LASF6
- 567 005e 03       		.uleb128 0x3
- 568 005f 94010000 		.4byte	.LASF7
- 569 0063 02       		.byte	0x2
- 570 0064 41       		.byte	0x41
- 571 0065 69000000 		.4byte	0x69
- 572 0069 02       		.uleb128 0x2
- 573 006a 04       		.byte	0x4
- 574 006b 07       		.byte	0x7
- 575 006c BF000000 		.4byte	.LASF8
- 576 0070 02       		.uleb128 0x2
- 577 0071 08       		.byte	0x8
- 578 0072 05       		.byte	0x5
- 579 0073 0C020000 		.4byte	.LASF9
- 580 0077 02       		.uleb128 0x2
- 581 0078 08       		.byte	0x8
- 582 0079 07       		.byte	0x7
- 583 007a 9A000000 		.4byte	.LASF10
- 584 007e 04       		.uleb128 0x4
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 16
+ 596 009e 4C000000 		.4byte	0x4c
+ 597 00a2 03       		.uleb128 0x3
+ 598 00a3 57020000 		.4byte	.LASF14
+ 599 00a7 03       		.byte	0x3
+ 600 00a8 30       		.byte	0x30
+ 601 00a9 5E000000 		.4byte	0x5e
+ 602 00ad 02       		.uleb128 0x2
+ 603 00ae 04       		.byte	0x4
+ 604 00af 04       		.byte	0x4
+ 605 00b0 94000000 		.4byte	.LASF15
+ 606 00b4 02       		.uleb128 0x2
+ 607 00b5 08       		.byte	0x8
+ 608 00b6 04       		.byte	0x4
+ 609 00b7 5F010000 		.4byte	.LASF16
+ 610 00bb 02       		.uleb128 0x2
+ 611 00bc 01       		.byte	0x1
+ 612 00bd 08       		.byte	0x8
+ 613 00be BA010000 		.4byte	.LASF17
+ 614 00c2 02       		.uleb128 0x2
+ 615 00c3 08       		.byte	0x8
+ 616 00c4 04       		.byte	0x4
+ 617 00c5 69020000 		.4byte	.LASF18
+ 618 00c9 02       		.uleb128 0x2
+ 619 00ca 04       		.byte	0x4
+ 620 00cb 07       		.byte	0x7
+ 621 00cc 03020000 		.4byte	.LASF19
+ 622 00d0 05       		.uleb128 0x5
+ 623 00d1 04       		.byte	0x4
+ 624 00d2 06       		.uleb128 0x6
+ 625 00d3 88020000 		.4byte	.LASF38
+ 626 00d7 01       		.byte	0x1
+ 627 00d8 27       		.byte	0x27
+ 628 00d9 00000000 		.4byte	.LFB35
+ 629 00dd 10000000 		.4byte	.LFE35-.LFB35
+ 630 00e1 01       		.uleb128 0x1
+ 631 00e2 9C       		.byte	0x9c
+ 632 00e3 07       		.uleb128 0x7
+ 633 00e4 0A000000 		.4byte	.LASF20
+ 634 00e8 01       		.byte	0x1
+ 635 00e9 2D       		.byte	0x2d
+ 636 00ea 8C000000 		.4byte	0x8c
+ 637 00ee 00000000 		.4byte	.LFB36
+ 638 00f2 90000000 		.4byte	.LFE36-.LFB36
+ 639 00f6 01       		.uleb128 0x1
+ 640 00f7 9C       		.byte	0x9c
+ 641 00f8 23010000 		.4byte	0x123
+ 642 00fc 08       		.uleb128 0x8
+ 643 00fd 747800   		.ascii	"tx\000"
+ 644 0100 01       		.byte	0x1
+ 645 0101 2D       		.byte	0x2d
+ 646 0102 8C000000 		.4byte	0x8c
+ 647 0106 02       		.uleb128 0x2
+ 648 0107 91       		.byte	0x91
+ 649 0108 6F       		.sleb128 -17
+ 650 0109 09       		.uleb128 0x9
+ 651 010a 727800   		.ascii	"rx\000"
+ 652 010d 01       		.byte	0x1
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccD9q1Nc.s 			page 17
 
 
- 585 007f 04       		.byte	0x4
- 586 0080 05       		.byte	0x5
- 587 0081 696E7400 		.ascii	"int\000"
- 588 0085 02       		.uleb128 0x2
- 589 0086 04       		.byte	0x4
- 590 0087 07       		.byte	0x7
- 591 0088 AD010000 		.4byte	.LASF11
- 592 008c 03       		.uleb128 0x3
- 593 008d BF010000 		.4byte	.LASF12
- 594 0091 03       		.byte	0x3
- 595 0092 18       		.byte	0x18
- 596 0093 2C000000 		.4byte	0x2c
- 597 0097 03       		.uleb128 0x3
- 598 0098 FB010000 		.4byte	.LASF13
- 599 009c 03       		.byte	0x3
- 600 009d 2C       		.byte	0x2c
- 601 009e 4C000000 		.4byte	0x4c
- 602 00a2 03       		.uleb128 0x3
- 603 00a3 57020000 		.4byte	.LASF14
- 604 00a7 03       		.byte	0x3
- 605 00a8 30       		.byte	0x30
- 606 00a9 5E000000 		.4byte	0x5e
- 607 00ad 02       		.uleb128 0x2
- 608 00ae 04       		.byte	0x4
- 609 00af 04       		.byte	0x4
- 610 00b0 94000000 		.4byte	.LASF15
- 611 00b4 02       		.uleb128 0x2
- 612 00b5 08       		.byte	0x8
- 613 00b6 04       		.byte	0x4
- 614 00b7 5F010000 		.4byte	.LASF16
- 615 00bb 02       		.uleb128 0x2
- 616 00bc 01       		.byte	0x1
- 617 00bd 08       		.byte	0x8
- 618 00be BA010000 		.4byte	.LASF17
- 619 00c2 02       		.uleb128 0x2
- 620 00c3 08       		.byte	0x8
- 621 00c4 04       		.byte	0x4
- 622 00c5 69020000 		.4byte	.LASF18
- 623 00c9 02       		.uleb128 0x2
- 624 00ca 04       		.byte	0x4
- 625 00cb 07       		.byte	0x7
- 626 00cc 03020000 		.4byte	.LASF19
- 627 00d0 05       		.uleb128 0x5
- 628 00d1 04       		.byte	0x4
- 629 00d2 06       		.uleb128 0x6
- 630 00d3 88020000 		.4byte	.LASF38
- 631 00d7 01       		.byte	0x1
- 632 00d8 27       		.byte	0x27
- 633 00d9 00000000 		.4byte	.LFB35
- 634 00dd 10000000 		.4byte	.LFE35-.LFB35
- 635 00e1 01       		.uleb128 0x1
- 636 00e2 9C       		.byte	0x9c
- 637 00e3 07       		.uleb128 0x7
- 638 00e4 0A000000 		.4byte	.LASF20
- 639 00e8 01       		.byte	0x1
- 640 00e9 2D       		.byte	0x2d
- 641 00ea 8C000000 		.4byte	0x8c
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 17
+ 653 010e 2F       		.byte	0x2f
+ 654 010f 8C000000 		.4byte	0x8c
+ 655 0113 02       		.uleb128 0x2
+ 656 0114 91       		.byte	0x91
+ 657 0115 77       		.sleb128 -9
+ 658 0116 09       		.uleb128 0x9
+ 659 0117 6900     		.ascii	"i\000"
+ 660 0119 01       		.byte	0x1
+ 661 011a 30       		.byte	0x30
+ 662 011b 7E000000 		.4byte	0x7e
+ 663 011f 02       		.uleb128 0x2
+ 664 0120 91       		.byte	0x91
+ 665 0121 70       		.sleb128 -16
+ 666 0122 00       		.byte	0
+ 667 0123 07       		.uleb128 0x7
+ 668 0124 36020000 		.4byte	.LASF21
+ 669 0128 01       		.byte	0x1
+ 670 0129 55       		.byte	0x55
+ 671 012a 97000000 		.4byte	0x97
+ 672 012e 00000000 		.4byte	.LFB37
+ 673 0132 60000000 		.4byte	.LFE37-.LFB37
+ 674 0136 01       		.uleb128 0x1
+ 675 0137 9C       		.byte	0x9c
+ 676 0138 73010000 		.4byte	0x173
+ 677 013c 0A       		.uleb128 0xa
+ 678 013d DC010000 		.4byte	.LASF22
+ 679 0141 01       		.byte	0x1
+ 680 0142 55       		.byte	0x55
+ 681 0143 73010000 		.4byte	0x173
+ 682 0147 02       		.uleb128 0x2
+ 683 0148 91       		.byte	0x91
+ 684 0149 64       		.sleb128 -28
+ 685 014a 0A       		.uleb128 0xa
+ 686 014b 1A020000 		.4byte	.LASF23
+ 687 014f 01       		.byte	0x1
+ 688 0150 55       		.byte	0x55
+ 689 0151 73010000 		.4byte	0x173
+ 690 0155 02       		.uleb128 0x2
+ 691 0156 91       		.byte	0x91
+ 692 0157 60       		.sleb128 -32
+ 693 0158 0A       		.uleb128 0xa
+ 694 0159 81020000 		.4byte	.LASF24
+ 695 015d 01       		.byte	0x1
+ 696 015e 55       		.byte	0x55
+ 697 015f A2000000 		.4byte	0xa2
+ 698 0163 02       		.uleb128 0x2
+ 699 0164 91       		.byte	0x91
+ 700 0165 5C       		.sleb128 -36
+ 701 0166 09       		.uleb128 0x9
+ 702 0167 6900     		.ascii	"i\000"
+ 703 0169 01       		.byte	0x1
+ 704 016a 57       		.byte	0x57
+ 705 016b A2000000 		.4byte	0xa2
+ 706 016f 02       		.uleb128 0x2
+ 707 0170 91       		.byte	0x91
+ 708 0171 6C       		.sleb128 -20
+ 709 0172 00       		.byte	0
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccD9q1Nc.s 			page 18
 
 
- 642 00ee 00000000 		.4byte	.LFB36
- 643 00f2 90000000 		.4byte	.LFE36-.LFB36
- 644 00f6 01       		.uleb128 0x1
- 645 00f7 9C       		.byte	0x9c
- 646 00f8 23010000 		.4byte	0x123
- 647 00fc 08       		.uleb128 0x8
- 648 00fd 747800   		.ascii	"tx\000"
- 649 0100 01       		.byte	0x1
- 650 0101 2D       		.byte	0x2d
- 651 0102 8C000000 		.4byte	0x8c
- 652 0106 02       		.uleb128 0x2
- 653 0107 91       		.byte	0x91
- 654 0108 6F       		.sleb128 -17
- 655 0109 09       		.uleb128 0x9
- 656 010a 727800   		.ascii	"rx\000"
- 657 010d 01       		.byte	0x1
- 658 010e 2F       		.byte	0x2f
- 659 010f 8C000000 		.4byte	0x8c
- 660 0113 02       		.uleb128 0x2
- 661 0114 91       		.byte	0x91
- 662 0115 77       		.sleb128 -9
- 663 0116 09       		.uleb128 0x9
- 664 0117 6900     		.ascii	"i\000"
- 665 0119 01       		.byte	0x1
- 666 011a 30       		.byte	0x30
- 667 011b 7E000000 		.4byte	0x7e
- 668 011f 02       		.uleb128 0x2
- 669 0120 91       		.byte	0x91
- 670 0121 70       		.sleb128 -16
- 671 0122 00       		.byte	0
- 672 0123 07       		.uleb128 0x7
- 673 0124 36020000 		.4byte	.LASF21
- 674 0128 01       		.byte	0x1
- 675 0129 55       		.byte	0x55
- 676 012a 97000000 		.4byte	0x97
- 677 012e 00000000 		.4byte	.LFB37
- 678 0132 78000000 		.4byte	.LFE37-.LFB37
- 679 0136 01       		.uleb128 0x1
- 680 0137 9C       		.byte	0x9c
- 681 0138 73010000 		.4byte	0x173
- 682 013c 0A       		.uleb128 0xa
- 683 013d DC010000 		.4byte	.LASF22
- 684 0141 01       		.byte	0x1
- 685 0142 55       		.byte	0x55
- 686 0143 73010000 		.4byte	0x173
- 687 0147 02       		.uleb128 0x2
- 688 0148 91       		.byte	0x91
- 689 0149 64       		.sleb128 -28
- 690 014a 0A       		.uleb128 0xa
- 691 014b 1A020000 		.4byte	.LASF23
- 692 014f 01       		.byte	0x1
- 693 0150 55       		.byte	0x55
- 694 0151 73010000 		.4byte	0x173
- 695 0155 02       		.uleb128 0x2
- 696 0156 91       		.byte	0x91
- 697 0157 60       		.sleb128 -32
- 698 0158 0A       		.uleb128 0xa
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 18
+ 710 0173 0B       		.uleb128 0xb
+ 711 0174 04       		.byte	0x4
+ 712 0175 8C000000 		.4byte	0x8c
+ 713 0179 0C       		.uleb128 0xc
+ 714 017a 76000000 		.4byte	.LASF25
+ 715 017e 01       		.byte	0x1
+ 716 017f 70       		.byte	0x70
+ 717 0180 00000000 		.4byte	.LFB38
+ 718 0184 10000000 		.4byte	.LFE38-.LFB38
+ 719 0188 01       		.uleb128 0x1
+ 720 0189 9C       		.byte	0x9c
+ 721 018a 0C       		.uleb128 0xc
+ 722 018b 1B000000 		.4byte	.LASF26
+ 723 018f 01       		.byte	0x1
+ 724 0190 7A       		.byte	0x7a
+ 725 0191 00000000 		.4byte	.LFB39
+ 726 0195 10000000 		.4byte	.LFE39-.LFB39
+ 727 0199 01       		.uleb128 0x1
+ 728 019a 9C       		.byte	0x9c
+ 729 019b 0C       		.uleb128 0xc
+ 730 019c 9F010000 		.4byte	.LASF27
+ 731 01a0 01       		.byte	0x1
+ 732 01a1 85       		.byte	0x85
+ 733 01a2 00000000 		.4byte	.LFB40
+ 734 01a6 10000000 		.4byte	.LFE40-.LFB40
+ 735 01aa 01       		.uleb128 0x1
+ 736 01ab 9C       		.byte	0x9c
+ 737 01ac 0C       		.uleb128 0xc
+ 738 01ad E8010000 		.4byte	.LASF28
+ 739 01b1 01       		.byte	0x1
+ 740 01b2 90       		.byte	0x90
+ 741 01b3 00000000 		.4byte	.LFB41
+ 742 01b7 10000000 		.4byte	.LFE41-.LFB41
+ 743 01bb 01       		.uleb128 0x1
+ 744 01bc 9C       		.byte	0x9c
+ 745 01bd 0D       		.uleb128 0xd
+ 746 01be 83000000 		.4byte	.LASF32
+ 747 01c2 01       		.byte	0x1
+ 748 01c3 A0       		.byte	0xa0
+ 749 01c4 00000000 		.4byte	.LFB42
+ 750 01c8 32000000 		.4byte	.LFE42-.LFB42
+ 751 01cc 01       		.uleb128 0x1
+ 752 01cd 9C       		.byte	0x9c
+ 753 01ce ED010000 		.4byte	0x1ed
+ 754 01d2 0A       		.uleb128 0xa
+ 755 01d3 F6010000 		.4byte	.LASF29
+ 756 01d7 01       		.byte	0x1
+ 757 01d8 A0       		.byte	0xa0
+ 758 01d9 A2000000 		.4byte	0xa2
+ 759 01dd 02       		.uleb128 0x2
+ 760 01de 91       		.byte	0x91
+ 761 01df 6C       		.sleb128 -20
+ 762 01e0 09       		.uleb128 0x9
+ 763 01e1 6900     		.ascii	"i\000"
+ 764 01e3 01       		.byte	0x1
+ 765 01e4 A2       		.byte	0xa2
+ 766 01e5 A2000000 		.4byte	0xa2
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccD9q1Nc.s 			page 19
 
 
- 699 0159 81020000 		.4byte	.LASF24
- 700 015d 01       		.byte	0x1
- 701 015e 55       		.byte	0x55
- 702 015f A2000000 		.4byte	0xa2
- 703 0163 02       		.uleb128 0x2
- 704 0164 91       		.byte	0x91
- 705 0165 5C       		.sleb128 -36
- 706 0166 09       		.uleb128 0x9
- 707 0167 6900     		.ascii	"i\000"
- 708 0169 01       		.byte	0x1
- 709 016a 57       		.byte	0x57
- 710 016b A2000000 		.4byte	0xa2
- 711 016f 02       		.uleb128 0x2
- 712 0170 91       		.byte	0x91
- 713 0171 6C       		.sleb128 -20
- 714 0172 00       		.byte	0
- 715 0173 0B       		.uleb128 0xb
- 716 0174 04       		.byte	0x4
- 717 0175 8C000000 		.4byte	0x8c
- 718 0179 0C       		.uleb128 0xc
- 719 017a 76000000 		.4byte	.LASF25
- 720 017e 01       		.byte	0x1
- 721 017f 7B       		.byte	0x7b
- 722 0180 00000000 		.4byte	.LFB38
- 723 0184 10000000 		.4byte	.LFE38-.LFB38
- 724 0188 01       		.uleb128 0x1
- 725 0189 9C       		.byte	0x9c
- 726 018a 0C       		.uleb128 0xc
- 727 018b 1B000000 		.4byte	.LASF26
- 728 018f 01       		.byte	0x1
- 729 0190 85       		.byte	0x85
- 730 0191 00000000 		.4byte	.LFB39
- 731 0195 10000000 		.4byte	.LFE39-.LFB39
- 732 0199 01       		.uleb128 0x1
- 733 019a 9C       		.byte	0x9c
- 734 019b 0C       		.uleb128 0xc
- 735 019c 9F010000 		.4byte	.LASF27
- 736 01a0 01       		.byte	0x1
- 737 01a1 90       		.byte	0x90
- 738 01a2 00000000 		.4byte	.LFB40
- 739 01a6 10000000 		.4byte	.LFE40-.LFB40
- 740 01aa 01       		.uleb128 0x1
- 741 01ab 9C       		.byte	0x9c
- 742 01ac 0C       		.uleb128 0xc
- 743 01ad E8010000 		.4byte	.LASF28
- 744 01b1 01       		.byte	0x1
- 745 01b2 9B       		.byte	0x9b
- 746 01b3 00000000 		.4byte	.LFB41
- 747 01b7 10000000 		.4byte	.LFE41-.LFB41
- 748 01bb 01       		.uleb128 0x1
- 749 01bc 9C       		.byte	0x9c
- 750 01bd 0D       		.uleb128 0xd
- 751 01be 83000000 		.4byte	.LASF32
- 752 01c2 01       		.byte	0x1
- 753 01c3 AB       		.byte	0xab
- 754 01c4 00000000 		.4byte	.LFB42
- 755 01c8 32000000 		.4byte	.LFE42-.LFB42
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 19
+ 767 01e9 02       		.uleb128 0x2
+ 768 01ea 91       		.byte	0x91
+ 769 01eb 74       		.sleb128 -12
+ 770 01ec 00       		.byte	0
+ 771 01ed 0E       		.uleb128 0xe
+ 772 01ee C7010000 		.4byte	.LASF30
+ 773 01f2 01       		.byte	0x1
+ 774 01f3 B5       		.byte	0xb5
+ 775 01f4 A2000000 		.4byte	0xa2
+ 776 01f8 00000000 		.4byte	.LFB43
+ 777 01fc 0C000000 		.4byte	.LFE43-.LFB43
+ 778 0200 01       		.uleb128 0x1
+ 779 0201 9C       		.byte	0x9c
+ 780 0202 0E       		.uleb128 0xe
+ 781 0203 61000000 		.4byte	.LASF31
+ 782 0207 01       		.byte	0x1
+ 783 0208 C5       		.byte	0xc5
+ 784 0209 A2000000 		.4byte	0xa2
+ 785 020d 00000000 		.4byte	.LFB44
+ 786 0211 0C000000 		.4byte	.LFE44-.LFB44
+ 787 0215 01       		.uleb128 0x1
+ 788 0216 9C       		.byte	0x9c
+ 789 0217 0F       		.uleb128 0xf
+ 790 0218 2D000000 		.4byte	.LASF33
+ 791 021c 01       		.byte	0x1
+ 792 021d E1       		.byte	0xe1
+ 793 021e 97000000 		.4byte	0x97
+ 794 0222 00000000 		.4byte	.LFB45
+ 795 0226 30000000 		.4byte	.LFE45-.LFB45
+ 796 022a 01       		.uleb128 0x1
+ 797 022b 9C       		.byte	0x9c
+ 798 022c 0A       		.uleb128 0xa
+ 799 022d 28000000 		.4byte	.LASF34
+ 800 0231 01       		.byte	0x1
+ 801 0232 E1       		.byte	0xe1
+ 802 0233 D0000000 		.4byte	0xd0
+ 803 0237 02       		.uleb128 0x2
+ 804 0238 91       		.byte	0x91
+ 805 0239 74       		.sleb128 -12
+ 806 023a 00       		.byte	0
+ 807 023b 00       		.byte	0
+ 808              		.section	.debug_abbrev,"",%progbits
+ 809              	.Ldebug_abbrev0:
+ 810 0000 01       		.uleb128 0x1
+ 811 0001 11       		.uleb128 0x11
+ 812 0002 01       		.byte	0x1
+ 813 0003 25       		.uleb128 0x25
+ 814 0004 0E       		.uleb128 0xe
+ 815 0005 13       		.uleb128 0x13
+ 816 0006 0B       		.uleb128 0xb
+ 817 0007 03       		.uleb128 0x3
+ 818 0008 0E       		.uleb128 0xe
+ 819 0009 1B       		.uleb128 0x1b
+ 820 000a 0E       		.uleb128 0xe
+ 821 000b 55       		.uleb128 0x55
+ 822 000c 17       		.uleb128 0x17
+ 823 000d 11       		.uleb128 0x11
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccD9q1Nc.s 			page 20
 
 
- 756 01cc 01       		.uleb128 0x1
- 757 01cd 9C       		.byte	0x9c
- 758 01ce ED010000 		.4byte	0x1ed
- 759 01d2 0A       		.uleb128 0xa
- 760 01d3 F6010000 		.4byte	.LASF29
- 761 01d7 01       		.byte	0x1
- 762 01d8 AB       		.byte	0xab
- 763 01d9 A2000000 		.4byte	0xa2
- 764 01dd 02       		.uleb128 0x2
- 765 01de 91       		.byte	0x91
- 766 01df 6C       		.sleb128 -20
- 767 01e0 09       		.uleb128 0x9
- 768 01e1 6900     		.ascii	"i\000"
- 769 01e3 01       		.byte	0x1
- 770 01e4 AD       		.byte	0xad
- 771 01e5 A2000000 		.4byte	0xa2
- 772 01e9 02       		.uleb128 0x2
- 773 01ea 91       		.byte	0x91
- 774 01eb 74       		.sleb128 -12
- 775 01ec 00       		.byte	0
- 776 01ed 0E       		.uleb128 0xe
- 777 01ee C7010000 		.4byte	.LASF30
- 778 01f2 01       		.byte	0x1
- 779 01f3 C0       		.byte	0xc0
- 780 01f4 A2000000 		.4byte	0xa2
- 781 01f8 00000000 		.4byte	.LFB43
- 782 01fc 0C000000 		.4byte	.LFE43-.LFB43
- 783 0200 01       		.uleb128 0x1
- 784 0201 9C       		.byte	0x9c
- 785 0202 0E       		.uleb128 0xe
- 786 0203 61000000 		.4byte	.LASF31
- 787 0207 01       		.byte	0x1
- 788 0208 D0       		.byte	0xd0
- 789 0209 A2000000 		.4byte	0xa2
- 790 020d 00000000 		.4byte	.LFB44
- 791 0211 0C000000 		.4byte	.LFE44-.LFB44
- 792 0215 01       		.uleb128 0x1
- 793 0216 9C       		.byte	0x9c
- 794 0217 0F       		.uleb128 0xf
- 795 0218 2D000000 		.4byte	.LASF33
- 796 021c 01       		.byte	0x1
- 797 021d EC       		.byte	0xec
- 798 021e 97000000 		.4byte	0x97
- 799 0222 00000000 		.4byte	.LFB45
- 800 0226 30000000 		.4byte	.LFE45-.LFB45
- 801 022a 01       		.uleb128 0x1
- 802 022b 9C       		.byte	0x9c
- 803 022c 0A       		.uleb128 0xa
- 804 022d 28000000 		.4byte	.LASF34
- 805 0231 01       		.byte	0x1
- 806 0232 EC       		.byte	0xec
- 807 0233 D0000000 		.4byte	0xd0
- 808 0237 02       		.uleb128 0x2
- 809 0238 91       		.byte	0x91
- 810 0239 74       		.sleb128 -12
- 811 023a 00       		.byte	0
- 812 023b 00       		.byte	0
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 20
+ 824 000e 01       		.uleb128 0x1
+ 825 000f 10       		.uleb128 0x10
+ 826 0010 17       		.uleb128 0x17
+ 827 0011 00       		.byte	0
+ 828 0012 00       		.byte	0
+ 829 0013 02       		.uleb128 0x2
+ 830 0014 24       		.uleb128 0x24
+ 831 0015 00       		.byte	0
+ 832 0016 0B       		.uleb128 0xb
+ 833 0017 0B       		.uleb128 0xb
+ 834 0018 3E       		.uleb128 0x3e
+ 835 0019 0B       		.uleb128 0xb
+ 836 001a 03       		.uleb128 0x3
+ 837 001b 0E       		.uleb128 0xe
+ 838 001c 00       		.byte	0
+ 839 001d 00       		.byte	0
+ 840 001e 03       		.uleb128 0x3
+ 841 001f 16       		.uleb128 0x16
+ 842 0020 00       		.byte	0
+ 843 0021 03       		.uleb128 0x3
+ 844 0022 0E       		.uleb128 0xe
+ 845 0023 3A       		.uleb128 0x3a
+ 846 0024 0B       		.uleb128 0xb
+ 847 0025 3B       		.uleb128 0x3b
+ 848 0026 0B       		.uleb128 0xb
+ 849 0027 49       		.uleb128 0x49
+ 850 0028 13       		.uleb128 0x13
+ 851 0029 00       		.byte	0
+ 852 002a 00       		.byte	0
+ 853 002b 04       		.uleb128 0x4
+ 854 002c 24       		.uleb128 0x24
+ 855 002d 00       		.byte	0
+ 856 002e 0B       		.uleb128 0xb
+ 857 002f 0B       		.uleb128 0xb
+ 858 0030 3E       		.uleb128 0x3e
+ 859 0031 0B       		.uleb128 0xb
+ 860 0032 03       		.uleb128 0x3
+ 861 0033 08       		.uleb128 0x8
+ 862 0034 00       		.byte	0
+ 863 0035 00       		.byte	0
+ 864 0036 05       		.uleb128 0x5
+ 865 0037 0F       		.uleb128 0xf
+ 866 0038 00       		.byte	0
+ 867 0039 0B       		.uleb128 0xb
+ 868 003a 0B       		.uleb128 0xb
+ 869 003b 00       		.byte	0
+ 870 003c 00       		.byte	0
+ 871 003d 06       		.uleb128 0x6
+ 872 003e 2E       		.uleb128 0x2e
+ 873 003f 00       		.byte	0
+ 874 0040 03       		.uleb128 0x3
+ 875 0041 0E       		.uleb128 0xe
+ 876 0042 3A       		.uleb128 0x3a
+ 877 0043 0B       		.uleb128 0xb
+ 878 0044 3B       		.uleb128 0x3b
+ 879 0045 0B       		.uleb128 0xb
+ 880 0046 27       		.uleb128 0x27
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccD9q1Nc.s 			page 21
 
 
- 813              		.section	.debug_abbrev,"",%progbits
- 814              	.Ldebug_abbrev0:
- 815 0000 01       		.uleb128 0x1
- 816 0001 11       		.uleb128 0x11
- 817 0002 01       		.byte	0x1
- 818 0003 25       		.uleb128 0x25
- 819 0004 0E       		.uleb128 0xe
- 820 0005 13       		.uleb128 0x13
- 821 0006 0B       		.uleb128 0xb
- 822 0007 03       		.uleb128 0x3
- 823 0008 0E       		.uleb128 0xe
- 824 0009 1B       		.uleb128 0x1b
- 825 000a 0E       		.uleb128 0xe
- 826 000b 55       		.uleb128 0x55
- 827 000c 17       		.uleb128 0x17
- 828 000d 11       		.uleb128 0x11
- 829 000e 01       		.uleb128 0x1
- 830 000f 10       		.uleb128 0x10
- 831 0010 17       		.uleb128 0x17
- 832 0011 00       		.byte	0
- 833 0012 00       		.byte	0
- 834 0013 02       		.uleb128 0x2
- 835 0014 24       		.uleb128 0x24
- 836 0015 00       		.byte	0
- 837 0016 0B       		.uleb128 0xb
- 838 0017 0B       		.uleb128 0xb
- 839 0018 3E       		.uleb128 0x3e
- 840 0019 0B       		.uleb128 0xb
- 841 001a 03       		.uleb128 0x3
- 842 001b 0E       		.uleb128 0xe
- 843 001c 00       		.byte	0
- 844 001d 00       		.byte	0
- 845 001e 03       		.uleb128 0x3
- 846 001f 16       		.uleb128 0x16
- 847 0020 00       		.byte	0
- 848 0021 03       		.uleb128 0x3
- 849 0022 0E       		.uleb128 0xe
- 850 0023 3A       		.uleb128 0x3a
- 851 0024 0B       		.uleb128 0xb
- 852 0025 3B       		.uleb128 0x3b
- 853 0026 0B       		.uleb128 0xb
- 854 0027 49       		.uleb128 0x49
- 855 0028 13       		.uleb128 0x13
- 856 0029 00       		.byte	0
- 857 002a 00       		.byte	0
- 858 002b 04       		.uleb128 0x4
- 859 002c 24       		.uleb128 0x24
- 860 002d 00       		.byte	0
- 861 002e 0B       		.uleb128 0xb
- 862 002f 0B       		.uleb128 0xb
- 863 0030 3E       		.uleb128 0x3e
- 864 0031 0B       		.uleb128 0xb
- 865 0032 03       		.uleb128 0x3
- 866 0033 08       		.uleb128 0x8
- 867 0034 00       		.byte	0
- 868 0035 00       		.byte	0
- 869 0036 05       		.uleb128 0x5
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 21
+ 881 0047 19       		.uleb128 0x19
+ 882 0048 11       		.uleb128 0x11
+ 883 0049 01       		.uleb128 0x1
+ 884 004a 12       		.uleb128 0x12
+ 885 004b 06       		.uleb128 0x6
+ 886 004c 40       		.uleb128 0x40
+ 887 004d 18       		.uleb128 0x18
+ 888 004e 9642     		.uleb128 0x2116
+ 889 0050 19       		.uleb128 0x19
+ 890 0051 00       		.byte	0
+ 891 0052 00       		.byte	0
+ 892 0053 07       		.uleb128 0x7
+ 893 0054 2E       		.uleb128 0x2e
+ 894 0055 01       		.byte	0x1
+ 895 0056 3F       		.uleb128 0x3f
+ 896 0057 19       		.uleb128 0x19
+ 897 0058 03       		.uleb128 0x3
+ 898 0059 0E       		.uleb128 0xe
+ 899 005a 3A       		.uleb128 0x3a
+ 900 005b 0B       		.uleb128 0xb
+ 901 005c 3B       		.uleb128 0x3b
+ 902 005d 0B       		.uleb128 0xb
+ 903 005e 27       		.uleb128 0x27
+ 904 005f 19       		.uleb128 0x19
+ 905 0060 49       		.uleb128 0x49
+ 906 0061 13       		.uleb128 0x13
+ 907 0062 11       		.uleb128 0x11
+ 908 0063 01       		.uleb128 0x1
+ 909 0064 12       		.uleb128 0x12
+ 910 0065 06       		.uleb128 0x6
+ 911 0066 40       		.uleb128 0x40
+ 912 0067 18       		.uleb128 0x18
+ 913 0068 9642     		.uleb128 0x2116
+ 914 006a 19       		.uleb128 0x19
+ 915 006b 01       		.uleb128 0x1
+ 916 006c 13       		.uleb128 0x13
+ 917 006d 00       		.byte	0
+ 918 006e 00       		.byte	0
+ 919 006f 08       		.uleb128 0x8
+ 920 0070 05       		.uleb128 0x5
+ 921 0071 00       		.byte	0
+ 922 0072 03       		.uleb128 0x3
+ 923 0073 08       		.uleb128 0x8
+ 924 0074 3A       		.uleb128 0x3a
+ 925 0075 0B       		.uleb128 0xb
+ 926 0076 3B       		.uleb128 0x3b
+ 927 0077 0B       		.uleb128 0xb
+ 928 0078 49       		.uleb128 0x49
+ 929 0079 13       		.uleb128 0x13
+ 930 007a 02       		.uleb128 0x2
+ 931 007b 18       		.uleb128 0x18
+ 932 007c 00       		.byte	0
+ 933 007d 00       		.byte	0
+ 934 007e 09       		.uleb128 0x9
+ 935 007f 34       		.uleb128 0x34
+ 936 0080 00       		.byte	0
+ 937 0081 03       		.uleb128 0x3
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccD9q1Nc.s 			page 22
 
 
- 870 0037 0F       		.uleb128 0xf
- 871 0038 00       		.byte	0
- 872 0039 0B       		.uleb128 0xb
- 873 003a 0B       		.uleb128 0xb
- 874 003b 00       		.byte	0
- 875 003c 00       		.byte	0
- 876 003d 06       		.uleb128 0x6
- 877 003e 2E       		.uleb128 0x2e
- 878 003f 00       		.byte	0
- 879 0040 03       		.uleb128 0x3
- 880 0041 0E       		.uleb128 0xe
- 881 0042 3A       		.uleb128 0x3a
- 882 0043 0B       		.uleb128 0xb
- 883 0044 3B       		.uleb128 0x3b
- 884 0045 0B       		.uleb128 0xb
- 885 0046 27       		.uleb128 0x27
- 886 0047 19       		.uleb128 0x19
- 887 0048 11       		.uleb128 0x11
- 888 0049 01       		.uleb128 0x1
- 889 004a 12       		.uleb128 0x12
- 890 004b 06       		.uleb128 0x6
- 891 004c 40       		.uleb128 0x40
- 892 004d 18       		.uleb128 0x18
- 893 004e 9642     		.uleb128 0x2116
- 894 0050 19       		.uleb128 0x19
- 895 0051 00       		.byte	0
- 896 0052 00       		.byte	0
- 897 0053 07       		.uleb128 0x7
- 898 0054 2E       		.uleb128 0x2e
- 899 0055 01       		.byte	0x1
- 900 0056 3F       		.uleb128 0x3f
- 901 0057 19       		.uleb128 0x19
- 902 0058 03       		.uleb128 0x3
- 903 0059 0E       		.uleb128 0xe
- 904 005a 3A       		.uleb128 0x3a
- 905 005b 0B       		.uleb128 0xb
- 906 005c 3B       		.uleb128 0x3b
- 907 005d 0B       		.uleb128 0xb
- 908 005e 27       		.uleb128 0x27
- 909 005f 19       		.uleb128 0x19
- 910 0060 49       		.uleb128 0x49
- 911 0061 13       		.uleb128 0x13
- 912 0062 11       		.uleb128 0x11
- 913 0063 01       		.uleb128 0x1
- 914 0064 12       		.uleb128 0x12
- 915 0065 06       		.uleb128 0x6
- 916 0066 40       		.uleb128 0x40
- 917 0067 18       		.uleb128 0x18
- 918 0068 9642     		.uleb128 0x2116
- 919 006a 19       		.uleb128 0x19
- 920 006b 01       		.uleb128 0x1
- 921 006c 13       		.uleb128 0x13
- 922 006d 00       		.byte	0
- 923 006e 00       		.byte	0
- 924 006f 08       		.uleb128 0x8
- 925 0070 05       		.uleb128 0x5
- 926 0071 00       		.byte	0
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 22
+ 938 0082 08       		.uleb128 0x8
+ 939 0083 3A       		.uleb128 0x3a
+ 940 0084 0B       		.uleb128 0xb
+ 941 0085 3B       		.uleb128 0x3b
+ 942 0086 0B       		.uleb128 0xb
+ 943 0087 49       		.uleb128 0x49
+ 944 0088 13       		.uleb128 0x13
+ 945 0089 02       		.uleb128 0x2
+ 946 008a 18       		.uleb128 0x18
+ 947 008b 00       		.byte	0
+ 948 008c 00       		.byte	0
+ 949 008d 0A       		.uleb128 0xa
+ 950 008e 05       		.uleb128 0x5
+ 951 008f 00       		.byte	0
+ 952 0090 03       		.uleb128 0x3
+ 953 0091 0E       		.uleb128 0xe
+ 954 0092 3A       		.uleb128 0x3a
+ 955 0093 0B       		.uleb128 0xb
+ 956 0094 3B       		.uleb128 0x3b
+ 957 0095 0B       		.uleb128 0xb
+ 958 0096 49       		.uleb128 0x49
+ 959 0097 13       		.uleb128 0x13
+ 960 0098 02       		.uleb128 0x2
+ 961 0099 18       		.uleb128 0x18
+ 962 009a 00       		.byte	0
+ 963 009b 00       		.byte	0
+ 964 009c 0B       		.uleb128 0xb
+ 965 009d 0F       		.uleb128 0xf
+ 966 009e 00       		.byte	0
+ 967 009f 0B       		.uleb128 0xb
+ 968 00a0 0B       		.uleb128 0xb
+ 969 00a1 49       		.uleb128 0x49
+ 970 00a2 13       		.uleb128 0x13
+ 971 00a3 00       		.byte	0
+ 972 00a4 00       		.byte	0
+ 973 00a5 0C       		.uleb128 0xc
+ 974 00a6 2E       		.uleb128 0x2e
+ 975 00a7 00       		.byte	0
+ 976 00a8 3F       		.uleb128 0x3f
+ 977 00a9 19       		.uleb128 0x19
+ 978 00aa 03       		.uleb128 0x3
+ 979 00ab 0E       		.uleb128 0xe
+ 980 00ac 3A       		.uleb128 0x3a
+ 981 00ad 0B       		.uleb128 0xb
+ 982 00ae 3B       		.uleb128 0x3b
+ 983 00af 0B       		.uleb128 0xb
+ 984 00b0 27       		.uleb128 0x27
+ 985 00b1 19       		.uleb128 0x19
+ 986 00b2 11       		.uleb128 0x11
+ 987 00b3 01       		.uleb128 0x1
+ 988 00b4 12       		.uleb128 0x12
+ 989 00b5 06       		.uleb128 0x6
+ 990 00b6 40       		.uleb128 0x40
+ 991 00b7 18       		.uleb128 0x18
+ 992 00b8 9642     		.uleb128 0x2116
+ 993 00ba 19       		.uleb128 0x19
+ 994 00bb 00       		.byte	0
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccD9q1Nc.s 			page 23
 
 
- 927 0072 03       		.uleb128 0x3
- 928 0073 08       		.uleb128 0x8
- 929 0074 3A       		.uleb128 0x3a
- 930 0075 0B       		.uleb128 0xb
- 931 0076 3B       		.uleb128 0x3b
- 932 0077 0B       		.uleb128 0xb
- 933 0078 49       		.uleb128 0x49
- 934 0079 13       		.uleb128 0x13
- 935 007a 02       		.uleb128 0x2
- 936 007b 18       		.uleb128 0x18
- 937 007c 00       		.byte	0
- 938 007d 00       		.byte	0
- 939 007e 09       		.uleb128 0x9
- 940 007f 34       		.uleb128 0x34
- 941 0080 00       		.byte	0
- 942 0081 03       		.uleb128 0x3
- 943 0082 08       		.uleb128 0x8
- 944 0083 3A       		.uleb128 0x3a
- 945 0084 0B       		.uleb128 0xb
- 946 0085 3B       		.uleb128 0x3b
- 947 0086 0B       		.uleb128 0xb
- 948 0087 49       		.uleb128 0x49
- 949 0088 13       		.uleb128 0x13
- 950 0089 02       		.uleb128 0x2
- 951 008a 18       		.uleb128 0x18
- 952 008b 00       		.byte	0
- 953 008c 00       		.byte	0
- 954 008d 0A       		.uleb128 0xa
- 955 008e 05       		.uleb128 0x5
- 956 008f 00       		.byte	0
- 957 0090 03       		.uleb128 0x3
- 958 0091 0E       		.uleb128 0xe
- 959 0092 3A       		.uleb128 0x3a
- 960 0093 0B       		.uleb128 0xb
- 961 0094 3B       		.uleb128 0x3b
- 962 0095 0B       		.uleb128 0xb
- 963 0096 49       		.uleb128 0x49
- 964 0097 13       		.uleb128 0x13
- 965 0098 02       		.uleb128 0x2
- 966 0099 18       		.uleb128 0x18
- 967 009a 00       		.byte	0
- 968 009b 00       		.byte	0
- 969 009c 0B       		.uleb128 0xb
- 970 009d 0F       		.uleb128 0xf
- 971 009e 00       		.byte	0
- 972 009f 0B       		.uleb128 0xb
- 973 00a0 0B       		.uleb128 0xb
- 974 00a1 49       		.uleb128 0x49
- 975 00a2 13       		.uleb128 0x13
- 976 00a3 00       		.byte	0
- 977 00a4 00       		.byte	0
- 978 00a5 0C       		.uleb128 0xc
- 979 00a6 2E       		.uleb128 0x2e
- 980 00a7 00       		.byte	0
- 981 00a8 3F       		.uleb128 0x3f
- 982 00a9 19       		.uleb128 0x19
- 983 00aa 03       		.uleb128 0x3
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 23
+ 995 00bc 00       		.byte	0
+ 996 00bd 0D       		.uleb128 0xd
+ 997 00be 2E       		.uleb128 0x2e
+ 998 00bf 01       		.byte	0x1
+ 999 00c0 3F       		.uleb128 0x3f
+ 1000 00c1 19       		.uleb128 0x19
+ 1001 00c2 03       		.uleb128 0x3
+ 1002 00c3 0E       		.uleb128 0xe
+ 1003 00c4 3A       		.uleb128 0x3a
+ 1004 00c5 0B       		.uleb128 0xb
+ 1005 00c6 3B       		.uleb128 0x3b
+ 1006 00c7 0B       		.uleb128 0xb
+ 1007 00c8 27       		.uleb128 0x27
+ 1008 00c9 19       		.uleb128 0x19
+ 1009 00ca 11       		.uleb128 0x11
+ 1010 00cb 01       		.uleb128 0x1
+ 1011 00cc 12       		.uleb128 0x12
+ 1012 00cd 06       		.uleb128 0x6
+ 1013 00ce 40       		.uleb128 0x40
+ 1014 00cf 18       		.uleb128 0x18
+ 1015 00d0 9642     		.uleb128 0x2116
+ 1016 00d2 19       		.uleb128 0x19
+ 1017 00d3 01       		.uleb128 0x1
+ 1018 00d4 13       		.uleb128 0x13
+ 1019 00d5 00       		.byte	0
+ 1020 00d6 00       		.byte	0
+ 1021 00d7 0E       		.uleb128 0xe
+ 1022 00d8 2E       		.uleb128 0x2e
+ 1023 00d9 00       		.byte	0
+ 1024 00da 3F       		.uleb128 0x3f
+ 1025 00db 19       		.uleb128 0x19
+ 1026 00dc 03       		.uleb128 0x3
+ 1027 00dd 0E       		.uleb128 0xe
+ 1028 00de 3A       		.uleb128 0x3a
+ 1029 00df 0B       		.uleb128 0xb
+ 1030 00e0 3B       		.uleb128 0x3b
+ 1031 00e1 0B       		.uleb128 0xb
+ 1032 00e2 27       		.uleb128 0x27
+ 1033 00e3 19       		.uleb128 0x19
+ 1034 00e4 49       		.uleb128 0x49
+ 1035 00e5 13       		.uleb128 0x13
+ 1036 00e6 11       		.uleb128 0x11
+ 1037 00e7 01       		.uleb128 0x1
+ 1038 00e8 12       		.uleb128 0x12
+ 1039 00e9 06       		.uleb128 0x6
+ 1040 00ea 40       		.uleb128 0x40
+ 1041 00eb 18       		.uleb128 0x18
+ 1042 00ec 9742     		.uleb128 0x2117
+ 1043 00ee 19       		.uleb128 0x19
+ 1044 00ef 00       		.byte	0
+ 1045 00f0 00       		.byte	0
+ 1046 00f1 0F       		.uleb128 0xf
+ 1047 00f2 2E       		.uleb128 0x2e
+ 1048 00f3 01       		.byte	0x1
+ 1049 00f4 3F       		.uleb128 0x3f
+ 1050 00f5 19       		.uleb128 0x19
+ 1051 00f6 03       		.uleb128 0x3
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccD9q1Nc.s 			page 24
 
 
- 984 00ab 0E       		.uleb128 0xe
- 985 00ac 3A       		.uleb128 0x3a
- 986 00ad 0B       		.uleb128 0xb
- 987 00ae 3B       		.uleb128 0x3b
- 988 00af 0B       		.uleb128 0xb
- 989 00b0 27       		.uleb128 0x27
- 990 00b1 19       		.uleb128 0x19
- 991 00b2 11       		.uleb128 0x11
- 992 00b3 01       		.uleb128 0x1
- 993 00b4 12       		.uleb128 0x12
- 994 00b5 06       		.uleb128 0x6
- 995 00b6 40       		.uleb128 0x40
- 996 00b7 18       		.uleb128 0x18
- 997 00b8 9642     		.uleb128 0x2116
- 998 00ba 19       		.uleb128 0x19
- 999 00bb 00       		.byte	0
- 1000 00bc 00       		.byte	0
- 1001 00bd 0D       		.uleb128 0xd
- 1002 00be 2E       		.uleb128 0x2e
- 1003 00bf 01       		.byte	0x1
- 1004 00c0 3F       		.uleb128 0x3f
- 1005 00c1 19       		.uleb128 0x19
- 1006 00c2 03       		.uleb128 0x3
- 1007 00c3 0E       		.uleb128 0xe
- 1008 00c4 3A       		.uleb128 0x3a
- 1009 00c5 0B       		.uleb128 0xb
- 1010 00c6 3B       		.uleb128 0x3b
- 1011 00c7 0B       		.uleb128 0xb
- 1012 00c8 27       		.uleb128 0x27
- 1013 00c9 19       		.uleb128 0x19
- 1014 00ca 11       		.uleb128 0x11
- 1015 00cb 01       		.uleb128 0x1
- 1016 00cc 12       		.uleb128 0x12
- 1017 00cd 06       		.uleb128 0x6
- 1018 00ce 40       		.uleb128 0x40
- 1019 00cf 18       		.uleb128 0x18
- 1020 00d0 9642     		.uleb128 0x2116
- 1021 00d2 19       		.uleb128 0x19
- 1022 00d3 01       		.uleb128 0x1
- 1023 00d4 13       		.uleb128 0x13
- 1024 00d5 00       		.byte	0
- 1025 00d6 00       		.byte	0
- 1026 00d7 0E       		.uleb128 0xe
- 1027 00d8 2E       		.uleb128 0x2e
- 1028 00d9 00       		.byte	0
- 1029 00da 3F       		.uleb128 0x3f
- 1030 00db 19       		.uleb128 0x19
- 1031 00dc 03       		.uleb128 0x3
- 1032 00dd 0E       		.uleb128 0xe
- 1033 00de 3A       		.uleb128 0x3a
- 1034 00df 0B       		.uleb128 0xb
- 1035 00e0 3B       		.uleb128 0x3b
- 1036 00e1 0B       		.uleb128 0xb
- 1037 00e2 27       		.uleb128 0x27
- 1038 00e3 19       		.uleb128 0x19
- 1039 00e4 49       		.uleb128 0x49
- 1040 00e5 13       		.uleb128 0x13
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 24
+ 1052 00f7 0E       		.uleb128 0xe
+ 1053 00f8 3A       		.uleb128 0x3a
+ 1054 00f9 0B       		.uleb128 0xb
+ 1055 00fa 3B       		.uleb128 0x3b
+ 1056 00fb 0B       		.uleb128 0xb
+ 1057 00fc 27       		.uleb128 0x27
+ 1058 00fd 19       		.uleb128 0x19
+ 1059 00fe 49       		.uleb128 0x49
+ 1060 00ff 13       		.uleb128 0x13
+ 1061 0100 11       		.uleb128 0x11
+ 1062 0101 01       		.uleb128 0x1
+ 1063 0102 12       		.uleb128 0x12
+ 1064 0103 06       		.uleb128 0x6
+ 1065 0104 40       		.uleb128 0x40
+ 1066 0105 18       		.uleb128 0x18
+ 1067 0106 9642     		.uleb128 0x2116
+ 1068 0108 19       		.uleb128 0x19
+ 1069 0109 00       		.byte	0
+ 1070 010a 00       		.byte	0
+ 1071 010b 00       		.byte	0
+ 1072              		.section	.debug_aranges,"",%progbits
+ 1073 0000 6C000000 		.4byte	0x6c
+ 1074 0004 0200     		.2byte	0x2
+ 1075 0006 00000000 		.4byte	.Ldebug_info0
+ 1076 000a 04       		.byte	0x4
+ 1077 000b 00       		.byte	0
+ 1078 000c 0000     		.2byte	0
+ 1079 000e 0000     		.2byte	0
+ 1080 0010 00000000 		.4byte	.LFB35
+ 1081 0014 10000000 		.4byte	.LFE35-.LFB35
+ 1082 0018 00000000 		.4byte	.LFB36
+ 1083 001c 90000000 		.4byte	.LFE36-.LFB36
+ 1084 0020 00000000 		.4byte	.LFB37
+ 1085 0024 60000000 		.4byte	.LFE37-.LFB37
+ 1086 0028 00000000 		.4byte	.LFB38
+ 1087 002c 10000000 		.4byte	.LFE38-.LFB38
+ 1088 0030 00000000 		.4byte	.LFB39
+ 1089 0034 10000000 		.4byte	.LFE39-.LFB39
+ 1090 0038 00000000 		.4byte	.LFB40
+ 1091 003c 10000000 		.4byte	.LFE40-.LFB40
+ 1092 0040 00000000 		.4byte	.LFB41
+ 1093 0044 10000000 		.4byte	.LFE41-.LFB41
+ 1094 0048 00000000 		.4byte	.LFB42
+ 1095 004c 32000000 		.4byte	.LFE42-.LFB42
+ 1096 0050 00000000 		.4byte	.LFB43
+ 1097 0054 0C000000 		.4byte	.LFE43-.LFB43
+ 1098 0058 00000000 		.4byte	.LFB44
+ 1099 005c 0C000000 		.4byte	.LFE44-.LFB44
+ 1100 0060 00000000 		.4byte	.LFB45
+ 1101 0064 30000000 		.4byte	.LFE45-.LFB45
+ 1102 0068 00000000 		.4byte	0
+ 1103 006c 00000000 		.4byte	0
+ 1104              		.section	.debug_ranges,"",%progbits
+ 1105              	.Ldebug_ranges0:
+ 1106 0000 00000000 		.4byte	.LFB35
+ 1107 0004 10000000 		.4byte	.LFE35
+ 1108 0008 00000000 		.4byte	.LFB36
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccD9q1Nc.s 			page 25
 
 
- 1041 00e6 11       		.uleb128 0x11
- 1042 00e7 01       		.uleb128 0x1
- 1043 00e8 12       		.uleb128 0x12
- 1044 00e9 06       		.uleb128 0x6
- 1045 00ea 40       		.uleb128 0x40
- 1046 00eb 18       		.uleb128 0x18
- 1047 00ec 9742     		.uleb128 0x2117
- 1048 00ee 19       		.uleb128 0x19
- 1049 00ef 00       		.byte	0
- 1050 00f0 00       		.byte	0
- 1051 00f1 0F       		.uleb128 0xf
- 1052 00f2 2E       		.uleb128 0x2e
- 1053 00f3 01       		.byte	0x1
- 1054 00f4 3F       		.uleb128 0x3f
- 1055 00f5 19       		.uleb128 0x19
- 1056 00f6 03       		.uleb128 0x3
- 1057 00f7 0E       		.uleb128 0xe
- 1058 00f8 3A       		.uleb128 0x3a
- 1059 00f9 0B       		.uleb128 0xb
- 1060 00fa 3B       		.uleb128 0x3b
- 1061 00fb 0B       		.uleb128 0xb
- 1062 00fc 27       		.uleb128 0x27
- 1063 00fd 19       		.uleb128 0x19
- 1064 00fe 49       		.uleb128 0x49
- 1065 00ff 13       		.uleb128 0x13
- 1066 0100 11       		.uleb128 0x11
- 1067 0101 01       		.uleb128 0x1
- 1068 0102 12       		.uleb128 0x12
- 1069 0103 06       		.uleb128 0x6
- 1070 0104 40       		.uleb128 0x40
- 1071 0105 18       		.uleb128 0x18
- 1072 0106 9642     		.uleb128 0x2116
- 1073 0108 19       		.uleb128 0x19
- 1074 0109 00       		.byte	0
- 1075 010a 00       		.byte	0
- 1076 010b 00       		.byte	0
- 1077              		.section	.debug_aranges,"",%progbits
- 1078 0000 6C000000 		.4byte	0x6c
- 1079 0004 0200     		.2byte	0x2
- 1080 0006 00000000 		.4byte	.Ldebug_info0
- 1081 000a 04       		.byte	0x4
- 1082 000b 00       		.byte	0
- 1083 000c 0000     		.2byte	0
- 1084 000e 0000     		.2byte	0
- 1085 0010 00000000 		.4byte	.LFB35
- 1086 0014 10000000 		.4byte	.LFE35-.LFB35
- 1087 0018 00000000 		.4byte	.LFB36
- 1088 001c 90000000 		.4byte	.LFE36-.LFB36
- 1089 0020 00000000 		.4byte	.LFB37
- 1090 0024 78000000 		.4byte	.LFE37-.LFB37
- 1091 0028 00000000 		.4byte	.LFB38
- 1092 002c 10000000 		.4byte	.LFE38-.LFB38
- 1093 0030 00000000 		.4byte	.LFB39
- 1094 0034 10000000 		.4byte	.LFE39-.LFB39
- 1095 0038 00000000 		.4byte	.LFB40
- 1096 003c 10000000 		.4byte	.LFE40-.LFB40
- 1097 0040 00000000 		.4byte	.LFB41
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 25
+ 1109 000c 90000000 		.4byte	.LFE36
+ 1110 0010 00000000 		.4byte	.LFB37
+ 1111 0014 60000000 		.4byte	.LFE37
+ 1112 0018 00000000 		.4byte	.LFB38
+ 1113 001c 10000000 		.4byte	.LFE38
+ 1114 0020 00000000 		.4byte	.LFB39
+ 1115 0024 10000000 		.4byte	.LFE39
+ 1116 0028 00000000 		.4byte	.LFB40
+ 1117 002c 10000000 		.4byte	.LFE40
+ 1118 0030 00000000 		.4byte	.LFB41
+ 1119 0034 10000000 		.4byte	.LFE41
+ 1120 0038 00000000 		.4byte	.LFB42
+ 1121 003c 32000000 		.4byte	.LFE42
+ 1122 0040 00000000 		.4byte	.LFB43
+ 1123 0044 0C000000 		.4byte	.LFE43
+ 1124 0048 00000000 		.4byte	.LFB44
+ 1125 004c 0C000000 		.4byte	.LFE44
+ 1126 0050 00000000 		.4byte	.LFB45
+ 1127 0054 30000000 		.4byte	.LFE45
+ 1128 0058 00000000 		.4byte	0
+ 1129 005c 00000000 		.4byte	0
+ 1130              		.section	.debug_line,"",%progbits
+ 1131              	.Ldebug_line0:
+ 1132 0000 2D020000 		.section	.debug_str,"MS",%progbits,1
+ 1132      0200FF00 
+ 1132      00000201 
+ 1132      FB0E0D00 
+ 1132      01010101 
+ 1133              	.LASF4:
+ 1134 0000 5F5F7569 		.ascii	"__uint8_t\000"
+ 1134      6E74385F 
+ 1134      7400
+ 1135              	.LASF20:
+ 1136 000a 536F6674 		.ascii	"SoftSPI_TxRxByte\000"
+ 1136      5350495F 
+ 1136      54785278 
+ 1136      42797465 
+ 1136      00
+ 1137              	.LASF26:
+ 1138 001b 41443539 		.ascii	"AD5940_CsSet\000"
+ 1138      34305F43 
+ 1138      73536574 
+ 1138      00
+ 1139              	.LASF34:
+ 1140 0028 70436667 		.ascii	"pCfg\000"
+ 1140      00
+ 1141              	.LASF33:
+ 1142 002d 41443539 		.ascii	"AD5940_MCUResourceInit\000"
+ 1142      34305F4D 
+ 1142      43555265 
+ 1142      736F7572 
+ 1142      6365496E 
+ 1143              	.LASF5:
+ 1144 0044 5F5F696E 		.ascii	"__int32_t\000"
+ 1144      7433325F 
+ 1144      7400
+ 1145              	.LASF3:
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccD9q1Nc.s 			page 26
 
 
- 1098 0044 10000000 		.4byte	.LFE41-.LFB41
- 1099 0048 00000000 		.4byte	.LFB42
- 1100 004c 32000000 		.4byte	.LFE42-.LFB42
- 1101 0050 00000000 		.4byte	.LFB43
- 1102 0054 0C000000 		.4byte	.LFE43-.LFB43
- 1103 0058 00000000 		.4byte	.LFB44
- 1104 005c 0C000000 		.4byte	.LFE44-.LFB44
- 1105 0060 00000000 		.4byte	.LFB45
- 1106 0064 30000000 		.4byte	.LFE45-.LFB45
- 1107 0068 00000000 		.4byte	0
- 1108 006c 00000000 		.4byte	0
- 1109              		.section	.debug_ranges,"",%progbits
- 1110              	.Ldebug_ranges0:
- 1111 0000 00000000 		.4byte	.LFB35
- 1112 0004 10000000 		.4byte	.LFE35
- 1113 0008 00000000 		.4byte	.LFB36
- 1114 000c 90000000 		.4byte	.LFE36
- 1115 0010 00000000 		.4byte	.LFB37
- 1116 0014 78000000 		.4byte	.LFE37
- 1117 0018 00000000 		.4byte	.LFB38
- 1118 001c 10000000 		.4byte	.LFE38
- 1119 0020 00000000 		.4byte	.LFB39
- 1120 0024 10000000 		.4byte	.LFE39
- 1121 0028 00000000 		.4byte	.LFB40
- 1122 002c 10000000 		.4byte	.LFE40
- 1123 0030 00000000 		.4byte	.LFB41
- 1124 0034 10000000 		.4byte	.LFE41
- 1125 0038 00000000 		.4byte	.LFB42
- 1126 003c 32000000 		.4byte	.LFE42
- 1127 0040 00000000 		.4byte	.LFB43
- 1128 0044 0C000000 		.4byte	.LFE43
- 1129 0048 00000000 		.4byte	.LFB44
- 1130 004c 0C000000 		.4byte	.LFE44
- 1131 0050 00000000 		.4byte	.LFB45
- 1132 0054 30000000 		.4byte	.LFE45
- 1133 0058 00000000 		.4byte	0
- 1134 005c 00000000 		.4byte	0
- 1135              		.section	.debug_line,"",%progbits
- 1136              	.Ldebug_line0:
- 1137 0000 27020000 		.section	.debug_str,"MS",%progbits,1
- 1137      0200FF00 
- 1137      00000201 
- 1137      FB0E0D00 
- 1137      01010101 
- 1138              	.LASF4:
- 1139 0000 5F5F7569 		.ascii	"__uint8_t\000"
- 1139      6E74385F 
- 1139      7400
- 1140              	.LASF20:
- 1141 000a 536F6674 		.ascii	"SoftSPI_TxRxByte\000"
- 1141      5350495F 
- 1141      54785278 
- 1141      42797465 
- 1141      00
- 1142              	.LASF26:
- 1143 001b 41443539 		.ascii	"AD5940_CsSet\000"
- 1143      34305F43 
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 26
+ 1146 004e 73686F72 		.ascii	"short unsigned int\000"
+ 1146      7420756E 
+ 1146      7369676E 
+ 1146      65642069 
+ 1146      6E7400
+ 1147              	.LASF31:
+ 1148 0061 41443539 		.ascii	"AD5940_ClrMCUIntFlag\000"
+ 1148      34305F43 
+ 1148      6C724D43 
+ 1148      55496E74 
+ 1148      466C6167 
+ 1149              	.LASF25:
+ 1150 0076 41443539 		.ascii	"AD5940_CsClr\000"
+ 1150      34305F43 
+ 1150      73436C72 
+ 1150      00
+ 1151              	.LASF32:
+ 1152 0083 41443539 		.ascii	"AD5940_Delay10us\000"
+ 1152      34305F44 
+ 1152      656C6179 
+ 1152      31307573 
+ 1152      00
+ 1153              	.LASF15:
+ 1154 0094 666C6F61 		.ascii	"float\000"
+ 1154      7400
+ 1155              	.LASF10:
+ 1156 009a 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1156      206C6F6E 
+ 1156      6720756E 
+ 1156      7369676E 
+ 1156      65642069 
+ 1157              	.LASF1:
+ 1158 00b1 756E7369 		.ascii	"unsigned char\000"
+ 1158      676E6564 
+ 1158      20636861 
+ 1158      7200
+ 1159              	.LASF8:
+ 1160 00bf 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1160      20756E73 
+ 1160      69676E65 
+ 1160      6420696E 
+ 1160      7400
+ 1161              	.LASF35:
+ 1162 00d1 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1162      43313120 
+ 1162      352E342E 
+ 1162      31203230 
+ 1162      31363036 
+ 1163 0104 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m0 -mthumb -g -O"
+ 1163      20726576 
+ 1163      6973696F 
+ 1163      6E203233 
+ 1163      37373135 
+ 1164 0137 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 1164      66756E63 
+ 1164      74696F6E 
+ 1164      2D736563 
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccD9q1Nc.s 			page 27
 
 
- 1143      73536574 
- 1143      00
- 1144              	.LASF34:
- 1145 0028 70436667 		.ascii	"pCfg\000"
- 1145      00
- 1146              	.LASF33:
- 1147 002d 41443539 		.ascii	"AD5940_MCUResourceInit\000"
- 1147      34305F4D 
- 1147      43555265 
- 1147      736F7572 
- 1147      6365496E 
- 1148              	.LASF5:
- 1149 0044 5F5F696E 		.ascii	"__int32_t\000"
- 1149      7433325F 
- 1149      7400
- 1150              	.LASF3:
- 1151 004e 73686F72 		.ascii	"short unsigned int\000"
- 1151      7420756E 
- 1151      7369676E 
- 1151      65642069 
- 1151      6E7400
- 1152              	.LASF31:
- 1153 0061 41443539 		.ascii	"AD5940_ClrMCUIntFlag\000"
- 1153      34305F43 
- 1153      6C724D43 
- 1153      55496E74 
- 1153      466C6167 
- 1154              	.LASF25:
- 1155 0076 41443539 		.ascii	"AD5940_CsClr\000"
- 1155      34305F43 
- 1155      73436C72 
- 1155      00
- 1156              	.LASF32:
- 1157 0083 41443539 		.ascii	"AD5940_Delay10us\000"
- 1157      34305F44 
- 1157      656C6179 
- 1157      31307573 
- 1157      00
- 1158              	.LASF15:
- 1159 0094 666C6F61 		.ascii	"float\000"
- 1159      7400
- 1160              	.LASF10:
- 1161 009a 6C6F6E67 		.ascii	"long long unsigned int\000"
- 1161      206C6F6E 
- 1161      6720756E 
- 1161      7369676E 
- 1161      65642069 
- 1162              	.LASF1:
- 1163 00b1 756E7369 		.ascii	"unsigned char\000"
- 1163      676E6564 
- 1163      20636861 
- 1163      7200
- 1164              	.LASF8:
- 1165 00bf 6C6F6E67 		.ascii	"long unsigned int\000"
- 1165      20756E73 
- 1165      69676E65 
- 1165      6420696E 
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 27
+ 1164      74696F6E 
+ 1165              	.LASF16:
+ 1166 015f 646F7562 		.ascii	"double\000"
+ 1166      6C6500
+ 1167              	.LASF37:
+ 1168 0166 453A5C64 		.ascii	"E:\\desktop\\bu\\eda\\Transistor\\Transistor.cydsn\000"
+ 1168      65736B74 
+ 1168      6F705C62 
+ 1168      755C6564 
+ 1168      615C5472 
+ 1169              	.LASF7:
+ 1170 0194 5F5F7569 		.ascii	"__uint32_t\000"
+ 1170      6E743332 
+ 1170      5F7400
+ 1171              	.LASF27:
+ 1172 019f 41443539 		.ascii	"AD5940_RstSet\000"
+ 1172      34305F52 
+ 1172      73745365 
+ 1172      7400
+ 1173              	.LASF11:
+ 1174 01ad 756E7369 		.ascii	"unsigned int\000"
+ 1174      676E6564 
+ 1174      20696E74 
+ 1174      00
+ 1175              	.LASF17:
+ 1176 01ba 63686172 		.ascii	"char\000"
+ 1176      00
+ 1177              	.LASF12:
+ 1178 01bf 75696E74 		.ascii	"uint8_t\000"
+ 1178      385F7400 
+ 1179              	.LASF30:
+ 1180 01c7 41443539 		.ascii	"AD5940_GetMCUIntFlag\000"
+ 1180      34305F47 
+ 1180      65744D43 
+ 1180      55496E74 
+ 1180      466C6167 
+ 1181              	.LASF22:
+ 1182 01dc 7053656E 		.ascii	"pSendBuffer\000"
+ 1182      64427566 
+ 1182      66657200 
+ 1183              	.LASF28:
+ 1184 01e8 41443539 		.ascii	"AD5940_RstClr\000"
+ 1184      34305F52 
+ 1184      7374436C 
+ 1184      7200
+ 1185              	.LASF29:
+ 1186 01f6 74696D65 		.ascii	"time\000"
+ 1186      00
+ 1187              	.LASF13:
+ 1188 01fb 696E7433 		.ascii	"int32_t\000"
+ 1188      325F7400 
+ 1189              	.LASF19:
+ 1190 0203 73697A65 		.ascii	"sizetype\000"
+ 1190      74797065 
+ 1190      00
+ 1191              	.LASF9:
+ 1192 020c 6C6F6E67 		.ascii	"long long int\000"
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccD9q1Nc.s 			page 28
 
 
- 1165      7400
- 1166              	.LASF35:
- 1167 00d1 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
- 1167      43313120 
- 1167      352E342E 
- 1167      31203230 
- 1167      31363036 
- 1168 0104 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m0 -mthumb -g -O"
- 1168      20726576 
- 1168      6973696F 
- 1168      6E203233 
- 1168      37373135 
- 1169 0137 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
- 1169      66756E63 
- 1169      74696F6E 
- 1169      2D736563 
- 1169      74696F6E 
- 1170              	.LASF16:
- 1171 015f 646F7562 		.ascii	"double\000"
- 1171      6C6500
- 1172              	.LASF37:
- 1173 0166 453A5C64 		.ascii	"E:\\desktop\\bu\\eda\\Transistor\\Transistor.cydsn\000"
- 1173      65736B74 
- 1173      6F705C62 
- 1173      755C6564 
- 1173      615C5472 
- 1174              	.LASF7:
- 1175 0194 5F5F7569 		.ascii	"__uint32_t\000"
- 1175      6E743332 
- 1175      5F7400
- 1176              	.LASF27:
- 1177 019f 41443539 		.ascii	"AD5940_RstSet\000"
- 1177      34305F52 
- 1177      73745365 
- 1177      7400
- 1178              	.LASF11:
- 1179 01ad 756E7369 		.ascii	"unsigned int\000"
- 1179      676E6564 
- 1179      20696E74 
- 1179      00
- 1180              	.LASF17:
- 1181 01ba 63686172 		.ascii	"char\000"
- 1181      00
- 1182              	.LASF12:
- 1183 01bf 75696E74 		.ascii	"uint8_t\000"
- 1183      385F7400 
- 1184              	.LASF30:
- 1185 01c7 41443539 		.ascii	"AD5940_GetMCUIntFlag\000"
- 1185      34305F47 
- 1185      65744D43 
- 1185      55496E74 
- 1185      466C6167 
- 1186              	.LASF22:
- 1187 01dc 7053656E 		.ascii	"pSendBuffer\000"
- 1187      64427566 
- 1187      66657200 
- 1188              	.LASF28:
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 28
-
-
- 1189 01e8 41443539 		.ascii	"AD5940_RstClr\000"
- 1189      34305F52 
- 1189      7374436C 
- 1189      7200
- 1190              	.LASF29:
- 1191 01f6 74696D65 		.ascii	"time\000"
- 1191      00
- 1192              	.LASF13:
- 1193 01fb 696E7433 		.ascii	"int32_t\000"
- 1193      325F7400 
- 1194              	.LASF19:
- 1195 0203 73697A65 		.ascii	"sizetype\000"
- 1195      74797065 
- 1195      00
- 1196              	.LASF9:
- 1197 020c 6C6F6E67 		.ascii	"long long int\000"
- 1197      206C6F6E 
- 1197      6720696E 
- 1197      7400
- 1198              	.LASF23:
- 1199 021a 70526563 		.ascii	"pRecvBuff\000"
- 1199      76427566 
- 1199      6600
- 1200              	.LASF36:
- 1201 0224 61643539 		.ascii	"ad5941_platform.c\000"
- 1201      34315F70 
- 1201      6C617466 
- 1201      6F726D2E 
- 1201      6300
- 1202              	.LASF21:
- 1203 0236 41443539 		.ascii	"AD5940_ReadWriteNBytes\000"
- 1203      34305F52 
- 1203      65616457 
- 1203      72697465 
- 1203      4E427974 
- 1204              	.LASF2:
- 1205 024d 73686F72 		.ascii	"short int\000"
- 1205      7420696E 
- 1205      7400
- 1206              	.LASF14:
- 1207 0257 75696E74 		.ascii	"uint32_t\000"
- 1207      33325F74 
- 1207      00
- 1208              	.LASF6:
- 1209 0260 6C6F6E67 		.ascii	"long int\000"
- 1209      20696E74 
- 1209      00
- 1210              	.LASF18:
- 1211 0269 6C6F6E67 		.ascii	"long double\000"
- 1211      20646F75 
- 1211      626C6500 
- 1212              	.LASF0:
- 1213 0275 7369676E 		.ascii	"signed char\000"
- 1213      65642063 
- 1213      68617200 
- 1214              	.LASF24:
- 1215 0281 6C656E67 		.ascii	"length\000"
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccAczdci.s 			page 29
-
-
- 1215      746800
- 1216              	.LASF38:
- 1217 0288 5350495F 		.ascii	"SPI_Delay\000"
- 1217      44656C61 
- 1217      7900
- 1218              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
+ 1192      206C6F6E 
+ 1192      6720696E 
+ 1192      7400
+ 1193              	.LASF23:
+ 1194 021a 70526563 		.ascii	"pRecvBuff\000"
+ 1194      76427566 
+ 1194      6600
+ 1195              	.LASF36:
+ 1196 0224 61643539 		.ascii	"ad5941_platform.c\000"
+ 1196      34315F70 
+ 1196      6C617466 
+ 1196      6F726D2E 
+ 1196      6300
+ 1197              	.LASF21:
+ 1198 0236 41443539 		.ascii	"AD5940_ReadWriteNBytes\000"
+ 1198      34305F52 
+ 1198      65616457 
+ 1198      72697465 
+ 1198      4E427974 
+ 1199              	.LASF2:
+ 1200 024d 73686F72 		.ascii	"short int\000"
+ 1200      7420696E 
+ 1200      7400
+ 1201              	.LASF14:
+ 1202 0257 75696E74 		.ascii	"uint32_t\000"
+ 1202      33325F74 
+ 1202      00
+ 1203              	.LASF6:
+ 1204 0260 6C6F6E67 		.ascii	"long int\000"
+ 1204      20696E74 
+ 1204      00
+ 1205              	.LASF18:
+ 1206 0269 6C6F6E67 		.ascii	"long double\000"
+ 1206      20646F75 
+ 1206      626C6500 
+ 1207              	.LASF0:
+ 1208 0275 7369676E 		.ascii	"signed char\000"
+ 1208      65642063 
+ 1208      68617200 
+ 1209              	.LASF24:
+ 1210 0281 6C656E67 		.ascii	"length\000"
+ 1210      746800
+ 1211              	.LASF38:
+ 1212 0288 5350495F 		.ascii	"SPI_Delay\000"
+ 1212      44656C61 
+ 1212      7900
+ 1213              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

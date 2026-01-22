@@ -1143,6 +1143,30 @@ void SendLactateDataViaBLE(void)
                     sprintf(dataString, "16W:%04lX", read_val);
                 }
                 break;
+            case 4:
+                // 测试多次写入和读取
+                {
+                    uint32_t test_addr = 0x1000;
+                    uint32_t patterns[] = {0x00000000, 0xAAAAAAAA, 0x55555555, 0x12345678};
+                    int success = 0;
+                    
+                    for(int p = 0; p < 4; p++)
+                    {
+                        // 写入
+                        AD5940_WriteReg(test_addr, patterns[p]);
+                        CyDelay(1);  // 等待1ms（更保守）
+                        
+                        // 回读
+                        uint32_t read_val = AD5940_ReadReg(test_addr);
+                        
+                        if(read_val == patterns[p]) {
+                            success++;
+                        }
+                    }
+                    
+                    sprintf(dataString, "WR:%d/4", success);
+                }
+                break;
         }
         diagStep++;
         
