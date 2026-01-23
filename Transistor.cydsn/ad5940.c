@@ -1029,6 +1029,23 @@ static uint32_t AD5940_SPIReadReg(uint16_t RegAddr)
     return result;
 }
 
+void AD5940_SPI_Sync(void)
+{
+    AD5940_CsSet();     // 确保 CS 为高
+    CyDelayUs(10);
+    for(int i = 0; i < 100; i++) { // 空拨 100 个时钟，强制重置芯片 SPI 状态机
+        AD5940_SCLK_Write(1);
+        CyDelayUs(1);
+        AD5940_SCLK_Write(0);
+        CyDelayUs(1);
+    }
+    CyDelayUs(10);
+    AD5940_CsClr();    // 拨一下 CS
+    CyDelayUs(5);
+    AD5940_CsSet();
+    CyDelayUs(10);
+}
+
 /**
   @brief Read specific number of data from FIFO with optimized SPI access.
   @param pBuffer: Pointer to a buffer that used to store data read back.

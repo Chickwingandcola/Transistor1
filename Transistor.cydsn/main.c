@@ -931,6 +931,8 @@ void SendGlucoseDataViaBLE(void)
 
 */
 
+/*
+
 void SendGlucoseDataViaBLE(void)
 {
     CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
@@ -1111,6 +1113,186 @@ void SendLactateDataViaBLE(void)
         {
         }
     }
+}
+
+*/
+
+// ========== 🎯 可选：更激进的预热（如果上面还不够） ==========
+void WarmupSPI_Aggressive(void)
+{
+    // 方法1：多次dummy read
+    AD5940_CsSet();
+    CyDelayUs(50);  // 更长的延时
+    
+    for(int i = 0; i < 5; i++)  // 读5次
+    {
+        AD5940_ReadReg(REG_AFECON_CHIPID);
+        CyDelayUs(20);
+    }
+    
+    AD5940_CsSet();
+    CyDelayUs(50);
+}
+void WarmupSPI(void)
+{
+    // 执行几次dummy read来"激活"SPI总线
+    // 丢弃结果，只是为了让总线稳定下来
+    
+    AD5940_CsSet();
+    CyDelayUs(20);
+    
+    // Dummy read 1
+    AD5940_ReadReg(REG_AFECON_CHIPID);
+    CyDelayUs(10);
+    
+    // Dummy read 2（确保总线完全稳定）
+    AD5940_ReadReg(REG_AFECON_CHIPID);
+    CyDelayUs(10);
+    
+    AD5940_CsSet();
+    CyDelayUs(20);
+}
+
+
+// ========== 🧪 验证用：显示预热前后的差异 ==========
+void SendGlucoseDataViaBLE(void)
+{
+    CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
+    static char dataString[50];
+    static uint8 testStep = 0;
+    
+    if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
+    {
+        switch(testStep % 4)
+        {
+            case 0: // 不预热，直接读
+                {
+                    AD5940_CsSet();
+                    CyDelayUs(20);
+                    uint32_t val = AD5940_ReadReg(REG_AFECON_CHIPID);
+                    sprintf(dataString, "NoWarm:0x%04X", (uint16_t)val);
+                }
+                break;
+                
+            case 1: // 预热后读
+                {
+                    WarmupSPI();
+                    uint32_t val = AD5940_ReadReg(REG_AFECON_CHIPID);
+                    sprintf(dataString, "Warmed:0x%04X", (uint16_t)val);
+                }
+                break;
+                
+            case 2: // 激进预热后读
+                {
+                    WarmupSPI_Aggressive();
+                    uint32_t val = AD5940_ReadReg(REG_AFECON_CHIPID);
+                    sprintf(dataString, "Aggress:0x%04X", (uint16_t)val);
+                }
+                break;
+                
+            case 3: // 连续读2次，看第二次是否正常
+                {
+                    AD5940_CsSet();
+                    CyDelayUs(20);
+                    uint32_t val1 = AD5940_ReadReg(REG_AFECON_CHIPID);
+                    CyDelayUs(10);
+                    uint32_t val2 = AD5940_ReadReg(REG_AFECON_CHIPID);
+                    sprintf(dataString, "1st:%04X 2nd:%04X", (uint16_t)val1, (uint16_t)val2);
+                }
+                break;
+        }
+        
+        AD5940_CsSet();
+        CyDelayUs(20);
+        
+        testStep++;
+        
+        notificationHandle.attrHandle = CYBLE_CUSTOM_SERVICE_GLUCOSE_MEASUREMENT_CHAR_HANDLE;
+        notificationHandle.value.val = (uint8*)dataString;
+        notificationHandle.value.len = strlen(dataString);
+        CyBle_GattsNotification(cyBle_connHandle, &notificationHandle);
+    }
+}
+
+// ========== 修复后的SendLactate ==========
+void SendLactateDataViaBLE(void)
+{
+    CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
+    static char dataString[40];
+    static uint8 diagStep = 0;
+    
+    if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
+    {
+        // 🔑 步骤1：预热SPI总线（关键！）
+        WarmupSPI();
+        
+        // 🔑 步骤2：执行实际读取
+        switch(diagStep % 3)
+        {
+            case 0:
+                {
+                    uint32_t adiid = AD5940_ReadReg(REG_AFECON_ADIID);
+                    uint32_t chipid = AD5940_ReadReg(REG_AFECON_CHIPID);
+                    sprintf(dataString, "L_ID:%04X-%04X", (uint16_t)adiid, (uint16_t)chipid);
+                }
+                break;
+                
+            case 1:
+                {
+                    uint32_t afecon = AD5940_ReadReg(REG_AFE_AFECON);
+                    sprintf(dataString, "L_AFE:%08lX", afecon);
+                }
+                break;
+                
+            case 2:
+                {
+                    uint32_t fifo = AD5940_ReadReg(REG_AFE_FIFOCON);
+                    sprintf(dataString, "L_FIFO:%08lX", fifo);
+                }
+                break;
+        }
+        
+        // 🔑 步骤3：确保CS恢复到空闲状态
+        AD5940_CsSet();
+        CyDelayUs(20);
+        
+        diagStep++;
+        
+        notificationHandle.attrHandle = CYBLE_CUSTOM_SERVICE_LACTATE_CHAR_HANDLE;
+        notificationHandle.value.val = (uint8*)dataString;
+        notificationHandle.value.len = strlen(dataString);
+        CyBle_GattsNotification(cyBle_connHandle, &notificationHandle);
+    }
+}
+// ========== 💡 另一个方案：在main初始化时预热一次 ==========
+void InitializeSPIBus(void)
+{
+    printf("[INFO] Warming up SPI bus...\n");
+    
+    // 执行10次dummy read来完全激活SPI总线
+    for(int i = 0; i < 10; i++)
+    {
+        AD5940_CsSet();
+        CyDelayUs(20);
+        uint32_t dummy = AD5940_ReadReg(REG_AFECON_CHIPID);
+        CyDelayUs(20);
+        
+        // 验证是否读到正确值
+        if((uint16_t)dummy == 0x5502)
+        {
+            printf("  [OK] SPI ready after %d attempts\n", i+1);
+            break;
+        }
+        else
+        {
+            printf("  [%d] Got 0x%04X, retry...\n", i+1, (uint16_t)dummy);
+        }
+    }
+    
+    AD5940_CsSet();
+    CyDelayUs(50);
+    
+    printf("[OK] SPI bus warmed up\n");
 }
 
 // 发送温度数据（改为芯片状态诊断）
@@ -1361,7 +1543,7 @@ int main()
     
     printf("\n*** SYSTEM STARTUP ***\n");
     
-    // 初始化BLE
+    // 初始化BLE（保持原样，不要停止运行）
     apiResult = CyBle_Start(AppCallBack);
     if(apiResult != CYBLE_ERROR_OK)
     {
@@ -1374,62 +1556,9 @@ int main()
     
     // 初始化SPI引脚为GPIO（软件SPI不需要硬件SPI_1）
     printf("[INFO] Initializing Software SPI on GPIO pins...\n");
-    
-    // 初始化SPI引脚为输出
-    // SCLK、MOSI、CS设置为输出
-    // MISO设置为输入（在read函数中）
-    
-    // 设置SCLK初始状态为高（空闲）
-    AD5940_SCLK_Write(0);  // 正确：CPOL=0, 空闲状态为低电平
+    AD5940_SCLK_Write(0);  // CPOL=0, 空闲状态为低电平
     CyDelay(10);
     printf("[OK] Software SPI initialized\n");
-    
-    // 🔍 软件SPI诊断
-    printf("\n[DIAGNOSTIC] Software SPI GPIO Pin Status:\n");
-    
-    // 检查各引脚的初始状态
-    uint8_t sclk_data = AD5940_SCLK_Read();
-    uint8_t mosi_data = AD5940_MOSI_Read();
-    uint8_t miso_data = AD5940_MISO_Read();
-    uint8_t cs_data = AD5940_CS_Read();
-    
-    printf("  SCLK (P1.7): %d (should be 1 at idle)\n", sclk_data);
-    printf("  MOSI (P0.4): %d\n", mosi_data);
-    printf("  MISO (P0.5): %d\n", miso_data);
-    printf("  CS   (P?.?): %d (should be 1 at idle)\n", cs_data);
-    
-    // 验证SCLK能否正确跳变（快速测试）
-    printf("\n[DIAGNOSTIC] SCLK Toggle Test:\n");
-    AD5940_SCLK_Write(0);
-    CyDelayUs(1);
-    uint8_t sclk_low = AD5940_SCLK_Read();
-    
-    AD5940_SCLK_Write(1);
-    CyDelayUs(1);
-    uint8_t sclk_high = AD5940_SCLK_Read();
-    
-    printf("  SCLK Low: %d (expect 0)\n", sclk_low);
-    printf("  SCLK High: %d (expect 1)\n", sclk_high);
-    
-    if(sclk_low == 0 && sclk_high == 1)
-    {
-        printf("  ✅ SCLK can toggle correctly!\n");
-    }
-    else
-    {
-        printf("  ❌ SCLK toggle test FAILED - pin may be stuck!\n");
-    }
-    printf("\n");
-    
-    AD5941_HardReset();   // ← 必须在任何 SPI 前
-
-    
-    
-   
-    // 🔍 快速验证 CHIPID - 在 AD5941_Initialize 前进行简单测试
-  
-    uint32_t testChipID = AD5940_ReadReg(REG_AFECON_CHIPID);
-
     
     // 初始化控制引脚
     printf("[INFO] Initializing control pins...\n");
@@ -1439,26 +1568,24 @@ int main()
     AMP2_EN_Write(0);
     AMP3_EN_Write(0);
     printf("[OK] Control pins initialized\n");
-        // 初始化AD5941
+    
+    // ========== 🔧 关键修复：只做一次硬件复位 ==========
     printf("[INFO] Initializing AD5941...\n");
     
-    // 物理复位序列
-    AD5940_RST_Write(0); 
-    CyDelay(10);
-    AD5940_RST_Write(1);
-    CyDelay(50); // 等待芯片内部启动
+    // 硬件复位（只做一次！删除了后面重复的复位）
+    AD5941_HardReset();
+    CyDelay(100);  // 等待芯片稳定
+    
+    // 软件初始化
     AD5941_Initialize();
+    
+    InitializeSPIBus();
+    
     // 启动定时器中断
     printf("[INFO] Starting timer interrupt...\n");
     CySysWdtSetInterruptCallback(CY_SYS_WDT_COUNTER2, Timer_Interrupt);
     CySysWdtEnableCounterIsr(CY_SYS_WDT_COUNTER2);
     printf("[OK] Timer started\n");
-    
-    // ===== 完整诊断 =====
-    printf("\n[DIAGNOSTIC] Running full system diagnostics...\n");
-    CyDelay(500);
-    FullDiagnostics();
-    CyDelay(500);
     
     // 等待初始化完成
     printf("[INFO] Waiting for AD5941 initialization...\n");
@@ -1469,15 +1596,13 @@ int main()
         initWaitTime += 100;
         printf("[INFO] Init status: %d (waited %lu ms)\n", (int)pAmpCfg->AMPInited, initWaitTime);
     }
-        if(pAmpCfg->AMPInited == bTRUE)
+    
+    if(pAmpCfg->AMPInited == bTRUE)
     {
         printf("[INFO] Enabling electrode channels...\n");
         AMP1_EN_Write(1);
         AMP2_EN_Write(1);
         AMP3_EN_Write(1);
-    }
-    if(pAmpCfg->AMPInited == bTRUE)
-    {
         printf("[OK] AD5941 initialization COMPLETE!\n");
     }
     else
@@ -1490,6 +1615,7 @@ int main()
     
     printf("[INFO] Entering main loop...\n");
     printf("*** SYSTEM READY ***\n\n");
+    
     /***************************************************************************
     * 主循环
     ***************************************************************************/
@@ -1497,11 +1623,6 @@ int main()
     {
         // 处理BLE事件
         CyBle_ProcessEvents();
-        
-        // 低功耗管理
-        
-
-        //LowPowerImplementation();
         
         // 每秒执行一次传感器测量
         if(measurementFlag)

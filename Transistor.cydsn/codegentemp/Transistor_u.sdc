@@ -1,3 +1,3 @@
 # Component constraints for E:\desktop\bu\eda\Transistor\Transistor.cydsn\TopDesign\TopDesign.cysch
 # Project: E:\desktop\bu\eda\Transistor\Transistor.cydsn\Transistor.cyprj
-# Date: Thu, 22 Jan 2026 13:08:46 GMT
+# Date: Fri, 23 Jan 2026 03:35:46 GMT

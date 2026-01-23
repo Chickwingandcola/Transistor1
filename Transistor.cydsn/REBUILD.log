@@ -1,4 +1,4 @@
---------------- Rebuild Started: 01/22/2026 21:08:43 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+--------------- Rebuild Started: 01/23/2026 11:35:43 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\main.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\debug.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\Impedance.o"
@@ -103,20 +103,12 @@ main.c: In function 'ReadCurrentFromSourceMeter_Simulated':
 main.c:786:34: warning: implicit declaration of function 'rand' [-Wimplicit-function-declaration]
              current_nA = 85.0 + (rand() % 10 - 5);  // 80-90 nA
                                   ^
-main.c: In function 'SendGlucoseDataViaBLE':
-main.c:1023:33: warning: implicit declaration of function 'SoftSPI_TxRxByte' [-Wimplicit-function-declaration]
-                         rx[i] = SoftSPI_TxRxByte(tx[i]);
-                                 ^
 main.c: In function 'AppCallBack':
-main.c:1265:12: warning: unused variable 'i' [-Wunused-variable]
+main.c:1447:12: warning: unused variable 'i' [-Wunused-variable]
      uint16 i;
             ^
-main.c: In function 'main':
-main.c:1431:14: warning: unused variable 'testChipID' [-Wunused-variable]
-     uint32_t testChipID = AD5940_ReadReg(REG_AFECON_CHIPID);
-              ^
 main.c: At top level:
-main.c:1309:13: warning: 'LowPowerImplementation' defined but not used [-Wunused-function]
+main.c:1491:13: warning: 'LowPowerImplementation' defined but not used [-Wunused-function]
  static void LowPowerImplementation(void)
              ^
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/debug.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c debug.c -o .\CortexM0\ARM_GCC_541\Debug\debug.o
@@ -133,11 +125,15 @@ ad5940.c:961:5: warning: implicit declaration of function 'CyDelayUs' [-Wimplici
 ad5940.c:963:9: warning: implicit declaration of function 'SoftSPI_TxRxByte' [-Wimplicit-function-declaration]
          SoftSPI_TxRxByte(tx_buf[i]);
          ^
+ad5940.c: In function 'AD5940_SPI_Sync':
+ad5940.c:1037:9: warning: implicit declaration of function 'AD5940_SCLK_Write' [-Wimplicit-function-declaration]
+         AD5940_SCLK_Write(1);
+         ^
 ad5940.c: In function 'AD5940_HSRtiaCal':
-ad5940.c:3466:54: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+ad5940.c:3483:54: warning: large integer implicitly truncated to unsigned type [-Woverflow]
    uint32_t const HSTIADERLOADTable[]={0,10,30,50,100,999999999999};
                                                       ^
-ad5940.c:3467:94: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+ad5940.c:3484:94: warning: large integer implicitly truncated to unsigned type [-Woverflow]
    uint32_t const HSTIADERTIATable[] = {50,100,200,1000,5000,10000,20000,40000,80000,160000,0,999999999999999};
                                                                                               ^
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/Amperometric.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Amperometric.c -o .\CortexM0\ARM_GCC_541\Debug\Amperometric.o
@@ -202,6 +198,6 @@ No ELF section .cychecksum found, creating one
 Application checksum calculated and stored in ELF section .cychecksum
 Checksum calculated and stored in ELF section .cymeta
 cyelftool.exe -S E:\desktop\bu\eda\Transistor\Transistor.cydsn\CortexM0\ARM_GCC_541\Debug\Transistor.elf
-Flash used: 141436 of 262144 bytes (54.0%).
+Flash used: 138256 of 262144 bytes (52.7%).
 SRAM used: 15440 of 32768 bytes (47.1%). Stack: 2048 bytes. Heap: 1024 bytes.
---------------- Rebuild Succeeded: 01/22/2026 21:08:59 ---------------
+--------------- Rebuild Succeeded: 01/23/2026 11:36:01 ---------------
