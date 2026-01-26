@@ -931,126 +931,44 @@ void SendGlucoseDataViaBLE(void)
 
 */
 
+// 纯净版：不再需要手动翻转CS，因为底层 AD5940_SPIReadReg 已经修复了
+// 引用 ad5940.c 里的那个全局变量
+extern uint8_t g_SPI_Debug_Buf[8];
+
 void SendGlucoseDataViaBLE(void)
 {
     CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
     static char dataString[50];
-    static uint8 testStep = 0;
     
     if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
     {
-        switch(testStep % 8)
-        {
-            case 0:
-                // ✅ CS测试：手动设置为1
-                AD5940_CsSet();
-                CyDelayUs(100);
-                sprintf(dataString, "CS=1, Read:%d", AD5940_CS_Read());
-                break;
-                
-            case 1:
-                // ✅ CS测试：手动设置为0
-                AD5940_CsClr();
-                CyDelayUs(100);
-                sprintf(dataString, "CS=0, Read:%d", AD5940_CS_Read());
-                AD5940_CsSet();  // 恢复
-                break;
-                
-            case 2:
-                // 🧪 完整SPI读取测试（带CS控制）
-                {
-                    uint8_t tx[6] = {0x20, 0x04, 0x00, 0xFF, 0xFF, 0xFF};
-                    uint8_t rx[6] = {0};
-                    
-                    AD5940_CsSet();
-                    CyDelayUs(20);
-                    AD5940_CsClr();
-                    CyDelayUs(20);
-                    AD5940_ReadWriteNBytes(tx, rx, 6);
-                    CyDelayUs(20);
-                    AD5940_CsSet();
-                    
-                    sprintf(dataString, "RX:%02X %02X %02X %02X",
-                            rx[2], rx[3], rx[4], rx[5]);
-                }
-                break;
-                
-            case 3:
-                // 🧪 测试：读取ADIID（修复CS后）
-                {
-                    uint32 adiid = AD5940_ReadReg(REG_AFECON_ADIID);
-                    sprintf(dataString, "ADIID:0x%lX (exp 4144)", adiid);
-                }
-                break;
-                
-            case 4:
-                // 🧪 测试：读取CHIPID（修复CS后）
-                {
-                    uint32 chipid = AD5940_ReadReg(REG_AFECON_CHIPID);
-                    sprintf(dataString, "CHIP:0x%lX (exp 5502)", chipid);
-                }
-                break;
-                
-            case 5:
-                // 📊 检查是否还是重复字节
-                {
-                    uint32 val = AD5940_ReadReg(REG_AFECON_CHIPID);
-                    uint8_t b0 = val & 0xFF;
-                    uint8_t b1 = (val >> 8) & 0xFF;
-                    uint8_t b2 = (val >> 16) & 0xFF;
-                    
-                    if(b0 == b1 && b1 == b2) {
-                        sprintf(dataString, "REPEAT byte:0x%02X", b0);
-                    } else {
-                        sprintf(dataString, "OK: %02X %02X %02X", b0, b1, b2);
-                    }
-                }
-                break;
-                
-            case 6:
-                // 🔧 降低速度重试
-                {
-                    // 临时改为20us延时
-                    uint8_t tx[6] = {0x6D, 0x04, 0x00, 0xFF, 0xFF, 0xFF};
-                    uint8_t rx[6] = {0};
-                    
-                    AD5940_CsSet();
-                    CyDelayUs(20);
-                    AD5940_CsClr();
-                    CyDelayUs(20);
-                    
-                    for(int i = 0; i < 6; i++) {
-                        rx[i] = SoftSPI_TxRxByte(tx[i]);
-                        CyDelayUs(20);  // 字节间延时
-                    }
-                    
-                    CyDelayUs(20);
-                    AD5940_CsSet();
-                    
-                    uint16_t result = (rx[4] << 8) | rx[5];
-                    sprintf(dataString, "Slow: 0x%04X", result);
-                }
-                break;
-                
-            case 7:
-                // 📍 显示所有引脚状态
-                sprintf(dataString, "CS:%d SCK:%d MO:%d MI:%d",
-                        AD5940_CS_Read(),
-                        AD5940_SCLK_Read(),
-                        AD5940_MOSI_Read(),
-                        AD5940_MISO_Read());
-                break;
-        }
+        // 触发一次读取操作 (读取 CHIPID 0x0404)
+        AD5940_RST_Write(1); CyDelay(10);
+        AD5940_RST_Write(0); CyDelay(50);  // 拉低复位线
+        AD5940_RST_Write(1); CyDelay(100); // 拉高并等待芯片加载固件
         
-        testStep++;
-        
+        // --- 清除 SPILOCK 的骚操作 ---
+        // 有时候芯片上电会数错时钟，我们手动给它 8 个空时钟
+        AD5940_CS_Write(0);
+        for(int i=0; i<16; i++) { AD5940_SCLK_Write(1); CyDelayUs(2); AD5940_SCLK_Write(0); CyDelayUs(2); }
+        AD5940_CS_Write(1);
+        CyDelay(10);
+
+        // 现在尝试读取
+        AD5940_ReadReg(REG_AFECON_CHIPID); 
+
+        // 直接输出这次通讯的所有原始字节
+        // 我们想看的是：[0]Cmd, [1]AddrH, [2]AddrL, [3]Dummy, [4]DataH, [5]DataL
+        sprintf(dataString, "RAW:%02X%02X%02X%02X%02X%02X", 
+                g_SPI_Debug_Buf[0], g_SPI_Debug_Buf[1], g_SPI_Debug_Buf[2], 
+                g_SPI_Debug_Buf[3], g_SPI_Debug_Buf[4], g_SPI_Debug_Buf[5]);
+
         notificationHandle.attrHandle = CYBLE_CUSTOM_SERVICE_GLUCOSE_MEASUREMENT_CHAR_HANDLE;
         notificationHandle.value.val = (uint8*)dataString;
         notificationHandle.value.len = strlen(dataString);
         CyBle_GattsNotification(cyBle_connHandle, &notificationHandle);
     }
 }
-
 
 // 发送乳酸数据（改为诊断日志输出）
 void SendLactateDataViaBLE(void)
@@ -1196,7 +1114,8 @@ void SendTemperatureViaBLE(void)
 }
 
 
-
+// AD5940_HWReset已在ad5940.c中定义，使用ad5941_platform.c中的AD5940_RstClr/RstSet
+// 如需在main.c中使用复位功能，可直接调用AD5940_HWReset()函数
 
 
 
@@ -1480,8 +1399,13 @@ int main()
     uint32 lastSendTime = 0;
     #define SEND_INTERVAL 3  // 每3秒刷新一次
     
-    printf("[INFO] Entering main loop...\n");
-    printf("*** SYSTEM READY ***\n\n");
+    AD5940_HWReset();          // 1. 先硬复位！
+    AD5940_CsSet();            // 2. 确保 CS 初始为高
+    CyDelay(10);
+    
+    // 3. 发送一个“哑指令”来清除可能的锁死状态
+    AD5940_ReadReg(REG_AFECON_CHIPID); 
+    CyDelay(10);
     /***************************************************************************
     * 主循环
     ***************************************************************************/

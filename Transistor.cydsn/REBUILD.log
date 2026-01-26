@@ -1,4 +1,4 @@
---------------- Rebuild Started: 01/26/2026 16:50:57 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+--------------- Rebuild Started: 01/26/2026 20:34:02 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\main.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\debug.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\Impedance.o"
@@ -104,15 +104,15 @@ main.c:786:34: warning: implicit declaration of function 'rand' [-Wimplicit-func
              current_nA = 85.0 + (rand() % 10 - 5);  // 80-90 nA
                                   ^
 main.c: In function 'AppCallBack':
-main.c:1257:12: warning: unused variable 'i' [-Wunused-variable]
+main.c:1176:12: warning: unused variable 'i' [-Wunused-variable]
      uint16 i;
             ^
 main.c: In function 'main':
-main.c:1423:14: warning: unused variable 'testChipID' [-Wunused-variable]
+main.c:1342:14: warning: unused variable 'testChipID' [-Wunused-variable]
      uint32_t testChipID = AD5940_ReadReg(REG_AFECON_CHIPID);
               ^
 main.c: At top level:
-main.c:1301:13: warning: 'LowPowerImplementation' defined but not used [-Wunused-function]
+main.c:1220:13: warning: 'LowPowerImplementation' defined but not used [-Wunused-function]
  static void LowPowerImplementation(void)
              ^
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/debug.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c debug.c -o .\CortexM0\ARM_GCC_541\Debug\debug.o
@@ -122,15 +122,28 @@ main.h:116:13: warning: 'LowPowerImplementation' declared 'static' but never def
              ^
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/Impedance.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Impedance.c -o .\CortexM0\ARM_GCC_541\Debug\Impedance.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/ad5940.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c ad5940.c -o .\CortexM0\ARM_GCC_541\Debug\ad5940.o
-ad5940.c: In function 'AD5940_SPIWriteReg':
-ad5940.c:961:5: warning: implicit declaration of function 'CyDelayUs' [-Wimplicit-function-declaration]
-     CyDelayUs(5);
+ad5940.c: In function 'AD5940_SPIReadReg':
+ad5940.c:971:5: warning: implicit declaration of function 'AD5940_CS_Write' [-Wimplicit-function-declaration]
+     AD5940_CS_Write(1);
+     ^
+ad5940.c:972:5: warning: implicit declaration of function 'CyDelayUs' [-Wimplicit-function-declaration]
+     CyDelayUs(10);
+     ^
+ad5940.c: In function 'AD5940_HWReset':
+ad5940.c:25:28: warning: implicit declaration of function 'AD5940_RST_Write' [-Wimplicit-function-declaration]
+ #define SPI_RST_HIGH()     AD5940_RST_Write(1)
+                            ^
+ad5940.c:3046:5: note: in expansion of macro 'SPI_RST_HIGH'
+     SPI_RST_HIGH();
+     ^
+ad5940.c:3047:5: warning: implicit declaration of function 'CyDelay' [-Wimplicit-function-declaration]
+     CyDelay(10);
      ^
 ad5940.c: In function 'AD5940_HSRtiaCal':
-ad5940.c:3488:54: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+ad5940.c:3451:54: warning: large integer implicitly truncated to unsigned type [-Woverflow]
    uint32_t const HSTIADERLOADTable[]={0,10,30,50,100,999999999999};
                                                       ^
-ad5940.c:3489:94: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+ad5940.c:3452:94: warning: large integer implicitly truncated to unsigned type [-Woverflow]
    uint32_t const HSTIADERTIATable[] = {50,100,200,1000,5000,10000,20000,40000,80000,160000,0,999999999999999};
                                                                                               ^
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/Amperometric.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Amperometric.c -o .\CortexM0\ARM_GCC_541\Debug\Amperometric.o
@@ -195,6 +208,6 @@ No ELF section .cychecksum found, creating one
 Application checksum calculated and stored in ELF section .cychecksum
 Checksum calculated and stored in ELF section .cymeta
 cyelftool.exe -S E:\desktop\bu\eda\Transistor\Transistor.cydsn\CortexM0\ARM_GCC_541\Debug\Transistor.elf
-Flash used: 141324 of 262144 bytes (53.9%).
-SRAM used: 15440 of 32768 bytes (47.1%). Stack: 2048 bytes. Heap: 1024 bytes.
---------------- Rebuild Succeeded: 01/26/2026 16:51:13 ---------------
+Flash used: 140452 of 262144 bytes (53.6%).
+SRAM used: 15448 of 32768 bytes (47.1%). Stack: 2048 bytes. Heap: 1024 bytes.
+--------------- Rebuild Succeeded: 01/26/2026 20:34:17 ---------------

@@ -42,52 +42,45 @@ static inline void SPI_Delay(void)
     CyDelayUs(5); 
 }
 
-uint8_t SoftSPI_TxRxByte(uint8_t data)
-{
-    uint8_t i;
-    uint8_t receive = 0;
+// 在 ad5941_platform.c 中替换此函数
 
-    for (i = 0; i < 8; i++)
+uint8_t SoftSPI_TxRxByte(uint8_t txData)
+{
+    uint8_t rxData = 0;
+    for(uint8_t i = 0; i < 8; i++)
     {
-        // 1. 准备 MOSI 数据
-        if (data & 0x80) AD5940_MOSI_Write(1);
+        // 先放数据 (MOSI)
+        if(txData & 0x80) AD5940_MOSI_Write(1);
         else AD5940_MOSI_Write(0);
-        data <<= 1;
-        
-        CyDelayUs(1); // ⭐ 增加 1us 确保电平稳定
-        
-        // 2. 拉高时钟 (Mode 0: 在上升沿采样)
+        txData <<= 1;
+        CyDelayUs(2); // 建立时间
+
+        // 拉高时钟 (上升沿采样)
         AD5940_SCLK_Write(1);
-        CyDelayUs(2); // ⭐ 时钟高电平宽度
-        
-        // 3. 读取 MISO
-        receive <<= 1;
-        if (AD5940_MISO_Read()) receive |= 1;
-        
-        // 4. 拉低时钟
+        CyDelayUs(2); 
+
+        // 读取数据 (MISO)
+        rxData <<= 1;
+        if(AD5940_MISO_Read()) rxData |= 0x01;
+
+        // 拉低时钟
         AD5940_SCLK_Write(0);
-        CyDelayUs(1); // ⭐ 时钟低电平宽度
+        CyDelayUs(2); 
     }
-    return receive;
+    return rxData;
 }
 
 /**
  * @brief SPI读写多字节 - 修正空闲态
  */
-int32_t AD5940_ReadWriteNBytes(uint8_t *pSendBuffer, uint8_t *pRecvBuff, uint32_t length)
+int32_t AD5940_ReadWriteNBytes(unsigned char *pSendBuffer, unsigned char *pRecvBuff, unsigned long length)
 {
-    uint32_t i;
-
-    if (!pSendBuffer || !pRecvBuff || length == 0)
-        return -1;
-
-    // ⭐ 不控制CS，只负责传输数据
-    for (i = 0; i < length; i++)
+    for(uint32_t i = 0; i < length; i++)
     {
-        pRecvBuff[i] = SoftSPI_TxRxByte(pSendBuffer[i]);
-        CyDelayUs(2);  // 字节间延时
+        uint8_t tx = pSendBuffer ? pSendBuffer[i] : 0xFF;
+        uint8_t rx = SoftSPI_TxRxByte(tx);
+        if(pRecvBuff) pRecvBuff[i] = rx;
     }
-
     return 0;
 }
 

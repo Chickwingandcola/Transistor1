@@ -13,6 +13,17 @@
 **/
 #include "ad5940.h"
 #include "ad5941_platform.h"
+uint8_t g_SPI_Debug_Buf[8] = {0}; // 全局变量，记录最后一次读取的原始字节
+
+#define SPI_CS_HIGH()      AD5940_CS_Write(1)
+#define SPI_CS_LOW()       AD5940_CS_Write(0)
+#define SPI_SCLK_SET()     AD5940_SCLK_Write(1)
+#define SPI_SCLK_CLR()     AD5940_SCLK_Write(0)
+#define SPI_MOSI_SET()     AD5940_MOSI_Write(1)
+#define SPI_MOSI_CLR()     AD5940_MOSI_Write(0)
+#define SPI_MISO_READ()    AD5940_MISO_Read()  // 这就是你要找的读取函数
+#define SPI_RST_HIGH()     AD5940_RST_Write(1)
+#define SPI_RST_LOW()      AD5940_RST_Write(0)
 
 /*! \mainpage AD5940 Library Introduction
  * 
@@ -937,119 +948,73 @@ static uint32_t AD5940_ReadWrite32B(uint32_t data)
  * @param RegData: The register data.
  * @return Return None.
 **/
-void AD5940_SPIWriteReg(uint16_t RegAddr, uint32_t RegData)
-{
-    uint8_t tx_buf[8] = {0};
-    uint8_t bufLen;
-    
-    BoolFlag is32BitReg = (RegAddr >= 0x1000 && RegAddr < 0x3000);
-    
-    tx_buf[0] = 0x2D;           // SPICMD_WRITEREG
-    tx_buf[1] = (RegAddr >> 8); 
-    tx_buf[2] = RegAddr & 0xFF; 
-    
-    if(is32BitReg) {
-        tx_buf[3] = (RegData >> 24); tx_buf[4] = (RegData >> 16);
-        tx_buf[5] = (RegData >> 8);  tx_buf[6] = RegData;
-        bufLen = 7;
-    } else {
-        tx_buf[3] = (RegData >> 8);  tx_buf[4] = RegData;
-        bufLen = 5;
-    }
-    
-    AD5940_CsClr();
-    CyDelayUs(5);
-    for(uint8_t i=0; i<bufLen; i++) {
-        SoftSPI_TxRxByte(tx_buf[i]);
-        CyDelayUs(5); // 字节间延时
-    }
-    CyDelayUs(2);
-    AD5940_CsSet();
-    CyDelayUs(10); // 连续写入间隔
-}
-
-
 /**
- * @brief Read register through SPI.
+ * @brief Write register through SPI.
  * @param RegAddr: The register address.
- * @return Return register data.
- * 
- * ✅ 修正版本 - 解决CS提前拉高和字节序问题
- * - 整个transaction内CS保持LOW
- * - 正确的dummy byte处理
- * - 正确的4字节拼接顺序
-**/
-/**
- * @brief 修复版本 V3 - 最终索引对齐
-**/
-/**
- * @brief 修复版本 V5 - 强制 32 位读取，截取尾部 16 位
-**/
-/**
- * @brief 修复版本 V7 - 增加 CS 间隔延时，解决数据粘连
+ * @param RegData: The register data.
+ * @return Return None.
 **/
 uint32_t AD5940_SPIReadReg(uint16_t RegAddr)
 {
-    uint8_t tx_buf[8] = {0}; 
-    uint8_t rx_buf[8] = {0};
-    uint32_t result = 0;
-    uint8_t bufLen;
+    uint8_t tx_buf[6];
+    uint8_t rx_buf[6];
     
-    // 判断是否为 32 位寄存器 (0x1000 - 0x3000)
-    BoolFlag is32BitReg = bFALSE;
-    if((RegAddr >= 0x1000) && (RegAddr < 0x3000))
-    {
-        is32BitReg = bTRUE;
-    }
+    // 准备读取指令
+    tx_buf[0] = 0x01;              // SPICMD_READREG
+    tx_buf[1] = (RegAddr >> 8);    // 地址高位
+    tx_buf[2] = RegAddr & 0xFF;    // 地址低位
+    tx_buf[3] = 0x00;              // Dummy Byte
+    tx_buf[4] = 0x00;              // Data H
+    tx_buf[5] = 0x00;              // Data L
 
-    // 1. 组装发送指令
-    tx_buf[0] = 0x6D;           // 读取命令
-    tx_buf[1] = (RegAddr >> 8); // 地址高位
-    tx_buf[2] = RegAddr & 0xFF; // 地址低位
-    tx_buf[3] = 0xFF;           // Dummy Byte
+    // --- 增加：每次读取前强制拉高 CS 停顿，确保上一帧彻底结束 ---
+    AD5940_CS_Write(1);
+    CyDelayUs(10);
     
-    // 填充剩余字节产生时钟
-    tx_buf[4] = 0xFF;
-    tx_buf[5] = 0xFF;
-    tx_buf[6] = 0xFF;
-    tx_buf[7] = 0xFF;
-
-    if(is32BitReg)
-        bufLen = 8; // Cmd + Addr + Dummy + 4 Data
-    else
-        bufLen = 6; // Cmd + Addr + Dummy + 2 Data
-
-    AD5940_CsClr();
-    CyDelayUs(10); // 增加 CS 建立时间
-    
-    // 执行 SPI 传输
-    AD5940_ReadWriteNBytes(tx_buf, rx_buf, bufLen);
-    
+    AD5940_CS_Write(0);            // 重新拉低
     CyDelayUs(5);
-    AD5940_CsSet();
-    
-    // === 关键修改 ===
-    // 之前是 20us，现在增加到 100us
-    // 确保 AD5940 SPI 接口完全复位，准备好下一次命令
-    CyDelayUs(100); 
 
-    // 索引解析 (基于 V6 的成功经验)
-    if(is32BitReg)
+    for(int i = 0; i < 6; i++)
     {
-        // 32位寄存器：取 [4][5][6][7]
-        result = ((uint32_t)rx_buf[4] << 24) |
-                 ((uint32_t)rx_buf[5] << 16) |
-                 ((uint32_t)rx_buf[6] << 8)  |
-                 ((uint32_t)rx_buf[7]);
+        rx_buf[i] = SoftSPI_TxRxByte(tx_buf[i]);
     }
-    else
-    {
-        // 16位寄存器：取 [4][5]
-        result = ((uint32_t)rx_buf[4] << 8) | 
-                 ((uint32_t)rx_buf[5]);
-    }
+
+    CyDelayUs(5);
+    AD5940_CS_Write(1);
+
+    // 更新调试缓冲区，方便你观察
+    extern uint8_t g_SPI_Debug_Buf[8];
+    for(int i=0; i<6; i++) g_SPI_Debug_Buf[i] = rx_buf[i];
+
+    return ((uint32_t)rx_buf[4] << 8) | (uint32_t)rx_buf[5];
+}
+
+/* 统一的写入函数 (解决你“写入要不要改”的疑问) */
+void AD5940_SPIWriteReg(uint16_t RegAddr, uint32_t RegValue)
+{
+    uint8_t tx_buf[7];
+    int len = 5;
     
-    return result;
+    tx_buf[0] = 0x00; // 写指令
+    tx_buf[1] = (RegAddr >> 8);
+    tx_buf[2] = RegAddr & 0xFF;
+
+    if((RegAddr >= 0x1000) && (RegAddr < 0x3000)) {
+        tx_buf[3] = (RegValue >> 24); tx_buf[4] = (RegValue >> 16);
+        tx_buf[5] = (RegValue >> 8);  tx_buf[6] = RegValue & 0xFF;
+        len = 7;
+    } else {
+        tx_buf[3] = (RegValue >> 8);  tx_buf[4] = RegValue & 0xFF;
+        len = 5;
+    }
+
+    AD5940_CS_Write(0); // 拉低 CS
+    CyDelayUs(5);
+    for(int i = 0; i < len; i++) {
+        SoftSPI_TxRxByte(tx_buf[i]);
+    }
+    CyDelayUs(5);
+    AD5940_CS_Write(1); // 拉高 CS
 }
 /**
   @brief Read specific number of data from FIFO with optimized SPI access.
@@ -3078,14 +3043,12 @@ AD5940Err  AD5940_SoftRst(void)
 */
 void AD5940_HWReset(void)
 {
-#ifndef CHIPSEL_M355
-  AD5940_RstClr();
-  AD5940_Delay10us(200); /* Delay some time */
-  AD5940_RstSet();
-  AD5940_Delay10us(500); /* AD5940 need some time to exit reset status. 200us looks good. */
-#else
-  //There is no method to reset AFE only for M355.
-#endif
+    SPI_RST_HIGH();
+    CyDelay(10);
+    SPI_RST_LOW();  
+    CyDelay(50);    // 官方是2ms，我们给50ms确保彻底放电
+    SPI_RST_HIGH(); 
+    CyDelay(100);   // 官方是5ms，我们给100ms等待固件加载
 }
 
 /**
