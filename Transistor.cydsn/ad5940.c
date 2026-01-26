@@ -57,8 +57,8 @@ static BoolFlag bIsS2silicon = bFALSE;
 
 /* Declare of SPI functions used to read/write registers */
 #ifndef CHIPSEL_M355
-static uint32_t AD5940_SPIReadReg(uint16_t RegAddr);
-static void AD5940_SPIWriteReg(uint16_t RegAddr, uint32_t RegData);
+uint32_t AD5940_SPIReadReg(uint16_t RegAddr);
+void AD5940_SPIWriteReg(uint16_t RegAddr, uint32_t RegData);
 #else
 static uint32_t AD5940_D2DReadReg(uint16_t RegAddr);
 static void AD5940_D2DWriteReg(uint16_t RegAddr, uint32_t RegData);
@@ -937,7 +937,7 @@ static uint32_t AD5940_ReadWrite32B(uint32_t data)
  * @param RegData: The register data.
  * @return Return None.
 **/
-static void AD5940_SPIWriteReg(uint16_t RegAddr, uint32_t RegData)
+void AD5940_SPIWriteReg(uint16_t RegAddr, uint32_t RegData)
 {
     uint8_t tx_buf[8] = {0};
     uint8_t bufLen;
@@ -979,73 +979,78 @@ static void AD5940_SPIWriteReg(uint16_t RegAddr, uint32_t RegData)
  * - 正确的dummy byte处理
  * - 正确的4字节拼接顺序
 **/
-static uint32_t AD5940_SPIReadReg(uint16_t RegAddr)
+/**
+ * @brief 修复版本 V3 - 最终索引对齐
+**/
+/**
+ * @brief 修复版本 V5 - 强制 32 位读取，截取尾部 16 位
+**/
+/**
+ * @brief 修复版本 V7 - 增加 CS 间隔延时，解决数据粘连
+**/
+uint32_t AD5940_SPIReadReg(uint16_t RegAddr)
 {
-    uint8_t tx_buf[8] = {0};
+    uint8_t tx_buf[8] = {0}; 
     uint8_t rx_buf[8] = {0};
     uint32_t result = 0;
+    uint8_t bufLen;
     
-    BoolFlag is32BitReg = (RegAddr >= 0x1000 && RegAddr < 0x3000);
-    
-    // 1. 强制重置 CS 状态（这是解决你“前后错位”的关键）
-    AD5940_CsSet();     
-    CyDelayUs(10);      
-    
-    tx_buf[0] = 0x6D;           // SPICMD_READREG
-    tx_buf[1] = (RegAddr >> 8); 
-    tx_buf[2] = RegAddr & 0xFF; 
-    tx_buf[3] = 0xFF;           // Dummy Byte (芯片准备数据的时间)
-    
-    uint8_t bufLen = is32BitReg ? 8 : 6;
-    
-    // 2. 开始正式传输
-    AD5940_CsClr();
-    CyDelayUs(10);      // 给芯片一点反应时间
-    
-    for(uint8_t i = 0; i < bufLen; i++) {
-        rx_buf[i] = SoftSPI_TxRxByte(tx_buf[i]);
-        // 关键：在每个字节之间加 2us 延时，确保软件 SPI 不会“超速”
-        CyDelayUs(2);   
+    // 判断是否为 32 位寄存器 (0x1000 - 0x3000)
+    BoolFlag is32BitReg = bFALSE;
+    if((RegAddr >= 0x1000) && (RegAddr < 0x3000))
+    {
+        is32BitReg = bTRUE;
     }
+
+    // 1. 组装发送指令
+    tx_buf[0] = 0x6D;           // 读取命令
+    tx_buf[1] = (RegAddr >> 8); // 地址高位
+    tx_buf[2] = RegAddr & 0xFF; // 地址低位
+    tx_buf[3] = 0xFF;           // Dummy Byte
+    
+    // 填充剩余字节产生时钟
+    tx_buf[4] = 0xFF;
+    tx_buf[5] = 0xFF;
+    tx_buf[6] = 0xFF;
+    tx_buf[7] = 0xFF;
+
+    if(is32BitReg)
+        bufLen = 8; // Cmd + Addr + Dummy + 4 Data
+    else
+        bufLen = 6; // Cmd + Addr + Dummy + 2 Data
+
+    AD5940_CsClr();
+    CyDelayUs(10); // 增加 CS 建立时间
+    
+    // 执行 SPI 传输
+    AD5940_ReadWriteNBytes(tx_buf, rx_buf, bufLen);
     
     CyDelayUs(5);
-    AD5940_CsSet();     // 结束传输
-    CyDelayUs(20);      // 重要：给芯片内部逻辑释放 SPI 总线的时间
+    AD5940_CsSet();
     
-    /* 数据对齐逻辑（基于你 Slow 测试返回 5502 的结果）：
-       tx_buf: [6D] [AddrH] [AddrL] [Dummy] [Clock] [Clock]
-       rx_buf: [0]   [1]     [2]     [3]     [4]     [5]
-       数据就在 rx_buf[4] 和 rx_buf[5]
-    */
-    if(is32BitReg) {
-        result = ((uint32_t)rx_buf[4] << 24) | 
+    // === 关键修改 ===
+    // 之前是 20us，现在增加到 100us
+    // 确保 AD5940 SPI 接口完全复位，准备好下一次命令
+    CyDelayUs(100); 
+
+    // 索引解析 (基于 V6 的成功经验)
+    if(is32BitReg)
+    {
+        // 32位寄存器：取 [4][5][6][7]
+        result = ((uint32_t)rx_buf[4] << 24) |
                  ((uint32_t)rx_buf[5] << 16) |
-                 ((uint32_t)rx_buf[6] << 8)  | 
+                 ((uint32_t)rx_buf[6] << 8)  |
                  ((uint32_t)rx_buf[7]);
-    } else {
-        result = ((uint32_t)rx_buf[4] << 8) | rx_buf[5];
+    }
+    else
+    {
+        // 16位寄存器：取 [4][5]
+        result = ((uint32_t)rx_buf[4] << 8) | 
+                 ((uint32_t)rx_buf[5]);
     }
     
     return result;
 }
-
-void AD5940_SPI_Sync(void)
-{
-    AD5940_CsSet();     // 确保 CS 为高
-    CyDelayUs(10);
-    for(int i = 0; i < 100; i++) { // 空拨 100 个时钟，强制重置芯片 SPI 状态机
-        AD5940_SCLK_Write(1);
-        CyDelayUs(1);
-        AD5940_SCLK_Write(0);
-        CyDelayUs(1);
-    }
-    CyDelayUs(10);
-    AD5940_CsClr();    // 拨一下 CS
-    CyDelayUs(5);
-    AD5940_CsSet();
-    CyDelayUs(10);
-}
-
 /**
   @brief Read specific number of data from FIFO with optimized SPI access.
   @param pBuffer: Pointer to a buffer that used to store data read back.

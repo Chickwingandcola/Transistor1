@@ -4768,6 +4768,8 @@ typedef struct
 /* 1. Basic SPI functions */
 void      AD5940_WriteReg(uint16_t RegAddr, uint32_t RegData);
 uint32_t  AD5940_ReadReg(uint16_t RegAddr);
+uint32_t  AD5940_SPIReadReg(uint16_t RegAddr);
+void      AD5940_SPIWriteReg(uint16_t RegAddr, uint32_t RegData);
 void      AD5940_FIFORd(uint32_t *pBuffer,uint32_t uiReadCount);
 
 /* 2. AD5940 Top Control functions */
