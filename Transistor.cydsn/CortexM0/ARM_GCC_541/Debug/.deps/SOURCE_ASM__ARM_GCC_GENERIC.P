@@ -1,8 +1,8 @@
-E:/desktop/bu/eda/Transistor/Transistor.cydsn/CortexM0/ARM_GCC_541/Debug/CyBootAsmGnu.o : E:/desktop/bu/eda/Transistor/Transistor.cydsn/Generated_Source/PSoC4/CyBootAsmGnu.s E:/desktop/bu/eda/Transistor/Transistor.cydsn/Generated_Source/PSoC4/cydevicegnu_trm.inc E:/desktop/bu/eda/Transistor/Transistor.cydsn/Generated_Source/PSoC4/cyfittergnu.inc 
+E:/desktop/bu/eda/Transistor1-4414/Transistor.cydsn/CortexM0/ARM_GCC_541/Debug/CyBootAsmGnu.o : E:/desktop/bu/eda/Transistor1-4414/Transistor.cydsn/Generated_Source/PSoC4/CyBootAsmGnu.s E:/desktop/bu/eda/Transistor1-4414/Transistor.cydsn/Generated_Source/PSoC4/cydevicegnu_trm.inc E:/desktop/bu/eda/Transistor1-4414/Transistor.cydsn/Generated_Source/PSoC4/cyfittergnu.inc 
 
-E:/desktop/bu/eda/Transistor/Transistor.cydsn/Generated_Source/PSoC4/CyBootAsmGnu.s : 
+E:/desktop/bu/eda/Transistor1-4414/Transistor.cydsn/Generated_Source/PSoC4/CyBootAsmGnu.s : 
 
-E:/desktop/bu/eda/Transistor/Transistor.cydsn/Generated_Source/PSoC4/cydevicegnu_trm.inc : 
+E:/desktop/bu/eda/Transistor1-4414/Transistor.cydsn/Generated_Source/PSoC4/cydevicegnu_trm.inc : 
 
-E:/desktop/bu/eda/Transistor/Transistor.cydsn/Generated_Source/PSoC4/cyfittergnu.inc : 
+E:/desktop/bu/eda/Transistor1-4414/Transistor.cydsn/Generated_Source/PSoC4/cyfittergnu.inc : 
 

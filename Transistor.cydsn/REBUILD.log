@@ -1,65 +1,8 @@
---------------- Rebuild Started: 01/26/2026 20:34:02 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\main.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\debug.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Impedance.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ad5940.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Amperometric.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\biosensor_ble.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ad5941_platform.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\cymetadata.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CYBLE.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CYBLE_gatt.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CYBLE_eventHandler.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CYBLE_HAL_INT.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CYBLE_HAL_PVT.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CYBLE_custom.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Disconnect_LED.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Disconnect_LED_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_CS.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_CS_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_EXTI.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_EXTI_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_Interrupt.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_MISO.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_MISO_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_SCLK.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_SCLK_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_MOSI.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_MOSI_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Advertising_LED.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Advertising_LED_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\DRUG_EN_1.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\DRUG_EN_1_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\STIM_EN_A.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\STIM_EN_A_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_RST.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_RST_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AMP1_EN.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AMP1_EN_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AMP2_EN.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AMP2_EN_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AMP3_EN.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AMP3_EN_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CYBLE_bless_isr.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Cm0Start.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyFlash.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyLib.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\cyPm.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\cyutils.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyBootAsmGnu.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyDMA.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyLFClk.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\cy_em_eeprom.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Transistor.hex"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Transistor.elf"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Transistor.map"
+--------------- Rebuild Started: 01/28/2026 14:02:39 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
 Deleting file ".\Transistor.cycdx"
 Deleting file ".\Transistor.rpt"
 Deleting file ".\Transistor_timing.html"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\.deps\SOURCE_C__ARM_GCC_GENERIC.P"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\.deps\SOURCE_ASM__ARM_GCC_GENERIC.P"
-cydsfit.exe -.appdatapath "C:\Users\13740\AppData\Local\Cypress Semiconductor\PSoC Creator\4.4" -.fdsnotice -.fdswarpdepfile=warp_dependencies.txt -.fdselabdepfile=elab_dependencies.txt -.fdsbldfile=generated_files.txt -.fdsreffile=referenced_files.txt -p E:\desktop\bu\eda\Transistor\Transistor.cydsn\Transistor.cyprj -d CYBLE-222014-01 -s E:\desktop\bu\eda\Transistor\Transistor.cydsn\Generated_Source\PSoC4 -- -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE
+cydsfit.exe -.appdatapath "C:\Users\13740\AppData\Local\Cypress Semiconductor\PSoC Creator\4.4" -.fdsnotice -.fdswarpdepfile=warp_dependencies.txt -.fdselabdepfile=elab_dependencies.txt -.fdsbldfile=generated_files.txt -.fdsreffile=referenced_files.txt -p E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\Transistor.cyprj -d CYBLE-222014-01 -s E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\Generated_Source\PSoC4 -- -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE
 Elaborating Design...
 HDL Generation...
 Synthesis...
@@ -77,42 +20,34 @@ Dependency Generation...
 Cleanup...
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/main.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c main.c -o .\CortexM0\ARM_GCC_541\Debug\main.o
 main.c: In function 'AD5941_Initialize':
-main.c:234:16: warning: format '%d' expects argument of type 'int', but argument 2 has type 'AD5940Err {aka long int}' [-Wformat=]
+main.c:235:16: warning: format '%d' expects argument of type 'int', but argument 2 has type 'AD5940Err {aka long int}' [-Wformat=]
          printf("[ERROR] AppAMPInit failed with error code: %d\r\n", error);
                 ^
-main.c:234:16: warning: format '%d' expects argument of type 'int', but argument 2 has type 'AD5940Err {aka long int}' [-Wformat=]
-main.c: In function 'DiagnosticsFIFO':
-main.c:328:12: warning: unused variable 'fifoCount' [-Wunused-variable]
-     uint32 fifoCount = 0;
-            ^
+main.c:235:16: warning: format '%d' expects argument of type 'int', but argument 2 has type 'AD5940Err {aka long int}' [-Wformat=]
 main.c: In function 'MeasureTemperature':
-main.c:614:20: warning: unused variable 'resistance' [-Wunused-variable]
+main.c:356:20: warning: unused variable 'resistance' [-Wunused-variable]
      float voltage, resistance;
                     ^
-main.c:614:11: warning: unused variable 'voltage' [-Wunused-variable]
+main.c:356:11: warning: unused variable 'voltage' [-Wunused-variable]
      float voltage, resistance;
            ^
-main.c:613:14: warning: unused variable 'adcCode' [-Wunused-variable]
+main.c:355:14: warning: unused variable 'adcCode' [-Wunused-variable]
      uint32_t adcCode;
               ^
 main.c: In function 'ReadCurrentFromAD5940':
-main.c:673:5: warning: enumeration value 'SENSOR_COUNT' not handled in switch [-Wswitch]
+main.c:415:5: warning: enumeration value 'SENSOR_COUNT' not handled in switch [-Wswitch]
      switch(sensorType)
      ^
 main.c: In function 'ReadCurrentFromSourceMeter_Simulated':
-main.c:786:34: warning: implicit declaration of function 'rand' [-Wimplicit-function-declaration]
+main.c:528:34: warning: implicit declaration of function 'rand' [-Wimplicit-function-declaration]
              current_nA = 85.0 + (rand() % 10 - 5);  // 80-90 nA
                                   ^
 main.c: In function 'AppCallBack':
-main.c:1176:12: warning: unused variable 'i' [-Wunused-variable]
+main.c:881:12: warning: unused variable 'i' [-Wunused-variable]
      uint16 i;
             ^
-main.c: In function 'main':
-main.c:1342:14: warning: unused variable 'testChipID' [-Wunused-variable]
-     uint32_t testChipID = AD5940_ReadReg(REG_AFECON_CHIPID);
-              ^
 main.c: At top level:
-main.c:1220:13: warning: 'LowPowerImplementation' defined but not used [-Wunused-function]
+main.c:925:13: warning: 'LowPowerImplementation' defined but not used [-Wunused-function]
  static void LowPowerImplementation(void)
              ^
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/debug.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c debug.c -o .\CortexM0\ARM_GCC_541\Debug\debug.o
@@ -122,28 +57,11 @@ main.h:116:13: warning: 'LowPowerImplementation' declared 'static' but never def
              ^
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/Impedance.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Impedance.c -o .\CortexM0\ARM_GCC_541\Debug\Impedance.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/ad5940.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c ad5940.c -o .\CortexM0\ARM_GCC_541\Debug\ad5940.o
-ad5940.c: In function 'AD5940_SPIReadReg':
-ad5940.c:971:5: warning: implicit declaration of function 'AD5940_CS_Write' [-Wimplicit-function-declaration]
-     AD5940_CS_Write(1);
-     ^
-ad5940.c:972:5: warning: implicit declaration of function 'CyDelayUs' [-Wimplicit-function-declaration]
-     CyDelayUs(10);
-     ^
-ad5940.c: In function 'AD5940_HWReset':
-ad5940.c:25:28: warning: implicit declaration of function 'AD5940_RST_Write' [-Wimplicit-function-declaration]
- #define SPI_RST_HIGH()     AD5940_RST_Write(1)
-                            ^
-ad5940.c:3046:5: note: in expansion of macro 'SPI_RST_HIGH'
-     SPI_RST_HIGH();
-     ^
-ad5940.c:3047:5: warning: implicit declaration of function 'CyDelay' [-Wimplicit-function-declaration]
-     CyDelay(10);
-     ^
 ad5940.c: In function 'AD5940_HSRtiaCal':
-ad5940.c:3451:54: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+ad5940.c:3417:54: warning: large integer implicitly truncated to unsigned type [-Woverflow]
    uint32_t const HSTIADERLOADTable[]={0,10,30,50,100,999999999999};
                                                       ^
-ad5940.c:3452:94: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+ad5940.c:3418:94: warning: large integer implicitly truncated to unsigned type [-Woverflow]
    uint32_t const HSTIADERTIATable[] = {50,100,200,1000,5000,10000,20000,40000,80000,160000,0,999999999999999};
                                                                                               ^
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/Amperometric.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Amperometric.c -o .\CortexM0\ARM_GCC_541\Debug\Amperometric.o
@@ -202,12 +120,12 @@ arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-
 arm-none-eabi-as.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -alh=.\CortexM0\ARM_GCC_541\Debug/CyBootAsmGnu.lst -g -o .\CortexM0\ARM_GCC_541\Debug\CyBootAsmGnu.o Generated_Source\PSoC4\CyBootAsmGnu.s
 arm-none-eabi-ar.exe -rs .\CortexM0\ARM_GCC_541\Debug\Transistor.a .\CortexM0\ARM_GCC_541\Debug\CYBLE.o .\CortexM0\ARM_GCC_541\Debug\CYBLE_gatt.o .\CortexM0\ARM_GCC_541\Debug\CYBLE_eventHandler.o .\CortexM0\ARM_GCC_541\Debug\CYBLE_HAL_INT.o .\CortexM0\ARM_GCC_541\Debug\CYBLE_HAL_PVT.o .\CortexM0\ARM_GCC_541\Debug\CYBLE_custom.o .\CortexM0\ARM_GCC_541\Debug\Disconnect_LED.o .\CortexM0\ARM_GCC_541\Debug\Disconnect_LED_PM.o .\CortexM0\ARM_GCC_541\Debug\AD5940_CS.o .\CortexM0\ARM_GCC_541\Debug\AD5940_CS_PM.o .\CortexM0\ARM_GCC_541\Debug\AD5940_EXTI.o .\CortexM0\ARM_GCC_541\Debug\AD5940_EXTI_PM.o .\CortexM0\ARM_GCC_541\Debug\AD5940_Interrupt.o .\CortexM0\ARM_GCC_541\Debug\AD5940_MISO.o .\CortexM0\ARM_GCC_541\Debug\AD5940_MISO_PM.o .\CortexM0\ARM_GCC_541\Debug\AD5940_SCLK.o .\CortexM0\ARM_GCC_541\Debug\AD5940_SCLK_PM.o .\CortexM0\ARM_GCC_541\Debug\AD5940_MOSI.o .\CortexM0\ARM_GCC_541\Debug\AD5940_MOSI_PM.o .\CortexM0\ARM_GCC_541\Debug\Advertising_LED.o .\CortexM0\ARM_GCC_541\Debug\Advertising_LED_PM.o .\CortexM0\ARM_GCC_541\Debug\DRUG_EN_1.o .\CortexM0\ARM_GCC_541\Debug\DRUG_EN_1_PM.o .\CortexM0\ARM_GCC_541\Debug\STIM_EN_A.o .\CortexM0\ARM_GCC_541\Debug\STIM_EN_A_PM.o .\CortexM0\ARM_GCC_541\Debug\AD5940_RST.o .\CortexM0\ARM_GCC_541\Debug\AD5940_RST_PM.o .\CortexM0\ARM_GCC_541\Debug\AMP1_EN.o .\CortexM0\ARM_GCC_541\Debug\AMP1_EN_PM.o .\CortexM0\ARM_GCC_541\Debug\AMP2_EN.o .\CortexM0\ARM_GCC_541\Debug\AMP2_EN_PM.o .\CortexM0\ARM_GCC_541\Debug\AMP3_EN.o .\CortexM0\ARM_GCC_541\Debug\AMP3_EN_PM.o .\CortexM0\ARM_GCC_541\Debug\CYBLE_bless_isr.o .\CortexM0\ARM_GCC_541\Debug\CyFlash.o .\CortexM0\ARM_GCC_541\Debug\CyLib.o .\CortexM0\ARM_GCC_541\Debug\cyPm.o .\CortexM0\ARM_GCC_541\Debug\cyutils.o .\CortexM0\ARM_GCC_541\Debug\CyDMA.o .\CortexM0\ARM_GCC_541\Debug\CyLFClk.o .\CortexM0\ARM_GCC_541\Debug\cy_em_eeprom.o .\CortexM0\ARM_GCC_541\Debug\CyBootAsmGnu.o
 arm-none-eabi-ar.exe: creating .\CortexM0\ARM_GCC_541\Debug\Transistor.a
-arm-none-eabi-gcc.exe -Wl,--start-group -o E:\desktop\bu\eda\Transistor\Transistor.cydsn\CortexM0\ARM_GCC_541\Debug\Transistor.elf .\CortexM0\ARM_GCC_541\Debug\main.o .\CortexM0\ARM_GCC_541\Debug\debug.o .\CortexM0\ARM_GCC_541\Debug\Impedance.o .\CortexM0\ARM_GCC_541\Debug\ad5940.o .\CortexM0\ARM_GCC_541\Debug\Amperometric.o .\CortexM0\ARM_GCC_541\Debug\biosensor_ble.o .\CortexM0\ARM_GCC_541\Debug\ad5941_platform.o .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o .\CortexM0\ARM_GCC_541\Debug\cymetadata.o .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o .\CortexM0\ARM_GCC_541\Debug\Transistor.a "F:\infineon\PSoC Creator\4.4\PSoC Creator\psoc\content\CyComponentLibrary\CyComponentLibrary.cylib\BLE_v3_30\Library\gccCyBLEStack_BLE_SOC_PERIPHERAL.a" -mcpu=cortex-m0 -mthumb -l m -L Generated_Source\PSoC4 -Wl,-Map,.\CortexM0\ARM_GCC_541\Debug/Transistor.map -T Generated_Source\PSoC4\cm0gcc.ld -specs=nano.specs -Wl,--gc-sections -u _printf_float -g -ffunction-sections -O0 -ffat-lto-objects -Wl,--end-group
-cyelftool.exe -C E:\desktop\bu\eda\Transistor\Transistor.cydsn\CortexM0\ARM_GCC_541\Debug\Transistor.elf --flash_row_size 256 --flash_size 262144 --flash_offset 0x00000000
+arm-none-eabi-gcc.exe -Wl,--start-group -o E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\CortexM0\ARM_GCC_541\Debug\Transistor.elf .\CortexM0\ARM_GCC_541\Debug\main.o .\CortexM0\ARM_GCC_541\Debug\debug.o .\CortexM0\ARM_GCC_541\Debug\Impedance.o .\CortexM0\ARM_GCC_541\Debug\ad5940.o .\CortexM0\ARM_GCC_541\Debug\Amperometric.o .\CortexM0\ARM_GCC_541\Debug\biosensor_ble.o .\CortexM0\ARM_GCC_541\Debug\ad5941_platform.o .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o .\CortexM0\ARM_GCC_541\Debug\cymetadata.o .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o .\CortexM0\ARM_GCC_541\Debug\Transistor.a "F:\infineon\PSoC Creator\4.4\PSoC Creator\psoc\content\CyComponentLibrary\CyComponentLibrary.cylib\BLE_v3_30\Library\gccCyBLEStack_BLE_SOC_PERIPHERAL.a" -mcpu=cortex-m0 -mthumb -l m -L Generated_Source\PSoC4 -Wl,-Map,.\CortexM0\ARM_GCC_541\Debug/Transistor.map -T Generated_Source\PSoC4\cm0gcc.ld -specs=nano.specs -Wl,--gc-sections -u _printf_float -g -ffunction-sections -O0 -ffat-lto-objects -Wl,--end-group
+cyelftool.exe -C E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\CortexM0\ARM_GCC_541\Debug\Transistor.elf --flash_row_size 256 --flash_size 262144 --flash_offset 0x00000000
 No ELF section .cychecksum found, creating one
 Application checksum calculated and stored in ELF section .cychecksum
 Checksum calculated and stored in ELF section .cymeta
-cyelftool.exe -S E:\desktop\bu\eda\Transistor\Transistor.cydsn\CortexM0\ARM_GCC_541\Debug\Transistor.elf
-Flash used: 140452 of 262144 bytes (53.6%).
-SRAM used: 15448 of 32768 bytes (47.1%). Stack: 2048 bytes. Heap: 1024 bytes.
---------------- Rebuild Succeeded: 01/26/2026 20:34:17 ---------------
+cyelftool.exe -S E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\CortexM0\ARM_GCC_541\Debug\Transistor.elf
+Flash used: 109984 of 262144 bytes (42.0%).
+SRAM used: 15288 of 32768 bytes (46.7%). Stack: 2048 bytes. Heap: 1024 bytes.
+--------------- Rebuild Succeeded: 01/28/2026 14:02:56 ---------------

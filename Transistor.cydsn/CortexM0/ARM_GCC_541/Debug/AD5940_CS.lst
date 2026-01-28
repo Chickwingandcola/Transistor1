@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccUWoeAF.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
   28:Generated_Source\PSoC4/AD5940_CS.c **** #else
   29:Generated_Source\PSoC4/AD5940_CS.c ****     #if (CY_PSOC4_4200L)
   30:Generated_Source\PSoC4/AD5940_CS.c ****         #define AD5940_CS_SetP4PinDriveMode(shift, mode)  \
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 2
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccUWoeAF.s 			page 2
 
 
   31:Generated_Source\PSoC4/AD5940_CS.c ****         do { \
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
   39              		.cfi_def_cfa_register 7
   40 0006 0200     		movs	r2, r0
   41 0008 FB1D     		adds	r3, r7, #7
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 3
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccUWoeAF.s 			page 3
 
 
   42 000a 1A70     		strb	r2, [r3]
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
   94:Generated_Source\PSoC4/AD5940_CS.c **** * \param value
   95:Generated_Source\PSoC4/AD5940_CS.c **** *  Value to write to the component instance.
   96:Generated_Source\PSoC4/AD5940_CS.c **** *
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 4
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccUWoeAF.s 			page 4
 
 
   97:Generated_Source\PSoC4/AD5940_CS.c **** * \return 
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
  112 0032 1278     		ldrb	r2, [r2]
  113 0034 0A43     		orrs	r2, r1
  114 0036 1A70     		strb	r2, [r3]
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 5
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccUWoeAF.s 			page 5
 
 
  115:Generated_Source\PSoC4/AD5940_CS.c ****     AD5940_CS_DR = (uint32)drVal;
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
  146 0000 80B5     		push	{r7, lr}
  147              		.cfi_def_cfa_offset 8
  148              		.cfi_offset 7, -8
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 6
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccUWoeAF.s 			page 6
 
 
  149              		.cfi_offset 14, -4
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
  162:Generated_Source\PSoC4/AD5940_CS.c **** *  \snippet AD5940_CS_SUT.c usage_AD5940_CS_ReadDataReg 
  163:Generated_Source\PSoC4/AD5940_CS.c **** *******************************************************************************/
  164:Generated_Source\PSoC4/AD5940_CS.c **** uint8 AD5940_CS_ReadDataReg(void)
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 7
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccUWoeAF.s 			page 7
 
 
  165:Generated_Source\PSoC4/AD5940_CS.c **** {
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
  182:Generated_Source\PSoC4/AD5940_CS.c **** *  The pin position as listed in the Pins component. You may OR these to be 
  183:Generated_Source\PSoC4/AD5940_CS.c **** *  able to configure the interrupt mode of multiple pins within a Pins 
  184:Generated_Source\PSoC4/AD5940_CS.c **** *  component. Or you may use AD5940_CS_INTR_ALL to configure the
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 8
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccUWoeAF.s 			page 8
 
 
  185:Generated_Source\PSoC4/AD5940_CS.c **** *  interrupt mode of all the pins in the Pins component.       
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
  242              		.loc 1 212 0
  243 0020 074B     		ldr	r3, .L16
  244 0022 BA1D     		adds	r2, r7, #6
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 9
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccUWoeAF.s 			page 9
 
 
  245 0024 391D     		adds	r1, r7, #4
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
  237:Generated_Source\PSoC4/AD5940_CS.c **** {
  275              		.loc 1 237 0
  276              		.cfi_startproc
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 10
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccUWoeAF.s 			page 10
 
 
  277              		@ args = 0, pretend = 0, frame = 8
@@ -598,18 +598,18 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
  327 000b 01       		.uleb128 0x1
  328 000c 93000000 		.4byte	.LASF28
  329 0010 0C       		.byte	0xc
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 11
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccUWoeAF.s 			page 11
 
 
- 330 0011 1B020000 		.4byte	.LASF29
- 331 0015 28010000 		.4byte	.LASF30
+ 330 0011 21020000 		.4byte	.LASF29
+ 331 0015 E1010000 		.4byte	.LASF30
  332 0019 00000000 		.4byte	.Ldebug_ranges0+0
  333 001d 00000000 		.4byte	0
  334 0021 00000000 		.4byte	.Ldebug_line0
  335 0025 02       		.uleb128 0x2
  336 0026 01       		.byte	0x1
  337 0027 06       		.byte	0x6
- 338 0028 0F020000 		.4byte	.LASF0
+ 338 0028 15020000 		.4byte	.LASF0
  339 002c 02       		.uleb128 0x2
  340 002d 01       		.byte	0x1
  341 002e 08       		.byte	0x8
@@ -617,7 +617,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
  343 0033 02       		.uleb128 0x2
  344 0034 02       		.byte	0x2
  345 0035 05       		.byte	0x5
- 346 0036 E6010000 		.4byte	.LASF2
+ 346 0036 B8010000 		.4byte	.LASF2
  347 003a 02       		.uleb128 0x2
  348 003b 02       		.byte	0x2
  349 003c 07       		.byte	0x7
@@ -625,7 +625,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
  351 0041 02       		.uleb128 0x2
  352 0042 04       		.byte	0x4
  353 0043 05       		.byte	0x5
- 354 0044 06020000 		.4byte	.LASF4
+ 354 0044 D8010000 		.4byte	.LASF4
  355 0048 02       		.uleb128 0x2
  356 0049 04       		.byte	0x4
  357 004a 07       		.byte	0x7
@@ -633,11 +633,11 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
  359 004f 02       		.uleb128 0x2
  360 0050 08       		.byte	0x8
  361 0051 05       		.byte	0x5
- 362 0052 C6010000 		.4byte	.LASF6
+ 362 0052 98010000 		.4byte	.LASF6
  363 0056 02       		.uleb128 0x2
  364 0057 08       		.byte	0x8
  365 0058 07       		.byte	0x7
- 366 0059 82010000 		.4byte	.LASF7
+ 366 0059 54010000 		.4byte	.LASF7
  367 005d 03       		.uleb128 0x3
  368 005e 04       		.byte	0x4
  369 005f 05       		.byte	0x5
@@ -645,20 +645,20 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
  371 0064 02       		.uleb128 0x2
  372 0065 04       		.byte	0x4
  373 0066 07       		.byte	0x7
- 374 0067 75010000 		.4byte	.LASF8
+ 374 0067 47010000 		.4byte	.LASF8
  375 006b 04       		.uleb128 0x4
- 376 006c F0010000 		.4byte	.LASF9
+ 376 006c C2010000 		.4byte	.LASF9
  377 0070 02       		.byte	0x2
  378 0071 D201     		.2byte	0x1d2
  379 0073 2C000000 		.4byte	0x2c
  380 0077 04       		.uleb128 0x4
- 381 0078 56010000 		.4byte	.LASF10
+ 381 0078 28010000 		.4byte	.LASF10
  382 007c 02       		.byte	0x2
  383 007d D301     		.2byte	0x1d3
  384 007f 3A000000 		.4byte	0x3a
  385 0083 04       		.uleb128 0x4
- 386 0084 66010000 		.4byte	.LASF11
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 12
+ 386 0084 38010000 		.4byte	.LASF11
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccUWoeAF.s 			page 12
 
 
  387 0088 02       		.byte	0x2
@@ -675,7 +675,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
  398 009d 02       		.uleb128 0x2
  399 009e 01       		.byte	0x1
  400 009f 08       		.byte	0x8
- 401 00a0 E1010000 		.4byte	.LASF14
+ 401 00a0 B3010000 		.4byte	.LASF14
  402 00a4 04       		.uleb128 0x4
  403 00a5 00000000 		.4byte	.LASF15
  404 00a9 02       		.byte	0x2
@@ -693,7 +693,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
  416 00c5 9C       		.byte	0x9c
  417 00c6 D9000000 		.4byte	0xd9
  418 00ca 07       		.uleb128 0x7
- 419 00cb B2010000 		.4byte	.LASF18
+ 419 00cb 84010000 		.4byte	.LASF18
  420 00cf 01       		.byte	0x1
  421 00d0 48       		.byte	0x48
  422 00d1 6B000000 		.4byte	0x6b
@@ -702,7 +702,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
  425 00d7 77       		.sleb128 -9
  426 00d8 00       		.byte	0
  427 00d9 06       		.uleb128 0x6
- 428 00da F6010000 		.4byte	.LASF17
+ 428 00da C8010000 		.4byte	.LASF17
  429 00de 01       		.byte	0x1
  430 00df 6F       		.byte	0x6f
  431 00e0 00000000 		.4byte	.LFB1
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
  441 00f9 02       		.uleb128 0x2
  442 00fa 91       		.byte	0x91
  443 00fb 6F       		.sleb128 -17
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 13
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccUWoeAF.s 			page 13
 
 
  444 00fc 08       		.uleb128 0x8
@@ -731,7 +731,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
  451 0109 77       		.sleb128 -9
  452 010a 00       		.byte	0
  453 010b 09       		.uleb128 0x9
- 454 010c B7010000 		.4byte	.LASF20
+ 454 010c 89010000 		.4byte	.LASF20
  455 0110 01       		.byte	0x1
  456 0111 88       		.byte	0x88
  457 0112 6B000000 		.4byte	0x6b
@@ -758,7 +758,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
  478 0145 9C       		.byte	0x9c
  479 0146 75010000 		.4byte	0x175
  480 014a 07       		.uleb128 0x7
- 481 014b 5D010000 		.4byte	.LASF23
+ 481 014b 2F010000 		.4byte	.LASF23
  482 014f 01       		.byte	0x1
  483 0150 CF       		.byte	0xcf
  484 0151 77000000 		.4byte	0x77
@@ -766,7 +766,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
  486 0156 91       		.byte	0x91
  487 0157 6E       		.sleb128 -18
  488 0158 07       		.uleb128 0x7
- 489 0159 B2010000 		.4byte	.LASF18
+ 489 0159 84010000 		.4byte	.LASF18
  490 015d 01       		.byte	0x1
  491 015e CF       		.byte	0xcf
  492 015f 77000000 		.4byte	0x77
@@ -774,11 +774,11 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
  494 0164 91       		.byte	0x91
  495 0165 6C       		.sleb128 -20
  496 0166 08       		.uleb128 0x8
- 497 0167 6D010000 		.4byte	.LASF25
+ 497 0167 3F010000 		.4byte	.LASF25
  498 016b 01       		.byte	0x1
  499 016c D1       		.byte	0xd1
  500 016d 83000000 		.4byte	0x83
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 14
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccUWoeAF.s 			page 14
 
 
  501 0171 02       		.uleb128 0x2
@@ -786,7 +786,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
  503 0173 74       		.sleb128 -12
  504 0174 00       		.byte	0
  505 0175 0A       		.uleb128 0xa
- 506 0176 99010000 		.4byte	.LASF26
+ 506 0176 6B010000 		.4byte	.LASF26
  507 017a 01       		.byte	0x1
  508 017b EC       		.byte	0xec
  509 017c 6B000000 		.4byte	0x6b
@@ -795,7 +795,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
  512 0188 01       		.uleb128 0x1
  513 0189 9C       		.byte	0x9c
  514 018a 08       		.uleb128 0x8
- 515 018b D4010000 		.4byte	.LASF27
+ 515 018b A6010000 		.4byte	.LASF27
  516 018f 01       		.byte	0x1
  517 0190 EE       		.byte	0xee
  518 0191 6B000000 		.4byte	0x6b
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
  555 001d 00       		.byte	0
  556 001e 03       		.uleb128 0x3
  557 001f 24       		.uleb128 0x24
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 15
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccUWoeAF.s 			page 15
 
 
  558 0020 00       		.byte	0
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
  612 0057 07       		.uleb128 0x7
  613 0058 05       		.uleb128 0x5
  614 0059 00       		.byte	0
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 16
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccUWoeAF.s 			page 16
 
 
  615 005a 03       		.uleb128 0x3
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
  669 0091 01       		.byte	0x1
  670 0092 3F       		.uleb128 0x3f
  671 0093 19       		.uleb128 0x19
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 17
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccUWoeAF.s 			page 17
 
 
  672 0094 03       		.uleb128 0x3
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
  726 0024 44000000 		.4byte	.LFE4
  727 0028 00000000 		.4byte	.LFB5
  728 002c 30000000 		.4byte	.LFE5
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 18
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccUWoeAF.s 			page 18
 
 
  729 0030 00000000 		.4byte	0
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
  753      74447269 
  753      76654D6F 
  754              	.LASF28:
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 19
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccUWoeAF.s 			page 19
 
 
  755 0093 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
@@ -1099,90 +1099,92 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 1
  758              	.LASF13:
  759 0121 646F7562 		.ascii	"double\000"
  759      6C6500
- 760              	.LASF30:
- 761 0128 453A5C64 		.ascii	"E:\\desktop\\bu\\eda\\Transistor\\Transistor.cydsn\000"
- 761      65736B74 
- 761      6F705C62 
- 761      755C6564 
- 761      615C5472 
- 762              	.LASF10:
- 763 0156 75696E74 		.ascii	"uint16\000"
- 763      313600
- 764              	.LASF23:
- 765 015d 706F7369 		.ascii	"position\000"
- 765      74696F6E 
- 765      00
- 766              	.LASF11:
- 767 0166 75696E74 		.ascii	"uint32\000"
- 767      333200
- 768              	.LASF25:
- 769 016d 696E7472 		.ascii	"intrCfg\000"
- 769      43666700 
- 770              	.LASF8:
- 771 0175 756E7369 		.ascii	"unsigned int\000"
- 771      676E6564 
- 771      20696E74 
- 771      00
- 772              	.LASF7:
- 773 0182 6C6F6E67 		.ascii	"long long unsigned int\000"
- 773      206C6F6E 
- 773      6720756E 
- 773      7369676E 
- 773      65642069 
- 774              	.LASF26:
- 775 0199 41443539 		.ascii	"AD5940_CS_ClearInterrupt\000"
- 775      34305F43 
- 775      535F436C 
- 775      65617249 
- 775      6E746572 
- 776              	.LASF18:
- 777 01b2 6D6F6465 		.ascii	"mode\000"
- 777      00
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccwvIYch.s 			page 20
+ 760              	.LASF10:
+ 761 0128 75696E74 		.ascii	"uint16\000"
+ 761      313600
+ 762              	.LASF23:
+ 763 012f 706F7369 		.ascii	"position\000"
+ 763      74696F6E 
+ 763      00
+ 764              	.LASF11:
+ 765 0138 75696E74 		.ascii	"uint32\000"
+ 765      333200
+ 766              	.LASF25:
+ 767 013f 696E7472 		.ascii	"intrCfg\000"
+ 767      43666700 
+ 768              	.LASF8:
+ 769 0147 756E7369 		.ascii	"unsigned int\000"
+ 769      676E6564 
+ 769      20696E74 
+ 769      00
+ 770              	.LASF7:
+ 771 0154 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 771      206C6F6E 
+ 771      6720756E 
+ 771      7369676E 
+ 771      65642069 
+ 772              	.LASF26:
+ 773 016b 41443539 		.ascii	"AD5940_CS_ClearInterrupt\000"
+ 773      34305F43 
+ 773      535F436C 
+ 773      65617249 
+ 773      6E746572 
+ 774              	.LASF18:
+ 775 0184 6D6F6465 		.ascii	"mode\000"
+ 775      00
+ 776              	.LASF20:
+ 777 0189 41443539 		.ascii	"AD5940_CS_Read\000"
+ 777      34305F43 
+ 777      535F5265 
+ 777      616400
+ 778              	.LASF6:
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccUWoeAF.s 			page 20
 
 
- 778              	.LASF20:
- 779 01b7 41443539 		.ascii	"AD5940_CS_Read\000"
- 779      34305F43 
- 779      535F5265 
- 779      616400
- 780              	.LASF6:
- 781 01c6 6C6F6E67 		.ascii	"long long int\000"
- 781      206C6F6E 
- 781      6720696E 
- 781      7400
- 782              	.LASF27:
- 783 01d4 6D61736B 		.ascii	"maskedStatus\000"
- 783      65645374 
- 783      61747573 
+ 779 0198 6C6F6E67 		.ascii	"long long int\000"
+ 779      206C6F6E 
+ 779      6720696E 
+ 779      7400
+ 780              	.LASF27:
+ 781 01a6 6D61736B 		.ascii	"maskedStatus\000"
+ 781      65645374 
+ 781      61747573 
+ 781      00
+ 782              	.LASF14:
+ 783 01b3 63686172 		.ascii	"char\000"
  783      00
- 784              	.LASF14:
- 785 01e1 63686172 		.ascii	"char\000"
- 785      00
- 786              	.LASF2:
- 787 01e6 73686F72 		.ascii	"short int\000"
- 787      7420696E 
- 787      7400
- 788              	.LASF9:
- 789 01f0 75696E74 		.ascii	"uint8\000"
- 789      3800
- 790              	.LASF17:
- 791 01f6 41443539 		.ascii	"AD5940_CS_Write\000"
- 791      34305F43 
- 791      535F5772 
- 791      69746500 
- 792              	.LASF4:
- 793 0206 6C6F6E67 		.ascii	"long int\000"
- 793      20696E74 
- 793      00
- 794              	.LASF0:
- 795 020f 7369676E 		.ascii	"signed char\000"
- 795      65642063 
- 795      68617200 
- 796              	.LASF29:
- 797 021b 47656E65 		.ascii	"Generated_Source\\PSoC4\\AD5940_CS.c\000"
- 797      72617465 
- 797      645F536F 
- 797      75726365 
- 797      5C50536F 
- 798              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
+ 784              	.LASF2:
+ 785 01b8 73686F72 		.ascii	"short int\000"
+ 785      7420696E 
+ 785      7400
+ 786              	.LASF9:
+ 787 01c2 75696E74 		.ascii	"uint8\000"
+ 787      3800
+ 788              	.LASF17:
+ 789 01c8 41443539 		.ascii	"AD5940_CS_Write\000"
+ 789      34305F43 
+ 789      535F5772 
+ 789      69746500 
+ 790              	.LASF4:
+ 791 01d8 6C6F6E67 		.ascii	"long int\000"
+ 791      20696E74 
+ 791      00
+ 792              	.LASF30:
+ 793 01e1 453A5C64 		.ascii	"E:\\desktop\\bu\\eda\\Transistor1-4414\\Transistor."
+ 793      65736B74 
+ 793      6F705C62 
+ 793      755C6564 
+ 793      615C5472 
+ 794 020f 63796473 		.ascii	"cydsn\000"
+ 794      6E00
+ 795              	.LASF0:
+ 796 0215 7369676E 		.ascii	"signed char\000"
+ 796      65642063 
+ 796      68617200 
+ 797              	.LASF29:
+ 798 0221 47656E65 		.ascii	"Generated_Source\\PSoC4\\AD5940_CS.c\000"
+ 798      72617465 
+ 798      645F536F 
+ 798      75726365 
+ 798      5C50536F 
+ 799              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

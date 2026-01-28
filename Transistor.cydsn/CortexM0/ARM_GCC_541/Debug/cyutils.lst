@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccfhFbwh.s 			page 1
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc4dMuot.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccfhFbwh.s 			page 1
   28:Generated_Source\PSoC4/cyutils.c ****     * \reentrant No
   29:Generated_Source\PSoC4/cyutils.c ****     *
   30:Generated_Source\PSoC4/cyutils.c ****     ***************************************************************************/
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccfhFbwh.s 			page 2
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc4dMuot.s 			page 2
 
 
   31:Generated_Source\PSoC4/cyutils.c ****     void CySetReg24(uint32 volatile * addr, uint32 value)
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccfhFbwh.s 			page 1
   72              		.size	CySetReg24, .-CySetReg24
   73 0036 C046     		.section	.text.CyGetReg24,"ax",%progbits
   74              		.align	2
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccfhFbwh.s 			page 3
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc4dMuot.s 			page 3
 
 
   75              		.global	CyGetReg24
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccfhFbwh.s 			page 1
  105 0018 1B78     		ldrb	r3, [r3]
  106 001a DBB2     		uxtb	r3, r3
  107 001c 1B02     		lsls	r3, r3, #8
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccfhFbwh.s 			page 4
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc4dMuot.s 			page 4
 
 
  108 001e BA68     		ldr	r2, [r7, #8]
@@ -220,15 +220,15 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccfhFbwh.s 			page 1
  140 000b 01       		.uleb128 0x1
  141 000c 62000000 		.4byte	.LASF17
  142 0010 0C       		.byte	0xc
- 143 0011 50010000 		.4byte	.LASF18
- 144 0015 F7000000 		.4byte	.LASF19
+ 143 0011 22010000 		.4byte	.LASF18
+ 144 0015 6F010000 		.4byte	.LASF19
  145 0019 00000000 		.4byte	.Ldebug_ranges0+0
  146 001d 00000000 		.4byte	0
  147 0021 00000000 		.4byte	.Ldebug_line0
  148 0025 02       		.uleb128 0x2
  149 0026 01       		.byte	0x1
  150 0027 06       		.byte	0x6
- 151 0028 9D010000 		.4byte	.LASF0
+ 151 0028 A3010000 		.4byte	.LASF0
  152 002c 02       		.uleb128 0x2
  153 002d 01       		.byte	0x1
  154 002e 08       		.byte	0x8
@@ -236,9 +236,9 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccfhFbwh.s 			page 1
  156 0033 02       		.uleb128 0x2
  157 0034 02       		.byte	0x2
  158 0035 05       		.byte	0x5
- 159 0036 84010000 		.4byte	.LASF2
+ 159 0036 56010000 		.4byte	.LASF2
  160 003a 02       		.uleb128 0x2
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccfhFbwh.s 			page 5
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc4dMuot.s 			page 5
 
 
  161 003b 02       		.byte	0x2
@@ -247,7 +247,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccfhFbwh.s 			page 1
  164 0041 02       		.uleb128 0x2
  165 0042 04       		.byte	0x4
  166 0043 05       		.byte	0x5
- 167 0044 94010000 		.4byte	.LASF4
+ 167 0044 66010000 		.4byte	.LASF4
  168 0048 02       		.uleb128 0x2
  169 0049 04       		.byte	0x4
  170 004a 07       		.byte	0x7
@@ -255,11 +255,11 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccfhFbwh.s 			page 1
  172 004f 02       		.uleb128 0x2
  173 0050 08       		.byte	0x8
  174 0051 05       		.byte	0x5
- 175 0052 71010000 		.4byte	.LASF6
+ 175 0052 43010000 		.4byte	.LASF6
  176 0056 02       		.uleb128 0x2
  177 0057 08       		.byte	0x8
  178 0058 07       		.byte	0x7
- 179 0059 39010000 		.4byte	.LASF7
+ 179 0059 0B010000 		.4byte	.LASF7
  180 005d 03       		.uleb128 0x3
  181 005e 04       		.byte	0x4
  182 005f 05       		.byte	0x5
@@ -267,14 +267,14 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccfhFbwh.s 			page 1
  184 0064 02       		.uleb128 0x2
  185 0065 04       		.byte	0x4
  186 0066 07       		.byte	0x7
- 187 0067 2C010000 		.4byte	.LASF8
+ 187 0067 FE000000 		.4byte	.LASF8
  188 006b 04       		.uleb128 0x4
- 189 006c 8E010000 		.4byte	.LASF9
+ 189 006c 60010000 		.4byte	.LASF9
  190 0070 02       		.byte	0x2
  191 0071 D201     		.2byte	0x1d2
  192 0073 2C000000 		.4byte	0x2c
  193 0077 04       		.uleb128 0x4
- 194 0078 25010000 		.4byte	.LASF10
+ 194 0078 F7000000 		.4byte	.LASF10
  195 007c 02       		.byte	0x2
  196 007d D401     		.2byte	0x1d4
  197 007f 48000000 		.4byte	0x48
@@ -289,7 +289,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccfhFbwh.s 			page 1
  206 0091 02       		.uleb128 0x2
  207 0092 01       		.byte	0x1
  208 0093 08       		.byte	0x8
- 209 0094 7F010000 		.4byte	.LASF13
+ 209 0094 51010000 		.4byte	.LASF13
  210 0098 05       		.uleb128 0x5
  211 0099 6B000000 		.4byte	0x6b
  212 009d 05       		.uleb128 0x5
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccfhFbwh.s 			page 1
  215 00a3 11000000 		.4byte	.LASF20
  216 00a7 01       		.byte	0x1
  217 00a8 1F       		.byte	0x1f
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccfhFbwh.s 			page 6
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc4dMuot.s 			page 6
 
 
  218 00a9 00000000 		.4byte	.LFB0
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccfhFbwh.s 			page 1
  272 0115 08       		.uleb128 0x8
  273 0116 35000000 		.4byte	.LASF16
  274 011a 01       		.byte	0x1
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccfhFbwh.s 			page 7
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc4dMuot.s 			page 7
 
 
  275 011b 3A       		.byte	0x3a
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccfhFbwh.s 			page 1
  329 001b 0E       		.uleb128 0xe
  330 001c 00       		.byte	0
  331 001d 00       		.byte	0
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccfhFbwh.s 			page 8
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc4dMuot.s 			page 8
 
 
  332 001e 03       		.uleb128 0x3
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccfhFbwh.s 			page 1
  386 0055 00       		.byte	0
  387 0056 00       		.byte	0
  388 0057 07       		.uleb128 0x7
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccfhFbwh.s 			page 9
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc4dMuot.s 			page 9
 
 
  389 0058 05       		.uleb128 0x5
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccfhFbwh.s 			page 1
  443 008e 01       		.uleb128 0x1
  444 008f 12       		.uleb128 0x12
  445 0090 06       		.uleb128 0x6
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccfhFbwh.s 			page 10
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc4dMuot.s 			page 10
 
 
  446 0091 40       		.uleb128 0x40
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccfhFbwh.s 			page 1
  492      74526567 
  492      323400
  493              	.LASF14:
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccfhFbwh.s 			page 11
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc4dMuot.s 			page 11
 
 
  494 001c 61646472 		.ascii	"addr\000"
@@ -645,56 +645,58 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccfhFbwh.s 			page 1
  509              	.LASF12:
  510 00f0 646F7562 		.ascii	"double\000"
  510      6C6500
- 511              	.LASF19:
- 512 00f7 453A5C64 		.ascii	"E:\\desktop\\bu\\eda\\Transistor\\Transistor.cydsn\000"
- 512      65736B74 
- 512      6F705C62 
- 512      755C6564 
- 512      615C5472 
- 513              	.LASF10:
- 514 0125 75696E74 		.ascii	"uint32\000"
- 514      333200
- 515              	.LASF8:
- 516 012c 756E7369 		.ascii	"unsigned int\000"
- 516      676E6564 
- 516      20696E74 
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccfhFbwh.s 			page 12
+ 511              	.LASF10:
+ 512 00f7 75696E74 		.ascii	"uint32\000"
+ 512      333200
+ 513              	.LASF8:
+ 514 00fe 756E7369 		.ascii	"unsigned int\000"
+ 514      676E6564 
+ 514      20696E74 
+ 514      00
+ 515              	.LASF7:
+ 516 010b 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 516      206C6F6E 
+ 516      6720756E 
+ 516      7369676E 
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc4dMuot.s 			page 12
 
 
- 516      00
- 517              	.LASF7:
- 518 0139 6C6F6E67 		.ascii	"long long unsigned int\000"
- 518      206C6F6E 
- 518      6720756E 
- 518      7369676E 
- 518      65642069 
- 519              	.LASF18:
- 520 0150 47656E65 		.ascii	"Generated_Source\\PSoC4\\cyutils.c\000"
- 520      72617465 
- 520      645F536F 
- 520      75726365 
- 520      5C50536F 
- 521              	.LASF6:
- 522 0171 6C6F6E67 		.ascii	"long long int\000"
- 522      206C6F6E 
- 522      6720696E 
- 522      7400
- 523              	.LASF13:
- 524 017f 63686172 		.ascii	"char\000"
- 524      00
- 525              	.LASF2:
- 526 0184 73686F72 		.ascii	"short int\000"
- 526      7420696E 
- 526      7400
- 527              	.LASF9:
- 528 018e 75696E74 		.ascii	"uint8\000"
- 528      3800
- 529              	.LASF4:
- 530 0194 6C6F6E67 		.ascii	"long int\000"
- 530      20696E74 
- 530      00
- 531              	.LASF0:
- 532 019d 7369676E 		.ascii	"signed char\000"
- 532      65642063 
- 532      68617200 
- 533              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
+ 516      65642069 
+ 517              	.LASF18:
+ 518 0122 47656E65 		.ascii	"Generated_Source\\PSoC4\\cyutils.c\000"
+ 518      72617465 
+ 518      645F536F 
+ 518      75726365 
+ 518      5C50536F 
+ 519              	.LASF6:
+ 520 0143 6C6F6E67 		.ascii	"long long int\000"
+ 520      206C6F6E 
+ 520      6720696E 
+ 520      7400
+ 521              	.LASF13:
+ 522 0151 63686172 		.ascii	"char\000"
+ 522      00
+ 523              	.LASF2:
+ 524 0156 73686F72 		.ascii	"short int\000"
+ 524      7420696E 
+ 524      7400
+ 525              	.LASF9:
+ 526 0160 75696E74 		.ascii	"uint8\000"
+ 526      3800
+ 527              	.LASF4:
+ 528 0166 6C6F6E67 		.ascii	"long int\000"
+ 528      20696E74 
+ 528      00
+ 529              	.LASF19:
+ 530 016f 453A5C64 		.ascii	"E:\\desktop\\bu\\eda\\Transistor1-4414\\Transistor."
+ 530      65736B74 
+ 530      6F705C62 
+ 530      755C6564 
+ 530      615C5472 
+ 531 019d 63796473 		.ascii	"cydsn\000"
+ 531      6E00
+ 532              	.LASF0:
+ 533 01a3 7369676E 		.ascii	"signed char\000"
+ 533      65642063 
+ 533      68617200 
+ 534              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

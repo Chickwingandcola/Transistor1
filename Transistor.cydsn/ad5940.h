@@ -33,6 +33,10 @@
 #define AD5940LIB_VER_PATCH       1    /**< Path number */
 #define AD5940LIB_VER   (AD5940LIB_VER_MAJOR<<16)|(AD5940LIB_VER_MINOR<<8)|(AD5940LIB_VER_PATCH)
 #define CHIPSEL_594X      /* 使用 AD5940 或 AD5941 芯片 */
+#define SPICMD_SETADDR   0x20
+#define SPICMD_READREG   0x6D
+#define SPICMD_WRITEREG  0x2D
+#define SPICMD_READFIFO  0x5F
 
 //#define ADI_DEBUG   /**< Comment this line to remove debug info. */
 
@@ -2950,10 +2954,7 @@
  *    @{
  * 
 */
-#define SPICMD_SETADDR    0x20      /**< set the register address that is going to operate. */
-#define SPICMD_READREG    0x6d      /**< command to read register */
-#define SPICMD_WRITEREG   0x2d      /**< command to write register */
-#define SPICMD_READFIFO   0x5f      /**< command to read FIFO */
+
 /**
  * @} SPI_Block_Const
  * @} SPI_Block
@@ -4768,8 +4769,6 @@ typedef struct
 /* 1. Basic SPI functions */
 void      AD5940_WriteReg(uint16_t RegAddr, uint32_t RegData);
 uint32_t  AD5940_ReadReg(uint16_t RegAddr);
-uint32_t  AD5940_SPIReadReg(uint16_t RegAddr);
-void      AD5940_SPIWriteReg(uint16_t RegAddr, uint32_t RegData);
 void      AD5940_FIFORd(uint32_t *pBuffer,uint32_t uiReadCount);
 
 /* 2. AD5940 Top Control functions */

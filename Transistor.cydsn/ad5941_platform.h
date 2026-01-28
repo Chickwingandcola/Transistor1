@@ -29,13 +29,6 @@
 *******************************************************************************/
 
 /**
- * @brief 软件SPI传输单字节
- * @param TxByte: 要发送的字节
- * @return 接收到的字节
- */
-uint8_t SoftSPI_TxRxByte(uint8_t TxByte);
-
-/**
  * @brief SPI读写函数
  * @param pSendBuffer: 发送缓冲区
  * @param pRecvBuff: 接收缓冲区
@@ -53,8 +46,8 @@ int32_t AD5940_ReadWriteNBytes(uint8_t *pSendBuffer,
 /**
  * @brief CS片选控制
  */
-void AD5940_CsClr(void);
-void AD5940_CsSet(void);
+//void AD5940_CsClr(void);
+//void AD5940_CsSet(void);
 
 /**
  * @brief 复位引脚控制
