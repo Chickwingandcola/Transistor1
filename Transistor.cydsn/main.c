@@ -967,15 +967,25 @@ void AD5941_HardReset(void)
 * Summary:
 *   主函数
 *******************************************************************************/
+// ========== 在main.c文件开头添加这些全局变量 ==========
+
 static uint32_t g_test_adiid = 0;
+static uint32_t g_test_chipid = 0;
+static uint32_t g_test_reg_0908 = 0;
+static uint32_t g_test_afecon = 0;
+static uint32_t g_test_fifocon = 0;
+static uint16_t g_test_fifo_count = 0;
 static uint8_t g_test_done = 0;
 
-// 在main函数外定义状态机
+// 状态机定义
 typedef enum {
     INIT_IDLE = 0,
     INIT_RESET,
     INIT_CHECK_ID,
     INIT_WRITE_REGS,
+    INIT_VERIFY_REG,      // ← 新增：验证寄存器写入
+    INIT_CHECK_AFE,       // ← 新增：检查AFE状态
+    INIT_CHECK_FIFO,      // ← 新增：检查FIFO状态
     INIT_CONFIG_APP,
     INIT_COMPLETE
 } InitState_t;
@@ -983,7 +993,7 @@ typedef enum {
 static InitState_t g_init_state = INIT_IDLE;
 static uint8_t g_reg_index = 0;
 
-// 寄存器表（移到全局）
+// 寄存器表
 const struct {
     uint16_t reg_addr;
     uint32_t reg_data;
@@ -1005,6 +1015,9 @@ const struct {
 };
 
 #define REG_TABLE_SIZE (sizeof(g_RegTable)/sizeof(g_RegTable[0]))
+#define REG_AFE_FIFO_STA      0x2084
+
+// ========== main函数 ==========
 
 int main()
 {
@@ -1062,11 +1075,13 @@ int main()
                         uint32_t adiid = AD5940_ReadReg(REG_AFECON_ADIID);
                         uint32_t chipid = AD5940_ReadReg(REG_AFECON_CHIPID);
                         
+                        // ✅ 保存ID用于显示
                         g_test_adiid = adiid;
+                        g_test_chipid = chipid;
                         
                         if(adiid == 0x4144 && (chipid == 0x5501 || chipid == 0x5502))
                         {
-                            printf("[OK] ID verified: 0x%04lX\n", adiid);
+                            printf("[OK] ID verified\n");
                             g_reg_index = 0;
                             g_init_state = INIT_WRITE_REGS;
                         }
@@ -1080,7 +1095,7 @@ int main()
                     break;
                     
                 case INIT_WRITE_REGS:
-                    // ✅ 每次循环只写1个寄存器，然后返回处理BLE
+                    // ✅ 每次循环只写1个寄存器
                     if(g_reg_index < REG_TABLE_SIZE)
                     {
                         AD5940_WriteReg(g_RegTable[g_reg_index].reg_addr, 
@@ -1093,18 +1108,77 @@ int main()
                     else
                     {
                         printf("[INIT] All registers written\n");
+                        g_init_state = INIT_VERIFY_REG;  // ← 改为验证寄存器
+                    }
+                    break;
+                
+                // ✅ 新增：验证寄存器写入
+                case INIT_VERIFY_REG:
+                    printf("[INIT] Verifying register write...\n");
+                    {
+                        // 读回第一个寄存器验证
+                        g_test_reg_0908 = AD5940_ReadReg(0x0908);
+                        printf("Reg 0x0908: 0x%08lX (expect 0x02C9)\n", g_test_reg_0908);
+                        
+                        g_init_state = INIT_CHECK_AFE;
+                    }
+                    break;
+                
+                // ✅ 新增：检查AFE状态
+                case INIT_CHECK_AFE:
+                    printf("[INIT] Checking AFE status...\n");
+                    {
+                        // 读取AFE配置寄存器
+                        g_test_afecon = AD5940_ReadReg(REG_AFE_AFECON);
+                        printf("AFECON: 0x%08lX\n", g_test_afecon);
+                        
+                        g_init_state = INIT_CHECK_FIFO;
+                    }
+                    break;
+                
+                // ✅ 新增：检查FIFO状态
+                case INIT_CHECK_FIFO:
+                    printf("[INIT] Checking FIFO (using direct addresses)...\n");
+                    {
+                        // 测试1: 读取 0x2080 (FIFOCON)
+                        uint32_t addr_2080 = AD5940_ReadReg(0x2080);
+                        
+                        // 测试2: 读取 0x2084 (FIFOCNTSTA)
+                        uint32_t addr_2084 = AD5940_ReadReg(0x2084);
+                        
+                        // 测试3: 读取 0x2088 (DATAFIFORD - 但这会弹出FIFO数据)
+                        // uint32_t addr_2088 = AD5940_ReadReg(0x2088);  // 暂时不读
+                        
+                        printf("Addr 0x2080: 0x%08lX\n", addr_2080);
+                        printf("Addr 0x2084: 0x%08lX\n", addr_2084);
+                        
+                        // 保存用于BLE显示
+                        g_test_fifocon = addr_2080;
+                        
+                        // 解析 0x2084 的数据计数字段
+                        g_test_fifo_count = addr_2084 & 0x7FF;  // bit 0-10
+                        
                         g_init_state = INIT_CONFIG_APP;
                     }
                     break;
                     
                 case INIT_CONFIG_APP:
-                    printf("[INIT] Configuring application...\n");
-                    
-                    // ✅ 调用应用初始化（这个也可能需要拆分）
-                    // AD5941_Initialize();  // 暂时跳过
-                    
-                    g_test_done = 1;
-                    g_init_state = INIT_COMPLETE;
+                    printf("[INIT] Final verification...\n");
+                    {
+                        // 判断初始化是否成功
+                        if((g_test_reg_0908 & 0xFFFF) == 0x02C9)
+                        {
+                            printf("[OK] All checks passed\n");
+                            g_test_done = 1;
+                        }
+                        else
+                        {
+                            printf("[FAIL] Verification failed\n");
+                            g_test_done = 2;
+                        }
+                        
+                        g_init_state = INIT_COMPLETE;
+                    }
                     break;
                     
                 case INIT_COMPLETE:
@@ -1113,7 +1187,7 @@ int main()
             }
         }
         
-        // 发送状态到手机
+        // ✅ 发送状态到手机（详细版本）
         if(measurementFlag)
         {
             measurementFlag = 0;
@@ -1122,27 +1196,81 @@ int main()
             {
                 CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
                 static char testString[40];
+                static uint8_t display_step = 0;  // 用于轮流显示不同信息
                 
                 switch(g_init_state)
                 {
                     case INIT_IDLE:
+                        sprintf(testString, "Idle...");
+                        break;
+                        
                     case INIT_RESET:
                         sprintf(testString, "Resetting...");
                         break;
+                        
                     case INIT_CHECK_ID:
                         sprintf(testString, "Checking ID...");
                         break;
+                        
                     case INIT_WRITE_REGS:
                         sprintf(testString, "Writing %d/%d", g_reg_index, REG_TABLE_SIZE);
                         break;
-                    case INIT_CONFIG_APP:
-                        sprintf(testString, "Configuring...");
+                        
+                    case INIT_VERIFY_REG:
+                        sprintf(testString, "Verifying...");
                         break;
+                        
+                    case INIT_CHECK_AFE:
+                        sprintf(testString, "Checking AFE...");
+                        break;
+                        
+                    case INIT_CHECK_FIFO:
+                        sprintf(testString, "Checking FIFO...");
+                        break;
+                        
+                    case INIT_CONFIG_APP:
+                        sprintf(testString, "Final check...");
+                        break;
+                        
                     case INIT_COMPLETE:
+                        // ✅ 轮流显示不同的验证结果
                         if(g_test_done == 1)
-                            sprintf(testString, "OK:0x%04lX", g_test_adiid);
+                        {
+                            // 每次显示不同的信息
+                            switch(display_step % 6)
+                            {
+                                case 0:
+                                    sprintf(testString, "CNT:%d", g_test_fifo_count);
+                                    break;
+                                case 1:
+                                    sprintf(testString, "ADIID:%04lX", g_test_adiid);
+                                    break;
+                                case 2:
+                                    sprintf(testString, "CHIP:%04lX", g_test_chipid);
+                                    break;
+                                case 3:
+                                    sprintf(testString, "R0908:%04lX", g_test_reg_0908 & 0xFFFF);
+                                    break;
+                                case 4:
+                                    sprintf(testString, "AFE:%08lX", g_test_afecon);
+                                    break;
+                                case 5:
+                                    sprintf(testString, "2080:%08lX", g_test_fifocon);  // FIFOCON值
+                                    break;
+                                case 6:
+                                    sprintf(testString, "CNT:%d", g_test_fifo_count);   // 数据计数
+                                    break;
+                            }
+                            display_step++;
+                        }
+                        else if(g_test_done == 2)
+                        {
+                            sprintf(testString, "Init FAIL");
+                        }
                         else
-                            sprintf(testString, "FAIL:0x%04lX", g_test_adiid);
+                        {
+                            sprintf(testString, "Waiting...");
+                        }
                         break;
                 }
                 

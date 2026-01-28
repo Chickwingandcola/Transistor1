@@ -13,7 +13,7 @@
 <v>Output</v>
 </TreeKeys>
 <TreeStates>
-<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="Transistor\Transistor\Header Files\ad5941_platform.h">
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="Transistor\Transistor\Source Files\main.c">
 <ExpandedNodeIds>
 <v>Transistor</v>
 <v>Transistor\Transistor</v>
@@ -54,6 +54,15 @@
 <v>Transistor\Transistor\Generated_Source\PSoC4\Em_EEPROM_Dynamic</v>
 </ExpandedNodeIds>
 <VisibleNodeIds>
+<v>Transistor</v>
+<v>Transistor\Transistor</v>
+<v>Transistor\Transistor\TopDesign</v>
+<v>Transistor\Transistor\Transistor.cydwr</v>
+<v>Transistor\Transistor\Transistor.cydwr\Pins</v>
+<v>Transistor\Transistor\Transistor.cydwr\Analog</v>
+<v>Transistor\Transistor\Transistor.cydwr\DMA</v>
+<v>Transistor\Transistor\Transistor.cydwr\Clocks</v>
+<v>Transistor\Transistor\Transistor.cydwr\Interrupts</v>
 <v>Transistor\Transistor\Transistor.cydwr\System</v>
 <v>Transistor\Transistor\Transistor.cydwr\Directives</v>
 <v>Transistor\Transistor\Transistor.cydwr\Flash Security</v>
@@ -80,15 +89,6 @@
 <v>Transistor\Transistor\Generated_Source</v>
 <v>Transistor\Transistor\Generated_Source\PSoC4</v>
 <v>Transistor\Transistor\Generated_Source\PSoC4\AD5940_CS</v>
-<v>Transistor\Transistor\Generated_Source\PSoC4\AD5940_EXTI</v>
-<v>Transistor\Transistor\Generated_Source\PSoC4\AD5940_Interrupt</v>
-<v>Transistor\Transistor\Generated_Source\PSoC4\AD5940_MISO</v>
-<v>Transistor\Transistor\Generated_Source\PSoC4\AD5940_MISO\AD5940_MISO.c</v>
-<v>Transistor\Transistor\Generated_Source\PSoC4\AD5940_MISO\AD5940_MISO.h</v>
-<v>Transistor\Transistor\Generated_Source\PSoC4\AD5940_MISO\AD5940_MISO_aliases.h</v>
-<v>Transistor\Transistor\Generated_Source\PSoC4\AD5940_MISO\AD5940_MISO_PM.c</v>
-<v>Transistor\Transistor\Generated_Source\PSoC4\AD5940_MOSI</v>
-<v>Transistor\Transistor\Generated_Source\PSoC4\AD5940_RST</v>
 </VisibleNodeIds>
 </CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
 <CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">

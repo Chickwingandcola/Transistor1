@@ -1,7 +1,64 @@
---------------- Rebuild Started: 01/28/2026 14:02:39 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+--------------- Rebuild Started: 01/28/2026 14:41:12 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\main.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\debug.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\Impedance.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\ad5940.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\Amperometric.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\biosensor_ble.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\ad5941_platform.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\cymetadata.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\CYBLE.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\CYBLE_gatt.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\CYBLE_eventHandler.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\CYBLE_HAL_INT.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\CYBLE_HAL_PVT.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\CYBLE_custom.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\Disconnect_LED.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\Disconnect_LED_PM.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_CS.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_CS_PM.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_EXTI.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_EXTI_PM.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_Interrupt.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_MISO.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_MISO_PM.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_SCLK.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_SCLK_PM.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_MOSI.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_MOSI_PM.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\Advertising_LED.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\Advertising_LED_PM.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\DRUG_EN_1.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\DRUG_EN_1_PM.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\STIM_EN_A.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\STIM_EN_A_PM.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_RST.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_RST_PM.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AMP1_EN.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AMP1_EN_PM.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AMP2_EN.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AMP2_EN_PM.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AMP3_EN.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AMP3_EN_PM.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\CYBLE_bless_isr.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\Cm0Start.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyFlash.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyLib.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\cyPm.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\cyutils.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyBootAsmGnu.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyDMA.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyLFClk.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\cy_em_eeprom.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\Transistor.hex"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\Transistor.elf"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\Transistor.map"
 Deleting file ".\Transistor.cycdx"
 Deleting file ".\Transistor.rpt"
 Deleting file ".\Transistor_timing.html"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\.deps\SOURCE_C__ARM_GCC_GENERIC.P"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\.deps\SOURCE_ASM__ARM_GCC_GENERIC.P"
 cydsfit.exe -.appdatapath "C:\Users\13740\AppData\Local\Cypress Semiconductor\PSoC Creator\4.4" -.fdsnotice -.fdswarpdepfile=warp_dependencies.txt -.fdselabdepfile=elab_dependencies.txt -.fdsbldfile=generated_files.txt -.fdsreffile=referenced_files.txt -p E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\Transistor.cyprj -d CYBLE-222014-01 -s E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\Generated_Source\PSoC4 -- -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE
 Elaborating Design...
 HDL Generation...
@@ -126,6 +183,6 @@ No ELF section .cychecksum found, creating one
 Application checksum calculated and stored in ELF section .cychecksum
 Checksum calculated and stored in ELF section .cymeta
 cyelftool.exe -S E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\CortexM0\ARM_GCC_541\Debug\Transistor.elf
-Flash used: 109984 of 262144 bytes (42.0%).
-SRAM used: 15288 of 32768 bytes (46.7%). Stack: 2048 bytes. Heap: 1024 bytes.
---------------- Rebuild Succeeded: 01/28/2026 14:02:56 ---------------
+Flash used: 111016 of 262144 bytes (42.3%).
+SRAM used: 15304 of 32768 bytes (46.7%). Stack: 2048 bytes. Heap: 1024 bytes.
+--------------- Rebuild Succeeded: 01/28/2026 14:41:29 ---------------
