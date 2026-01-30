@@ -18,6 +18,7 @@
 #include "ad5941_platform.h"
 #include "Amperometric.h"
 uint8_t g_SPI_Debug_Buf[8] = {0}; // 全局变量，记录最后一次读取的原始字节
+static uint8_t g_amp_running = 0;
 
 // 在 main() 函数开头添加变量
 uint32 lastSendTime = 0;  // 上次发送数据的时间
@@ -917,6 +918,164 @@ void AppCallBack(uint32 event, void* eventParam)
 }
 
 /*******************************************************************************
+* ADC码值转电流
+*******************************************************************************/
+float ADCCode_to_Current_nA(uint32_t adc_code, float rtia, float vref, float pga_gain)
+{
+    int32_t adc_signed;
+    if(adc_code & 0x8000)
+    {
+        adc_signed = (int32_t)adc_code - 65536;
+    }
+    else
+    {
+        adc_signed = (int32_t)adc_code;
+    }
+    
+    float v_adc = (float)adc_signed * vref / 32768.0 / pga_gain;
+    float current_A = v_adc / rtia;
+    float current_nA = current_A * 1e9;
+    
+    return current_nA;
+}
+
+// ===== 在全局变量区域添加测量状态机相关变量 =====
+typedef enum {
+    MEAS_IDLE = 0,
+    MEAS_SWITCH_CHANNEL,
+    MEAS_WAIT_STABLE,
+    MEAS_READ_FIFO,
+    MEAS_NEXT_SENSOR,
+    MEAS_COMPLETE
+} MeasState_t;
+
+static MeasState_t g_meas_state = MEAS_IDLE;
+static AmperometricSensor_t g_current_sensor = SENSOR_GLUCOSE;
+static uint32_t g_meas_start_time = 0;
+
+// ===== 添加测量处理函数（在main函数之前） =====
+void ProcessMeasurement(void) 
+{
+    uint32_t fifosta;
+    uint16_t data_count;
+    uint32_t fifo_data;
+    uint32_t adc_code;
+    float current_nA;
+    
+    switch(g_meas_state)
+    {
+        case MEAS_IDLE:
+            // 等待触发
+            break;
+            
+        case MEAS_SWITCH_CHANNEL:
+            // ✅ 切换通道（不阻塞）
+            switch(g_current_sensor)
+            {
+                case SENSOR_GLUCOSE:
+                    AMP1_EN_Write(1);
+                    AMP2_EN_Write(0);
+                    AMP3_EN_Write(0);
+                    break;
+                    
+                case SENSOR_LACTATE:
+                    AMP1_EN_Write(0);
+                    AMP2_EN_Write(1);
+                    AMP3_EN_Write(0);
+                    break;
+                    
+                case SENSOR_URIC_ACID:
+                    AMP1_EN_Write(0);
+                    AMP2_EN_Write(0);
+                    AMP3_EN_Write(1);
+                    break;
+            }
+            
+            // ✅ 记录时间戳，不用CyDelay
+            g_meas_start_time = mainTimer;
+            g_meas_state = MEAS_WAIT_STABLE;
+            break;
+            
+        case MEAS_WAIT_STABLE:
+            // ✅ 检查时间戳，不阻塞
+            if((mainTimer - g_meas_start_time) >= 1)  // 等待1秒（可调整）
+            {
+                g_meas_state = MEAS_READ_FIFO;
+            }
+            // 否则继续等待，但不阻塞主循环
+            break;
+            
+        case MEAS_READ_FIFO:
+            // ✅ 读取FIFO（快速，不阻塞）
+            fifosta = AD5940_ReadReg(0x2084);
+            data_count = fifosta & 0x7FF;
+            
+            if(data_count > 0)
+            {
+                fifo_data = AD5940_ReadReg(0x2088);
+                adc_code = fifo_data & 0xFFFF;
+                
+                // 转换为电流
+                float rtia = 10000.0;
+                float vref = 1.82;
+                float pga_gain = 1.5;
+                
+                current_nA = ADCCode_to_Current_nA(adc_code, rtia, vref, pga_gain);
+                
+                // 保存结果
+                switch(g_current_sensor)
+                {
+                    case SENSOR_GLUCOSE:
+                        sensorData.current_glucose_nA = current_nA;
+                        sensorData.glucose = ConvertCurrentToConcentration(current_nA, SENSOR_GLUCOSE);
+                        break;
+                        
+                    case SENSOR_LACTATE:
+                        sensorData.current_lactate_nA = current_nA;
+                        sensorData.lactate = ConvertCurrentToConcentration(current_nA, SENSOR_LACTATE);
+                        break;
+                        
+                    case SENSOR_URIC_ACID:
+                        sensorData.current_uric_nA = current_nA;
+                        sensorData.uric_acid = ConvertCurrentToConcentration(current_nA, SENSOR_URIC_ACID);
+                        break;
+                }
+            }
+            
+            g_meas_state = MEAS_NEXT_SENSOR;
+            break;
+            
+        case MEAS_NEXT_SENSOR:
+            // ✅ 切换到下一个传感器
+            g_current_sensor++;
+            if(g_current_sensor >= SENSOR_COUNT)
+            {
+                g_current_sensor = SENSOR_GLUCOSE;
+                
+                // 温度补偿
+                float temp_factor = 1.0 + 0.03 * (sensorData.temperature - 37.0);
+                sensorData.glucose *= temp_factor;
+                sensorData.lactate *= temp_factor;
+                sensorData.uric_acid *= temp_factor;
+                
+                sensorData.timestamp = mainTimer;
+                
+                g_meas_state = MEAS_COMPLETE;
+            }
+            else
+            {
+                g_meas_state = MEAS_SWITCH_CHANNEL;
+            }
+            break;
+            
+        case MEAS_COMPLETE:
+            // 测量完成，回到空闲
+            g_meas_state = MEAS_IDLE;
+            break;
+    }
+}
+
+/*******************************************************************************
 * Function Name: LowPowerImplementation
 ********************************************************************************
 * Summary:
@@ -987,7 +1146,11 @@ typedef enum {
     INIT_CHECK_AFE,       // ← 新增：检查AFE状态
     INIT_CHECK_FIFO,      // ← 新增：检查FIFO状态
     INIT_CONFIG_APP,
-    INIT_COMPLETE
+    INIT_COMPLETE,
+    INIT_CONFIG_LPTIA,
+    INIT_CONFIG_ADC,
+    INIT_CONFIG_FIFO_EN,
+    INIT_START_MEASUREMENT
 } InitState_t;
 
 static InitState_t g_init_state = INIT_IDLE;
@@ -1022,6 +1185,7 @@ const struct {
 int main()
 {
     CyGlobalIntEnable;
+    static uint32_t last_send_time = 0;  // 添加到main函数开头
     
     Disconnect_LED_Write(LED_OFF);
     Advertising_LED_Write(LED_OFF);
@@ -1043,148 +1207,22 @@ int main()
     
     while(1)
     {
-        // ✅ 第一优先级：处理BLE事件
+        // BLE事件处理
         CyBle_ProcessEvents();
         
-        // ✅ 状态机方式初始化AD5940
-        if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
+        // ✅ 测量状态机（非阻塞）
+        if(g_init_state == INIT_COMPLETE && g_test_done == 1)
         {
-            switch(g_init_state)
+            // 触发测量
+            if(measurementFlag && g_meas_state == MEAS_IDLE)
             {
-                case INIT_IDLE:
-                    g_init_state = INIT_RESET;
-                    break;
-                    
-                case INIT_RESET:
-                    printf("[INIT] Resetting AD5940...\n");
-                    AD5940_RST_Write(0);
-                    CyDelay(10);
-                    AD5940_RST_Write(1);
-                    CyDelay(100);
-                    
-                    AD5940_CS_Write(1);
-                    AD5940_SCLK_Write(0);
-                    CyDelay(20);
-                    
-                    g_init_state = INIT_CHECK_ID;
-                    break;
-                    
-                case INIT_CHECK_ID:
-                    printf("[INIT] Checking ID...\n");
-                    {
-                        uint32_t adiid = AD5940_ReadReg(REG_AFECON_ADIID);
-                        uint32_t chipid = AD5940_ReadReg(REG_AFECON_CHIPID);
-                        
-                        // ✅ 保存ID用于显示
-                        g_test_adiid = adiid;
-                        g_test_chipid = chipid;
-                        
-                        if(adiid == 0x4144 && (chipid == 0x5501 || chipid == 0x5502))
-                        {
-                            printf("[OK] ID verified\n");
-                            g_reg_index = 0;
-                            g_init_state = INIT_WRITE_REGS;
-                        }
-                        else
-                        {
-                            printf("[ERROR] ID check failed\n");
-                            g_test_done = 2;
-                            g_init_state = INIT_COMPLETE;
-                        }
-                    }
-                    break;
-                    
-                case INIT_WRITE_REGS:
-                    // ✅ 每次循环只写1个寄存器
-                    if(g_reg_index < REG_TABLE_SIZE)
-                    {
-                        AD5940_WriteReg(g_RegTable[g_reg_index].reg_addr, 
-                                       g_RegTable[g_reg_index].reg_data);
-                        
-                        printf("[INIT] Wrote reg %d/%d\n", g_reg_index+1, REG_TABLE_SIZE);
-                        
-                        g_reg_index++;
-                    }
-                    else
-                    {
-                        printf("[INIT] All registers written\n");
-                        g_init_state = INIT_VERIFY_REG;  // ← 改为验证寄存器
-                    }
-                    break;
-                
-                // ✅ 新增：验证寄存器写入
-                case INIT_VERIFY_REG:
-                    printf("[INIT] Verifying register write...\n");
-                    {
-                        // 读回第一个寄存器验证
-                        g_test_reg_0908 = AD5940_ReadReg(0x0908);
-                        printf("Reg 0x0908: 0x%08lX (expect 0x02C9)\n", g_test_reg_0908);
-                        
-                        g_init_state = INIT_CHECK_AFE;
-                    }
-                    break;
-                
-                // ✅ 新增：检查AFE状态
-                case INIT_CHECK_AFE:
-                    printf("[INIT] Checking AFE status...\n");
-                    {
-                        // 读取AFE配置寄存器
-                        g_test_afecon = AD5940_ReadReg(REG_AFE_AFECON);
-                        printf("AFECON: 0x%08lX\n", g_test_afecon);
-                        
-                        g_init_state = INIT_CHECK_FIFO;
-                    }
-                    break;
-                
-                // ✅ 新增：检查FIFO状态
-                case INIT_CHECK_FIFO:
-                    printf("[INIT] Checking FIFO (using direct addresses)...\n");
-                    {
-                        // 测试1: 读取 0x2080 (FIFOCON)
-                        uint32_t addr_2080 = AD5940_ReadReg(0x2080);
-                        
-                        // 测试2: 读取 0x2084 (FIFOCNTSTA)
-                        uint32_t addr_2084 = AD5940_ReadReg(0x2084);
-                        
-                        // 测试3: 读取 0x2088 (DATAFIFORD - 但这会弹出FIFO数据)
-                        // uint32_t addr_2088 = AD5940_ReadReg(0x2088);  // 暂时不读
-                        
-                        printf("Addr 0x2080: 0x%08lX\n", addr_2080);
-                        printf("Addr 0x2084: 0x%08lX\n", addr_2084);
-                        
-                        // 保存用于BLE显示
-                        g_test_fifocon = addr_2080;
-                        
-                        // 解析 0x2084 的数据计数字段
-                        g_test_fifo_count = addr_2084 & 0x7FF;  // bit 0-10
-                        
-                        g_init_state = INIT_CONFIG_APP;
-                    }
-                    break;
-                    
-                case INIT_CONFIG_APP:
-                    printf("[INIT] Final verification...\n");
-                    {
-                        // 判断初始化是否成功
-                        if((g_test_reg_0908 & 0xFFFF) == 0x02C9)
-                        {
-                            printf("[OK] All checks passed\n");
-                            g_test_done = 1;
-                        }
-                        else
-                        {
-                            printf("[FAIL] Verification failed\n");
-                            g_test_done = 2;
-                        }
-                        
-                        g_init_state = INIT_COMPLETE;
-                    }
-                    break;
-                    
-                case INIT_COMPLETE:
-                    // 初始化完成，什么都不做
-                    break;
+                measurementFlag = 0;
+                g_meas_state = MEAS_SWITCH_CHANNEL;
+                g_current_sensor = SENSOR_GLUCOSE;
             }
+            
+            // 执行测量（非阻塞）
+            ProcessMeasurement();
         }
         
         // ✅ 发送状态到手机（详细版本）
@@ -1237,7 +1275,7 @@ int main()
                         if(g_test_done == 1)
                         {
                             // 每次显示不同的信息
-                            switch(display_step % 6)
+                            switch(display_step % 7)
                             {
                                 case 0:
                                     sprintf(testString, "CNT:%d", g_test_fifo_count);
@@ -1255,10 +1293,13 @@ int main()
                                     sprintf(testString, "AFE:%08lX", g_test_afecon);
                                     break;
                                 case 5:
-                                    sprintf(testString, "2080:%08lX", g_test_fifocon);  // FIFOCON值
+                                    sprintf(testString, "2080:%08lX", g_test_fifocon);
                                     break;
                                 case 6:
-                                    sprintf(testString, "CNT:%d", g_test_fifo_count);   // 数据计数
+                                    // ✅ 显示实时测量数据
+                                    sprintf(testString, "Glu:%.1f Lac:%.1f", 
+                                            sensorData.glucose, 
+                                            sensorData.lactate);
                                     break;
                             }
                             display_step++;
@@ -1281,13 +1322,35 @@ int main()
             }
         }
         
+        // ✅ 定期发送详细数据（每秒一次，使用不同的特征值）
+        if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
+        {
+            if((mainTimer - last_send_time) >= 1)
+            {
+                last_send_time = mainTimer;
+                
+                // 可以发送更详细的测量数据
+                CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
+                static char dataString[50];
+                
+                sprintf(dataString, "G:%.2f(%.1fnA) L:%.2f(%.1fnA)", 
+                        sensorData.glucose, sensorData.current_glucose_nA,
+                        sensorData.lactate, sensorData.current_lactate_nA);
+                
+                notificationHandle.attrHandle = CYBLE_CUSTOM_SERVICE_GLUCOSE_MEASUREMENT_CHAR_HANDLE;
+                notificationHandle.value.val = (uint8*)dataString;
+                notificationHandle.value.len = strlen(dataString);
+                CyBle_GattsNotification(cyBle_connHandle, &notificationHandle);
+            }
+        }
+        
+        // BLE数据存储
         if(cyBle_pendingFlashWrite != 0u)
         {
             apiResult = CyBle_StoreBondingData(0u);
         }
     }
 }
-
 /*******************************************************************************
 * Function Name: StartAdvertisement
 ********************************************************************************
