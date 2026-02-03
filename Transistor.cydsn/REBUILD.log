@@ -1,4 +1,4 @@
---------------- Rebuild Started: 01/30/2026 13:52:57 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+--------------- Rebuild Started: 01/30/2026 14:25:50 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\main.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\debug.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\Impedance.o"
@@ -98,29 +98,47 @@ main.c:529:34: warning: implicit declaration of function 'rand' [-Wimplicit-func
              current_nA = 85.0 + (rand() % 10 - 5);  // 80-90 nA
                                   ^
 main.c: In function 'AppCallBack':
-main.c:882:12: warning: unused variable 'i' [-Wunused-variable]
+main.c:739:12: warning: unused variable 'i' [-Wunused-variable]
      uint16 i;
             ^
 main.c: In function 'ProcessMeasurement':
-main.c:973:13: warning: enumeration value 'SENSOR_COUNT' not handled in switch [-Wswitch]
+main.c:830:13: warning: enumeration value 'SENSOR_COUNT' not handled in switch [-Wswitch]
              switch(g_current_sensor)
              ^
-main.c:1026:17: warning: enumeration value 'SENSOR_COUNT' not handled in switch [-Wswitch]
+main.c:883:17: warning: enumeration value 'SENSOR_COUNT' not handled in switch [-Wswitch]
                  switch(g_current_sensor)
                  ^
 main.c: In function 'main':
-main.c:1239:17: warning: enumeration value 'INIT_CONFIG_LPTIA' not handled in switch [-Wswitch]
-                 switch(g_init_state)
-                 ^
-main.c:1239:17: warning: enumeration value 'INIT_CONFIG_ADC' not handled in switch [-Wswitch]
-main.c:1239:17: warning: enumeration value 'INIT_CONFIG_FIFO_EN' not handled in switch [-Wswitch]
-main.c:1239:17: warning: enumeration value 'INIT_START_MEASUREMENT' not handled in switch [-Wswitch]
+main.c:1045:21: warning: unused variable 'last_send_time' [-Wunused-variable]
+     static uint32_t last_send_time = 0;  // 娣诲姞鍒癿ain鍑芥暟寮€澶?
+                     ^
 main.c: At top level:
-main.c:1084:13: warning: 'LowPowerImplementation' defined but not used [-Wunused-function]
+main.c:941:13: warning: 'LowPowerImplementation' defined but not used [-Wunused-function]
  static void LowPowerImplementation(void)
              ^
 main.c:21:16: warning: 'g_amp_running' defined but not used [-Wunused-variable]
  static uint8_t g_amp_running = 0;
+                ^
+main.c:988:17: warning: 'g_test_adiid' defined but not used [-Wunused-variable]
+ static uint32_t g_test_adiid = 0;
+                 ^
+main.c:989:17: warning: 'g_test_chipid' defined but not used [-Wunused-variable]
+ static uint32_t g_test_chipid = 0;
+                 ^
+main.c:990:17: warning: 'g_test_reg_0908' defined but not used [-Wunused-variable]
+ static uint32_t g_test_reg_0908 = 0;
+                 ^
+main.c:991:17: warning: 'g_test_afecon' defined but not used [-Wunused-variable]
+ static uint32_t g_test_afecon = 0;
+                 ^
+main.c:992:17: warning: 'g_test_fifocon' defined but not used [-Wunused-variable]
+ static uint32_t g_test_fifocon = 0;
+                 ^
+main.c:993:17: warning: 'g_test_fifo_count' defined but not used [-Wunused-variable]
+ static uint16_t g_test_fifo_count = 0;
+                 ^
+main.c:1014:16: warning: 'g_reg_index' defined but not used [-Wunused-variable]
+ static uint8_t g_reg_index = 0;
                 ^
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/debug.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c debug.c -o .\CortexM0\ARM_GCC_541\Debug\debug.o
 In file included from debug.c:19:0:
@@ -198,6 +216,6 @@ No ELF section .cychecksum found, creating one
 Application checksum calculated and stored in ELF section .cychecksum
 Checksum calculated and stored in ELF section .cymeta
 cyelftool.exe -S E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\CortexM0\ARM_GCC_541\Debug\Transistor.elf
-Flash used: 112548 of 262144 bytes (42.9%).
-SRAM used: 15376 of 32768 bytes (46.9%). Stack: 2048 bytes. Heap: 1024 bytes.
---------------- Rebuild Succeeded: 01/30/2026 13:53:13 ---------------
+Flash used: 116868 of 262144 bytes (44.6%).
+SRAM used: 15336 of 32768 bytes (46.8%). Stack: 2048 bytes. Heap: 1024 bytes.
+--------------- Rebuild Succeeded: 01/30/2026 14:26:06 ---------------

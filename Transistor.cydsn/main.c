@@ -605,41 +605,7 @@ void MeasureAllSensorsWithCurrent(void)
 }
 
 
-/*******************************************************************************
-* Function Name: ControlDrugRelease
-********************************************************************************
-* Summary:
-*   控制药物释放（电控水凝胶）
-*******************************************************************************/
-void ControlDrugRelease(uint8 enable)
-{
-    if(enable)
-    {
-        DRUG_EN_1_Write(1);
-    }
-    else
-    {
-        DRUG_EN_1_Write(0);
-    }
-}
 
-/*******************************************************************************
-* Function Name: ControlElectricalStimulation
-********************************************************************************
-* Summary:
-*   控制电刺激治疗
-*******************************************************************************/
-void ControlElectricalStimulation(uint8 enable)
-{
-    if(enable)
-    {
-        STIM_EN_A_Write(1);
-    }
-    else
-    {
-        STIM_EN_A_Write(0);
-    }
-}
 
 /*******************************************************************************
 * Function Name: SendCurrentDataViaBLE
@@ -648,16 +614,15 @@ void ControlElectricalStimulation(uint8 enable)
 *   发送电流值到 BLE（显示在手机 App 上）
 *******************************************************************************/
 
-/*
-
 // 发送葡萄糖数据（浓度 + 电流）
 void SendGlucoseDataViaBLE(void)
 {
     CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
-    static char dataString[30];
+    char dataString[30];
     
     if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
     {
+        // 格式：浓度 + 电流值
         sprintf(dataString, "%.2f mM (%.1f nA)", 
                 sensorData.glucose, 
                 sensorData.current_glucose_nA);
@@ -672,150 +637,42 @@ void SendGlucoseDataViaBLE(void)
     }
 }
 
-*/
-
-void SendGlucoseDataViaBLE(void)
-{
-
-}
-
-
-// 发送乳酸数据（改为诊断日志输出）
+// 发送乳酸数据（浓度 + 电流）
 void SendLactateDataViaBLE(void)
 {
     CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
-    static char dataString[40];
-    static uint8 diagStep = 0;
+    char dataString[30];
     
     if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
     {
-        switch(diagStep % 3)
-        {
-            case 0:
-                // 测试: 读取ADIID (应为0x4144)
-                {
-                    uint32_t adiid = AD5940_ReadReg(REG_AFECON_ADIID);
-                    sprintf(dataString, "ADIID:%04X", (unsigned int)adiid);
-                    // 预期: ADIID:4144
-                }
-                break;
-                
-            case 1:
-                // 测试: 读取CHIPID (应为0x5502)
-                {
-                    uint32_t chipid = AD5940_ReadReg(REG_AFECON_CHIPID);
-                    sprintf(dataString, "CHIP:%04X", (unsigned int)chipid);
-                    // 预期: CHIP:5502
-                }
-                break;
-                
-            case 2:
-                // 测试: 同时读两个
-                {
-                    uint32_t adiid = AD5940_ReadReg(REG_AFECON_ADIID);
-                    uint32_t chipid = AD5940_ReadReg(REG_AFECON_CHIPID);
-                    sprintf(dataString, "ID:%04X-%04X", 
-                            (unsigned int)adiid, (unsigned int)chipid);
-                    // 预期: ID:4144-5502
-                }
-                break;
-        }
-        
-        diagStep++;
+        sprintf(dataString, "%.2f mM (%.1f nA)", 
+                sensorData.lactate, 
+                sensorData.current_lactate_nA);
         
         notificationHandle.attrHandle = CYBLE_CUSTOM_SERVICE_LACTATE_CHAR_HANDLE;
         notificationHandle.value.val = (uint8*)dataString;
         notificationHandle.value.len = strlen(dataString);
-        CyBle_GattsNotification(cyBle_connHandle, &notificationHandle);
+        
+        if(CyBle_GattsNotification(cyBle_connHandle, &notificationHandle) == CYBLE_ERROR_OK)
+        {
+        }
     }
 }
 
-// 发送温度数据（改为芯片状态诊断）
-// void SendTemperatureViaBLE(void)
-// {
-//     CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
-//     static char tempString[40];
-    
-//     if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
-//     {
-//         // 读取 SPI 寄存器检查芯片状态
-//         uint32 regValue = AD5940_ReadReg(REG_AFE_AFECON);
-//         uint8 initStatus = 0;
-        
-//         // 检查 pAmpCfg 指针是否有效
-//         if(pAmpCfg != NULL)
-//         {
-//             initStatus = (uint8)pAmpCfg->AMPInited;
-//         }
-        
-//         // 显示 SPI 寄存器值 + 初始化状态
-//         sprintf(tempString, "SPI:0x%lX Init:%d", 
-//                 (unsigned long)regValue,
-//                 (int)initStatus);
-        
-//         notificationHandle.attrHandle = CYBLE_CUSTOM_SERVICE_LACTATE_CHAR_HANDLE;
-//         notificationHandle.value.val = (uint8*)tempString;
-//         notificationHandle.value.len = strlen(tempString);
-        
-//         CyBle_GattsNotification(cyBle_connHandle, &notificationHandle);
-//     }
-// }
-
+// 发送温度数据
 void SendTemperatureViaBLE(void)
 {
     CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
-    static char tempString[60];
-    static uint8 testStep = 0;
+    char tempString[20];
     
     if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
     {
-        switch(testStep % 5)
-        {
-            case 0:
-                // 🔧 测试1：尝试设置SCLK为0
-                AD5940_SCLK_Write(0);
-                CyDelay(10);
-                sprintf(tempString, "SCLK=0, Read:%d", AD5940_SCLK_Read());
-                break;
-                
-            case 1:
-                // 🔧 测试2：尝试设置SCLK为1
-                AD5940_SCLK_Write(1);
-                CyDelay(10);
-                sprintf(tempString, "SCLK=1, Read:%d", AD5940_SCLK_Read());
-                break;
-                
-            case 2:
-                // 🔧 测试3：检查CS和MOSI
-                sprintf(tempString, "CS:%d MOSI:%d MISO:%d", 
-                        AD5940_CS_Read(),
-                        AD5940_MOSI_Read(),
-                        AD5940_MISO_Read());
-                break;
-                
-            case 3:
-                // 🔧 测试4：快速翻转SCLK 10次
-                for(int i=0; i<10; i++) {
-                    AD5940_SCLK_Write(1);
-                    CyDelayUs(10);
-                    AD5940_SCLK_Write(0);
-                    CyDelayUs(10);
-                }
-                sprintf(tempString, "SCLK toggled 10x");
-                break;
-                
-            case 4:
-                // 🔧 测试5：读取引脚配置寄存器（如果可能）
-                // 这需要查PSoC寄存器，暂时显示基本状态
-                sprintf(tempString, "Check TopDesign pin cfg");
-                break;
-        }
+        sprintf(tempString, "%.1f C", sensorData.temperature);
         
-        testStep++;
-        
-        notificationHandle.attrHandle = CYBLE_CUSTOM_SERVICE_LACTATE_CHAR_HANDLE;
+        notificationHandle.attrHandle = CYBLE_CUSTOM_SERVICE_TEMPERATURE_MEASUREMENT_CHAR_HANDLE;
         notificationHandle.value.val = (uint8*)tempString;
         notificationHandle.value.len = strlen(tempString);
+        
         CyBle_GattsNotification(cyBle_connHandle, &notificationHandle);
     }
 }
@@ -1226,125 +1083,27 @@ int main()
         }
         
         // ✅ 发送状态到手机（详细版本）
-        if(measurementFlag)
+         if(measurementFlag)
         {
             measurementFlag = 0;
             
-            if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
+            // 测量所有传感器
+            MeasureAllSensorsWithCurrent();
+            
+            // 每3秒发送一次数据（自动刷新）
+            if((mainTimer - lastSendTime) >= SEND_INTERVAL)
             {
-                CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
-                static char testString[40];
-                static uint8_t display_step = 0;  // 用于轮流显示不同信息
+                lastSendTime = mainTimer;
                 
-                switch(g_init_state)
+                if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
                 {
-                    case INIT_IDLE:
-                        sprintf(testString, "Idle...");
-                        break;
-                        
-                    case INIT_RESET:
-                        sprintf(testString, "Resetting...");
-                        break;
-                        
-                    case INIT_CHECK_ID:
-                        sprintf(testString, "Checking ID...");
-                        break;
-                        
-                    case INIT_WRITE_REGS:
-                        sprintf(testString, "Writing %d/%d", g_reg_index, REG_TABLE_SIZE);
-                        break;
-                        
-                    case INIT_VERIFY_REG:
-                        sprintf(testString, "Verifying...");
-                        break;
-                        
-                    case INIT_CHECK_AFE:
-                        sprintf(testString, "Checking AFE...");
-                        break;
-                        
-                    case INIT_CHECK_FIFO:
-                        sprintf(testString, "Checking FIFO...");
-                        break;
-                        
-                    case INIT_CONFIG_APP:
-                        sprintf(testString, "Final check...");
-                        break;
-                        
-                    case INIT_COMPLETE:
-                        // ✅ 轮流显示不同的验证结果
-                        if(g_test_done == 1)
-                        {
-                            // 每次显示不同的信息
-                            switch(display_step % 7)
-                            {
-                                case 0:
-                                    sprintf(testString, "CNT:%d", g_test_fifo_count);
-                                    break;
-                                case 1:
-                                    sprintf(testString, "ADIID:%04lX", g_test_adiid);
-                                    break;
-                                case 2:
-                                    sprintf(testString, "CHIP:%04lX", g_test_chipid);
-                                    break;
-                                case 3:
-                                    sprintf(testString, "R0908:%04lX", g_test_reg_0908 & 0xFFFF);
-                                    break;
-                                case 4:
-                                    sprintf(testString, "AFE:%08lX", g_test_afecon);
-                                    break;
-                                case 5:
-                                    sprintf(testString, "2080:%08lX", g_test_fifocon);
-                                    break;
-                                case 6:
-                                    // ✅ 显示实时测量数据
-                                    sprintf(testString, "Glu:%.1f Lac:%.1f", 
-                                            sensorData.glucose, 
-                                            sensorData.lactate);
-                                    break;
-                            }
-                            display_step++;
-                        }
-                        else if(g_test_done == 2)
-                        {
-                            sprintf(testString, "Init FAIL");
-                        }
-                        else
-                        {
-                            sprintf(testString, "Waiting...");
-                        }
-                        break;
+                    SendAllSensorDataViaBLE();  // 使用新的发送函数
                 }
-                
-                notificationHandle.attrHandle = CYBLE_CUSTOM_SERVICE_LACTATE_CHAR_HANDLE;
-                notificationHandle.value.val = (uint8*)testString;
-                notificationHandle.value.len = strlen(testString);
-                CyBle_GattsNotification(cyBle_connHandle, &notificationHandle);
             }
+            
         }
         
-        // ✅ 定期发送详细数据（每秒一次，使用不同的特征值）
-        if(CyBle_GetState() == CYBLE_STATE_CONNECTED)
-        {
-            if((mainTimer - last_send_time) >= 1)
-            {
-                last_send_time = mainTimer;
-                
-                // 可以发送更详细的测量数据
-                CYBLE_GATTS_HANDLE_VALUE_NTF_T notificationHandle;
-                static char dataString[50];
-                
-                sprintf(dataString, "G:%.2f(%.1fnA) L:%.2f(%.1fnA)", 
-                        sensorData.glucose, sensorData.current_glucose_nA,
-                        sensorData.lactate, sensorData.current_lactate_nA);
-                
-                notificationHandle.attrHandle = CYBLE_CUSTOM_SERVICE_GLUCOSE_MEASUREMENT_CHAR_HANDLE;
-                notificationHandle.value.val = (uint8*)dataString;
-                notificationHandle.value.len = strlen(dataString);
-                CyBle_GattsNotification(cyBle_connHandle, &notificationHandle);
-            }
-        }
-        
-        // BLE数据存储
+        // Flash写入
         if(cyBle_pendingFlashWrite != 0u)
         {
             apiResult = CyBle_StoreBondingData(0u);
