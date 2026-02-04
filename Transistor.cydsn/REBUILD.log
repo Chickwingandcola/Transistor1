@@ -1,4 +1,4 @@
---------------- Rebuild Started: 01/30/2026 14:25:50 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+--------------- Rebuild Started: 02/04/2026 11:53:49 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\main.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\debug.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\Impedance.o"
@@ -51,6 +51,8 @@ Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyBootAsmGnu.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyDMA.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyLFClk.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\cy_em_eeprom.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\Transistor.hex"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\Transistor.elf"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\Transistor.map"
 Deleting file ".\Transistor.cycdx"
 Deleting file ".\Transistor.rpt"
@@ -74,70 +76,65 @@ API Generation...
 Dependency Generation...
 Cleanup...
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/main.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c main.c -o .\CortexM0\ARM_GCC_541\Debug\main.o
-main.c: In function 'AD5941_Initialize':
-main.c:236:16: warning: format '%d' expects argument of type 'int', but argument 2 has type 'AD5940Err {aka long int}' [-Wformat=]
-         printf("[ERROR] AppAMPInit failed with error code: %d\r\n", error);
-                ^
-main.c:236:16: warning: format '%d' expects argument of type 'int', but argument 2 has type 'AD5940Err {aka long int}' [-Wformat=]
 main.c: In function 'MeasureTemperature':
-main.c:357:20: warning: unused variable 'resistance' [-Wunused-variable]
+main.c:185:20: warning: unused variable 'resistance' [-Wunused-variable]
      float voltage, resistance;
                     ^
-main.c:357:11: warning: unused variable 'voltage' [-Wunused-variable]
+main.c:185:11: warning: unused variable 'voltage' [-Wunused-variable]
      float voltage, resistance;
            ^
-main.c:356:14: warning: unused variable 'adcCode' [-Wunused-variable]
+main.c:184:14: warning: unused variable 'adcCode' [-Wunused-variable]
      uint32_t adcCode;
               ^
 main.c: In function 'ReadCurrentFromAD5940':
-main.c:416:5: warning: enumeration value 'SENSOR_COUNT' not handled in switch [-Wswitch]
+main.c:244:5: warning: enumeration value 'SENSOR_COUNT' not handled in switch [-Wswitch]
      switch(sensorType)
      ^
 main.c: In function 'ReadCurrentFromSourceMeter_Simulated':
-main.c:529:34: warning: implicit declaration of function 'rand' [-Wimplicit-function-declaration]
+main.c:357:34: warning: implicit declaration of function 'rand' [-Wimplicit-function-declaration]
              current_nA = 85.0 + (rand() % 10 - 5);  // 80-90 nA
                                   ^
 main.c: In function 'AppCallBack':
-main.c:739:12: warning: unused variable 'i' [-Wunused-variable]
+main.c:593:12: warning: unused variable 'i' [-Wunused-variable]
      uint16 i;
             ^
 main.c: In function 'ProcessMeasurement':
-main.c:830:13: warning: enumeration value 'SENSOR_COUNT' not handled in switch [-Wswitch]
+main.c:684:13: warning: enumeration value 'SENSOR_COUNT' not handled in switch [-Wswitch]
              switch(g_current_sensor)
              ^
-main.c:883:17: warning: enumeration value 'SENSOR_COUNT' not handled in switch [-Wswitch]
+main.c:737:17: warning: enumeration value 'SENSOR_COUNT' not handled in switch [-Wswitch]
                  switch(g_current_sensor)
                  ^
 main.c: In function 'main':
-main.c:1045:21: warning: unused variable 'last_send_time' [-Wunused-variable]
+main.c:899:21: warning: unused variable 'last_send_time' [-Wunused-variable]
      static uint32_t last_send_time = 0;  // 娣诲姞鍒癿ain鍑芥暟寮€澶?
                      ^
 main.c: At top level:
-main.c:941:13: warning: 'LowPowerImplementation' defined but not used [-Wunused-function]
+main.c:795:13: warning: 'LowPowerImplementation' defined but not used [-Wunused-function]
  static void LowPowerImplementation(void)
              ^
 main.c:21:16: warning: 'g_amp_running' defined but not used [-Wunused-variable]
  static uint8_t g_amp_running = 0;
                 ^
-main.c:988:17: warning: 'g_test_adiid' defined but not used [-Wunused-variable]
+main.c:842:17: warning: 'g_test_adiid' defined but not used [-Wunused-variable]
  static uint32_t g_test_adiid = 0;
                  ^
-main.c:989:17: warning: 'g_test_chipid' defined but not used [-Wunused-variable]
+main.c:843:17: warning: 'g_test_chipid' defined but not used [-Wunused-variable]
  static uint32_t g_test_chipid = 0;
                  ^
-main.c:990:17: warning: 'g_test_reg_0908' defined but not used [-Wunused-variable]
+main.c:844:17: warning: 'g_test_reg_0908' defined but not used [-Wunused-variable]
  static uint32_t g_test_reg_0908 = 0;
                  ^
-main.c:991:17: warning: 'g_test_afecon' defined but not used [-Wunused-variable]
+main.c:845:17: warning: 'g_test_afecon' defined but not used [-Wunused-variable]
  static uint32_t g_test_afecon = 0;
                  ^
-main.c:992:17: warning: 'g_test_fifocon' defined but not used [-Wunused-variable]
+main.c:846:17: warning: 'g_test_fifocon' defined but not used [-Wunused-variable]
  static uint32_t g_test_fifocon = 0;
                  ^
-main.c:993:17: warning: 'g_test_fifo_count' defined but not used [-Wunused-variable]
+main.c:847:17: warning: 'g_test_fifo_count' defined but not used [-Wunused-variable]
  static uint16_t g_test_fifo_count = 0;
                  ^
-main.c:1014:16: warning: 'g_reg_index' defined but not used [-Wunused-variable]
+main.c:868:16: warning: 'g_reg_index' defined but not used [-Wunused-variable]
  static uint8_t g_reg_index = 0;
                 ^
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/debug.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c debug.c -o .\CortexM0\ARM_GCC_541\Debug\debug.o
@@ -216,6 +213,6 @@ No ELF section .cychecksum found, creating one
 Application checksum calculated and stored in ELF section .cychecksum
 Checksum calculated and stored in ELF section .cymeta
 cyelftool.exe -S E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\CortexM0\ARM_GCC_541\Debug\Transistor.elf
-Flash used: 116868 of 262144 bytes (44.6%).
+Flash used: 115948 of 262144 bytes (44.2%).
 SRAM used: 15336 of 32768 bytes (46.8%). Stack: 2048 bytes. Heap: 1024 bytes.
---------------- Rebuild Succeeded: 01/30/2026 14:26:06 ---------------
+--------------- Rebuild Succeeded: 02/04/2026 11:54:12 ---------------

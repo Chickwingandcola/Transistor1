@@ -43,7 +43,7 @@ AppAMPCfg_Type AppAMPCfg =
   
   /* LPTIA Configure */
   .ExtRtia = bFALSE,            /* Set to true if using external RTIA */
-  .LptiaRtiaSel = LPTIARTIA_10K, /* COnfigure RTIA */
+  .LptiaRtiaSel = LPTIARTIA_512K, /* COnfigure RTIA */
   .LpTiaRf = LPTIARF_1M,        /* Configure LPF resistor */
   .LpTiaRl = LPTIARLOAD_100R,
   .ReDoRtiaCal = bFALSE,

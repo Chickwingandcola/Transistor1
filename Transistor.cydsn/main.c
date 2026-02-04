@@ -64,178 +64,6 @@ AppAMPCfg_Type *pAmpCfg;
 uint32 ampBuffer[512];  // 用于AppAMPInit的缓冲区
 fAmpRes_Type ampResult;
 
-/*******************************************************************************
-* Function Name: AD5941_Initialize
-********************************************************************************
-* Summary:
-*   初始化AD5941电化学前端芯片 - 修复后的版本
-*******************************************************************************/
-void AD5941_Initialize(void)
-{
-    AD5940Err error;
-    
-    // ====================================================================
-    // 步骤 1: 硬件复位与引脚状态强制初始化
-    // ====================================================================
-    printf("[INIT] Step 1: Resetting hardware...\r\n");
-    
-    // 1.1 确保SPI总线处于空闲状态 (Mode 0: SCLK=0, CS=1)
-    // 防止引脚之前的状态导致芯片误判
-    AD5940_CS_Write(1);   
-    AD5940_SCLK_Write(0); 
-    AD5940_MOSI_Write(0); 
-    CyDelay(10);
-
-    // 1.2 执行硬件复位
-    AD5940_RST_Write(0);  // 拉低复位
-    CyDelay(10);          // 保持10ms
-    AD5940_RST_Write(1);  // 释放复位
-    CyDelay(100);         // 等待芯片内部加载 (Boot time)
-    
-    printf("[INIT] Hardware Reset complete.\r\n");
-
-    // ====================================================================
-    // 步骤 2: 唤醒 SPI 接口 (关键步骤！)
-    // ====================================================================
-    // AD5940 复位后处于休眠状态，需要一个 CS 下降沿来唤醒 SPI 接口
-    printf("[INIT] Step 2: Waking up SPI interface...\r\n");
-    
-    AD5940_CS_Write(0);   // 拉低 CS 唤醒
-    CyDelayUs(100);       // 保持一小段时间
-    AD5940_CS_Write(1);   // 拉高 CS
-    CyDelay(10);          // 等待接口准备就绪
-
-    // 初始化 MCU SPI 资源变量
-    AD5940_MCUResourceInit(NULL);
-
-    // ====================================================================
-    // 步骤 3: 寄存器通信测试 (ID 检查)
-    // ====================================================================
-    printf("\r\n[DEBUG] Verifying SPI Communication...\r\n");
-    
-    uint32_t adiid = 0;
-    uint32_t chipid = 0;
-    uint8_t id_valid = 0;
-
-    // 尝试读取3次，排除偶发的上电不稳定
-    for(int attempt = 1; attempt <= 3; attempt++)
-    {
-        adiid = AD5940_ReadReg(REG_AFECON_ADIID);
-        chipid = AD5940_ReadReg(REG_AFECON_CHIPID);
-        
-        printf("  [Attempt %d] ADIID: 0x%08lX, CHIPID: 0x%08lX\r\n", attempt, adiid, chipid);
-
-        // 判定标准：ADIID 应为 0x4144, CHIPID 应为 0x5502 (AD5941) 或 0x5501 (AD5940)
-        if(adiid == 0x4144 && (chipid == 0x5501 || chipid == 0x5502))
-        {
-            id_valid = 1;
-            printf("  ✅ Communication Success!\r\n");
-            break;
-        }
-        else
-        {
-            // 如果读到全是 0，可能是 MISO 没连好或者芯片没电
-            // 如果读到全是 F，可能是 MISO 短路到 VCC
-            if(adiid == 0x0000) printf("     -> Warning: Read 0x00. Check MISO Connection or Power.\r\n");
-            if(adiid == 0xFFFF) printf("     -> Warning: Read 0xFF. Check if MISO is shorted to VDD.\r\n");
-            
-            // 失败重试前再次尝试唤醒
-            AD5940_CS_Write(0); CyDelayUs(20); AD5940_CS_Write(1);
-            CyDelay(50);
-        }
-    }
-
-    if(!id_valid)
-    {
-        printf("[ERROR] SPI Communication Failed. Halting Initialization.\r\n");
-        // 这里可以选择 return，或者继续尝试(有时候是 glitch)
-        // return; 
-    }
-
-    // ====================================================================
-    // 步骤 4: 执行 ADI 库初始化 (AD5940_Initialize)
-    // ====================================================================
-    // 这个函数会向芯片写入大量的校准数据和默认配置
-    printf("\r\n[INIT] Step 4: Running ADI Library Init (Table 14)...\r\n");
-    AD5940_Initialize(); 
-    printf("[INIT] Library Init complete.\r\n");
-    
-    // 再次等待 AFE 稳定
-    CyDelay(100); 
-
-    // ====================================================================
-    // 步骤 5: 配置安培法 (Amperometric) 参数
-    // ====================================================================
-    printf("[INIT] Step 5: Configuring Application Parameters...\r\n");
-    
-    AppAMPGetCfg(&pAmpCfg);
-    if(pAmpCfg == NULL)
-    {
-        printf("[ERROR] pAmpCfg is NULL!\r\n");
-        return;
-    }
-    
-    AD5940_LPModeClkS(LPMODECLK_LFOSC);
-
-    // --- 基础配置 ---
-    pAmpCfg->bParaChanged = bTRUE;
-    pAmpCfg->SeqStartAddr = 0;
-    pAmpCfg->MaxSeqLen = 512;
-    pAmpCfg->SeqStartAddrCal = 0;
-    pAmpCfg->MaxSeqLenCal = 512;
-    
-    // --- 时钟与电源 ---
-    pAmpCfg->SysClkFreq = 16000000.0;
-    pAmpCfg->WuptClkFreq = 32000.0;
-    pAmpCfg->AdcClkFreq = 16000000.0;
-    pAmpCfg->PwrMod = AFEPWR_LP; // 低功耗
-
-    // --- 测量参数 ---
-    pAmpCfg->AmpODR = 10.0;      // 采样率 10Hz
-    pAmpCfg->NumOfData = -1;     // -1 表示无限连续测量
-    pAmpCfg->FifoThresh = 4;     // FIFO 阈值
-
-    // --- 电化学参数 (根据你的代码) ---
-    pAmpCfg->RcalVal = 10000.0;     // 10k 校准电阻
-    pAmpCfg->ADCRefVolt = 1.82;     // Vref 1.82V
-    pAmpCfg->ExtRtia = bFALSE;      // 使用内部 RTIA
-
-    // --- LPTIA (低功耗跨阻放大器) ---
-    pAmpCfg->LptiaRtiaSel = LPTIARTIA_10K; // 反馈电阻 10k
-    pAmpCfg->LpTiaRf = LPTIARF_1M;         // 滤波电阻
-    pAmpCfg->LpTiaRl = LPTIARLOAD_100R;    // 负载电阻
-    
-    // --- 偏置电压 ---
-    pAmpCfg->Vzero = 1100.0;      // Vzero = 1.1V
-    pAmpCfg->SensorBias = 0.0;    // Vbias = 0V (Sensor = Vzero)
-
-    // --- ADC ---
-    pAmpCfg->ADCPgaGain = ADCPGA_1P5;
-    pAmpCfg->ADCSinc3Osr = ADCSINC3OSR_4;
-    pAmpCfg->ADCSinc2Osr = ADCSINC2OSR_178;
-    pAmpCfg->DataFifoSrc = FIFOSRC_SINC3;
-
-    // 清除状态
-    pAmpCfg->AMPInited = bFALSE;
-    pAmpCfg->StopRequired = bFALSE;
-    pAmpCfg->FifoDataCount = 0;
-
-    // ====================================================================
-    // 步骤 6: 启动应用
-    // ====================================================================
-    printf("[INIT] Step 6: Calling AppAMPInit...\r\n");
-    error = AppAMPInit(ampBuffer, 512);
-    
-    if(error == AD5940ERR_OK)
-    {
-        printf("[OK] AD5941 System Initialized Successfully.\r\n");
-        printf("     AMPInited Flag: %d\r\n", pAmpCfg->AMPInited);
-    }
-    else
-    {
-        printf("[ERROR] AppAMPInit failed with error code: %d\r\n", error);
-    }
-}
 
 
 
@@ -551,60 +379,86 @@ float ReadCurrentFromSourceMeter_Simulated(AmperometricSensor_t sensorType)
 }
 
 /*******************************************************************************
-* Function Name: MeasureAllSensorsWithCurrent
-********************************************************************************
-* Summary:
-*   测量所有传感器 - 包含实际电流值
-*******************************************************************************/
+// * Function Name: MeasureAllSensorsWithCurrent
+// ********************************************************************************
+// * Summary:
+// *   测量所有传感器 - 包含实际电流值
+// *******************************************************************************/
+// void MeasureAllSensorsWithCurrent(void)
+// {
+ 
+//     // 1. 温度测量
+//     sensorData.temperature = MeasureTemperature();
+    
+//     // 2. 葡萄糖测量
+
+    
+//     // 方法 A: 使用 AD5940 读取（推荐）
+//    sensorData.current_glucose_nA = ReadCurrentFromAD5940(SENSOR_GLUCOSE);
+    
+//     // 方法 B: 使用模拟值测试（测试用）
+//     //sensorData.current_glucose_nA = ReadCurrentFromSourceMeter_Simulated(SENSOR_GLUCOSE);
+    
+//     // 转换为浓度
+//     sensorData.glucose = ConvertCurrentToConcentration(sensorData.current_glucose_nA, SENSOR_GLUCOSE);
+    
+    
+//     // 3. 乳酸测量
+
+//      sensorData.current_lactate_nA = ReadCurrentFromAD5940(SENSOR_LACTATE); 
+//     //sensorData.current_lactate_nA = ReadCurrentFromSourceMeter_Simulated(SENSOR_LACTATE);
+//     sensorData.lactate = ConvertCurrentToConcentration(sensorData.current_lactate_nA, SENSOR_LACTATE);
+    
+//     // 4. 尿酸测量
+
+//     sensorData.current_uric_nA = ReadCurrentFromAD5940(SENSOR_URIC_ACID);
+//     //sensorData.uric_acid = ConvertCurrentToConcentration(sensorData.current_uric_nA,SENSOR_URIC_ACID);
+//     // [修改] 切换为模拟数据
+//     // sensorData.current_uric_acid_nA = ReadCurrentFromAD5940(SENSOR_URIC_ACID);
+//     //sensorData.current_uric_nA = ReadCurrentFromSourceMeter_Simulated(SENSOR_URIC_ACID); 
+//     // [增加] 电流换算到浓度
+//     sensorData.uric_acid = ConvertCurrentToConcentration(sensorData.current_uric_nA, SENSOR_URIC_ACID);    
+
+    
+
+    
+//     // 6. 温度校准
+//     float temp_factor = 1.0 + 0.03 * (sensorData.temperature - 37.0);
+//     sensorData.glucose *= temp_factor;
+//     sensorData.lactate *= temp_factor;
+//     sensorData.uric_acid *= temp_factor;
+    
+//     sensorData.timestamp = mainTimer;
+    
+// }
+
+
+// 修改 main.c 中的 MeasureAllSensorsWithCurrent 函数
 void MeasureAllSensorsWithCurrent(void)
 {
- 
-    // 1. 温度测量
-    sensorData.temperature = MeasureTemperature();
+    // 1. 强制打开 AMP2 (Lactate) 并保持打开，用于测试
+    AMP1_EN_Write(0);
+    AMP2_EN_Write(1); // 🔴 强制导通 Lactate 通道
+    AMP3_EN_Write(0);
     
-    // 2. 葡萄糖测量
-
+    // 2. 仅测量 Lactate
+    // 注意：这里我们调用 ReadCurrentFromAD5940，但要确保该函数内部不会很快就把开关关掉
+    // 由于该函数内部会重新配置开关，可能会有短暂跳变，建议修改 ReadCurrentFromAD5940 
+    // 或者直接在这里等待稳定后读取
     
-    // 方法 A: 使用 AD5940 读取（推荐）
-   sensorData.current_glucose_nA = ReadCurrentFromAD5940(SENSOR_GLUCOSE);
-    
-    // 方法 B: 使用模拟值测试（测试用）
-    //sensorData.current_glucose_nA = ReadCurrentFromSourceMeter_Simulated(SENSOR_GLUCOSE);
-    
-    // 转换为浓度
-    sensorData.glucose = ConvertCurrentToConcentration(sensorData.current_glucose_nA, SENSOR_GLUCOSE);
-    
-    
-    // 3. 乳酸测量
-
-     sensorData.current_lactate_nA = ReadCurrentFromAD5940(SENSOR_LACTATE); 
-    //sensorData.current_lactate_nA = ReadCurrentFromSourceMeter_Simulated(SENSOR_LACTATE);
+    sensorData.current_lactate_nA = ReadCurrentFromAD5940(SENSOR_LACTATE); 
     sensorData.lactate = ConvertCurrentToConcentration(sensorData.current_lactate_nA, SENSOR_LACTATE);
-    
-    // 4. 尿酸测量
 
-    sensorData.current_uric_nA = ReadCurrentFromAD5940(SENSOR_URIC_ACID);
-    //sensorData.uric_acid = ConvertCurrentToConcentration(sensorData.current_uric_nA,SENSOR_URIC_ACID);
-    // [修改] 切换为模拟数据
-    // sensorData.current_uric_acid_nA = ReadCurrentFromAD5940(SENSOR_URIC_ACID);
-    //sensorData.current_uric_nA = ReadCurrentFromSourceMeter_Simulated(SENSOR_URIC_ACID); 
-    // [增加] 电流换算到浓度
-    sensorData.uric_acid = ConvertCurrentToConcentration(sensorData.current_uric_nA, SENSOR_URIC_ACID);    
+    // 调试打印 (如果有串口)
+    printf("Lactate Current: %.2f nA\r\n", sensorData.current_lactate_nA);
 
-    
-
-    
-    // 6. 温度校准
-    float temp_factor = 1.0 + 0.03 * (sensorData.temperature - 37.0);
-    sensorData.glucose *= temp_factor;
-    sensorData.lactate *= temp_factor;
-    sensorData.uric_acid *= temp_factor;
+    // 3. 暂时屏蔽其他测量，防止通道切换
+    sensorData.temperature = 25.0; 
+    sensorData.glucose = 0;
+    sensorData.uric_acid = 0;
     
     sensorData.timestamp = mainTimer;
-    
 }
-
-
 
 
 /*******************************************************************************
@@ -1054,7 +908,7 @@ int main()
     DRUG_EN_1_Write(0);
     STIM_EN_A_Write(0);
     AMP1_EN_Write(0);
-    AMP2_EN_Write(0);
+    AMP2_EN_Write(1);
     AMP3_EN_Write(0);
     
     CySysWdtSetInterruptCallback(CY_SYS_WDT_COUNTER2, Timer_Interrupt);

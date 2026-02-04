@@ -40,7 +40,7 @@ void BioSensor_Init(void)
     // 乳酸/葡萄糖/尿酸 - 使用电流测量
     AppAMPCfg_Type *pAmpConfig;
     AppAMPGetCfg(&pAmpConfig);
-    pAmpConfig->LptiaRtiaSel = LPTIARTIA_2K;  // 正确的成员名称
+    pAmpConfig->LptiaRtiaSel = LPTIARTIA_512K;  // 正确的成员名称
     pAmpConfig->PwrMod = AFEPWR_LP;           // 使用正确的功率模式成员
     AppAMPInit(NULL, 0);
     
