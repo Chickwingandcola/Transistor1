@@ -1325,11 +1325,14 @@ int main()
                         // 步骤1: 配置参考电压和偏置
                         // ========================================
                         
+                        // 使能HP和LP参考电压 (关键!)
+                        AD5940_WriteReg(0x21A8, 0x0033);  // AFEREFCON - HP/LP参考使能
+                        CyDelay(50);
+                        
                         // LPDACCON (0x2230) - LPDAC控制
                         AD5940_WriteReg(0x2230, 0xDE87A5AF);
                         
                         // LPDACDAT0 (0x22F0) - Vzero = 1.1V (6-bit DAC)
-                        // 1.1V / 200mV per LSB ≈ 5.5 → 使用code=5
                         AD5940_WriteReg(0x22F0, 0x0000);  
                         
                         // LPDACDAT1 (0x2250) - Vbias
@@ -1351,7 +1354,6 @@ int main()
                         // Bit 9-11: LPTIA Rf (111 = 1MΩ)
                         lptiacon |= (7 << 9);
                         // Bit 12-16: LPTIA Switch配置
-                        // SW5, SW2, SW4, SW12, SW13 = bits 5,2,4,12,13
                         lptiacon |= (1 << (12+5));   // SW5
                         lptiacon |= (1 << (12+2));   // SW2
                         lptiacon |= (1 << (12+4));   // SW4
@@ -1364,64 +1366,81 @@ int main()
                         CyDelay(100);
                         
                         // ========================================
-                        // 步骤3: 配置ADC
+                        // 步骤3: 配置ADC MUX和控制
                         // ========================================
                         
-                        // ADCCON (0x2300)
-                        uint32_t adccon = 0;
-                        adccon |= (1 << 0);     // Bit 0: ADC Power enable
-                        adccon |= (0x99);       // 保持其他配置
-                        AD5940_WriteReg(0x2300, adccon);
+                        // ADCCON (0x21F0) - ADC输入MUX选择
+                        // MuxP = AIN4 (LPTIA输出), MuxN = VZERO0
+                        uint32_t adcmux = (0x04 << 0) | (0x08 << 8);  // P=AIN4, N=VZERO
+                        AD5940_WriteReg(0x21F0, adcmux);
                         
-                        // ADCFILTERCON (0x2308) - 配置SINC滤波器
-                        AD5940_WriteReg(0x2308, 0x0004);  // SINC3使能
+                        // ADCFILTERCON (0x21D4) - 配置SINC滤波器 (关键!)
+                        // Bit 0-3: SINC3 OSR (4 = OSR of 4)
+                        // Bit 4-9: SINC2 OSR
+                        // Bit 14: SINC2NOTCH bypass OFF (使能)
+                        uint32_t adcfilter = 0;
+                        adcfilter |= (4 << 0);     // SINC3 OSR = 4
+                        adcfilter |= (178 << 4);   // SINC2 OSR = 178
+                        adcfilter |= (0 << 14);    // 不bypass SINC2
+                        AD5940_WriteReg(0x21D4, adcfilter);
                         
-                        // ADC Mux配置
-                        // ADCCON的高位控制PGA和Mux
-                        adccon |= (1 << 8);     // PGA Gain = 1.5 (ADCPGA_1P5 = 1)
-                        adccon |= (4 << 16);    // MuxP = AIN4 (LPTIA输出)
-                        adccon |= (8 << 20);    // MuxN = Vzero
-                        AD5940_WriteReg(0x2300, adccon);
-                        
-                        printf("[BYPASS] Configured ADC: 0x%08lX\n", adccon);
+                        printf("[BYPASS] Configured ADC Filter: 0x%08lX\n", adcfilter);
                         
                         CyDelay(50);
                         
                         // ========================================
-                        // 步骤4: 配置FIFO
+                        // 步骤4: 配置数据FIFO (关键修复!)
                         // ========================================
                         
-                        uint32_t fifocon = 0x0000000D;  // 使能FIFO + SINC3源
+                        // DATAFIFOCFG (0x2080) - FIFO配置
+                        // Bit 0: FIFO Enable
+                        // Bit 2-4: Data Source (011 = SINC3)
+                        // Bit 8-10: FIFO Size
+                        uint32_t fifocon = 0;
+                        fifocon |= (1 << 0);       // FIFO Enable
+                        fifocon |= (3 << 2);       // Source = SINC3 (关键!)
+                        fifocon |= (2 << 8);       // FIFO Size = 4KB
                         AD5940_WriteReg(0x2080, fifocon);
                         printf("[BYPASS] Configured FIFO: 0x%08lX\n", fifocon);
                         
+                        // DATAFIFOTHRESHOLD (0x2088) - FIFO阈值
+                        AD5940_WriteReg(0x208C, 4);  // 4个样本触发中断
+                        
                         CyDelay(50);
                         
                         // ========================================
-                        // 步骤5: 使能AFE电源和ADC
+                        // 步骤5: 使能AFE电源和ADC (使用正确的位定义!)
                         // ========================================
+                        // 根据ad5940.h:
+                        // AFECTRL_HPREFPWR  = (1L<<5)  = Bit 5
+                        // AFECTRL_ADCPWR   = (1L<<7)  = Bit 7
+                        // AFECTRL_ADCCNV   = (1L<<8)  = Bit 8
+                        // AFECTRL_SINC2NOTCH = (1L<<16) = Bit 16
                         
+                        // AFECON (0x2000) - AFE控制寄存器
                         uint32_t afecon = 0x00000000;
-                        afecon |= (1UL << 0);      // Bit 0: AFE Power enable (AFEPWR)
-                        afecon |= (1UL << 1);      // Bit 1: ADC Power enable (ADCPWR)
-                        afecon |= (1UL << 2);      // Bit 2: SINC2 Notch enable
-                        afecon |= (1UL << 7);      // Bit 7: HP Reference enable
-                        afecon |= (1UL << 8);      // Bit 8: LP Reference enable
-                        afecon |= (1UL << 19);     // Bit 19: HP Reference Power
+                        
+                        // 步骤1: 使能HP参考电压
+                        afecon |= (1UL << 5);      // Bit 5: HPREFPWR - HP参考电源使能
                         AD5940_WriteReg(0x2000, afecon);
-                        printf("[BYPASS] Enabled AFE: 0x%08lX\n", afecon);
+                        CyDelay(100);  // 等待参考电压稳定
                         
-                        CyDelay(200);  // 等待AFE和参考电压稳定
+                        // 步骤2: 使能ADC电源
+                        afecon |= (1UL << 7);      // Bit 7: ADCPWR - ADC电源使能 (关键!)
+                        AD5940_WriteReg(0x2000, afecon);
+                        CyDelay(50);
+                        printf("[BYPASS] Enabled ADC Power: 0x%08lX\n", afecon);
                         
-                        // ========================================
-                        // 步骤6: 启动连续ADC转换
-                        // ========================================
+                        // 步骤3: 使能SINC2滤波器
+                        afecon |= (1UL << 16);     // Bit 16: SINC2NOTCH使能
+                        AD5940_WriteReg(0x2000, afecon);
+                        CyDelay(50);
                         
                         AMP1_EN_Write(1);  // 使能传感器通道
-                        CyDelay(50);
+                        CyDelay(100);
                         
-                        // 启动ADC转换
-                        afecon |= (1UL << 4);      // Bit 4: ADC Convert enable (ADCCNV)
+                        // 步骤4: 启动ADC转换 (最后一步!)
+                        afecon |= (1UL << 8);      // Bit 8: ADCCNV - ADC转换启动 (关键!)
                         AD5940_WriteReg(0x2000, afecon);
                         printf("[BYPASS] Started ADC conversion: 0x%08lX\n", afecon);
                         
@@ -1430,19 +1449,19 @@ int main()
                         // ⚠️ 详细诊断 - 读取所有关键寄存器
                         uint32_t fifosta = AD5940_ReadReg(0x2084);
                         afecon = AD5940_ReadReg(0x2000);
-                        adccon = AD5940_ReadReg(0x2300);
-                        uint32_t seqcon = AD5940_ReadReg(0x20B8);
-                        uint32_t seqsta = AD5940_ReadReg(0x20BC);
+                        uint32_t adccon = AD5940_ReadReg(0x21F0);
+                        uint32_t seqcon = AD5940_ReadReg(0x2004);  // ⭐ 修正: 正确的SEQCON地址!
+                        uint32_t seqsta = AD5940_ReadReg(0x2008);  // ⭐ 修正: 正确的SEQSTA地址!
                         uint32_t lpdaccon = AD5940_ReadReg(0x2230);
                         
                         printf("[DEBUG] After manual config:\n");
                         printf("  FIFOCON: 0x%08lX (EN=%d)\n", fifocon, fifocon & 0x01);
-                        printf("  FIFOSTA: 0x%08lX (CNT=%d)\n", fifosta, fifosta & 0x7FF);
+                        printf("  FIFOSTA: 0x%08lX (CNT=%lu)\n", fifosta, fifosta & 0x7FF);
                         printf("  AFECON: 0x%08lX\n", afecon);
                         printf("  LPTIACON: 0x%08lX (EN=%d)\n", lptiacon, lptiacon & 0x01);
-                        printf("  ADCCON: 0x%08lX\n", adccon);
-                        printf("  SEQCON: 0x%08lX\n", seqcon);
-                        printf("  SEQSTA: 0x%08lX\n", seqsta);
+                        printf("  ADCMUX: 0x%08lX\n", adccon);
+                        printf("  SEQCON: 0x%08lX (Addr=0x2004)\n", seqcon);
+                        printf("  SEQSTA: 0x%08lX (Addr=0x2008)\n", seqsta);
                         printf("  LPDACCON: 0x%08lX\n", lpdaccon);
                         
                         // ⭐⭐⭐ 二次验证和强制修正 ⭐⭐⭐

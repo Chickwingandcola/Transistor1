@@ -1,7 +1,64 @@
---------------- Rebuild Started: 02/04/2026 16:45:10 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+--------------- Rebuild Started: 02/04/2026 17:21:59 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\main.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\debug.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\Impedance.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\ad5940.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\Amperometric.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\biosensor_ble.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\ad5941_platform.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\cymetadata.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\CYBLE.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\CYBLE_gatt.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\CYBLE_eventHandler.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\CYBLE_HAL_INT.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\CYBLE_HAL_PVT.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\CYBLE_custom.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\Disconnect_LED.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\Disconnect_LED_PM.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_CS.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_CS_PM.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_EXTI.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_EXTI_PM.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_Interrupt.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_MISO.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_MISO_PM.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_SCLK.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_SCLK_PM.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_MOSI.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_MOSI_PM.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\Advertising_LED.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\Advertising_LED_PM.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\DRUG_EN_1.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\DRUG_EN_1_PM.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\STIM_EN_A.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\STIM_EN_A_PM.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_RST.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_RST_PM.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AMP1_EN.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AMP1_EN_PM.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AMP2_EN.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AMP2_EN_PM.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AMP3_EN.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\AMP3_EN_PM.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\CYBLE_bless_isr.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\Cm0Start.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyFlash.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyLib.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\cyPm.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\cyutils.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyBootAsmGnu.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyDMA.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyLFClk.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\cy_em_eeprom.o"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\Transistor.hex"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\Transistor.elf"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\Transistor.map"
 Deleting file ".\Transistor.cycdx"
 Deleting file ".\Transistor.rpt"
 Deleting file ".\Transistor_timing.html"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\.deps\SOURCE_C__ARM_GCC_GENERIC.P"
+Deleting file ".\CortexM0\ARM_GCC_541\Debug\.deps\SOURCE_ASM__ARM_GCC_GENERIC.P"
 cydsfit.exe -.appdatapath "C:\Users\13740\AppData\Local\Cypress Semiconductor\PSoC Creator\4.4" -.fdsnotice -.fdswarpdepfile=warp_dependencies.txt -.fdselabdepfile=elab_dependencies.txt -.fdsbldfile=generated_files.txt -.fdsreffile=referenced_files.txt -p E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\Transistor.cyprj -d CYBLE-222014-01 -s E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\Generated_Source\PSoC4 -- -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE
 Elaborating Design...
 HDL Generation...
@@ -52,114 +109,16 @@ main.c:1036:12: warning: unused variable 'i' [-Wunused-variable]
      uint16 i;
             ^
 main.c: In function 'main':
-main.c:1439:32: warning: format '%d' expects argument of type 'int', but argument 3 has type 'long unsigned int' [-Wformat=]
-                         printf("  FIFOCON: 0x%08lX (EN=%d)\n", fifocon, fifocon & 0x01);
-                                ^
-main.c:1439:32: warning: format '%d' expects argument of type 'int', but argument 3 has type 'long unsigned int' [-Wformat=]
-main.c:1440:32: warning: format '%d' expects argument of type 'int', but argument 3 has type 'long unsigned int' [-Wformat=]
-                         printf("  FIFOSTA: 0x%08lX (CNT=%d)\n", fifosta, fifosta & 0x7FF);
-                                ^
-main.c:1440:32: warning: format '%d' expects argument of type 'int', but argument 3 has type 'long unsigned int' [-Wformat=]
-main.c:1442:32: warning: format '%d' expects argument of type 'int', but argument 3 has type 'long unsigned int' [-Wformat=]
-                         printf("  LPTIACON: 0x%08lX (EN=%d)\n", lptiacon, lptiacon & 0x01);
-                                ^
-main.c:1442:32: warning: format '%d' expects argument of type 'int', but argument 3 has type 'long unsigned int' [-Wformat=]
-main.c:1473:32: warning: format '%d' expects argument of type 'int', but argument 2 has type 'uint32_t {aka long unsigned int}' [-Wformat=]
-                         printf("[RECHECK] FIFO Count after fix: %d\n", fifo_count);
-                                ^
-main.c:1473:32: warning: format '%d' expects argument of type 'int', but argument 2 has type 'uint32_t {aka long unsigned int}' [-Wformat=]
-main.c:1484:32: warning: format '%d' expects argument of type 'int', but argument 2 has type 'uint32_t {aka long unsigned int}' [-Wformat=]
-                         printf("  Final FIFO Count: %d\n", g_fifo_count_measure);
-                                ^
-main.c:1484:32: warning: format '%d' expects argument of type 'int', but argument 2 has type 'uint32_t {aka long unsigned int}' [-Wformat=]
-main.c:1495:32: warning: format '%d' expects argument of type 'int', but argument 2 has type 'uint32_t {aka long unsigned int}' [-Wformat=]
-                         printf("  FIFO Count: %d\n", g_fifo_count_measure);
-                                ^
-main.c:1495:32: warning: format '%d' expects argument of type 'int', but argument 2 has type 'uint32_t {aka long unsigned int}' [-Wformat=]
-main.c:1518:36: warning: format '%d' expects argument of type 'int', but argument 2 has type 'uint32_t {aka long unsigned int}' [-Wformat=]
-                             printf("  Count after 3s: %d\n", g_fifo_count_measure);
-                                    ^
-main.c:1518:36: warning: format '%d' expects argument of type 'int', but argument 2 has type 'uint32_t {aka long unsigned int}' [-Wformat=]
+main.c:1378:59: error: 'REG_AFE_DATAFIFOCON' undeclared (first use in this function)
+                         uint32_t fifocon = AD5940_ReadReg(REG_AFE_DATAFIFOCON);
+                                                           ^
+main.c:1378:59: note: each undeclared identifier is reported only once for each function it appears in
+main.c:1379:59: error: 'REG_AFE_DATAFIFOSTA' undeclared (first use in this function)
+                         uint32_t fifosta = AD5940_ReadReg(REG_AFE_DATAFIFOSTA);
+                                                           ^
 main.c: At top level:
 main.c:1080:13: warning: 'LowPowerImplementation' defined but not used [-Wunused-function]
  static void LowPowerImplementation(void)
              ^
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/debug.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c debug.c -o .\CortexM0\ARM_GCC_541\Debug\debug.o
-In file included from debug.c:19:0:
-main.h:120:13: warning: 'LowPowerImplementation' declared 'static' but never defined [-Wunused-function]
- static void LowPowerImplementation(void);
-             ^
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/Impedance.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Impedance.c -o .\CortexM0\ARM_GCC_541\Debug\Impedance.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/ad5940.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c ad5940.c -o .\CortexM0\ARM_GCC_541\Debug\ad5940.o
-ad5940.c: In function 'AD5940_HSRtiaCal':
-ad5940.c:3416:54: warning: large integer implicitly truncated to unsigned type [-Woverflow]
-   uint32_t const HSTIADERLOADTable[]={0,10,30,50,100,999999999999};
-                                                      ^
-ad5940.c:3417:94: warning: large integer implicitly truncated to unsigned type [-Woverflow]
-   uint32_t const HSTIADERTIATable[] = {50,100,200,1000,5000,10000,20000,40000,80000,160000,0,999999999999999};
-                                                                                              ^
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/Amperometric.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Amperometric.c -o .\CortexM0\ARM_GCC_541\Debug\Amperometric.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/biosensor_ble.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c biosensor_ble.c -o .\CortexM0\ARM_GCC_541\Debug\biosensor_ble.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/ad5941_platform.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c ad5941_platform.c -o .\CortexM0\ARM_GCC_541\Debug\ad5941_platform.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/cyfitter_cfg.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\cyfitter_cfg.c -o .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/cymetadata.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\cymetadata.c -o .\CortexM0\ARM_GCC_541\Debug\cymetadata.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/CYBLE.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\CYBLE.c -o .\CortexM0\ARM_GCC_541\Debug\CYBLE.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/CYBLE_gatt.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\CYBLE_gatt.c -o .\CortexM0\ARM_GCC_541\Debug\CYBLE_gatt.o
-Generated_Source\PSoC4\CYBLE_gatt.c:173:60: warning: multi-character character constant [-Wmultichar]
-     (uint8)'r', (uint8)'e', (uint8)' ', (uint8)'(', (uint8)'脗', (uint8)'掳', (uint8)'C', (uint8)')',
-                                                            ^
-Generated_Source\PSoC4\CYBLE_gatt.c:173:73: warning: multi-character character constant [-Wmultichar]
-     (uint8)'r', (uint8)'e', (uint8)' ', (uint8)'(', (uint8)'脗', (uint8)'掳', (uint8)'C', (uint8)')',
-                                                                         ^
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/CYBLE_eventHandler.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\CYBLE_eventHandler.c -o .\CortexM0\ARM_GCC_541\Debug\CYBLE_eventHandler.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/CYBLE_HAL_INT.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\CYBLE_HAL_INT.c -o .\CortexM0\ARM_GCC_541\Debug\CYBLE_HAL_INT.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/CYBLE_HAL_PVT.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\CYBLE_HAL_PVT.c -o .\CortexM0\ARM_GCC_541\Debug\CYBLE_HAL_PVT.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/CYBLE_custom.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\CYBLE_custom.c -o .\CortexM0\ARM_GCC_541\Debug\CYBLE_custom.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/Disconnect_LED.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\Disconnect_LED.c -o .\CortexM0\ARM_GCC_541\Debug\Disconnect_LED.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/Disconnect_LED_PM.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\Disconnect_LED_PM.c -o .\CortexM0\ARM_GCC_541\Debug\Disconnect_LED_PM.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/AD5940_CS.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\AD5940_CS.c -o .\CortexM0\ARM_GCC_541\Debug\AD5940_CS.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/AD5940_CS_PM.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\AD5940_CS_PM.c -o .\CortexM0\ARM_GCC_541\Debug\AD5940_CS_PM.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/AD5940_EXTI.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\AD5940_EXTI.c -o .\CortexM0\ARM_GCC_541\Debug\AD5940_EXTI.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/AD5940_EXTI_PM.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\AD5940_EXTI_PM.c -o .\CortexM0\ARM_GCC_541\Debug\AD5940_EXTI_PM.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/AD5940_Interrupt.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\AD5940_Interrupt.c -o .\CortexM0\ARM_GCC_541\Debug\AD5940_Interrupt.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/AD5940_MISO.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\AD5940_MISO.c -o .\CortexM0\ARM_GCC_541\Debug\AD5940_MISO.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/AD5940_MISO_PM.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\AD5940_MISO_PM.c -o .\CortexM0\ARM_GCC_541\Debug\AD5940_MISO_PM.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/AD5940_SCLK.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\AD5940_SCLK.c -o .\CortexM0\ARM_GCC_541\Debug\AD5940_SCLK.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/AD5940_SCLK_PM.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\AD5940_SCLK_PM.c -o .\CortexM0\ARM_GCC_541\Debug\AD5940_SCLK_PM.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/AD5940_MOSI.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\AD5940_MOSI.c -o .\CortexM0\ARM_GCC_541\Debug\AD5940_MOSI.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/AD5940_MOSI_PM.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\AD5940_MOSI_PM.c -o .\CortexM0\ARM_GCC_541\Debug\AD5940_MOSI_PM.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/Advertising_LED.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\Advertising_LED.c -o .\CortexM0\ARM_GCC_541\Debug\Advertising_LED.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/Advertising_LED_PM.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\Advertising_LED_PM.c -o .\CortexM0\ARM_GCC_541\Debug\Advertising_LED_PM.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/DRUG_EN_1.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\DRUG_EN_1.c -o .\CortexM0\ARM_GCC_541\Debug\DRUG_EN_1.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/DRUG_EN_1_PM.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\DRUG_EN_1_PM.c -o .\CortexM0\ARM_GCC_541\Debug\DRUG_EN_1_PM.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/STIM_EN_A.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\STIM_EN_A.c -o .\CortexM0\ARM_GCC_541\Debug\STIM_EN_A.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/STIM_EN_A_PM.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\STIM_EN_A_PM.c -o .\CortexM0\ARM_GCC_541\Debug\STIM_EN_A_PM.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/AD5940_RST.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\AD5940_RST.c -o .\CortexM0\ARM_GCC_541\Debug\AD5940_RST.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/AD5940_RST_PM.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\AD5940_RST_PM.c -o .\CortexM0\ARM_GCC_541\Debug\AD5940_RST_PM.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/AMP1_EN.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\AMP1_EN.c -o .\CortexM0\ARM_GCC_541\Debug\AMP1_EN.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/AMP1_EN_PM.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\AMP1_EN_PM.c -o .\CortexM0\ARM_GCC_541\Debug\AMP1_EN_PM.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/AMP2_EN.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\AMP2_EN.c -o .\CortexM0\ARM_GCC_541\Debug\AMP2_EN.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/AMP2_EN_PM.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\AMP2_EN_PM.c -o .\CortexM0\ARM_GCC_541\Debug\AMP2_EN_PM.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/AMP3_EN.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\AMP3_EN.c -o .\CortexM0\ARM_GCC_541\Debug\AMP3_EN.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/AMP3_EN_PM.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\AMP3_EN_PM.c -o .\CortexM0\ARM_GCC_541\Debug\AMP3_EN_PM.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/CYBLE_bless_isr.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\CYBLE_bless_isr.c -o .\CortexM0\ARM_GCC_541\Debug\CYBLE_bless_isr.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/Cm0Start.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\Cm0Start.c -o .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/CyFlash.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\CyFlash.c -o .\CortexM0\ARM_GCC_541\Debug\CyFlash.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/CyLib.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\CyLib.c -o .\CortexM0\ARM_GCC_541\Debug\CyLib.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/cyPm.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\cyPm.c -o .\CortexM0\ARM_GCC_541\Debug\cyPm.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/cyutils.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\cyutils.c -o .\CortexM0\ARM_GCC_541\Debug\cyutils.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/CyDMA.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\CyDMA.c -o .\CortexM0\ARM_GCC_541\Debug\CyDMA.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/CyLFClk.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\CyLFClk.c -o .\CortexM0\ARM_GCC_541\Debug\CyLFClk.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/cy_em_eeprom.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Generated_Source\PSoC4\cy_em_eeprom.c -o .\CortexM0\ARM_GCC_541\Debug\cy_em_eeprom.o
-arm-none-eabi-as.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -alh=.\CortexM0\ARM_GCC_541\Debug/CyBootAsmGnu.lst -g -o .\CortexM0\ARM_GCC_541\Debug\CyBootAsmGnu.o Generated_Source\PSoC4\CyBootAsmGnu.s
-arm-none-eabi-ar.exe -rs .\CortexM0\ARM_GCC_541\Debug\Transistor.a .\CortexM0\ARM_GCC_541\Debug\CYBLE.o .\CortexM0\ARM_GCC_541\Debug\CYBLE_gatt.o .\CortexM0\ARM_GCC_541\Debug\CYBLE_eventHandler.o .\CortexM0\ARM_GCC_541\Debug\CYBLE_HAL_INT.o .\CortexM0\ARM_GCC_541\Debug\CYBLE_HAL_PVT.o .\CortexM0\ARM_GCC_541\Debug\CYBLE_custom.o .\CortexM0\ARM_GCC_541\Debug\Disconnect_LED.o .\CortexM0\ARM_GCC_541\Debug\Disconnect_LED_PM.o .\CortexM0\ARM_GCC_541\Debug\AD5940_CS.o .\CortexM0\ARM_GCC_541\Debug\AD5940_CS_PM.o .\CortexM0\ARM_GCC_541\Debug\AD5940_EXTI.o .\CortexM0\ARM_GCC_541\Debug\AD5940_EXTI_PM.o .\CortexM0\ARM_GCC_541\Debug\AD5940_Interrupt.o .\CortexM0\ARM_GCC_541\Debug\AD5940_MISO.o .\CortexM0\ARM_GCC_541\Debug\AD5940_MISO_PM.o .\CortexM0\ARM_GCC_541\Debug\AD5940_SCLK.o .\CortexM0\ARM_GCC_541\Debug\AD5940_SCLK_PM.o .\CortexM0\ARM_GCC_541\Debug\AD5940_MOSI.o .\CortexM0\ARM_GCC_541\Debug\AD5940_MOSI_PM.o .\CortexM0\ARM_GCC_541\Debug\Advertising_LED.o .\CortexM0\ARM_GCC_541\Debug\Advertising_LED_PM.o .\CortexM0\ARM_GCC_541\Debug\DRUG_EN_1.o .\CortexM0\ARM_GCC_541\Debug\DRUG_EN_1_PM.o .\CortexM0\ARM_GCC_541\Debug\STIM_EN_A.o .\CortexM0\ARM_GCC_541\Debug\STIM_EN_A_PM.o .\CortexM0\ARM_GCC_541\Debug\AD5940_RST.o .\CortexM0\ARM_GCC_541\Debug\AD5940_RST_PM.o .\CortexM0\ARM_GCC_541\Debug\AMP1_EN.o .\CortexM0\ARM_GCC_541\Debug\AMP1_EN_PM.o .\CortexM0\ARM_GCC_541\Debug\AMP2_EN.o .\CortexM0\ARM_GCC_541\Debug\AMP2_EN_PM.o .\CortexM0\ARM_GCC_541\Debug\AMP3_EN.o .\CortexM0\ARM_GCC_541\Debug\AMP3_EN_PM.o .\CortexM0\ARM_GCC_541\Debug\CYBLE_bless_isr.o .\CortexM0\ARM_GCC_541\Debug\CyFlash.o .\CortexM0\ARM_GCC_541\Debug\CyLib.o .\CortexM0\ARM_GCC_541\Debug\cyPm.o .\CortexM0\ARM_GCC_541\Debug\cyutils.o .\CortexM0\ARM_GCC_541\Debug\CyDMA.o .\CortexM0\ARM_GCC_541\Debug\CyLFClk.o .\CortexM0\ARM_GCC_541\Debug\cy_em_eeprom.o .\CortexM0\ARM_GCC_541\Debug\CyBootAsmGnu.o
-arm-none-eabi-ar.exe: creating .\CortexM0\ARM_GCC_541\Debug\Transistor.a
-arm-none-eabi-gcc.exe -Wl,--start-group -o E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\CortexM0\ARM_GCC_541\Debug\Transistor.elf .\CortexM0\ARM_GCC_541\Debug\main.o .\CortexM0\ARM_GCC_541\Debug\debug.o .\CortexM0\ARM_GCC_541\Debug\Impedance.o .\CortexM0\ARM_GCC_541\Debug\ad5940.o .\CortexM0\ARM_GCC_541\Debug\Amperometric.o .\CortexM0\ARM_GCC_541\Debug\biosensor_ble.o .\CortexM0\ARM_GCC_541\Debug\ad5941_platform.o .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o .\CortexM0\ARM_GCC_541\Debug\cymetadata.o .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o .\CortexM0\ARM_GCC_541\Debug\Transistor.a "F:\infineon\PSoC Creator\4.4\PSoC Creator\psoc\content\CyComponentLibrary\CyComponentLibrary.cylib\BLE_v3_30\Library\gccCyBLEStack_BLE_SOC_PERIPHERAL.a" -mcpu=cortex-m0 -mthumb -l m -L Generated_Source\PSoC4 -Wl,-Map,.\CortexM0\ARM_GCC_541\Debug/Transistor.map -T Generated_Source\PSoC4\cm0gcc.ld -specs=nano.specs -Wl,--gc-sections -u _printf_float -g -ffunction-sections -O0 -ffat-lto-objects -Wl,--end-group
-cyelftool.exe -C E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\CortexM0\ARM_GCC_541\Debug\Transistor.elf --flash_row_size 256 --flash_size 262144 --flash_offset 0x00000000
-No ELF section .cychecksum found, creating one
-Application checksum calculated and stored in ELF section .cychecksum
-Checksum calculated and stored in ELF section .cymeta
-cyelftool.exe -S E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\CortexM0\ARM_GCC_541\Debug\Transistor.elf
-Flash used: 117900 of 262144 bytes (45.0%).
-SRAM used: 15344 of 32768 bytes (46.8%). Stack: 2048 bytes. Heap: 1024 bytes.
---------------- Rebuild Succeeded: 02/04/2026 16:45:28 ---------------
+The command 'arm-none-eabi-gcc.exe' failed with exit code '1'.
+--------------- Rebuild Failed: 02/04/2026 17:22:06 ---------------
