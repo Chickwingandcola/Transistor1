@@ -1,64 +1,7 @@
---------------- Rebuild Started: 02/04/2026 11:53:49 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\main.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\debug.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Impedance.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ad5940.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Amperometric.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\biosensor_ble.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ad5941_platform.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\cymetadata.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CYBLE.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CYBLE_gatt.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CYBLE_eventHandler.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CYBLE_HAL_INT.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CYBLE_HAL_PVT.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CYBLE_custom.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Disconnect_LED.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Disconnect_LED_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_CS.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_CS_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_EXTI.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_EXTI_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_Interrupt.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_MISO.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_MISO_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_SCLK.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_SCLK_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_MOSI.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_MOSI_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Advertising_LED.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Advertising_LED_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\DRUG_EN_1.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\DRUG_EN_1_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\STIM_EN_A.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\STIM_EN_A_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_RST.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AD5940_RST_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AMP1_EN.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AMP1_EN_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AMP2_EN.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AMP2_EN_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AMP3_EN.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\AMP3_EN_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CYBLE_bless_isr.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Cm0Start.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyFlash.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyLib.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\cyPm.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\cyutils.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyBootAsmGnu.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyDMA.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyLFClk.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\cy_em_eeprom.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Transistor.hex"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Transistor.elf"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Transistor.map"
+--------------- Rebuild Started: 02/04/2026 16:45:10 Project: Transistor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
 Deleting file ".\Transistor.cycdx"
 Deleting file ".\Transistor.rpt"
 Deleting file ".\Transistor_timing.html"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\.deps\SOURCE_C__ARM_GCC_GENERIC.P"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\.deps\SOURCE_ASM__ARM_GCC_GENERIC.P"
 cydsfit.exe -.appdatapath "C:\Users\13740\AppData\Local\Cypress Semiconductor\PSoC Creator\4.4" -.fdsnotice -.fdswarpdepfile=warp_dependencies.txt -.fdselabdepfile=elab_dependencies.txt -.fdsbldfile=generated_files.txt -.fdsreffile=referenced_files.txt -p E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\Transistor.cyprj -d CYBLE-222014-01 -s E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\Generated_Source\PSoC4 -- -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE
 Elaborating Design...
 HDL Generation...
@@ -76,79 +19,83 @@ API Generation...
 Dependency Generation...
 Cleanup...
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/main.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c main.c -o .\CortexM0\ARM_GCC_541\Debug\main.o
+main.c: In function 'AD5941_Initialize':
+main.c:299:16: warning: format '%d' expects argument of type 'int', but argument 2 has type 'AD5940Err {aka long int}' [-Wformat=]
+         printf("[ERROR] AppAMPInit failed with error code: %d\r\n", error);
+                ^
+main.c:299:16: warning: format '%d' expects argument of type 'int', but argument 2 has type 'AD5940Err {aka long int}' [-Wformat=]
+main.c: In function 'DiagnoseFIFO':
+main.c:348:12: warning: format '%d' expects argument of type 'int', but argument 2 has type 'long unsigned int' [-Wformat=]
+     printf("  FIFO Count: %d\n", fifosta & 0x7FF);
+            ^
+main.c:348:12: warning: format '%d' expects argument of type 'int', but argument 2 has type 'long unsigned int' [-Wformat=]
 main.c: In function 'MeasureTemperature':
-main.c:185:20: warning: unused variable 'resistance' [-Wunused-variable]
+main.c:511:20: warning: unused variable 'resistance' [-Wunused-variable]
      float voltage, resistance;
                     ^
-main.c:185:11: warning: unused variable 'voltage' [-Wunused-variable]
+main.c:511:11: warning: unused variable 'voltage' [-Wunused-variable]
      float voltage, resistance;
            ^
-main.c:184:14: warning: unused variable 'adcCode' [-Wunused-variable]
+main.c:510:14: warning: unused variable 'adcCode' [-Wunused-variable]
      uint32_t adcCode;
               ^
 main.c: In function 'ReadCurrentFromAD5940':
-main.c:244:5: warning: enumeration value 'SENSOR_COUNT' not handled in switch [-Wswitch]
+main.c:570:5: warning: enumeration value 'SENSOR_COUNT' not handled in switch [-Wswitch]
      switch(sensorType)
      ^
 main.c: In function 'ReadCurrentFromSourceMeter_Simulated':
-main.c:357:34: warning: implicit declaration of function 'rand' [-Wimplicit-function-declaration]
+main.c:683:34: warning: implicit declaration of function 'rand' [-Wimplicit-function-declaration]
              current_nA = 85.0 + (rand() % 10 - 5);  // 80-90 nA
                                   ^
 main.c: In function 'AppCallBack':
-main.c:593:12: warning: unused variable 'i' [-Wunused-variable]
+main.c:1036:12: warning: unused variable 'i' [-Wunused-variable]
      uint16 i;
             ^
-main.c: In function 'ProcessMeasurement':
-main.c:684:13: warning: enumeration value 'SENSOR_COUNT' not handled in switch [-Wswitch]
-             switch(g_current_sensor)
-             ^
-main.c:737:17: warning: enumeration value 'SENSOR_COUNT' not handled in switch [-Wswitch]
-                 switch(g_current_sensor)
-                 ^
 main.c: In function 'main':
-main.c:899:21: warning: unused variable 'last_send_time' [-Wunused-variable]
-     static uint32_t last_send_time = 0;  // 娣诲姞鍒癿ain鍑芥暟寮€澶?
-                     ^
+main.c:1439:32: warning: format '%d' expects argument of type 'int', but argument 3 has type 'long unsigned int' [-Wformat=]
+                         printf("  FIFOCON: 0x%08lX (EN=%d)\n", fifocon, fifocon & 0x01);
+                                ^
+main.c:1439:32: warning: format '%d' expects argument of type 'int', but argument 3 has type 'long unsigned int' [-Wformat=]
+main.c:1440:32: warning: format '%d' expects argument of type 'int', but argument 3 has type 'long unsigned int' [-Wformat=]
+                         printf("  FIFOSTA: 0x%08lX (CNT=%d)\n", fifosta, fifosta & 0x7FF);
+                                ^
+main.c:1440:32: warning: format '%d' expects argument of type 'int', but argument 3 has type 'long unsigned int' [-Wformat=]
+main.c:1442:32: warning: format '%d' expects argument of type 'int', but argument 3 has type 'long unsigned int' [-Wformat=]
+                         printf("  LPTIACON: 0x%08lX (EN=%d)\n", lptiacon, lptiacon & 0x01);
+                                ^
+main.c:1442:32: warning: format '%d' expects argument of type 'int', but argument 3 has type 'long unsigned int' [-Wformat=]
+main.c:1473:32: warning: format '%d' expects argument of type 'int', but argument 2 has type 'uint32_t {aka long unsigned int}' [-Wformat=]
+                         printf("[RECHECK] FIFO Count after fix: %d\n", fifo_count);
+                                ^
+main.c:1473:32: warning: format '%d' expects argument of type 'int', but argument 2 has type 'uint32_t {aka long unsigned int}' [-Wformat=]
+main.c:1484:32: warning: format '%d' expects argument of type 'int', but argument 2 has type 'uint32_t {aka long unsigned int}' [-Wformat=]
+                         printf("  Final FIFO Count: %d\n", g_fifo_count_measure);
+                                ^
+main.c:1484:32: warning: format '%d' expects argument of type 'int', but argument 2 has type 'uint32_t {aka long unsigned int}' [-Wformat=]
+main.c:1495:32: warning: format '%d' expects argument of type 'int', but argument 2 has type 'uint32_t {aka long unsigned int}' [-Wformat=]
+                         printf("  FIFO Count: %d\n", g_fifo_count_measure);
+                                ^
+main.c:1495:32: warning: format '%d' expects argument of type 'int', but argument 2 has type 'uint32_t {aka long unsigned int}' [-Wformat=]
+main.c:1518:36: warning: format '%d' expects argument of type 'int', but argument 2 has type 'uint32_t {aka long unsigned int}' [-Wformat=]
+                             printf("  Count after 3s: %d\n", g_fifo_count_measure);
+                                    ^
+main.c:1518:36: warning: format '%d' expects argument of type 'int', but argument 2 has type 'uint32_t {aka long unsigned int}' [-Wformat=]
 main.c: At top level:
-main.c:795:13: warning: 'LowPowerImplementation' defined but not used [-Wunused-function]
+main.c:1080:13: warning: 'LowPowerImplementation' defined but not used [-Wunused-function]
  static void LowPowerImplementation(void)
              ^
-main.c:21:16: warning: 'g_amp_running' defined but not used [-Wunused-variable]
- static uint8_t g_amp_running = 0;
-                ^
-main.c:842:17: warning: 'g_test_adiid' defined but not used [-Wunused-variable]
- static uint32_t g_test_adiid = 0;
-                 ^
-main.c:843:17: warning: 'g_test_chipid' defined but not used [-Wunused-variable]
- static uint32_t g_test_chipid = 0;
-                 ^
-main.c:844:17: warning: 'g_test_reg_0908' defined but not used [-Wunused-variable]
- static uint32_t g_test_reg_0908 = 0;
-                 ^
-main.c:845:17: warning: 'g_test_afecon' defined but not used [-Wunused-variable]
- static uint32_t g_test_afecon = 0;
-                 ^
-main.c:846:17: warning: 'g_test_fifocon' defined but not used [-Wunused-variable]
- static uint32_t g_test_fifocon = 0;
-                 ^
-main.c:847:17: warning: 'g_test_fifo_count' defined but not used [-Wunused-variable]
- static uint16_t g_test_fifo_count = 0;
-                 ^
-main.c:868:16: warning: 'g_reg_index' defined but not used [-Wunused-variable]
- static uint8_t g_reg_index = 0;
-                ^
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/debug.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c debug.c -o .\CortexM0\ARM_GCC_541\Debug\debug.o
 In file included from debug.c:19:0:
-main.h:116:13: warning: 'LowPowerImplementation' declared 'static' but never defined [-Wunused-function]
+main.h:120:13: warning: 'LowPowerImplementation' declared 'static' but never defined [-Wunused-function]
  static void LowPowerImplementation(void);
              ^
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/Impedance.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Impedance.c -o .\CortexM0\ARM_GCC_541\Debug\Impedance.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/ad5940.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c ad5940.c -o .\CortexM0\ARM_GCC_541\Debug\ad5940.o
 ad5940.c: In function 'AD5940_HSRtiaCal':
-ad5940.c:3417:54: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+ad5940.c:3416:54: warning: large integer implicitly truncated to unsigned type [-Woverflow]
    uint32_t const HSTIADERLOADTable[]={0,10,30,50,100,999999999999};
                                                       ^
-ad5940.c:3418:94: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+ad5940.c:3417:94: warning: large integer implicitly truncated to unsigned type [-Woverflow]
    uint32_t const HSTIADERTIATable[] = {50,100,200,1000,5000,10000,20000,40000,80000,160000,0,999999999999999};
                                                                                               ^
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/Amperometric.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c Amperometric.c -o .\CortexM0\ARM_GCC_541\Debug\Amperometric.o
@@ -213,6 +160,6 @@ No ELF section .cychecksum found, creating one
 Application checksum calculated and stored in ELF section .cychecksum
 Checksum calculated and stored in ELF section .cymeta
 cyelftool.exe -S E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\CortexM0\ARM_GCC_541\Debug\Transistor.elf
-Flash used: 115948 of 262144 bytes (44.2%).
-SRAM used: 15336 of 32768 bytes (46.8%). Stack: 2048 bytes. Heap: 1024 bytes.
---------------- Rebuild Succeeded: 02/04/2026 11:54:12 ---------------
+Flash used: 117900 of 262144 bytes (45.0%).
+SRAM used: 15344 of 32768 bytes (46.8%). Stack: 2048 bytes. Heap: 1024 bytes.
+--------------- Rebuild Succeeded: 02/04/2026 16:45:28 ---------------

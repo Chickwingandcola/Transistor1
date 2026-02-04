@@ -102,6 +102,10 @@ float MeasureTemperature(void);
 float MeasurePotentiometric(uint8 sensorType);
 void MeasureAllSensors(void);
 
+// FIFO诊断函数
+void DiagnoseFIFO(void);
+void ForceFIFOEnable(void);
+
 // 治疗控制函数
 void ControlDrugRelease(uint8 enable);
 void ControlElectricalStimulation(uint8 enable);

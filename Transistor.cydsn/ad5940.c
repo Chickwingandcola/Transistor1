@@ -1146,7 +1146,6 @@ void AD5940_Initialize(void)
   else
   {
     printf("CHIPID read error:0x%04x. AD5940 is not present?\n", i);
-    while(1);
   }
 #ifdef CHIPSEL_M355
   ADI_Print("This ADuCM355!\n");

@@ -371,7 +371,26 @@ AD5940Err AppAMPInit(uint32_t *pBuffer, uint32_t BufferSize)
   seq_cfg.SeqEnable = bTRUE;
   AD5940_SEQCfg(&seq_cfg);  /* Enable sequencer */
   AD5940_SEQMmrTrig(AppAMPCfg.InitSeqInfo.SeqId);
-  while(AD5940_INTCTestFlag(AFEINTC_1, AFEINTSRC_ENDSEQ) == bFALSE);
+  /* Wait until init-sequence ends. Add timeout to avoid deadlock if sequencer/clock isn't running. */
+  {
+    uint32_t timeout = 200000; /* ~200000 * 10us = ~2s (depends on platform delay accuracy) */
+    while(AD5940_INTCTestFlag(AFEINTC_1, AFEINTSRC_ENDSEQ) == bFALSE)
+    {
+      if(timeout-- == 0)
+      {
+#ifdef ADI_DEBUG
+        /* Dump a few key registers to help root-cause (SPI ok? clock ok? sequencer enabled?) */
+        uint32_t afecon = AD5940_ReadReg(REG_AFE_AFECON);
+        uint32_t oscc   = AD5940_ReadReg(REG_ALLON_OSCCON);
+        uint32_t seqcfg = AD5940_ReadReg(REG_AFE_SEQCNT);
+        printf("[AppAMPInit] TIMEOUT waiting ENDSEQ. AFECON=0x%08lX OSCCON=0x%08lX SEQCNT=0x%08lX\r\n",
+               (unsigned long)afecon, (unsigned long)oscc, (unsigned long)seqcfg);
+#endif
+        return AD5940ERR_TIMEOUT;
+      }
+      AD5940_Delay10us(1);
+    }
+  }
   
   /* Measurement sequence  */
   AppAMPCfg.MeasureSeqInfo.WriteSRAM = bFALSE;
