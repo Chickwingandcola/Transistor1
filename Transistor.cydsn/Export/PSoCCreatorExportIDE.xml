@@ -25,7 +25,7 @@
       <Tool Name="postbuild" Command="" Options="" />
     </Toolchain>
   </Toolchains>
-  <Project Name="Transistor" Path="E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn" Version="5.60" Type="Normal">
+  <Project Name="Transistor" Path="E:\desktop\bu\Transistor1-4414\Transistor.cydsn" Version="5.60" Type="Normal">
     <CMSIS_SVD_File>Transistor.svd</CMSIS_SVD_File>
     <Datasheet />
     <LinkerFiles>
@@ -34,8 +34,8 @@
       <LinkerFile Toolchain="ARM IAR Generic">.\Generated_Source\PSoC4\Cm0Iar.icf</LinkerFile>
     </LinkerFiles>
     <Folders>
-      <Folder BuildType="STRICT" Path="E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn">
-        <Files Root="E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn">
+      <Folder BuildType="STRICT" Path="E:\desktop\bu\Transistor1-4414\Transistor.cydsn">
+        <Files Root="E:\desktop\bu\Transistor1-4414\Transistor.cydsn">
           <File BuildType="BUILD" Toolchain="">main.c</File>
           <File BuildType="BUILD" Toolchain="">debug.c</File>
           <File BuildType="BUILD" Toolchain="">Impedance.c</File>
@@ -55,8 +55,8 @@
           <File BuildType="BUILD" Toolchain="">ad5941_platform.h</File>
         </Files>
       </Folder>
-      <Folder BuildType="STRICT" Path="E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\Generated_Source\PSoC4">
-        <Files Root="E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn">
+      <Folder BuildType="STRICT" Path="E:\desktop\bu\Transistor1-4414\Transistor.cydsn\Generated_Source\PSoC4">
+        <Files Root="E:\desktop\bu\Transistor1-4414\Transistor.cydsn">
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\cyfitter_cfg.h</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\cyfitter_cfg.c</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\cymetadata.c</File>
@@ -180,50 +180,50 @@
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\cycodeshareimport.scat</File>
         </Files>
       </Folder>
-      <Folder BuildType="STRICT" Path="E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\Export\ARM_GCC_Generic\BLE_v3_30">
-        <Files Root="E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn">
+      <Folder BuildType="STRICT" Path="E:\desktop\bu\Transistor1-4414\Transistor.cydsn\Export\ARM_GCC_Generic\BLE_v3_30">
+        <Files Root="E:\desktop\bu\Transistor1-4414\Transistor.cydsn">
           <File BuildType="BUILD" Toolchain="ARM GCC Generic">.\Export\ARM_GCC_Generic\BLE_v3_30\gccCyBLEStack_BLE_SOC_PERIPHERAL.a</File>
         </Files>
       </Folder>
-      <Folder BuildType="STRICT" Path="E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\Export\ARM_MDK_Generic\BLE_v3_30">
-        <Files Root="E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn">
+      <Folder BuildType="STRICT" Path="E:\desktop\bu\Transistor1-4414\Transistor.cydsn\Export\ARM_MDK_Generic\BLE_v3_30">
+        <Files Root="E:\desktop\bu\Transistor1-4414\Transistor.cydsn">
           <File BuildType="BUILD" Toolchain="ARM MDK Generic">.\Export\ARM_MDK_Generic\BLE_v3_30\mdkCyBLEStack_BLE_SOC_PERIPHERAL.a</File>
         </Files>
       </Folder>
-      <Folder BuildType="STRICT" Path="E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\Export\ARM_IAR_Generic\BLE_v3_30">
-        <Files Root="E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn">
+      <Folder BuildType="STRICT" Path="E:\desktop\bu\Transistor1-4414\Transistor.cydsn\Export\ARM_IAR_Generic\BLE_v3_30">
+        <Files Root="E:\desktop\bu\Transistor1-4414\Transistor.cydsn">
           <File BuildType="BUILD" Toolchain="ARM IAR Generic">.\Export\ARM_IAR_Generic\BLE_v3_30\mdkCyBLEStack_BLE_SOC_PERIPHERAL.a</File>
         </Files>
       </Folder>
       <Folder BuildType="EXCLUDE" Path=".\codegentemp">
-        <Files Root="E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn" />
+        <Files Root="E:\desktop\bu\Transistor1-4414\Transistor.cydsn" />
       </Folder>
       <Folder BuildType="EXCLUDE" Path=".\ARM_GCC_441">
-        <Files Root="E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn" />
+        <Files Root="E:\desktop\bu\Transistor1-4414\Transistor.cydsn" />
       </Folder>
       <Folder BuildType="EXCLUDE" Path=".\ARM_GCC_473">
-        <Files Root="E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn" />
+        <Files Root="E:\desktop\bu\Transistor1-4414\Transistor.cydsn" />
       </Folder>
       <Folder BuildType="EXCLUDE" Path=".\DP8051_Keil_952">
-        <Files Root="E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn" />
+        <Files Root="E:\desktop\bu\Transistor1-4414\Transistor.cydsn" />
       </Folder>
       <Folder BuildType="EXCLUDE" Path=".\DP8051">
-        <Files Root="E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn" />
+        <Files Root="E:\desktop\bu\Transistor1-4414\Transistor.cydsn" />
       </Folder>
       <Folder BuildType="EXCLUDE" Path=".\CortexM0">
-        <Files Root="E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn" />
+        <Files Root="E:\desktop\bu\Transistor1-4414\Transistor.cydsn" />
       </Folder>
       <Folder BuildType="EXCLUDE" Path=".\CortexM0p">
-        <Files Root="E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn" />
+        <Files Root="E:\desktop\bu\Transistor1-4414\Transistor.cydsn" />
       </Folder>
       <Folder BuildType="EXCLUDE" Path=".\CortexM3">
-        <Files Root="E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn" />
+        <Files Root="E:\desktop\bu\Transistor1-4414\Transistor.cydsn" />
       </Folder>
       <Folder BuildType="EXCLUDE" Path=".\CortexM4">
-        <Files Root="E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn" />
+        <Files Root="E:\desktop\bu\Transistor1-4414\Transistor.cydsn" />
       </Folder>
       <Folder BuildType="EXCLUDE" Path=".\CortexM7">
-        <Files Root="E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn" />
+        <Files Root="E:\desktop\bu\Transistor1-4414\Transistor.cydsn" />
       </Folder>
     </Folders>
   </Project>

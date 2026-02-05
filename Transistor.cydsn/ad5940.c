@@ -2953,13 +2953,25 @@ void AD5940_ShutDownS(void)
 uint32_t  AD5940_WakeUp(int32_t TryCount)
 {
   uint32_t count = 0;
+  uint32_t hardTimeout = 500000;  /* 硬超时：约5秒（TryCount<=0时也适用） */
+  
   while(1)
   {
     count++;
+    
+    /* 硬超时保护：防止无限循环 */
+    if(count >= hardTimeout)
+    {
+      #ifdef ADI_DEBUG
+      ADI_Print("[ERROR] AD5940_WakeUp hard timeout at %lu tries\n", count);
+      #endif
+      break;  /* 达到硬超时，返回失败 */
+    }
+    
     if(AD5940_ReadReg(REG_AFECON_ADIID) == AD5940_ADIID)
       break;    /* Succeed */
     if(TryCount<=0) 
-      continue; /* Always try to wakeup AFE */
+      continue; /* Always try to wakeup AFE, but with hardTimeout protection */
 
     if(count > TryCount)
       break;    /* Failed */

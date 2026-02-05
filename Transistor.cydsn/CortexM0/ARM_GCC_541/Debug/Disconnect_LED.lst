@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccdUWGem.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
   28:Generated_Source\PSoC4/Disconnect_LED.c **** #else
   29:Generated_Source\PSoC4/Disconnect_LED.c ****     #if (CY_PSOC4_4200L)
   30:Generated_Source\PSoC4/Disconnect_LED.c ****         #define Disconnect_LED_SetP4PinDriveMode(shift, mode)  \
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 2
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccdUWGem.s 			page 2
 
 
   31:Generated_Source\PSoC4/Disconnect_LED.c ****         do { \
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
   39              		.cfi_def_cfa_register 7
   40 0006 0200     		movs	r2, r0
   41 0008 FB1D     		adds	r3, r7, #7
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 3
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccdUWGem.s 			page 3
 
 
   42 000a 1A70     		strb	r2, [r3]
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
   95:Generated_Source\PSoC4/Disconnect_LED.c **** *  Value to write to the component instance.
   96:Generated_Source\PSoC4/Disconnect_LED.c **** *
   97:Generated_Source\PSoC4/Disconnect_LED.c **** * \return 
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 4
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccdUWGem.s 			page 4
 
 
   98:Generated_Source\PSoC4/Disconnect_LED.c **** *  None 
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
  115:Generated_Source\PSoC4/Disconnect_LED.c ****     Disconnect_LED_DR = (uint32)drVal;
  112              		.loc 1 115 0
  113 0034 044B     		ldr	r3, .L5
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 5
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccdUWGem.s 			page 5
 
 
  114 0036 0F22     		movs	r2, #15
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
  146              		.cfi_offset 14, -4
  147 0002 00AF     		add	r7, sp, #0
  148              		.cfi_def_cfa_register 7
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 6
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccdUWGem.s 			page 6
 
 
  138:Generated_Source\PSoC4/Disconnect_LED.c ****     return (uint8)((Disconnect_LED_PS & Disconnect_LED_MASK) >> Disconnect_LED_SHIFT);
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
  165:Generated_Source\PSoC4/Disconnect_LED.c **** {
  176              		.loc 1 165 0
  177              		.cfi_startproc
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 7
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccdUWGem.s 			page 7
 
 
  178              		@ args = 0, pretend = 0, frame = 0
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
  185:Generated_Source\PSoC4/Disconnect_LED.c **** *  interrupt mode of all the pins in the Pins component.       
  186:Generated_Source\PSoC4/Disconnect_LED.c **** *  - Disconnect_LED_0_INTR       (First pin in the list)
  187:Generated_Source\PSoC4/Disconnect_LED.c **** *  - Disconnect_LED_1_INTR       (Second pin in the list)
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 8
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccdUWGem.s 			page 8
 
 
  188:Generated_Source\PSoC4/Disconnect_LED.c **** *  - ...
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
  242 0024 391D     		adds	r1, r7, #4
  243 0026 1288     		ldrh	r2, [r2]
  244 0028 0988     		ldrh	r1, [r1]
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 9
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccdUWGem.s 			page 9
 
 
  245 002a 0A40     		ands	r2, r1
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
  274              		@ args = 0, pretend = 0, frame = 8
  275              		@ frame_needed = 1, uses_anonymous_args = 0
  276 0000 80B5     		push	{r7, lr}
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 10
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccdUWGem.s 			page 10
 
 
  277              		.cfi_def_cfa_offset 8
@@ -594,17 +594,17 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
  323 000c 73000000 		.4byte	.LASF28
  324 0010 0C       		.byte	0xc
  325 0011 06000000 		.4byte	.LASF29
- 326 0015 F8010000 		.4byte	.LASF30
+ 326 0015 9F010000 		.4byte	.LASF30
  327 0019 00000000 		.4byte	.Ldebug_ranges0+0
  328 001d 00000000 		.4byte	0
  329 0021 00000000 		.4byte	.Ldebug_line0
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 11
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccdUWGem.s 			page 11
 
 
  330 0025 02       		.uleb128 0x2
  331 0026 01       		.byte	0x1
  332 0027 06       		.byte	0x6
- 333 0028 47020000 		.4byte	.LASF0
+ 333 0028 43020000 		.4byte	.LASF0
  334 002c 02       		.uleb128 0x2
  335 002d 01       		.byte	0x1
  336 002e 08       		.byte	0x8
@@ -612,7 +612,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
  338 0033 02       		.uleb128 0x2
  339 0034 02       		.byte	0x2
  340 0035 05       		.byte	0x5
- 341 0036 DF010000 		.4byte	.LASF2
+ 341 0036 0F020000 		.4byte	.LASF2
  342 003a 02       		.uleb128 0x2
  343 003b 02       		.byte	0x2
  344 003c 07       		.byte	0x7
@@ -620,7 +620,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
  346 0041 02       		.uleb128 0x2
  347 0042 04       		.byte	0x4
  348 0043 05       		.byte	0x5
- 349 0044 EF010000 		.4byte	.LASF4
+ 349 0044 1F020000 		.4byte	.LASF4
  350 0048 02       		.uleb128 0x2
  351 0049 04       		.byte	0x4
  352 004a 07       		.byte	0x7
@@ -628,7 +628,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
  354 004f 02       		.uleb128 0x2
  355 0050 08       		.byte	0x8
  356 0051 05       		.byte	0x5
- 357 0052 BF010000 		.4byte	.LASF6
+ 357 0052 EF010000 		.4byte	.LASF6
  358 0056 02       		.uleb128 0x2
  359 0057 08       		.byte	0x8
  360 0058 07       		.byte	0x7
@@ -642,7 +642,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
  368 0066 07       		.byte	0x7
  369 0067 58010000 		.4byte	.LASF8
  370 006b 04       		.uleb128 0x4
- 371 006c E9010000 		.4byte	.LASF9
+ 371 006c 19020000 		.4byte	.LASF9
  372 0070 02       		.byte	0x2
  373 0071 D201     		.2byte	0x1d2
  374 0073 2C000000 		.4byte	0x2c
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
  384 008b 48000000 		.4byte	0x48
  385 008f 02       		.uleb128 0x2
  386 0090 04       		.byte	0x4
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 12
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccdUWGem.s 			page 12
 
 
  387 0091 04       		.byte	0x4
@@ -670,7 +670,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
  393 009d 02       		.uleb128 0x2
  394 009e 01       		.byte	0x1
  395 009f 08       		.byte	0x8
- 396 00a0 DA010000 		.4byte	.LASF14
+ 396 00a0 0A020000 		.4byte	.LASF14
  397 00a4 04       		.uleb128 0x4
  398 00a5 00000000 		.4byte	.LASF15
  399 00a9 02       		.byte	0x2
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
  441 0101 01       		.byte	0x1
  442 0102 71       		.byte	0x71
  443 0103 6B000000 		.4byte	0x6b
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 13
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccdUWGem.s 			page 13
 
 
  444 0107 02       		.uleb128 0x2
@@ -726,7 +726,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
  446 0109 77       		.sleb128 -9
  447 010a 00       		.byte	0
  448 010b 09       		.uleb128 0x9
- 449 010c 53020000 		.4byte	.LASF20
+ 449 010c 4F020000 		.4byte	.LASF20
  450 0110 01       		.byte	0x1
  451 0111 88       		.byte	0x88
  452 0112 6B000000 		.4byte	0x6b
@@ -735,7 +735,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
  455 011e 01       		.uleb128 0x1
  456 011f 9C       		.byte	0x9c
  457 0120 09       		.uleb128 0x9
- 458 0121 2C020000 		.4byte	.LASF21
+ 458 0121 28020000 		.4byte	.LASF21
  459 0125 01       		.byte	0x1
  460 0126 A4       		.byte	0xa4
  461 0127 6B000000 		.4byte	0x6b
@@ -744,7 +744,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
  464 0133 01       		.uleb128 0x1
  465 0134 9C       		.byte	0x9c
  466 0135 06       		.uleb128 0x6
- 467 0136 9F010000 		.4byte	.LASF22
+ 467 0136 CF010000 		.4byte	.LASF22
  468 013a 01       		.byte	0x1
  469 013b CF       		.byte	0xcf
  470 013c 00000000 		.4byte	.LFB4
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
  498 0173 74       		.sleb128 -12
  499 0174 00       		.byte	0
  500 0175 0A       		.uleb128 0xa
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 14
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccdUWGem.s 			page 14
 
 
  501 0176 7C010000 		.4byte	.LASF26
@@ -790,7 +790,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
  507 0188 01       		.uleb128 0x1
  508 0189 9C       		.byte	0x9c
  509 018a 08       		.uleb128 0x8
- 510 018b CD010000 		.4byte	.LASF27
+ 510 018b FD010000 		.4byte	.LASF27
  511 018f 01       		.byte	0x1
  512 0190 EE       		.byte	0xee
  513 0191 6B000000 		.4byte	0x6b
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
  555 0022 0B       		.uleb128 0xb
  556 0023 3E       		.uleb128 0x3e
  557 0024 0B       		.uleb128 0xb
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 15
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccdUWGem.s 			page 15
 
 
  558 0025 03       		.uleb128 0x3
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
  612 005c 3A       		.uleb128 0x3a
  613 005d 0B       		.uleb128 0xb
  614 005e 3B       		.uleb128 0x3b
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 16
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccdUWGem.s 			page 16
 
 
  615 005f 0B       		.uleb128 0xb
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
  669 0096 3A       		.uleb128 0x3a
  670 0097 0B       		.uleb128 0xb
  671 0098 3B       		.uleb128 0x3b
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 17
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccdUWGem.s 			page 17
 
 
  672 0099 0B       		.uleb128 0xb
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
  726              		.section	.debug_line,"",%progbits
  727              	.Ldebug_line0:
  728 0000 C2000000 		.section	.debug_str,"MS",%progbits,1
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 18
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccdUWGem.s 			page 18
 
 
  728      02004B00 
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
  748      74696F6E 
  749              	.LASF13:
  750 0101 646F7562 		.ascii	"double\000"
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 19
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccdUWGem.s 			page 19
 
 
  750      6C6500
@@ -1127,59 +1127,58 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 1
  769              	.LASF18:
  770 019a 6D6F6465 		.ascii	"mode\000"
  770      00
- 771              	.LASF22:
- 772 019f 44697363 		.ascii	"Disconnect_LED_SetInterruptMode\000"
- 772      6F6E6E65 
- 772      63745F4C 
- 772      45445F53 
- 772      6574496E 
- 773              	.LASF6:
- 774 01bf 6C6F6E67 		.ascii	"long long int\000"
- 774      206C6F6E 
- 774      6720696E 
- 774      7400
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccjxRA8B.s 			page 20
+ 771              	.LASF30:
+ 772 019f 453A5C64 		.ascii	"E:\\desktop\\bu\\Transistor1-4414\\Transistor.cydsn"
+ 772      65736B74 
+ 772      6F705C62 
+ 772      755C5472 
+ 772      616E7369 
+ 773 01ce 00       		.ascii	"\000"
+ 774              	.LASF22:
+ 775 01cf 44697363 		.ascii	"Disconnect_LED_SetInterruptMode\000"
+ 775      6F6E6E65 
+ 775      63745F4C 
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccdUWGem.s 			page 20
 
 
- 775              	.LASF27:
- 776 01cd 6D61736B 		.ascii	"maskedStatus\000"
- 776      65645374 
- 776      61747573 
- 776      00
- 777              	.LASF14:
- 778 01da 63686172 		.ascii	"char\000"
- 778      00
- 779              	.LASF2:
- 780 01df 73686F72 		.ascii	"short int\000"
- 780      7420696E 
- 780      7400
- 781              	.LASF9:
- 782 01e9 75696E74 		.ascii	"uint8\000"
- 782      3800
- 783              	.LASF4:
- 784 01ef 6C6F6E67 		.ascii	"long int\000"
- 784      20696E74 
- 784      00
- 785              	.LASF30:
- 786 01f8 453A5C64 		.ascii	"E:\\desktop\\bu\\eda\\Transistor1-4414\\Transistor."
- 786      65736B74 
- 786      6F705C62 
- 786      755C6564 
- 786      615C5472 
- 787 0226 63796473 		.ascii	"cydsn\000"
- 787      6E00
+ 775      45445F53 
+ 775      6574496E 
+ 776              	.LASF6:
+ 777 01ef 6C6F6E67 		.ascii	"long long int\000"
+ 777      206C6F6E 
+ 777      6720696E 
+ 777      7400
+ 778              	.LASF27:
+ 779 01fd 6D61736B 		.ascii	"maskedStatus\000"
+ 779      65645374 
+ 779      61747573 
+ 779      00
+ 780              	.LASF14:
+ 781 020a 63686172 		.ascii	"char\000"
+ 781      00
+ 782              	.LASF2:
+ 783 020f 73686F72 		.ascii	"short int\000"
+ 783      7420696E 
+ 783      7400
+ 784              	.LASF9:
+ 785 0219 75696E74 		.ascii	"uint8\000"
+ 785      3800
+ 786              	.LASF4:
+ 787 021f 6C6F6E67 		.ascii	"long int\000"
+ 787      20696E74 
+ 787      00
  788              	.LASF21:
- 789 022c 44697363 		.ascii	"Disconnect_LED_ReadDataReg\000"
+ 789 0228 44697363 		.ascii	"Disconnect_LED_ReadDataReg\000"
  789      6F6E6E65 
  789      63745F4C 
  789      45445F52 
  789      65616444 
  790              	.LASF0:
- 791 0247 7369676E 		.ascii	"signed char\000"
+ 791 0243 7369676E 		.ascii	"signed char\000"
  791      65642063 
  791      68617200 
  792              	.LASF20:
- 793 0253 44697363 		.ascii	"Disconnect_LED_Read\000"
+ 793 024f 44697363 		.ascii	"Disconnect_LED_Read\000"
  793      6F6E6E65 
  793      63745F4C 
  793      45445F52 

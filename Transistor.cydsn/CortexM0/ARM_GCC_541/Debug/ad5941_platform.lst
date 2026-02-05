@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc9UOw3h.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
   28:ad5941_platform.c **** #define SPI_CS_LOW()       AD5940_CS_Write(0)        // CS 低电平
   29:ad5941_platform.c **** #define SPI_SCLK_SET()     AD5940_SCLK_Write(1)      // SCLK 设高
   30:ad5941_platform.c **** #define SPI_SCLK_CLR()     AD5940_SCLK_Write(0)      // SCLK 设低
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 2
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc9UOw3h.s 			page 2
 
 
   31:ad5941_platform.c **** #define SPI_MOSI_SET()     AD5940_MOSI_Write(1)      // MOSI 设高
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
   59 0024 002B     		cmp	r3, #0
   60 0026 03DA     		bge	.L3
   61              		.loc 1 53 0 is_stmt 0 discriminator 1
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 3
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc9UOw3h.s 			page 3
 
 
   62 0028 0120     		movs	r0, #1
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  104 0074 0A43     		orrs	r2, r1
  105 0076 1A70     		strb	r2, [r3]
  106              	.L5:
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 4
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc9UOw3h.s 			page 4
 
 
   66:ad5941_platform.c ****         
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
   76:ad5941_platform.c ****  */
   77:ad5941_platform.c **** int32_t AD5940_ReadWriteNBytes(uint8_t *pSendBuffer, uint8_t *pRecvBuff, uint32_t length)
   78:ad5941_platform.c **** {
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 5
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc9UOw3h.s 			page 5
 
 
  149              		.loc 1 78 0
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  194 0034 D318     		adds	r3, r2, r3
  195 0036 1B78     		ldrb	r3, [r3]
  196 0038 1800     		movs	r0, r3
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 6
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc9UOw3h.s 			page 6
 
 
  197 003a FFF7FEFF 		bl	SoftSPI_TxRxByte
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  104:ad5941_platform.c **** void AD5940_CsClr(void)
  105:ad5941_platform.c **** {
  233              		.loc 1 105 0
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 7
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc9UOw3h.s 			page 7
 
 
  234              		.cfi_startproc
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  276 000a C046     		nop
  277 000c BD46     		mov	sp, r7
  278              		@ sp needed
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 8
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc9UOw3h.s 			page 8
 
 
  279 000e 80BD     		pop	{r7, pc}
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  131:ad5941_platform.c ****  * @brief 拉低复位引脚（复位芯片）
  132:ad5941_platform.c ****  * 
  133:ad5941_platform.c ****  * 将AD5940置于复位状态
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 9
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc9UOw3h.s 			page 9
 
 
  134:ad5941_platform.c ****  * 通常需要保持低电平至少10us，然后拉高以完成复位
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  354              		.cfi_def_cfa_offset 8
  355              		.cfi_offset 7, -8
  356              		.cfi_offset 14, -4
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 10
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc9UOw3h.s 			page 10
 
 
  357 0002 84B0     		sub	sp, sp, #16
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  397 0032 C046     		.section	.text.AD5940_GetMCUIntFlag,"ax",%progbits
  398              		.align	2
  399              		.global	AD5940_GetMCUIntFlag
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 11
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc9UOw3h.s 			page 11
 
 
  400              		.code	16
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  186:ad5941_platform.c ****  * 
  187:ad5941_platform.c ****  * 清除之前检测到的中断标志，为下一次中断做准备
  188:ad5941_platform.c ****  */
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 12
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc9UOw3h.s 			page 12
 
 
  189:ad5941_platform.c **** uint32_t AD5940_ClrMCUIntFlag(void)
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  215:ad5941_platform.c ****  * - 在任何AD5940操作之前调用
  216:ad5941_platform.c ****  */
  217:ad5941_platform.c **** int32_t AD5940_MCUResourceInit(void *pCfg)
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 13
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc9UOw3h.s 			page 13
 
 
  218:ad5941_platform.c **** {
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  244:ad5941_platform.c ****     return 0;  /* 成功 */
  489              		.loc 1 244 0
  490 0026 0023     		movs	r3, #0
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 14
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc9UOw3h.s 			page 14
 
 
  245:ad5941_platform.c **** }
@@ -804,7 +804,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  510 000b 01       		.uleb128 0x1
  511 000c CB000000 		.4byte	.LASF37
  512 0010 0C       		.byte	0xc
- 513 0011 24020000 		.4byte	.LASF38
+ 513 0011 20020000 		.4byte	.LASF38
  514 0015 C7010000 		.4byte	.LASF39
  515 0019 00000000 		.4byte	.Ldebug_ranges0+0
  516 001d 00000000 		.4byte	0
@@ -812,7 +812,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  518 0025 02       		.uleb128 0x2
  519 0026 01       		.byte	0x1
  520 0027 06       		.byte	0x6
- 521 0028 75020000 		.4byte	.LASF0
+ 521 0028 71020000 		.4byte	.LASF0
  522 002c 03       		.uleb128 0x3
  523 002d 00000000 		.4byte	.LASF4
  524 0031 02       		.byte	0x2
@@ -825,11 +825,11 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  531 003e 02       		.uleb128 0x2
  532 003f 02       		.byte	0x2
  533 0040 05       		.byte	0x5
- 534 0041 4D020000 		.4byte	.LASF2
+ 534 0041 49020000 		.4byte	.LASF2
  535 0045 02       		.uleb128 0x2
  536 0046 02       		.byte	0x2
  537 0047 07       		.byte	0x7
- 538 0048 81020000 		.4byte	.LASF3
+ 538 0048 7D020000 		.4byte	.LASF3
  539 004c 03       		.uleb128 0x3
  540 004d 44000000 		.4byte	.LASF5
  541 0051 02       		.byte	0x2
@@ -838,12 +838,12 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  544 0057 02       		.uleb128 0x2
  545 0058 04       		.byte	0x4
  546 0059 05       		.byte	0x5
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 15
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc9UOw3h.s 			page 15
 
 
- 547 005a 60020000 		.4byte	.LASF6
+ 547 005a 5C020000 		.4byte	.LASF6
  548 005e 03       		.uleb128 0x3
- 549 005f 60010000 		.4byte	.LASF7
+ 549 005f 65010000 		.4byte	.LASF7
  550 0063 02       		.byte	0x2
  551 0064 41       		.byte	0x41
  552 0065 69000000 		.4byte	0x69
@@ -854,7 +854,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  557 0070 02       		.uleb128 0x2
  558 0071 08       		.byte	0x8
  559 0072 05       		.byte	0x5
- 560 0073 0C020000 		.4byte	.LASF9
+ 560 0073 08020000 		.4byte	.LASF9
  561 0077 02       		.uleb128 0x2
  562 0078 08       		.byte	0x8
  563 0079 07       		.byte	0x7
@@ -866,19 +866,19 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  569 0085 02       		.uleb128 0x2
  570 0086 04       		.byte	0x4
  571 0087 07       		.byte	0x7
- 572 0088 79010000 		.4byte	.LASF11
+ 572 0088 7E010000 		.4byte	.LASF11
  573 008c 03       		.uleb128 0x3
- 574 008d 8B010000 		.4byte	.LASF12
+ 574 008d 90010000 		.4byte	.LASF12
  575 0091 03       		.byte	0x3
  576 0092 18       		.byte	0x18
  577 0093 2C000000 		.4byte	0x2c
  578 0097 03       		.uleb128 0x3
- 579 0098 FB010000 		.4byte	.LASF13
+ 579 0098 F7010000 		.4byte	.LASF13
  580 009c 03       		.byte	0x3
  581 009d 2C       		.byte	0x2c
  582 009e 4C000000 		.4byte	0x4c
  583 00a2 03       		.uleb128 0x3
- 584 00a3 57020000 		.4byte	.LASF14
+ 584 00a3 53020000 		.4byte	.LASF14
  585 00a7 03       		.byte	0x3
  586 00a8 30       		.byte	0x30
  587 00a9 5E000000 		.4byte	0x5e
@@ -889,22 +889,22 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  592 00b4 02       		.uleb128 0x2
  593 00b5 08       		.byte	0x8
  594 00b6 04       		.byte	0x4
- 595 00b7 59010000 		.4byte	.LASF16
+ 595 00b7 5E010000 		.4byte	.LASF16
  596 00bb 02       		.uleb128 0x2
  597 00bc 01       		.byte	0x1
  598 00bd 08       		.byte	0x8
- 599 00be 86010000 		.4byte	.LASF17
+ 599 00be 8B010000 		.4byte	.LASF17
  600 00c2 02       		.uleb128 0x2
  601 00c3 08       		.byte	0x8
  602 00c4 04       		.byte	0x4
- 603 00c5 69020000 		.4byte	.LASF18
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 16
+ 603 00c5 65020000 		.4byte	.LASF18
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc9UOw3h.s 			page 16
 
 
  604 00c9 02       		.uleb128 0x2
  605 00ca 04       		.byte	0x4
  606 00cb 07       		.byte	0x7
- 607 00cc 03020000 		.4byte	.LASF19
+ 607 00cc FF010000 		.4byte	.LASF19
  608 00d0 05       		.uleb128 0x5
  609 00d1 04       		.byte	0x4
  610 00d2 06       		.uleb128 0x6
@@ -943,7 +943,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  643 0112 76       		.sleb128 -10
  644 0113 00       		.byte	0
  645 0114 06       		.uleb128 0x6
- 646 0115 36020000 		.4byte	.LASF22
+ 646 0115 32020000 		.4byte	.LASF22
  647 0119 01       		.byte	0x1
  648 011a 4D       		.byte	0x4d
  649 011b 97000000 		.4byte	0x97
@@ -953,18 +953,18 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  653 0128 9C       		.byte	0x9c
  654 0129 64010000 		.4byte	0x164
  655 012d 07       		.uleb128 0x7
- 656 012e A8010000 		.4byte	.LASF24
+ 656 012e AD010000 		.4byte	.LASF24
  657 0132 01       		.byte	0x1
  658 0133 4D       		.byte	0x4d
  659 0134 64010000 		.4byte	0x164
  660 0138 02       		.uleb128 0x2
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 17
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc9UOw3h.s 			page 17
 
 
  661 0139 91       		.byte	0x91
  662 013a 64       		.sleb128 -28
  663 013b 07       		.uleb128 0x7
- 664 013c 1A020000 		.4byte	.LASF25
+ 664 013c 16020000 		.4byte	.LASF25
  665 0140 01       		.byte	0x1
  666 0141 4D       		.byte	0x4d
  667 0142 64010000 		.4byte	0x164
@@ -972,7 +972,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  669 0147 91       		.byte	0x91
  670 0148 60       		.sleb128 -32
  671 0149 07       		.uleb128 0x7
- 672 014a 94020000 		.4byte	.LASF26
+ 672 014a 90020000 		.4byte	.LASF26
  673 014e 01       		.byte	0x1
  674 014f 4D       		.byte	0x4d
  675 0150 A2000000 		.4byte	0xa2
@@ -1008,7 +1008,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  705 018a 01       		.uleb128 0x1
  706 018b 9C       		.byte	0x9c
  707 018c 0B       		.uleb128 0xb
- 708 018d 6B010000 		.4byte	.LASF29
+ 708 018d 70010000 		.4byte	.LASF29
  709 0191 01       		.byte	0x1
  710 0192 7D       		.byte	0x7d
  711 0193 00000000 		.4byte	.LFB40
@@ -1016,9 +1016,9 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  713 019b 01       		.uleb128 0x1
  714 019c 9C       		.byte	0x9c
  715 019d 0B       		.uleb128 0xb
- 716 019e B4010000 		.4byte	.LASF30
+ 716 019e B9010000 		.4byte	.LASF30
  717 01a2 01       		.byte	0x1
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 18
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc9UOw3h.s 			page 18
 
 
  718 01a3 88       		.byte	0x88
@@ -1036,7 +1036,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  730 01be 9C       		.byte	0x9c
  731 01bf DE010000 		.4byte	0x1de
  732 01c3 07       		.uleb128 0x7
- 733 01c4 C2010000 		.4byte	.LASF31
+ 733 01c4 59010000 		.4byte	.LASF31
  734 01c8 01       		.byte	0x1
  735 01c9 98       		.byte	0x98
  736 01ca A2000000 		.4byte	0xa2
@@ -1053,7 +1053,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  747 01dc 74       		.sleb128 -12
  748 01dd 00       		.byte	0
  749 01de 0D       		.uleb128 0xd
- 750 01df 93010000 		.4byte	.LASF32
+ 750 01df 98010000 		.4byte	.LASF32
  751 01e3 01       		.byte	0x1
  752 01e4 AD       		.byte	0xad
  753 01e5 A2000000 		.4byte	0xa2
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  772 0213 00000000 		.4byte	.LFB45
  773 0217 30000000 		.4byte	.LFE45-.LFB45
  774 021b 01       		.uleb128 0x1
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 19
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc9UOw3h.s 			page 19
 
 
  775 021c 9C       		.byte	0x9c
@@ -1138,7 +1138,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  829 0029 00       		.byte	0
  830 002a 00       		.byte	0
  831 002b 04       		.uleb128 0x4
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 20
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc9UOw3h.s 			page 20
 
 
  832 002c 24       		.uleb128 0x24
@@ -1198,7 +1198,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  886 0063 13       		.uleb128 0x13
  887 0064 02       		.uleb128 0x2
  888 0065 18       		.uleb128 0x18
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 21
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc9UOw3h.s 			page 21
 
 
  889 0066 00       		.byte	0
@@ -1258,7 +1258,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  943 009c 11       		.uleb128 0x11
  944 009d 01       		.uleb128 0x1
  945 009e 12       		.uleb128 0x12
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 22
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc9UOw3h.s 			page 22
 
 
  946 009f 06       		.uleb128 0x6
@@ -1318,7 +1318,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  1000 00d8 19       		.uleb128 0x19
  1001 00d9 00       		.byte	0
  1002 00da 00       		.byte	0
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 23
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc9UOw3h.s 			page 23
 
 
  1003 00db 0E       		.uleb128 0xe
@@ -1378,7 +1378,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  1057 0060 00000000 		.4byte	0
  1058 0064 00000000 		.4byte	0
  1059              		.section	.debug_ranges,"",%progbits
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 24
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc9UOw3h.s 			page 24
 
 
  1060              	.Ldebug_ranges0:
@@ -1438,7 +1438,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  1096              	.LASF5:
  1097 0044 5F5F696E 		.ascii	"__int32_t\000"
  1097      7433325F 
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 25
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc9UOw3h.s 			page 25
 
 
  1097      7400
@@ -1498,119 +1498,118 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 1
  1118      37373135 
  1119 0131 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
  1119      66756E63 
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 26
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc9UOw3h.s 			page 26
 
 
  1119      74696F6E 
  1119      2D736563 
  1119      74696F6E 
- 1120              	.LASF16:
- 1121 0159 646F7562 		.ascii	"double\000"
- 1121      6C6500
- 1122              	.LASF7:
- 1123 0160 5F5F7569 		.ascii	"__uint32_t\000"
- 1123      6E743332 
- 1123      5F7400
- 1124              	.LASF29:
- 1125 016b 41443539 		.ascii	"AD5940_RstSet\000"
- 1125      34305F52 
- 1125      73745365 
- 1125      7400
- 1126              	.LASF11:
- 1127 0179 756E7369 		.ascii	"unsigned int\000"
- 1127      676E6564 
- 1127      20696E74 
- 1127      00
- 1128              	.LASF17:
- 1129 0186 63686172 		.ascii	"char\000"
+ 1120              	.LASF31:
+ 1121 0159 74696D65 		.ascii	"time\000"
+ 1121      00
+ 1122              	.LASF16:
+ 1123 015e 646F7562 		.ascii	"double\000"
+ 1123      6C6500
+ 1124              	.LASF7:
+ 1125 0165 5F5F7569 		.ascii	"__uint32_t\000"
+ 1125      6E743332 
+ 1125      5F7400
+ 1126              	.LASF29:
+ 1127 0170 41443539 		.ascii	"AD5940_RstSet\000"
+ 1127      34305F52 
+ 1127      73745365 
+ 1127      7400
+ 1128              	.LASF11:
+ 1129 017e 756E7369 		.ascii	"unsigned int\000"
+ 1129      676E6564 
+ 1129      20696E74 
  1129      00
- 1130              	.LASF12:
- 1131 018b 75696E74 		.ascii	"uint8_t\000"
- 1131      385F7400 
- 1132              	.LASF32:
- 1133 0193 41443539 		.ascii	"AD5940_GetMCUIntFlag\000"
- 1133      34305F47 
- 1133      65744D43 
- 1133      55496E74 
- 1133      466C6167 
- 1134              	.LASF24:
- 1135 01a8 7053656E 		.ascii	"pSendBuffer\000"
- 1135      64427566 
- 1135      66657200 
- 1136              	.LASF30:
- 1137 01b4 41443539 		.ascii	"AD5940_RstClr\000"
- 1137      34305F52 
- 1137      7374436C 
- 1137      7200
- 1138              	.LASF31:
- 1139 01c2 74696D65 		.ascii	"time\000"
- 1139      00
+ 1130              	.LASF17:
+ 1131 018b 63686172 		.ascii	"char\000"
+ 1131      00
+ 1132              	.LASF12:
+ 1133 0190 75696E74 		.ascii	"uint8_t\000"
+ 1133      385F7400 
+ 1134              	.LASF32:
+ 1135 0198 41443539 		.ascii	"AD5940_GetMCUIntFlag\000"
+ 1135      34305F47 
+ 1135      65744D43 
+ 1135      55496E74 
+ 1135      466C6167 
+ 1136              	.LASF24:
+ 1137 01ad 7053656E 		.ascii	"pSendBuffer\000"
+ 1137      64427566 
+ 1137      66657200 
+ 1138              	.LASF30:
+ 1139 01b9 41443539 		.ascii	"AD5940_RstClr\000"
+ 1139      34305F52 
+ 1139      7374436C 
+ 1139      7200
  1140              	.LASF39:
- 1141 01c7 453A5C64 		.ascii	"E:\\desktop\\bu\\eda\\Transistor1-4414\\Transistor."
+ 1141 01c7 453A5C64 		.ascii	"E:\\desktop\\bu\\Transistor1-4414\\Transistor.cydsn"
  1141      65736B74 
  1141      6F705C62 
- 1141      755C6564 
- 1141      615C5472 
- 1142 01f5 63796473 		.ascii	"cydsn\000"
- 1142      6E00
+ 1141      755C5472 
+ 1141      616E7369 
+ 1142 01f6 00       		.ascii	"\000"
  1143              	.LASF13:
- 1144 01fb 696E7433 		.ascii	"int32_t\000"
+ 1144 01f7 696E7433 		.ascii	"int32_t\000"
  1144      325F7400 
  1145              	.LASF19:
- 1146 0203 73697A65 		.ascii	"sizetype\000"
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccRly28g.s 			page 27
-
-
+ 1146 01ff 73697A65 		.ascii	"sizetype\000"
  1146      74797065 
+ARM GAS  C:\Users\13740\AppData\Local\Temp\cc9UOw3h.s 			page 27
+
+
  1146      00
  1147              	.LASF9:
- 1148 020c 6C6F6E67 		.ascii	"long long int\000"
+ 1148 0208 6C6F6E67 		.ascii	"long long int\000"
  1148      206C6F6E 
  1148      6720696E 
  1148      7400
  1149              	.LASF25:
- 1150 021a 70526563 		.ascii	"pRecvBuff\000"
+ 1150 0216 70526563 		.ascii	"pRecvBuff\000"
  1150      76427566 
  1150      6600
  1151              	.LASF38:
- 1152 0224 61643539 		.ascii	"ad5941_platform.c\000"
+ 1152 0220 61643539 		.ascii	"ad5941_platform.c\000"
  1152      34315F70 
  1152      6C617466 
  1152      6F726D2E 
  1152      6300
  1153              	.LASF22:
- 1154 0236 41443539 		.ascii	"AD5940_ReadWriteNBytes\000"
+ 1154 0232 41443539 		.ascii	"AD5940_ReadWriteNBytes\000"
  1154      34305F52 
  1154      65616457 
  1154      72697465 
  1154      4E427974 
  1155              	.LASF2:
- 1156 024d 73686F72 		.ascii	"short int\000"
+ 1156 0249 73686F72 		.ascii	"short int\000"
  1156      7420696E 
  1156      7400
  1157              	.LASF14:
- 1158 0257 75696E74 		.ascii	"uint32_t\000"
+ 1158 0253 75696E74 		.ascii	"uint32_t\000"
  1158      33325F74 
  1158      00
  1159              	.LASF6:
- 1160 0260 6C6F6E67 		.ascii	"long int\000"
+ 1160 025c 6C6F6E67 		.ascii	"long int\000"
  1160      20696E74 
  1160      00
  1161              	.LASF18:
- 1162 0269 6C6F6E67 		.ascii	"long double\000"
+ 1162 0265 6C6F6E67 		.ascii	"long double\000"
  1162      20646F75 
  1162      626C6500 
  1163              	.LASF0:
- 1164 0275 7369676E 		.ascii	"signed char\000"
+ 1164 0271 7369676E 		.ascii	"signed char\000"
  1164      65642063 
  1164      68617200 
  1165              	.LASF3:
- 1166 0281 73686F72 		.ascii	"short unsigned int\000"
+ 1166 027d 73686F72 		.ascii	"short unsigned int\000"
  1166      7420756E 
  1166      7369676E 
  1166      65642069 
  1166      6E7400
  1167              	.LASF26:
- 1168 0294 6C656E67 		.ascii	"length\000"
+ 1168 0290 6C656E67 		.ascii	"length\000"
  1168      746800
  1169              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

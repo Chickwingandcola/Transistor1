@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccItK3tv.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
   28:Generated_Source\PSoC4/Advertising_LED.c **** #else
   29:Generated_Source\PSoC4/Advertising_LED.c ****     #if (CY_PSOC4_4200L)
   30:Generated_Source\PSoC4/Advertising_LED.c ****         #define Advertising_LED_SetP4PinDriveMode(shift, mode)  \
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 2
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccItK3tv.s 			page 2
 
 
   31:Generated_Source\PSoC4/Advertising_LED.c ****         do { \
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
   39              		.cfi_def_cfa_register 7
   40 0006 0200     		movs	r2, r0
   41 0008 FB1D     		adds	r3, r7, #7
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 3
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccItK3tv.s 			page 3
 
 
   42 000a 1A70     		strb	r2, [r3]
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
   94:Generated_Source\PSoC4/Advertising_LED.c **** * \param value
   95:Generated_Source\PSoC4/Advertising_LED.c **** *  Value to write to the component instance.
   96:Generated_Source\PSoC4/Advertising_LED.c **** *
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 4
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccItK3tv.s 			page 4
 
 
   97:Generated_Source\PSoC4/Advertising_LED.c **** * \return 
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
  112 0032 1278     		ldrb	r2, [r2]
  113 0034 0A43     		orrs	r2, r1
  114 0036 1A70     		strb	r2, [r3]
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 5
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccItK3tv.s 			page 5
 
 
  115:Generated_Source\PSoC4/Advertising_LED.c ****     Advertising_LED_DR = (uint32)drVal;
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
  146 0000 80B5     		push	{r7, lr}
  147              		.cfi_def_cfa_offset 8
  148              		.cfi_offset 7, -8
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 6
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccItK3tv.s 			page 6
 
 
  149              		.cfi_offset 14, -4
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
  162:Generated_Source\PSoC4/Advertising_LED.c **** *  \snippet Advertising_LED_SUT.c usage_Advertising_LED_ReadDataReg 
  163:Generated_Source\PSoC4/Advertising_LED.c **** *******************************************************************************/
  164:Generated_Source\PSoC4/Advertising_LED.c **** uint8 Advertising_LED_ReadDataReg(void)
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 7
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccItK3tv.s 			page 7
 
 
  165:Generated_Source\PSoC4/Advertising_LED.c **** {
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
  182:Generated_Source\PSoC4/Advertising_LED.c **** *  The pin position as listed in the Pins component. You may OR these to be 
  183:Generated_Source\PSoC4/Advertising_LED.c **** *  able to configure the interrupt mode of multiple pins within a Pins 
  184:Generated_Source\PSoC4/Advertising_LED.c **** *  component. Or you may use Advertising_LED_INTR_ALL to configure the
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 8
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccItK3tv.s 			page 8
 
 
  185:Generated_Source\PSoC4/Advertising_LED.c **** *  interrupt mode of all the pins in the Pins component.       
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
  242              		.loc 1 212 0
  243 0020 074B     		ldr	r3, .L16
  244 0022 BA1D     		adds	r2, r7, #6
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 9
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccItK3tv.s 			page 9
 
 
  245 0024 391D     		adds	r1, r7, #4
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
  237:Generated_Source\PSoC4/Advertising_LED.c **** {
  275              		.loc 1 237 0
  276              		.cfi_startproc
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 10
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccItK3tv.s 			page 10
 
 
  277              		@ args = 0, pretend = 0, frame = 8
@@ -598,18 +598,18 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
  327 000b 01       		.uleb128 0x1
  328 000c 82000000 		.4byte	.LASF28
  329 0010 0C       		.byte	0xc
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 11
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccItK3tv.s 			page 11
 
 
- 330 0011 45020000 		.4byte	.LASF29
- 331 0015 B4010000 		.4byte	.LASF30
+ 330 0011 41020000 		.4byte	.LASF29
+ 331 0015 7B010000 		.4byte	.LASF30
  332 0019 00000000 		.4byte	.Ldebug_ranges0+0
  333 001d 00000000 		.4byte	0
  334 0021 00000000 		.4byte	.Ldebug_line0
  335 0025 02       		.uleb128 0x2
  336 0026 01       		.byte	0x1
  337 0027 06       		.byte	0x6
- 338 0028 07020000 		.4byte	.LASF0
+ 338 0028 03020000 		.4byte	.LASF0
  339 002c 02       		.uleb128 0x2
  340 002d 01       		.byte	0x1
  341 002e 08       		.byte	0x8
@@ -617,7 +617,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
  343 0033 02       		.uleb128 0x2
  344 0034 02       		.byte	0x2
  345 0035 05       		.byte	0x5
- 346 0036 9B010000 		.4byte	.LASF2
+ 346 0036 CB010000 		.4byte	.LASF2
  347 003a 02       		.uleb128 0x2
  348 003b 02       		.byte	0x2
  349 003c 07       		.byte	0x7
@@ -625,7 +625,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
  351 0041 02       		.uleb128 0x2
  352 0042 04       		.byte	0x4
  353 0043 05       		.byte	0x5
- 354 0044 AB010000 		.4byte	.LASF4
+ 354 0044 DB010000 		.4byte	.LASF4
  355 0048 02       		.uleb128 0x2
  356 0049 04       		.byte	0x4
  357 004a 07       		.byte	0x7
@@ -633,7 +633,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
  359 004f 02       		.uleb128 0x2
  360 0050 08       		.byte	0x8
  361 0051 05       		.byte	0x5
- 362 0052 7B010000 		.4byte	.LASF6
+ 362 0052 AB010000 		.4byte	.LASF6
  363 0056 02       		.uleb128 0x2
  364 0057 08       		.byte	0x8
  365 0058 07       		.byte	0x7
@@ -647,7 +647,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
  373 0066 07       		.byte	0x7
  374 0067 52010000 		.4byte	.LASF8
  375 006b 04       		.uleb128 0x4
- 376 006c A5010000 		.4byte	.LASF9
+ 376 006c D5010000 		.4byte	.LASF9
  377 0070 02       		.byte	0x2
  378 0071 D201     		.2byte	0x1d2
  379 0073 2C000000 		.4byte	0x2c
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
  384 007f 3A000000 		.4byte	0x3a
  385 0083 04       		.uleb128 0x4
  386 0084 43010000 		.4byte	.LASF11
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 12
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccItK3tv.s 			page 12
 
 
  387 0088 02       		.byte	0x2
@@ -675,7 +675,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
  398 009d 02       		.uleb128 0x2
  399 009e 01       		.byte	0x1
  400 009f 08       		.byte	0x8
- 401 00a0 96010000 		.4byte	.LASF14
+ 401 00a0 C6010000 		.4byte	.LASF14
  402 00a4 04       		.uleb128 0x4
  403 00a5 00000000 		.4byte	.LASF15
  404 00a9 02       		.byte	0x2
@@ -684,7 +684,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
  407 00b0 05       		.uleb128 0x5
  408 00b1 83000000 		.4byte	0x83
  409 00b5 06       		.uleb128 0x6
- 410 00b6 13020000 		.4byte	.LASF16
+ 410 00b6 0F020000 		.4byte	.LASF16
  411 00ba 01       		.byte	0x1
  412 00bb 48       		.byte	0x48
  413 00bc 00000000 		.4byte	.LFB0
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
  441 00f9 02       		.uleb128 0x2
  442 00fa 91       		.byte	0x91
  443 00fb 6F       		.sleb128 -17
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 13
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccItK3tv.s 			page 13
 
 
  444 00fc 08       		.uleb128 0x8
@@ -731,7 +731,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
  451 0109 77       		.sleb128 -9
  452 010a 00       		.byte	0
  453 010b 09       		.uleb128 0x9
- 454 010c 30020000 		.4byte	.LASF20
+ 454 010c 2C020000 		.4byte	.LASF20
  455 0110 01       		.byte	0x1
  456 0111 88       		.byte	0x88
  457 0112 6B000000 		.4byte	0x6b
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
  498 016b 01       		.byte	0x1
  499 016c D1       		.byte	0xd1
  500 016d 83000000 		.4byte	0x83
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 14
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccItK3tv.s 			page 14
 
 
  501 0171 02       		.uleb128 0x2
@@ -786,7 +786,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
  503 0173 74       		.sleb128 -12
  504 0174 00       		.byte	0
  505 0175 0A       		.uleb128 0xa
- 506 0176 E8010000 		.4byte	.LASF26
+ 506 0176 E4010000 		.4byte	.LASF26
  507 017a 01       		.byte	0x1
  508 017b EC       		.byte	0xec
  509 017c 6B000000 		.4byte	0x6b
@@ -795,7 +795,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
  512 0188 01       		.uleb128 0x1
  513 0189 9C       		.byte	0x9c
  514 018a 08       		.uleb128 0x8
- 515 018b 89010000 		.4byte	.LASF27
+ 515 018b B9010000 		.4byte	.LASF27
  516 018f 01       		.byte	0x1
  517 0190 EE       		.byte	0xee
  518 0191 6B000000 		.4byte	0x6b
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
  555 001d 00       		.byte	0
  556 001e 03       		.uleb128 0x3
  557 001f 24       		.uleb128 0x24
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 15
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccItK3tv.s 			page 15
 
 
  558 0020 00       		.byte	0
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
  612 0057 07       		.uleb128 0x7
  613 0058 05       		.uleb128 0x5
  614 0059 00       		.byte	0
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 16
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccItK3tv.s 			page 16
 
 
  615 005a 03       		.uleb128 0x3
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
  669 0091 01       		.byte	0x1
  670 0092 3F       		.uleb128 0x3f
  671 0093 19       		.uleb128 0x19
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 17
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccItK3tv.s 			page 17
 
 
  672 0094 03       		.uleb128 0x3
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
  726 0024 44000000 		.4byte	.LFE4
  727 0028 00000000 		.4byte	.LFB5
  728 002c 30000000 		.4byte	.LFE5
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 18
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccItK3tv.s 			page 18
 
 
  729 0030 00000000 		.4byte	0
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
  753      31203230 
  753      31363036 
  754 00b5 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m0 -mthumb -g -O"
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 19
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccItK3tv.s 			page 19
 
 
  754      20726576 
@@ -1126,65 +1126,64 @@ ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 1
  772              	.LASF18:
  773 0176 6D6F6465 		.ascii	"mode\000"
  773      00
- 774              	.LASF6:
- 775 017b 6C6F6E67 		.ascii	"long long int\000"
- 775      206C6F6E 
- 775      6720696E 
- 775      7400
- 776              	.LASF27:
- 777 0189 6D61736B 		.ascii	"maskedStatus\000"
- 777      65645374 
- 777      61747573 
- 777      00
- 778              	.LASF14:
- 779 0196 63686172 		.ascii	"char\000"
-ARM GAS  C:\Users\13740\AppData\Local\Temp\ccclfEx4.s 			page 20
+ 774              	.LASF30:
+ 775 017b 453A5C64 		.ascii	"E:\\desktop\\bu\\Transistor1-4414\\Transistor.cydsn"
+ 775      65736B74 
+ 775      6F705C62 
+ 775      755C5472 
+ 775      616E7369 
+ 776 01aa 00       		.ascii	"\000"
+ 777              	.LASF6:
+ 778 01ab 6C6F6E67 		.ascii	"long long int\000"
+ 778      206C6F6E 
+ 778      6720696E 
+ 778      7400
+ARM GAS  C:\Users\13740\AppData\Local\Temp\ccItK3tv.s 			page 20
 
 
- 779      00
- 780              	.LASF2:
- 781 019b 73686F72 		.ascii	"short int\000"
- 781      7420696E 
- 781      7400
- 782              	.LASF9:
- 783 01a5 75696E74 		.ascii	"uint8\000"
- 783      3800
- 784              	.LASF4:
- 785 01ab 6C6F6E67 		.ascii	"long int\000"
- 785      20696E74 
- 785      00
- 786              	.LASF30:
- 787 01b4 453A5C64 		.ascii	"E:\\desktop\\bu\\eda\\Transistor1-4414\\Transistor."
- 787      65736B74 
- 787      6F705C62 
- 787      755C6564 
- 787      615C5472 
- 788 01e2 63796473 		.ascii	"cydsn\000"
- 788      6E00
+ 779              	.LASF27:
+ 780 01b9 6D61736B 		.ascii	"maskedStatus\000"
+ 780      65645374 
+ 780      61747573 
+ 780      00
+ 781              	.LASF14:
+ 782 01c6 63686172 		.ascii	"char\000"
+ 782      00
+ 783              	.LASF2:
+ 784 01cb 73686F72 		.ascii	"short int\000"
+ 784      7420696E 
+ 784      7400
+ 785              	.LASF9:
+ 786 01d5 75696E74 		.ascii	"uint8\000"
+ 786      3800
+ 787              	.LASF4:
+ 788 01db 6C6F6E67 		.ascii	"long int\000"
+ 788      20696E74 
+ 788      00
  789              	.LASF26:
- 790 01e8 41647665 		.ascii	"Advertising_LED_ClearInterrupt\000"
+ 790 01e4 41647665 		.ascii	"Advertising_LED_ClearInterrupt\000"
  790      72746973 
  790      696E675F 
  790      4C45445F 
  790      436C6561 
  791              	.LASF0:
- 792 0207 7369676E 		.ascii	"signed char\000"
+ 792 0203 7369676E 		.ascii	"signed char\000"
  792      65642063 
  792      68617200 
  793              	.LASF16:
- 794 0213 41647665 		.ascii	"Advertising_LED_SetDriveMode\000"
+ 794 020f 41647665 		.ascii	"Advertising_LED_SetDriveMode\000"
  794      72746973 
  794      696E675F 
  794      4C45445F 
  794      53657444 
  795              	.LASF20:
- 796 0230 41647665 		.ascii	"Advertising_LED_Read\000"
+ 796 022c 41647665 		.ascii	"Advertising_LED_Read\000"
  796      72746973 
  796      696E675F 
  796      4C45445F 
  796      52656164 
  797              	.LASF29:
- 798 0245 47656E65 		.ascii	"Generated_Source\\PSoC4\\Advertising_LED.c\000"
+ 798 0241 47656E65 		.ascii	"Generated_Source\\PSoC4\\Advertising_LED.c\000"
  798      72617465 
  798      645F536F 
  798      75726365 

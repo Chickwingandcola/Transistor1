@@ -43,23 +43,23 @@ AppAMPCfg_Type AppAMPCfg =
   
   /* LPTIA Configure */
   .ExtRtia = bFALSE,            /* Set to true if using external RTIA */
-  .LptiaRtiaSel = LPTIARTIA_512K, /* COnfigure RTIA */
+  .LptiaRtiaSel = LPTIARTIA_4K, /* COnfigure RTIA */
   .LpTiaRf = LPTIARF_1M,        /* Configure LPF resistor */
   .LpTiaRl = LPTIARLOAD_100R,
-  .ReDoRtiaCal = bFALSE,
-  .RtiaCalValue = {10000.0, 0},
+  .ReDoRtiaCal = bTRUE,
+  .RtiaCalValue = 0,
 	.ExtRtiaVal = 0,
   
 /*LPDAC Configure */
   .Vzero = 1100,                /* Sets voltage on SE0 and LPTIA */
-  .SensorBias = 500,            /* Sets voltage between RE0 and SE0 500*/
+  .SensorBias = 500,            /* Sets voltage between RE0 and SE0 */
   
 /* ADC Configure*/
   .ADCPgaGain = ADCPGA_1P5,
   .ADCSinc3Osr = ADCSINC3OSR_4,
-  .ADCSinc2Osr = ADCSINC2OSR_178, //22
-  .DataFifoSrc = FIFOSRC_SINC3,
-  .ADCRefVolt = 1.82,			/* Measure voltage on ADCRefVolt pin and enter here*/
+  .ADCSinc2Osr = ADCSINC2OSR_22,
+  .DataFifoSrc = FIFOSRC_SINC2NOTCH,
+  .ADCRefVolt = 1.8162,			/* Measure voltage on ADCRefVolt pin and enter here*/
 };
 
 /**
@@ -86,10 +86,6 @@ AD5940Err AppAMPCtrl(int32_t AmpCtrl, void *pPara)
       AD5940_ReadReg(REG_AFE_ADCDAT); /* Any SPI Operation can wakeup AFE */
       if(AppAMPCfg.AMPInited == bFALSE)
         return AD5940ERR_APPERROR;
-      
-      /* 强制确保序列器已启用 */
-      AD5940_SEQCtrlS(bTRUE);
-      
       /* Start it */
       wupt_cfg.WuptEn = bTRUE;
       wupt_cfg.WuptEndSeq = WUPTENDSEQ_A;
@@ -97,12 +93,6 @@ AD5940Err AppAMPCtrl(int32_t AmpCtrl, void *pPara)
       wupt_cfg.SeqxSleepTime[SEQID_0] = 4-1;
       wupt_cfg.SeqxWakeupTime[SEQID_0] = (uint32_t)(AppAMPCfg.WuptClkFreq*AppAMPCfg.AmpODR)-4-1; 
       AD5940_WUPTCfg(&wupt_cfg);
-      
-      /* 强制启用ADC和SINC滤波器，确保数据能进入FIFO */
-      AD5940_AFECtrlS(AFECTRL_ADCPWR, bTRUE);
-      AD5940_Delay10us(50);  /* 等待ADC稳定 */
-      AD5940_AFECtrlS(AFECTRL_SINC2NOTCH, bTRUE);
-      AD5940_AFECtrlS(AFECTRL_ADCCNV, bTRUE);
       
       AppAMPCfg.FifoDataCount = 0;  /* restart */
       break;
@@ -381,43 +371,7 @@ AD5940Err AppAMPInit(uint32_t *pBuffer, uint32_t BufferSize)
   seq_cfg.SeqEnable = bTRUE;
   AD5940_SEQCfg(&seq_cfg);  /* Enable sequencer */
   AD5940_SEQMmrTrig(AppAMPCfg.InitSeqInfo.SeqId);
-  /* Wait until init-sequence ends. Add timeout to avoid deadlock if sequencer/clock isn't running. */
-  {
-    uint32_t timeout = 500000; /* 增加超时时间到 ~5s */
-    BoolFlag seqOK = bTRUE;
-    while(AD5940_INTCTestFlag(AFEINTC_1, AFEINTSRC_ENDSEQ) == bFALSE)
-    {
-      if(timeout-- == 0)
-      {
-        /* 序列器超时，使用直接MCU控制的备用方案 */
-        seqOK = bFALSE;
-        break;  /* 不返回错误，继续执行备用方案 */
-      }
-      AD5940_Delay10us(1);
-    }
-    
-    /* 如果序列器超时，使用直接MCU控制来初始化AFE */
-    if(seqOK == bFALSE)
-    {
-      /* 清除所有中断标志 */
-      AD5940_INTCClrFlag(AFEINTSRC_ALLINT);
-      
-      /* 直接通过寄存器配置AFE（绕过序列器） */
-      /* 1. 使能LPTIA和LP参考 */
-      AD5940_AFECtrlS(AFECTRL_HPREFPWR, bTRUE);
-      
-      /* 2. 使能ADC电源 */
-      AD5940_AFECtrlS(AFECTRL_ADCPWR, bTRUE);
-      AD5940_Delay10us(100);  /* 等待ADC稳定 */
-      
-      /* 3. 配置SINC2滤波器 */
-      AD5940_AFECtrlS(AFECTRL_SINC2NOTCH, bTRUE);
-      
-      /* 4. 启动ADC转换 */
-      AD5940_AFECtrlS(AFECTRL_ADCCNV, bTRUE);
-      AD5940_Delay10us(50);
-    }
-  }
+  while(AD5940_INTCTestFlag(AFEINTC_1, AFEINTSRC_ENDSEQ) == bFALSE);
   
   /* Measurement sequence  */
   AppAMPCfg.MeasureSeqInfo.WriteSRAM = bFALSE;
@@ -479,8 +433,6 @@ AD5940Err AppAMPISR(void *pBuff, uint32_t *pCount)
   AD5940_SleepKeyCtrlS(SLPKEY_LOCK);
 	
   *pCount = 0;  
-  
-  /* 首先检查中断标志 */
   if(AD5940_INTCTestFlag(AFEINTC_0, AFEINTSRC_DATAFIFOTHRESH) == bTRUE)
   {
     FifoCnt = AD5940_FIFOGetCnt();
@@ -495,40 +447,6 @@ AD5940Err AppAMPISR(void *pBuff, uint32_t *pCount)
     *pCount = FifoCnt;
     return 0;
   }
-  
-  /* 备用方案：即使没有中断，也主动检查FIFO是否有数据 */
-  FifoCnt = AD5940_FIFOGetCnt();
-  if(FifoCnt > 0)
-  {
-    AD5940_FIFORd((uint32_t *)pBuff, FifoCnt);
-    AD5940_INTCClrFlag(AFEINTSRC_DATAFIFOTHRESH);
-    AppAMPRegModify(pBuff, &FifoCnt);
-    AD5940_SleepKeyCtrlS(SLPKEY_UNLOCK);
-    
-    /* Process data */ 
-    AppAMPDataProcess((int32_t*)pBuff, &FifoCnt); 
-    *pCount = FifoCnt;
-    return 0;
-  }
-  
-  /* 如果FIFO还是为空，强制触发一次ADC转换 */
-  AD5940_AFECtrlS(AFECTRL_ADCPWR|AFECTRL_SINC2NOTCH, bTRUE);
-  AD5940_Delay10us(50);
-  AD5940_AFECtrlS(AFECTRL_ADCCNV, bTRUE);
-  AD5940_Delay10us(200);  /* 等待转换完成 */
-  
-  /* 再次检查FIFO */
-  FifoCnt = AD5940_FIFOGetCnt();
-  if(FifoCnt > 0)
-  {
-    AD5940_FIFORd((uint32_t *)pBuff, FifoCnt);
-    AD5940_SleepKeyCtrlS(SLPKEY_UNLOCK);
-    AppAMPDataProcess((int32_t*)pBuff, &FifoCnt); 
-    *pCount = FifoCnt;
-    return 0;
-  }
-  
-  AD5940_SleepKeyCtrlS(SLPKEY_UNLOCK);
   
   return 0;
 } 
@@ -563,16 +481,9 @@ float AppAMPCalcVoltage(uint32_t ADCcode)
 /* Calculate current in uA */
 float AppAMPCalcCurrent(uint32_t ADCcode)
 {
-   /*
-float fCurrent, fVoltage = 0.0;
+  float fCurrent, fVoltage = 0.0;
   fVoltage = AppAMPCalcVoltage(ADCcode);
-
-  // 增加保护：获取校准值。如果值异常，强制使用 10K 标称值。
-  float magnitude = AppAMPCfg.RtiaCalValue.Magnitude;
-  if(magnitude < 1.0) magnitude = 10000.0; // 假设 10kOhm 
-
-  fCurrent = fVoltage / magnitude;
+  fCurrent = fVoltage/AppAMPCfg.RtiaCalValue.Magnitude;
+  
   return -fCurrent*1000000;
-    */
-    return (float)ADCcode;
 }

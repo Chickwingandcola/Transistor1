@@ -13,7 +13,7 @@
 <v>Output</v>
 </TreeKeys>
 <TreeStates>
-<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="Transistor\Transistor\Source Files\Amperometric.c">
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="Transistor\Transistor\Header Files\ad5940.h">
 <ExpandedNodeIds>
 <v>Transistor</v>
 <v>Transistor\Transistor</v>
@@ -262,13 +262,9 @@
 </CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997>
 <Unloaded />
 <OpenDocs>
-<name v=".\Transistor.cydsn\TopDesign\TopDesign.cysch" />
-<name v=".\Transistor.cydsn\Transistor.cydwr" />
 <name v=".\Transistor.cydsn\main.c" />
-<name v=".\Transistor.cydsn\ad5940.c" />
-<name v=".\Transistor.cydsn\ad5941_platform.c" />
+<name v=".\Transistor.cydsn\Amperometric.c" />
 <name v=".\Transistor.cydsn\ad5940.h" />
-<name v=".\Transistor.cydsn\ad5941_platform.h" />
 </OpenDocs>
 <OpenDocsLayout><![CDATA[<?xml version="1.0"?><!--
 
@@ -276,7 +272,7 @@
   Copyright (c) 2001-2016 Actipro Software LLC.  All rights reserved.
   http://www.actiprosoftware.com
 
---><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="1597, 728" SelectedTabbedMdiWindow="cf03f8f7-99c8-4447-90d8-e9c94a0f5f9e"><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="4355c494-118f-4b5e-bc65-a4ade257825a" /><DocumentWindow Key="E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\TopDesign\TopDesign.cysch" Guid="96b04bd5-51bf-4c2c-becf-10e38d6aa059" /><DocumentWindow Key="E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\Transistor.cydwr" Guid="a99d55c8-69d2-430f-bb02-a5e02510e984" /><DocumentWindow Key="E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\main.c" Guid="cf03f8f7-99c8-4447-90d8-e9c94a0f5f9e" /><DocumentWindow Key="E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\ad5940.c" Guid="fa2b2c07-3245-4ab0-92d7-aa59c3a67c87" /><DocumentWindow Key="E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\ad5941_platform.c" Guid="c75d25e2-a604-4a46-99a2-74e44e35cf9f" /><DocumentWindow Key="E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\ad5940.h" Guid="9e6aeed1-2461-434e-94ef-9cfa08950ab1" /><DocumentWindow Key="E:\desktop\bu\eda\Transistor1-4414\Transistor.cydsn\ad5941_platform.h" Guid="394897dc-0852-4bc5-b2f4-f7c62be97ab0" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
+--><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="755, 719" SelectedTabbedMdiWindow="0dad2782-56b6-4c5d-8b19-3c24c6792e26"><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="4355c494-118f-4b5e-bc65-a4ade257825a" /><DocumentWindow Key="E:\desktop\bu\Transistor1-4414\Transistor.cydsn\main.c" Guid="0dad2782-56b6-4c5d-8b19-3c24c6792e26" /><DocumentWindow Key="E:\desktop\bu\Transistor1-4414\Transistor.cydsn\Amperometric.c" Guid="1b518212-7fa5-497e-a72d-a42185b4a3b2" /><DocumentWindow Key="E:\desktop\bu\Transistor1-4414\Transistor.cydsn\ad5940.h" Guid="02d32238-3130-44ac-9ebe-641bff48bbf6" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
 <config v="" />
 <AutoUpdate v="true" />
 </CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21>
